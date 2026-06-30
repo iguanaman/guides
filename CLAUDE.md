@@ -10,3 +10,4 @@ Subfolder may have its own `CLAUDE.md` for guide-specific details.
 
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
 New guide → new subfolder, own `index.html` or descriptively-named `.html` file.
+New guide → add a card linking to it in root `index.html`.
