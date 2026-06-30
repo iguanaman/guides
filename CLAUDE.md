@@ -18,6 +18,12 @@ Each guide's design/layout/structure is independent — fit it to that guide's t
 - `sunless-sea/` — Sunless Sea compendium (ports, bestiary, items, officers, gameplay, lore)
 - `spirit-island/` — Spirit Island strategy guide (per-spirit strategy, mechanics deep dives, tips/tricks)
 
+## Git
+
+Never use branches — commit directly to `master`.
+Only commit when explicitly asked.
+Commit requested → also push.
+
 ## Conventions
 
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
