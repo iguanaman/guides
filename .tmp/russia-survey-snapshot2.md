@@ -1,0 +1,1034 @@
+- generic [active] [ref=f111e1]:
+  - generic [ref=f111e3]:
+    - banner [ref=f111e5]:
+      - navigation [ref=f111e6]:
+        - generic [ref=f111e7]:
+          - button "Skip Navigation" [ref=f111e8] [cursor=pointer]
+          - link "Accessibility Feedback" [ref=f111e9] [cursor=pointer]:
+            - /url: /contact
+          - button "Toggle Menu" [ref=f111e10] [cursor=pointer]:
+            - generic [ref=f111e11]:
+              - img [ref=f111e12]
+              - generic [ref=f111e14]: Toggle Menu
+          - generic [ref=f111e16]:
+            - link "boardgame geek" [ref=f111e17] [cursor=pointer]:
+              - /url: /
+              - img [ref=f111e18]
+              - heading "boardgame geek" [level=1] [ref=f111e19]
+            - button "More Geek Sites" [ref=f111e21] [cursor=pointer]:
+              - generic [ref=f111e22]: More Geek Sites
+          - list [ref=f111e25]:
+            - listitem [ref=f111e26]:
+              - generic [ref=f111e27] [cursor=pointer]: Sign In
+            - listitem [ref=f111e28]:
+              - link "Join (it's free)!" [ref=f111e29] [cursor=pointer]:
+                - /url: /join
+            - listitem
+          - generic [ref=f111e33]:
+            - generic [ref=f111e34]: Search
+            - generic [ref=f111e35]:
+              - combobox "Search" [ref=f111e36]
+              - button "Search" [ref=f111e37] [cursor=pointer]:
+                - img [ref=f111e39]
+                - generic [ref=f111e41]: Search
+    - iframe [ref=f111e46]:
+      - generic [ref=f119e1]:
+        - link [ref=f119e2] [cursor=pointer]:
+          - /url: https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjstMwvE8mUvlTwkvwp8-5w3wk0CzzKoEaST1qd1yVsZFOxlFqA0Dgj_PTAwP6U-aOnnh10ZZlPXbepRzxIN_ybNQttLvS4zKiDg7LwnSJtkvR_g9dEleCEPJzwu5DLZL3eVok0oIMBTINP2N80mNmffCI1uDM5WnwAAdVwEd61rRkdGKK23Muaf7GpiBSsX57NBeko0DyFO9cSlsCJgTfKc3Y8xAxkjlC13bDO9A01WA2Qx7eYdoX5ryKI1sy26-TwOEMjwpdQNZ-ztQh795AB-8Whdl6tnZaxhzzIlxjiHTV2tYY5rRHtu8Xgzyqw_BvGpxbn0DTF0elKt2CHIKwx-OtCyhnKG8z0Yd6bfAWJPJvieyUyNlC8xsThmQN-gqKlNhDATGq8gzftcjfDstL-o31tenX2altFLU7yXRy7tMs7a_yVTCIjMth1gOEElg_KOE&sai=AMfl-YQVn08v8XRqk4aIjP27hLpFgWbhbslUSESvi8h3yezNKfb-PXV6c56E9Wgv_LAeeG6AM1SC-GrCGQ1q3wD4jqJsBJ5y1YyM6OWLk9juPBDQwYYTxzdG3O7jHCNMNZhE9ihtCUuSXPBITvfUQrtCG9VP_GUFqDdEEN_XhxZ0prX21SFio6j2V--mpYl2D-erQK51OKUzwN9H-iV5sKJHJg&sig=Cg0ArKJSzLRaZc9i3lxL&fbs_aeid=%5Bgw_fbsaeid%5D&adurl=https://tabletop.events/conventions/bgg.con-2026
+        - img [ref=f119e6] [cursor=pointer]
+        - button [ref=f119e10] [cursor=pointer]:
+          - img [ref=f119e11]
+    - main [ref=f111e47]:
+      - generic [ref=f111e51]:
+        - generic [ref=f111e52]:
+          - navigation "Breadcrumbs" [ref=f111e54]:
+            - list [ref=f111e55]:
+              - listitem [ref=f111e56]:
+                - link "Spirit Island" [ref=f111e59] [cursor=pointer]:
+                  - /url: /boardgame/162886/spirit-island
+                  - generic [ref=f111e60]: Spirit Island
+              - listitem [ref=f111e61]:
+                - img [ref=f111e63]
+                - link "Forums" [ref=f111e66] [cursor=pointer]:
+                  - /url: /boardgame/162886/spirit-island/forums/0
+                  - generic [ref=f111e67]: Forums
+                - generic [ref=f111e68]: /
+              - listitem [ref=f111e69]:
+                - img [ref=f111e71]
+                - link "General" [ref=f111e74] [cursor=pointer]:
+                  - /url: /boardgame/162886/spirit-island/forums/65
+                  - generic [ref=f111e75]: General
+          - navigation "Forum Menu" [ref=f111e76]:
+            - list [ref=f111e78]:
+              - listitem [ref=f111e79]:
+                - link "New Thread" [ref=f111e80] [cursor=pointer]:
+                  - /url: /thread/new?assocItemId=162886&assocItemType=thing&forumuid=1543088
+              - listitem [ref=f111e81]:
+                - link "Community Rules" [ref=f111e82] [cursor=pointer]:
+                  - /url: /community_rules
+              - listitem [ref=f111e83]:
+                - link "Bookmarks" [ref=f111e84] [cursor=pointer]:
+                  - /url: /threads/bookmarks
+              - listitem [ref=f111e85]:
+                - link "Forum Search" [ref=f111e86] [cursor=pointer]:
+                  - /url: /forums/search?objecttype=thing&objectid=162886
+        - generic [ref=f111e88]:
+          - link [ref=f111e92] [cursor=pointer]:
+            - /url: /boardgame/162886/spirit-island
+          - generic [ref=f111e95]:
+            - heading "Russia Adversary Survey" [level=1] [ref=f111e96]:
+              - link "Russia Adversary Survey" [ref=f111e98] [cursor=pointer]:
+                - /url: /thread/2574752/russia-adversary-survey
+            - navigation "Forum Actions" [ref=f111e99]:
+              - list [ref=f111e100]:
+                - listitem [ref=f111e101]:
+                  - generic [ref=f111e106]:
+                    - button "Give a thumbs up" [ref=f111e107] [cursor=pointer]:
+                      - img [ref=f111e108]
+                    - button "View 6 Thumbs" [ref=f111e467] [cursor=pointer]: "6"
+                - listitem [ref=f111e111]:
+                  - group [ref=f111e114]:
+                    - button "Subscribe" [ref=f111e115] [cursor=pointer]:
+                      - img [ref=f111e117]
+                      - text: Subscribe
+                    - button "Subscription options" [ref=f111e119] [cursor=pointer]:
+                      - generic "Subscription options" [ref=f111e120]:
+                        - img [ref=f111e121]
+                      - generic [ref=f111e123]: Subscription options
+                - listitem [ref=f111e124]:
+                  - button "Bookmark" [ref=f111e127] [cursor=pointer]:
+                    - img [ref=f111e129]
+                    - text: Bookmark
+                - listitem [ref=f111e131]:
+                  - button "More Actions" [ref=f111e133] [cursor=pointer]:
+                    - img [ref=f111e135]
+                    - generic [ref=f111e137]: More Actions
+              - generic [ref=f111e138]: 7 Posts
+        - generic [ref=f111e140]:
+          - link "Spirit Island – Amazon £67.05" [ref=f111e141] [cursor=pointer]:
+            - /url: https://www.amazon.co.uk/dp/B01MUHP51S?tag=forum-geekdo-21&linkCode=ogi&th=1&psc=1
+            - generic [ref=f111e142]: Spirit Island
+            - text: – Amazon £67.05
+          - text: – Affiliate Link
+        - generic [ref=f111e145]:
+          - article [ref=f111e148]:
+            - generic [ref=f111e149]:
+              - button "Hepsbok avatar User actions menu" [ref=f111e151] [cursor=pointer]:
+                - generic "Hepsbok avatar" [ref=f111e154]: H
+                - generic [ref=f111e155]: User actions menu
+              - generic [ref=f111e156]:
+                - 'link "Microbadge: I was here for BGG''s Twentieth Anniversary!" [ref=f111e468] [cursor=pointer]':
+                  - /url: /microbadge/49122
+                  - 'img "Microbadge: I was here for BGG''s Twentieth Anniversary!" [ref=f111e469]'
+                - 'link "Microbadge: I was here for the 100 millionth Geek forums thumb!" [ref=f111e470] [cursor=pointer]':
+                  - /url: /microbadge/52822
+                  - 'img "Microbadge: I was here for the 100 millionth Geek forums thumb!" [ref=f111e471]'
+                - 'link "Microbadge: 5 Year Geek Veteran" [ref=f111e472] [cursor=pointer]':
+                  - /url: /microbadge/2828
+                  - 'img "Microbadge: 5 Year Geek Veteran" [ref=f111e473]'
+            - generic [ref=f111e166]:
+              - generic [ref=f111e168]:
+                - link "@Hepsbok" [ref=f111e169] [cursor=pointer]:
+                  - /url: /profile/Hepsbok
+                  - heading "@Hepsbok" [level=2] [ref=f111e172]
+                - generic "Original Poster" [ref=f111e175]:
+                  - img [ref=f111e177]
+              - link "7 Jan 2021" [ref=f111e182] [cursor=pointer]:
+                - /url: /thread/2574752/article/36678215#36678215
+                - time [ref=f111e184]: 7 Jan 2021
+            - generic [ref=f111e479]:
+              - generic [ref=f111e482]: Hey all! I'm going to be gathering some data and I'd love your help! I want to compile some data on what the community thinks about the various adversaries. I'd like to know who you think are the best and the worst spirits to take each of them on and why. As you can see this particular survey is about Russia! I'll be running the other surveys a bit later. I would be curious to hear any tips or strategies you perhaps would like to add! You don't have to give a detailed explanation if you don't want to, and you can pick as many or as few as you like! Once all of the surveys are done I'd like to compile the data and show the results at a later time. Anyway thanks for your time!
+              - generic [ref=f111e483]:
+                - generic [ref=f111e484]:
+                  - generic [ref=f111e486]:
+                    - heading "1.Which spirits are the best suited for taking Russia down? (Pick as many as you like)" [level=4] [ref=f111e488]:
+                      - text: "1."
+                      - generic [ref=f111e490]: Which spirits are the best suited for taking Russia down? (Pick as many as you like)
+                    - table [ref=f111e496]:
+                      - rowgroup [ref=f111e497]:
+                        - row "Results" [ref=f111e498]:
+                          - cell [ref=f111e499]
+                          - columnheader "Results" [ref=f111e500]
+                      - rowgroup [ref=f111e501]:
+                        - row "Green 9.7% 3 Votes" [ref=f111e502]:
+                          - rowheader "Green" [ref=f111e503]:
+                            - generic [ref=f111e505]: Green
+                          - cell "9.7% 3 Votes" [ref=f111e506]:
+                            - generic [ref=f111e508]: 9.7%
+                            - text: 3 Votes
+                        - row "Nightmare 6.5% 2 Votes" [ref=f111e509]:
+                          - rowheader "Nightmare" [ref=f111e510]:
+                            - generic [ref=f111e512]: Nightmare
+                          - cell "6.5% 2 Votes" [ref=f111e513]:
+                            - generic [ref=f111e515]: 6.5%
+                            - text: 2 Votes
+                        - row "Downpour 25.8% 8 Votes" [ref=f111e516]:
+                          - rowheader "Downpour" [ref=f111e517]:
+                            - generic [ref=f111e519]: Downpour
+                          - cell "25.8% 8 Votes" [ref=f111e520]:
+                            - generic [ref=f111e522]: 25.8%
+                            - text: 8 Votes
+                        - row "Finder 9.7% 3 Votes" [ref=f111e523]:
+                          - rowheader "Finder" [ref=f111e524]:
+                            - generic [ref=f111e526]: Finder
+                          - cell "9.7% 3 Votes" [ref=f111e527]:
+                            - generic [ref=f111e529]: 9.7%
+                            - text: 3 Votes
+                        - row "Fractured 0%" [ref=f111e530]:
+                          - rowheader "Fractured" [ref=f111e531]:
+                            - generic [ref=f111e533]: Fractured
+                          - cell "0%" [ref=f111e534]:
+                            - generic [ref=f111e536]: 0%
+                        - row "Trickster 9.7% 3 Votes" [ref=f111e537]:
+                          - rowheader "Trickster" [ref=f111e538]:
+                            - generic [ref=f111e540]: Trickster
+                          - cell "9.7% 3 Votes" [ref=f111e541]:
+                            - generic [ref=f111e543]: 9.7%
+                            - text: 3 Votes
+                        - row "Wildfire 12.9% 4 Votes" [ref=f111e544]:
+                          - rowheader "Wildfire" [ref=f111e545]:
+                            - generic [ref=f111e547]: Wildfire
+                          - cell "12.9% 4 Votes" [ref=f111e548]:
+                            - generic [ref=f111e550]: 12.9%
+                            - text: 4 Votes
+                        - row "Keeper 12.9% 4 Votes" [ref=f111e551]:
+                          - rowheader "Keeper" [ref=f111e552]:
+                            - generic [ref=f111e554]: Keeper
+                          - cell "12.9% 4 Votes" [ref=f111e555]:
+                            - generic [ref=f111e557]: 12.9%
+                            - text: 4 Votes
+                        - row "Base Lightning 3.2% 1 Vote" [ref=f111e558]:
+                          - rowheader "Base Lightning" [ref=f111e559]:
+                            - generic [ref=f111e561]: Base Lightning
+                          - cell "3.2% 1 Vote" [ref=f111e562]:
+                            - generic [ref=f111e564]: 3.2%
+                            - text: 1 Vote
+                        - row "Immense Lightning 0%" [ref=f111e565]:
+                          - rowheader "Immense Lightning" [ref=f111e566]:
+                            - generic [ref=f111e568]: Immense Lightning
+                          - cell "0%" [ref=f111e569]:
+                            - generic [ref=f111e571]: 0%
+                        - row "Pandemonium Lightning 6.5% 2 Votes" [ref=f111e572]:
+                          - rowheader "Pandemonium Lightning" [ref=f111e573]:
+                            - generic [ref=f111e575]: Pandemonium Lightning
+                          - cell "6.5% 2 Votes" [ref=f111e576]:
+                            - generic [ref=f111e578]: 6.5%
+                            - text: 2 Votes
+                        - row "Wind Lightning 3.2% 1 Vote" [ref=f111e579]:
+                          - rowheader "Wind Lightning" [ref=f111e580]:
+                            - generic [ref=f111e582]: Wind Lightning
+                          - cell "3.2% 1 Vote" [ref=f111e583]:
+                            - generic [ref=f111e585]: 3.2%
+                            - text: 1 Vote
+                        - row "Lure 90.3% , Top Answer 28 Votes" [ref=f111e586]:
+                          - rowheader "Lure" [ref=f111e587]:
+                            - generic [ref=f111e589]: Lure
+                          - cell "90.3% , Top Answer 28 Votes" [ref=f111e590]:
+                            - generic [ref=f111e592]:
+                              - text: 90.3%
+                              - generic [ref=f111e593]: ", Top Answer"
+                            - text: 28 Votes
+                        - row "Many Minds 54.8% 17 Votes" [ref=f111e594]:
+                          - rowheader "Many Minds" [ref=f111e595]:
+                            - generic [ref=f111e597]: Many Minds
+                          - cell "54.8% 17 Votes" [ref=f111e598]:
+                            - generic [ref=f111e600]: 54.8%
+                            - text: 17 Votes
+                        - row "Ocean 6.5% 2 Votes" [ref=f111e601]:
+                          - rowheader "Ocean" [ref=f111e602]:
+                            - generic [ref=f111e604]: Ocean
+                          - cell "6.5% 2 Votes" [ref=f111e605]:
+                            - generic [ref=f111e607]: 6.5%
+                            - text: 2 Votes
+                        - row "Base River 29% 9 Votes" [ref=f111e608]:
+                          - rowheader "Base River" [ref=f111e609]:
+                            - generic [ref=f111e611]: Base River
+                          - cell "29% 9 Votes" [ref=f111e612]:
+                            - generic [ref=f111e614]: 29%
+                            - text: 9 Votes
+                        - row "Travel River 22.6% 7 Votes" [ref=f111e615]:
+                          - rowheader "Travel River" [ref=f111e616]:
+                            - generic [ref=f111e618]: Travel River
+                          - cell "22.6% 7 Votes" [ref=f111e619]:
+                            - generic [ref=f111e621]: 22.6%
+                            - text: 7 Votes
+                        - row "Sunshine River 0%" [ref=f111e622]:
+                          - rowheader "Sunshine River" [ref=f111e623]:
+                            - generic [ref=f111e625]: Sunshine River
+                          - cell "0%" [ref=f111e626]:
+                            - generic [ref=f111e628]: 0%
+                        - row "Serpent 3.2% 1 Vote" [ref=f111e629]:
+                          - rowheader "Serpent" [ref=f111e630]:
+                            - generic [ref=f111e632]: Serpent
+                          - cell "3.2% 1 Vote" [ref=f111e633]:
+                            - generic [ref=f111e635]: 3.2%
+                            - text: 1 Vote
+                        - row "Base Shadows 0%" [ref=f111e636]:
+                          - rowheader "Base Shadows" [ref=f111e637]:
+                            - generic [ref=f111e639]: Base Shadows
+                          - cell "0%" [ref=f111e640]:
+                            - generic [ref=f111e642]: 0%
+                        - row "Foreboding Shadows 19.4% 6 Votes" [ref=f111e643]:
+                          - rowheader "Foreboding Shadows" [ref=f111e644]:
+                            - generic [ref=f111e646]: Foreboding Shadows
+                          - cell "19.4% 6 Votes" [ref=f111e647]:
+                            - generic [ref=f111e649]: 19.4%
+                            - text: 6 Votes
+                        - row "Madness Shadows 6.5% 2 Votes" [ref=f111e650]:
+                          - rowheader "Madness Shadows" [ref=f111e651]:
+                            - generic [ref=f111e653]: Madness Shadows
+                          - cell "6.5% 2 Votes" [ref=f111e654]:
+                            - generic [ref=f111e656]: 6.5%
+                            - text: 2 Votes
+                        - row "Amorphous Shadows 3.2% 1 Vote" [ref=f111e657]:
+                          - rowheader "Amorphous Shadows" [ref=f111e658]:
+                            - generic [ref=f111e660]: Amorphous Shadows
+                          - cell "3.2% 1 Vote" [ref=f111e661]:
+                            - generic [ref=f111e663]: 3.2%
+                            - text: 1 Vote
+                        - row "Reach Shadows 9.7% 3 Votes" [ref=f111e664]:
+                          - rowheader "Reach Shadows" [ref=f111e665]:
+                            - generic [ref=f111e667]: Reach Shadows
+                          - cell "9.7% 3 Votes" [ref=f111e668]:
+                            - generic [ref=f111e670]: 9.7%
+                            - text: 3 Votes
+                        - row "Fangs 32.3% 10 Votes" [ref=f111e671]:
+                          - rowheader "Fangs" [ref=f111e672]:
+                            - generic [ref=f111e674]: Fangs
+                          - cell "32.3% 10 Votes" [ref=f111e675]:
+                            - generic [ref=f111e677]: 32.3%
+                            - text: 10 Votes
+                        - row "Memory 12.9% 4 Votes" [ref=f111e678]:
+                          - rowheader "Memory" [ref=f111e679]:
+                            - generic [ref=f111e681]: Memory
+                          - cell "12.9% 4 Votes" [ref=f111e682]:
+                            - generic [ref=f111e684]: 12.9%
+                            - text: 4 Votes
+                        - row "Mist 6.5% 2 Votes" [ref=f111e685]:
+                          - rowheader "Mist" [ref=f111e686]:
+                            - generic [ref=f111e688]: Mist
+                          - cell "6.5% 2 Votes" [ref=f111e689]:
+                            - generic [ref=f111e691]: 6.5%
+                            - text: 2 Votes
+                        - row "Starlight 16.1% 5 Votes" [ref=f111e692]:
+                          - rowheader "Starlight" [ref=f111e693]:
+                            - generic [ref=f111e695]: Starlight
+                          - cell "16.1% 5 Votes" [ref=f111e696]:
+                            - generic [ref=f111e698]: 16.1%
+                            - text: 5 Votes
+                        - row "Stone 22.6% 7 Votes" [ref=f111e699]:
+                          - rowheader "Stone" [ref=f111e700]:
+                            - generic [ref=f111e702]: Stone
+                          - cell "22.6% 7 Votes" [ref=f111e703]:
+                            - generic [ref=f111e705]: 22.6%
+                            - text: 7 Votes
+                        - row "Thunderspeaker 12.9% 4 Votes" [ref=f111e706]:
+                          - rowheader "Thunderspeaker" [ref=f111e707]:
+                            - generic [ref=f111e709]: Thunderspeaker
+                          - cell "12.9% 4 Votes" [ref=f111e710]:
+                            - generic [ref=f111e712]: 12.9%
+                            - text: 4 Votes
+                        - row "Vengeance 6.5% 2 Votes" [ref=f111e713]:
+                          - rowheader "Vengeance" [ref=f111e714]:
+                            - generic [ref=f111e716]: Vengeance
+                          - cell "6.5% 2 Votes" [ref=f111e717]:
+                            - generic [ref=f111e719]: 6.5%
+                            - text: 2 Votes
+                        - row "Base Earth 9.7% 3 Votes" [ref=f111e720]:
+                          - rowheader "Base Earth" [ref=f111e721]:
+                            - generic [ref=f111e723]: Base Earth
+                          - cell "9.7% 3 Votes" [ref=f111e724]:
+                            - generic [ref=f111e726]: 9.7%
+                            - text: 3 Votes
+                        - row "Resilience Earth 16.1% 5 Votes" [ref=f111e727]:
+                          - rowheader "Resilience Earth" [ref=f111e728]:
+                            - generic [ref=f111e730]: Resilience Earth
+                          - cell "16.1% 5 Votes" [ref=f111e731]:
+                            - generic [ref=f111e733]: 16.1%
+                            - text: 5 Votes
+                        - row "Might Earth 6.5% 2 Votes" [ref=f111e734]:
+                          - rowheader "Might Earth" [ref=f111e735]:
+                            - generic [ref=f111e737]: Might Earth
+                          - cell "6.5% 2 Votes" [ref=f111e738]:
+                            - generic [ref=f111e740]: 6.5%
+                            - text: 2 Votes
+                        - row "Volcano 12.9% 4 Votes" [ref=f111e741]:
+                          - rowheader "Volcano" [ref=f111e742]:
+                            - generic [ref=f111e744]: Volcano
+                          - cell "12.9% 4 Votes" [ref=f111e745]:
+                            - generic [ref=f111e747]: 12.9%
+                            - text: 4 Votes
+                        - row "31 Voters" [ref=f111e748]:
+                          - cell "31 Voters" [ref=f111e749]:
+                            - generic [ref=f111e750]:
+                              - generic [ref=f111e751]:
+                                - term [ref=f111e752]: Your Answers
+                                - term [ref=f111e754]: Top Answers
+                              - generic [ref=f111e756]:
+                                - strong [ref=f111e757]: "31"
+                                - text: Voters
+                  - generic [ref=f111e759]:
+                    - heading "2.Which spirits are the worst against Russia? (Pick as many as you like)" [level=4] [ref=f111e761]:
+                      - text: "2."
+                      - generic [ref=f111e763]: Which spirits are the worst against Russia? (Pick as many as you like)
+                    - table [ref=f111e769]:
+                      - rowgroup [ref=f111e770]:
+                        - row "Results" [ref=f111e771]:
+                          - cell [ref=f111e772]
+                          - columnheader "Results" [ref=f111e773]
+                      - rowgroup [ref=f111e774]:
+                        - row "Green 31.8% 7 Votes" [ref=f111e775]:
+                          - rowheader "Green" [ref=f111e776]:
+                            - generic [ref=f111e778]: Green
+                          - cell "31.8% 7 Votes" [ref=f111e779]:
+                            - generic [ref=f111e781]: 31.8%
+                            - text: 7 Votes
+                        - row "Nightmare 36.4% 8 Votes" [ref=f111e782]:
+                          - rowheader "Nightmare" [ref=f111e783]:
+                            - generic [ref=f111e785]: Nightmare
+                          - cell "36.4% 8 Votes" [ref=f111e786]:
+                            - generic [ref=f111e788]: 36.4%
+                            - text: 8 Votes
+                        - row "Downpour 9.1% 2 Votes" [ref=f111e789]:
+                          - rowheader "Downpour" [ref=f111e790]:
+                            - generic [ref=f111e792]: Downpour
+                          - cell "9.1% 2 Votes" [ref=f111e793]:
+                            - generic [ref=f111e795]: 9.1%
+                            - text: 2 Votes
+                        - row "Finder 22.7% 5 Votes" [ref=f111e796]:
+                          - rowheader "Finder" [ref=f111e797]:
+                            - generic [ref=f111e799]: Finder
+                          - cell "22.7% 5 Votes" [ref=f111e800]:
+                            - generic [ref=f111e802]: 22.7%
+                            - text: 5 Votes
+                        - row "Fractured 0%" [ref=f111e803]:
+                          - rowheader "Fractured" [ref=f111e804]:
+                            - generic [ref=f111e806]: Fractured
+                          - cell "0%" [ref=f111e807]:
+                            - generic [ref=f111e809]: 0%
+                        - row "Trickster 31.8% 7 Votes" [ref=f111e810]:
+                          - rowheader "Trickster" [ref=f111e811]:
+                            - generic [ref=f111e813]: Trickster
+                          - cell "31.8% 7 Votes" [ref=f111e814]:
+                            - generic [ref=f111e816]: 31.8%
+                            - text: 7 Votes
+                        - row "Wildfire 13.6% 3 Votes" [ref=f111e817]:
+                          - rowheader "Wildfire" [ref=f111e818]:
+                            - generic [ref=f111e820]: Wildfire
+                          - cell "13.6% 3 Votes" [ref=f111e821]:
+                            - generic [ref=f111e823]: 13.6%
+                            - text: 3 Votes
+                        - row "Keeper 9.1% 2 Votes" [ref=f111e824]:
+                          - rowheader "Keeper" [ref=f111e825]:
+                            - generic [ref=f111e827]: Keeper
+                          - cell "9.1% 2 Votes" [ref=f111e828]:
+                            - generic [ref=f111e830]: 9.1%
+                            - text: 2 Votes
+                        - row "Base Lightning 40.9% , Top Answer 9 Votes" [ref=f111e831]:
+                          - rowheader "Base Lightning" [ref=f111e832]:
+                            - generic [ref=f111e834]: Base Lightning
+                          - cell "40.9% , Top Answer 9 Votes" [ref=f111e835]:
+                            - generic [ref=f111e837]:
+                              - text: 40.9%
+                              - generic [ref=f111e838]: ", Top Answer"
+                            - text: 9 Votes
+                        - row "Immense Lightning 13.6% 3 Votes" [ref=f111e839]:
+                          - rowheader "Immense Lightning" [ref=f111e840]:
+                            - generic [ref=f111e842]: Immense Lightning
+                          - cell "13.6% 3 Votes" [ref=f111e843]:
+                            - generic [ref=f111e845]: 13.6%
+                            - text: 3 Votes
+                        - row "Pandemonium Lightning 9.1% 2 Votes" [ref=f111e846]:
+                          - rowheader "Pandemonium Lightning" [ref=f111e847]:
+                            - generic [ref=f111e849]: Pandemonium Lightning
+                          - cell "9.1% 2 Votes" [ref=f111e850]:
+                            - generic [ref=f111e852]: 9.1%
+                            - text: 2 Votes
+                        - row "Wind Lightning 4.5% 1 Vote" [ref=f111e853]:
+                          - rowheader "Wind Lightning" [ref=f111e854]:
+                            - generic [ref=f111e856]: Wind Lightning
+                          - cell "4.5% 1 Vote" [ref=f111e857]:
+                            - generic [ref=f111e859]: 4.5%
+                            - text: 1 Vote
+                        - row "Lure 0%" [ref=f111e860]:
+                          - rowheader "Lure" [ref=f111e861]:
+                            - generic [ref=f111e863]: Lure
+                          - cell "0%" [ref=f111e864]:
+                            - generic [ref=f111e866]: 0%
+                        - row "Many Minds 4.5% 1 Vote" [ref=f111e867]:
+                          - rowheader "Many Minds" [ref=f111e868]:
+                            - generic [ref=f111e870]: Many Minds
+                          - cell "4.5% 1 Vote" [ref=f111e871]:
+                            - generic [ref=f111e873]: 4.5%
+                            - text: 1 Vote
+                        - row "Ocean 13.6% 3 Votes" [ref=f111e874]:
+                          - rowheader "Ocean" [ref=f111e875]:
+                            - generic [ref=f111e877]: Ocean
+                          - cell "13.6% 3 Votes" [ref=f111e878]:
+                            - generic [ref=f111e880]: 13.6%
+                            - text: 3 Votes
+                        - row "Base River 4.5% 1 Vote" [ref=f111e881]:
+                          - rowheader "Base River" [ref=f111e882]:
+                            - generic [ref=f111e884]: Base River
+                          - cell "4.5% 1 Vote" [ref=f111e885]:
+                            - generic [ref=f111e887]: 4.5%
+                            - text: 1 Vote
+                        - row "Travel River 0%" [ref=f111e888]:
+                          - rowheader "Travel River" [ref=f111e889]:
+                            - generic [ref=f111e891]: Travel River
+                          - cell "0%" [ref=f111e892]:
+                            - generic [ref=f111e894]: 0%
+                        - row "Sunshine River 9.1% 2 Votes" [ref=f111e895]:
+                          - rowheader "Sunshine River" [ref=f111e896]:
+                            - generic [ref=f111e898]: Sunshine River
+                          - cell "9.1% 2 Votes" [ref=f111e899]:
+                            - generic [ref=f111e901]: 9.1%
+                            - text: 2 Votes
+                        - row "Serpent 13.6% 3 Votes" [ref=f111e902]:
+                          - rowheader "Serpent" [ref=f111e903]:
+                            - generic [ref=f111e905]: Serpent
+                          - cell "13.6% 3 Votes" [ref=f111e906]:
+                            - generic [ref=f111e908]: 13.6%
+                            - text: 3 Votes
+                        - row "Base Shadows 4.5% 1 Vote" [ref=f111e909]:
+                          - rowheader "Base Shadows" [ref=f111e910]:
+                            - generic [ref=f111e912]: Base Shadows
+                          - cell "4.5% 1 Vote" [ref=f111e913]:
+                            - generic [ref=f111e915]: 4.5%
+                            - text: 1 Vote
+                        - row "Foreboding Shadows 0%" [ref=f111e916]:
+                          - rowheader "Foreboding Shadows" [ref=f111e917]:
+                            - generic [ref=f111e919]: Foreboding Shadows
+                          - cell "0%" [ref=f111e920]:
+                            - generic [ref=f111e922]: 0%
+                        - row "Madness Shadows 9.1% 2 Votes" [ref=f111e923]:
+                          - rowheader "Madness Shadows" [ref=f111e924]:
+                            - generic [ref=f111e926]: Madness Shadows
+                          - cell "9.1% 2 Votes" [ref=f111e927]:
+                            - generic [ref=f111e929]: 9.1%
+                            - text: 2 Votes
+                        - row "Amorphous Shadows 0%" [ref=f111e930]:
+                          - rowheader "Amorphous Shadows" [ref=f111e931]:
+                            - generic [ref=f111e933]: Amorphous Shadows
+                          - cell "0%" [ref=f111e934]:
+                            - generic [ref=f111e936]: 0%
+                        - row "Reach Shadows 0%" [ref=f111e937]:
+                          - rowheader "Reach Shadows" [ref=f111e938]:
+                            - generic [ref=f111e940]: Reach Shadows
+                          - cell "0%" [ref=f111e941]:
+                            - generic [ref=f111e943]: 0%
+                        - row "Fangs 0%" [ref=f111e944]:
+                          - rowheader "Fangs" [ref=f111e945]:
+                            - generic [ref=f111e947]: Fangs
+                          - cell "0%" [ref=f111e948]:
+                            - generic [ref=f111e950]: 0%
+                        - row "Memory 4.5% 1 Vote" [ref=f111e951]:
+                          - rowheader "Memory" [ref=f111e952]:
+                            - generic [ref=f111e954]: Memory
+                          - cell "4.5% 1 Vote" [ref=f111e955]:
+                            - generic [ref=f111e957]: 4.5%
+                            - text: 1 Vote
+                        - row "Mist 22.7% 5 Votes" [ref=f111e958]:
+                          - rowheader "Mist" [ref=f111e959]:
+                            - generic [ref=f111e961]: Mist
+                          - cell "22.7% 5 Votes" [ref=f111e962]:
+                            - generic [ref=f111e964]: 22.7%
+                            - text: 5 Votes
+                        - row "Starlight 0%" [ref=f111e965]:
+                          - rowheader "Starlight" [ref=f111e966]:
+                            - generic [ref=f111e968]: Starlight
+                          - cell "0%" [ref=f111e969]:
+                            - generic [ref=f111e971]: 0%
+                        - row "Stone 0%" [ref=f111e972]:
+                          - rowheader "Stone" [ref=f111e973]:
+                            - generic [ref=f111e975]: Stone
+                          - cell "0%" [ref=f111e976]:
+                            - generic [ref=f111e978]: 0%
+                        - row "Thunderspeaker 9.1% 2 Votes" [ref=f111e979]:
+                          - rowheader "Thunderspeaker" [ref=f111e980]:
+                            - generic [ref=f111e982]: Thunderspeaker
+                          - cell "9.1% 2 Votes" [ref=f111e983]:
+                            - generic [ref=f111e985]: 9.1%
+                            - text: 2 Votes
+                        - row "Vengeance 9.1% 2 Votes" [ref=f111e986]:
+                          - rowheader "Vengeance" [ref=f111e987]:
+                            - generic [ref=f111e989]: Vengeance
+                          - cell "9.1% 2 Votes" [ref=f111e990]:
+                            - generic [ref=f111e992]: 9.1%
+                            - text: 2 Votes
+                        - row "Base Earth 31.8% 7 Votes" [ref=f111e993]:
+                          - rowheader "Base Earth" [ref=f111e994]:
+                            - generic [ref=f111e996]: Base Earth
+                          - cell "31.8% 7 Votes" [ref=f111e997]:
+                            - generic [ref=f111e999]: 31.8%
+                            - text: 7 Votes
+                        - row "Resilience Earth 4.5% 1 Vote" [ref=f111e1000]:
+                          - rowheader "Resilience Earth" [ref=f111e1001]:
+                            - generic [ref=f111e1003]: Resilience Earth
+                          - cell "4.5% 1 Vote" [ref=f111e1004]:
+                            - generic [ref=f111e1006]: 4.5%
+                            - text: 1 Vote
+                        - row "Might Earth 4.5% 1 Vote" [ref=f111e1007]:
+                          - rowheader "Might Earth" [ref=f111e1008]:
+                            - generic [ref=f111e1010]: Might Earth
+                          - cell "4.5% 1 Vote" [ref=f111e1011]:
+                            - generic [ref=f111e1013]: 4.5%
+                            - text: 1 Vote
+                        - row "Volcano 22.7% 5 Votes" [ref=f111e1014]:
+                          - rowheader "Volcano" [ref=f111e1015]:
+                            - generic [ref=f111e1017]: Volcano
+                          - cell "22.7% 5 Votes" [ref=f111e1018]:
+                            - generic [ref=f111e1020]: 22.7%
+                            - text: 5 Votes
+                        - row "22 Voters" [ref=f111e1021]:
+                          - cell "22 Voters" [ref=f111e1022]:
+                            - generic [ref=f111e1023]:
+                              - generic [ref=f111e1024]:
+                                - term [ref=f111e1025]: Your Answers
+                                - term [ref=f111e1027]: Top Answers
+                              - generic [ref=f111e1029]:
+                                - strong [ref=f111e1030]: "22"
+                                - text: Voters
+                - generic [ref=f111e1031]:
+                  - generic [ref=f111e1033]:
+                    - strong [ref=f111e1034]: "32"
+                    - text: Voters
+                  - generic [ref=f111e1035]:
+                    - paragraph [ref=f111e1036]: "Closed: 20 Jan 2021"
+                    - paragraph [ref=f111e1037]:
+                      - text: "Created by:"
+                      - link "Hepsbok" [ref=f111e1040] [cursor=pointer]:
+                        - /url: /profile/Hepsbok
+            - generic [ref=f111e186]:
+              - list [ref=f111e187]:
+                - listitem [ref=f111e188]:
+                  - generic [ref=f111e193]:
+                    - button "Give a thumbs up" [ref=f111e194] [cursor=pointer]:
+                      - img [ref=f111e195]
+                    - button "View 6 Thumbs" [ref=f111e1041] [cursor=pointer]: "6"
+                - listitem [ref=f111e198]:
+                  - group [ref=f111e203]:
+                    - button "Give GeekGold" [ref=f111e205] [cursor=pointer]:
+                      - generic [ref=f111e206]: Give GeekGold
+                      - img [ref=f111e207]
+                      - generic [ref=f111e210]: Tip
+              - list [ref=f111e211]:
+                - listitem [ref=f111e212]:
+                  - button "Reply" [ref=f111e213] [cursor=pointer]
+                - listitem [ref=f111e214]:
+                  - button "Quote" [ref=f111e215] [cursor=pointer]
+                - listitem [ref=f111e216]:
+                  - button "More Options" [ref=f111e218] [cursor=pointer]:
+                    - img [ref=f111e220]
+                    - generic [ref=f111e222]: More Options
+          - article [ref=f111e225]:
+            - generic [ref=f111e226]:
+              - button "Hepsbok avatar User actions menu" [ref=f111e228] [cursor=pointer]:
+                - generic "Hepsbok avatar" [ref=f111e231]: H
+                - generic [ref=f111e232]: User actions menu
+              - generic [ref=f111e233]:
+                - 'link "Microbadge: I was here for BGG''s Twentieth Anniversary!" [ref=f111e1042] [cursor=pointer]':
+                  - /url: /microbadge/49122
+                  - 'img "Microbadge: I was here for BGG''s Twentieth Anniversary!" [ref=f111e1043]'
+                - 'link "Microbadge: I was here for the 100 millionth Geek forums thumb!" [ref=f111e1044] [cursor=pointer]':
+                  - /url: /microbadge/52822
+                  - 'img "Microbadge: I was here for the 100 millionth Geek forums thumb!" [ref=f111e1045]'
+                - 'link "Microbadge: 5 Year Geek Veteran" [ref=f111e1046] [cursor=pointer]':
+                  - /url: /microbadge/2828
+                  - 'img "Microbadge: 5 Year Geek Veteran" [ref=f111e1047]'
+            - generic [ref=f111e243]:
+              - generic [ref=f111e245]:
+                - link "@Hepsbok" [ref=f111e246] [cursor=pointer]:
+                  - /url: /profile/Hepsbok
+                  - heading "@Hepsbok" [level=2] [ref=f111e249]
+                - generic "Original Poster" [ref=f111e252]:
+                  - img [ref=f111e254]
+              - link "7 Jan 2021" [ref=f111e259] [cursor=pointer]:
+                - /url: /thread/2574752/article/36678526#36678526
+                - time [ref=f111e261]: 7 Jan 2021
+            - generic [ref=f111e264]: For the purposes of keeping the data as clean as possible, if you could refrain from spam voting for funsies that would be greatly appreciated. I'm just looking for your personal top picks. So if you have a top 3, then pick those 3! Likewise if you have just a top 2, than vote for those 2! Of course if you want to specifically voice which of the spirits are your number 1 and 2 and so on please leave a comment and let us know!
+            - generic [ref=f111e265]:
+              - list [ref=f111e266]:
+                - listitem [ref=f111e267]:
+                  - button "Give a thumbs up" [ref=f111e273] [cursor=pointer]:
+                    - img [ref=f111e274]
+                - listitem [ref=f111e277]:
+                  - group [ref=f111e282]:
+                    - button "Give GeekGold" [ref=f111e284] [cursor=pointer]:
+                      - generic [ref=f111e285]: Give GeekGold
+                      - img [ref=f111e286]
+                      - generic [ref=f111e289]: Tip
+              - list [ref=f111e290]:
+                - listitem [ref=f111e291]:
+                  - button "Reply" [ref=f111e292] [cursor=pointer]
+                - listitem [ref=f111e293]:
+                  - button "Quote" [ref=f111e294] [cursor=pointer]
+                - listitem [ref=f111e295]:
+                  - button "More Options" [ref=f111e297] [cursor=pointer]:
+                    - img [ref=f111e299]
+                    - generic [ref=f111e301]: More Options
+          - article [ref=f111e304]:
+            - generic [ref=f111e305]:
+              - button "Thip Avatar User actions menu" [ref=f111e1049] [cursor=pointer]:
+                - img "Thip Avatar" [ref=f111e1051]
+                - generic [ref=f111e1052]: User actions menu
+              - generic [ref=f111e1053]:
+                - 'link "Microbadge: Challenge to play 16 games 16 times each in 2016 completed" [ref=f111e1392] [cursor=pointer]':
+                  - /url: /microbadge/37746
+                  - 'img "Microbadge: Challenge to play 16 games 16 times each in 2016 completed" [ref=f111e1393]'
+                - 'link "Microbadge: Gamer Dad" [ref=f111e1395] [cursor=pointer]':
+                  - /url: /microbadge/26593
+                  - 'img "Microbadge: Gamer Dad" [ref=f111e1396]'
+                - 'link "Microbadge: Ark Nova" [ref=f111e1398] [cursor=pointer]':
+                  - /url: /microbadge/54157
+                  - 'img "Microbadge: Ark Nova" [ref=f111e1399]'
+                - 'link "Microbadge: I participated in the 365 play challenge!" [ref=f111e1401] [cursor=pointer]':
+                  - /url: /microbadge/40673
+                  - 'img "Microbadge: I participated in the 365 play challenge!" [ref=f111e1402]'
+                - 'link "Microbadge: Spirit Island fan - Shroud of Silent Mist" [ref=f111e1404] [cursor=pointer]':
+                  - /url: /microbadge/55925
+                  - 'img "Microbadge: Spirit Island fan - Shroud of Silent Mist" [ref=f111e1405]'
+            - generic [ref=f111e1057]:
+              - generic [ref=f111e1059]:
+                - link "T. Ips" [ref=f111e1060] [cursor=pointer]:
+                  - /url: /profile/Thip
+                  - heading "T. Ips" [level=2] [ref=f111e1063]
+                - img "Denmark flag" [ref=f111e1067]
+                - link "@Thip" [ref=f111e1071] [cursor=pointer]:
+                  - /url: /profile/Thip
+              - link "7 Jan 2021 (edited)" [ref=f111e1075] [cursor=pointer]:
+                - /url: /thread/2574752/article/36680795#36680795
+                - generic [ref=f111e1076]:
+                  - time [ref=f111e1077]: 7 Jan 2021
+                  - text: (edited)
+            - generic [ref=f111e308]:
+              - text: Against Russia I like to have spirits with fear generation, since a lot of fear cards manipulate or remove explorers and since buildings usually aren't the issue with Russia, you can sometimes sneak in a fast fear 3 victory as they even help you out with fear a bit with their otherwise pesky explorers.
+              - text: Control is also important to minimize the risk of additional ravages or to save the beasts tokens. This combos nicely if you have a spirit with an ability to "damage to all invaders". Defend is a bit worse since they have the increased damage on their swarm of little dudes. Since they will be moving around a lot mobile and far reaching spirits are helpful too.
+              - text: Isolate is a nice option too if you are feeling overwhelmed with explorers and need a break from all the free fear
+              - img "Japanese Ogre" [ref=f111e309]
+              - text: Or you could just pick Lure. This has to be one of the most direct hard counters to an adversary in Spirit Island. "Oh no, they are adding more high damaging explorers for me to completely ignore". His innates even revovle around killing these helpless little fellas. If you want you can add in Many Minds to protect the beasts tokens from the pitiful non-damaging enemy. This has the added benefit of adding more beasts for Lure to use in his explorer carnage.
+              - img "Skull and Crossbones" [ref=f111e310]
+              - text: Thank you so much for this podcast. Especially these episodes about specific spirits or advesaries have been great and it's even better with the inclusion of community data. My only complaint is that I need way more episodes and much faster
+              - img "Smiling Face with Open Mouth and Smiling Eyes" [ref=f111e311]
+              - text: "-Thomas"
+            - generic [ref=f111e312]:
+              - list [ref=f111e313]:
+                - listitem [ref=f111e314]:
+                  - generic [ref=f111e319]:
+                    - button "Give a thumbs up" [ref=f111e320] [cursor=pointer]:
+                      - img [ref=f111e321]
+                    - button "View 1 Thumbs" [ref=f111e1078] [cursor=pointer]: "1"
+                - listitem [ref=f111e324]:
+                  - group [ref=f111e329]:
+                    - button "Give GeekGold" [ref=f111e331] [cursor=pointer]:
+                      - generic [ref=f111e332]: Give GeekGold
+                      - img [ref=f111e333]
+                      - generic [ref=f111e336]: Tip
+              - list [ref=f111e337]:
+                - listitem [ref=f111e338]:
+                  - button "Reply" [ref=f111e339] [cursor=pointer]
+                - listitem [ref=f111e340]:
+                  - button "Quote" [ref=f111e341] [cursor=pointer]
+                - listitem [ref=f111e342]:
+                  - button "More Options" [ref=f111e344] [cursor=pointer]:
+                    - img [ref=f111e346]
+                    - generic [ref=f111e348]: More Options
+          - article [ref=f111e1079]:
+            - generic [ref=f111e1080]:
+              - button "bwolcott avatar User actions menu" [ref=f111e1082] [cursor=pointer]:
+                - generic "bwolcott avatar" [ref=f111e1085]: B
+                - generic [ref=f111e1086]: User actions menu
+              - generic [ref=f111e1087]:
+                - 'link "Microbadge: Spirit Island fan - Shroud of Silent Mist" [ref=f111e1407] [cursor=pointer]':
+                  - /url: /microbadge/55925
+                  - 'img "Microbadge: Spirit Island fan - Shroud of Silent Mist" [ref=f111e1408]'
+                - 'link "Microbadge: Leviathan Wilds" [ref=f111e1409] [cursor=pointer]':
+                  - /url: /microbadge/57269
+                  - 'img "Microbadge: Leviathan Wilds" [ref=f111e1410]'
+                - 'link "Microbadge: Spirit Island fan - Relentless Gaze of the Sun" [ref=f111e1411] [cursor=pointer]':
+                  - /url: /microbadge/56108
+                  - 'img "Microbadge: Spirit Island fan - Relentless Gaze of the Sun" [ref=f111e1412]'
+                - 'link "Microbadge: Spirit Island fan - Fear" [ref=f111e1413] [cursor=pointer]':
+                  - /url: /microbadge/42886
+                  - 'img "Microbadge: Spirit Island fan - Fear" [ref=f111e1414]'
+                - 'link "Microbadge: I speak French" [ref=f111e1415] [cursor=pointer]':
+                  - /url: /microbadge/2544
+                  - 'img "Microbadge: I speak French" [ref=f111e1416]'
+            - generic [ref=f111e1099]:
+              - generic [ref=f111e1101]:
+                - link "Crow" [ref=f111e1102] [cursor=pointer]:
+                  - /url: /profile/bwolcott
+                  - heading "Crow" [level=2] [ref=f111e1105]
+                - link "@bwolcott" [ref=f111e1109] [cursor=pointer]:
+                  - /url: /profile/bwolcott
+              - link "7 Jan 2021" [ref=f111e1113] [cursor=pointer]:
+                - /url: /thread/2574752/article/36683672#36683672
+                - time [ref=f111e1115]: 7 Jan 2021
+            - generic [ref=f111e1118]: Surprised Mist isn’t coming in higher. I have found its damage to all abilities quite useful against Russia, even if that means a slightly lower energy income.
+            - generic [ref=f111e1119]:
+              - list [ref=f111e1120]:
+                - listitem [ref=f111e1121]:
+                  - generic [ref=f111e1126]:
+                    - button "Give a thumbs up" [ref=f111e1127] [cursor=pointer]:
+                      - img [ref=f111e1128]
+                    - button "View 1 Thumbs" [ref=f111e1417] [cursor=pointer]: "1"
+                - listitem [ref=f111e1131]:
+                  - group [ref=f111e1136]:
+                    - button "Give GeekGold" [ref=f111e1138] [cursor=pointer]:
+                      - generic [ref=f111e1139]: Give GeekGold
+                      - img [ref=f111e1140]
+                      - generic [ref=f111e1143]: Tip
+              - list [ref=f111e1144]:
+                - listitem [ref=f111e1145]:
+                  - button "Reply" [ref=f111e1146] [cursor=pointer]
+                - listitem [ref=f111e1147]:
+                  - button "Quote" [ref=f111e1148] [cursor=pointer]
+                - listitem [ref=f111e1149]:
+                  - button "More Options" [ref=f111e1151] [cursor=pointer]:
+                    - img [ref=f111e1153]
+                    - generic [ref=f111e1155]: More Options
+          - article [ref=f111e1156]:
+            - button "sheen avatar User actions menu" [ref=f111e1159] [cursor=pointer]:
+              - generic "sheen avatar" [ref=f111e1162]: S
+              - generic [ref=f111e1163]: User actions menu
+            - generic [ref=f111e1167]:
+              - generic [ref=f111e1169]:
+                - link "Sheen" [ref=f111e1170] [cursor=pointer]:
+                  - /url: /profile/sheen
+                  - heading "Sheen" [level=2] [ref=f111e1173]
+                - link "@sheen" [ref=f111e1177] [cursor=pointer]:
+                  - /url: /profile/sheen
+              - link "7 Jan 2021" [ref=f111e1181] [cursor=pointer]:
+                - /url: /thread/2574752/article/36683777#36683777
+                - time [ref=f111e1183]: 7 Jan 2021
+            - generic [ref=f111e1186]: I think fear generation is actually a bad thing against Russia 5+. Getting the extra invader card when you're not prepared for it can be catastrophic.
+            - generic [ref=f111e1187]:
+              - list [ref=f111e1188]:
+                - listitem [ref=f111e1189]:
+                  - button "Give a thumbs up" [ref=f111e1195] [cursor=pointer]:
+                    - img [ref=f111e1196]
+                - listitem [ref=f111e1199]:
+                  - group [ref=f111e1204]:
+                    - button "Give GeekGold" [ref=f111e1206] [cursor=pointer]:
+                      - generic [ref=f111e1207]: Give GeekGold
+                      - img [ref=f111e1208]
+                      - generic [ref=f111e1211]: Tip
+              - list [ref=f111e1212]:
+                - listitem [ref=f111e1213]:
+                  - button "Reply" [ref=f111e1214] [cursor=pointer]
+                - listitem [ref=f111e1215]:
+                  - button "Quote" [ref=f111e1216] [cursor=pointer]
+                - listitem [ref=f111e1217]:
+                  - button "More Options" [ref=f111e1219] [cursor=pointer]:
+                    - img [ref=f111e1221]
+                    - generic [ref=f111e1223]: More Options
+          - article [ref=f111e1224]:
+            - generic [ref=f111e1225]:
+              - button "mathematics1 avatar User actions menu" [ref=f111e1227] [cursor=pointer]:
+                - generic "mathematics1 avatar" [ref=f111e1230]: M
+                - generic [ref=f111e1231]: User actions menu
+              - generic [ref=f111e1232]:
+                - 'link "Microbadge: 1 Player Guild - Together We Game Alone" [ref=f111e1418] [cursor=pointer]':
+                  - /url: /microbadge/33779
+                  - 'img "Microbadge: 1 Player Guild - Together We Game Alone" [ref=f111e1419]'
+                - 'link "Microbadge: Spirit Island fan" [ref=f111e1420] [cursor=pointer]':
+                  - /url: /microbadge/37348
+                  - 'img "Microbadge: Spirit Island fan" [ref=f111e1421]'
+                - 'link "Microbadge: Gaia Project fan" [ref=f111e1422] [cursor=pointer]':
+                  - /url: /microbadge/43101
+                  - 'img "Microbadge: Gaia Project fan" [ref=f111e1423]'
+                - 'link "Microbadge: Mage Knight Board Game fan" [ref=f111e1424] [cursor=pointer]':
+                  - /url: /microbadge/24623
+                  - 'img "Microbadge: Mage Knight Board Game fan" [ref=f111e1425]'
+                - 'link "Microbadge: Terraforming Mars fan" [ref=f111e1426] [cursor=pointer]':
+                  - /url: /microbadge/40130
+                  - 'img "Microbadge: Terraforming Mars fan" [ref=f111e1427]'
+            - generic [ref=f111e1246]:
+              - generic [ref=f111e1248]:
+                - link "@mathematics1" [ref=f111e1249] [cursor=pointer]:
+                  - /url: /profile/mathematics1
+                  - heading "@mathematics1" [level=2] [ref=f111e1252]
+                - img "United States flag" [ref=f111e1256]
+              - link "8 Jan 2021" [ref=f111e1260] [cursor=pointer]:
+                - /url: /thread/2574752/article/36694343#36694343
+                - time [ref=f111e1262]: 8 Jan 2021
+            - generic [ref=f111e1265]: I have played Stone against Russia twice now, and it's definitely an interesting matchup. Stone welcomes the extra Ravages and has no problem destroying everything since explorers deal extra damage (which increases the damage from Let Them Break Themselves), but it's awful at preventing the loss condition since pulling blight from the box still kills any Beasts in the land that's Ravaging. I didn't end up voting for it on either list.
+            - generic [ref=f111e1266]:
+              - list [ref=f111e1267]:
+                - listitem [ref=f111e1268]:
+                  - button "Give a thumbs up" [ref=f111e1274] [cursor=pointer]:
+                    - img [ref=f111e1275]
+                - listitem [ref=f111e1278]:
+                  - group [ref=f111e1283]:
+                    - button "Give GeekGold" [ref=f111e1285] [cursor=pointer]:
+                      - generic [ref=f111e1286]: Give GeekGold
+                      - img [ref=f111e1287]
+                      - generic [ref=f111e1290]: Tip
+              - list [ref=f111e1291]:
+                - listitem [ref=f111e1292]:
+                  - button "Reply" [ref=f111e1293] [cursor=pointer]
+                - listitem [ref=f111e1294]:
+                  - button "Quote" [ref=f111e1295] [cursor=pointer]
+                - listitem [ref=f111e1296]:
+                  - button "More Options" [ref=f111e1298] [cursor=pointer]:
+                    - img [ref=f111e1300]
+                    - generic [ref=f111e1302]: More Options
+          - generic [ref=f111e359]:
+            - iframe [ref=f111e1430]:
+              - generic [ref=f124e1]:
+                - link [ref=f124e2] [cursor=pointer]:
+                  - /url: https://googleads.g.doubleclick.net/pcs/click?xai=AKAOjsujY1-AWe8g5abpCw8vl9-NhAQrvVeqgHZd0A42YurTjzTXBcvUQx2hrKEGpw09G9-90rDCTmvri6ltVpcgWb982YLzhKm3t_9NCnRFeSKEL286l9327QV5XziF6p65v0QgE4q5ZwO_HDuawkXFVjI40vssQv1tqVyYWwt2jFQm-7YYY3m-fz3SclSdHs3sIKRNGdWIVxa0lIJU-fx7OBeEkSItXC5H-lBe_eRzSD-Jc1K8zrBan21epv9Y9RpuaJ0WMkhZM8QOP8LhcdtBFqpzVTXP5wJCoAShzK7F9q5nt7XjR43YLC4iWKm00daVU1wlWLxh7Y8ZTX0NdULNCGzVC-4pxN-5b6ArblKRyAWsOQ3VFzsbAtq3uqW73JZMIErL3Vg-kp9J0xsksVpe1TuEznGc3wuQIQvs2x7I4RlTdkgoVTDG3csMvQo_&sai=AMfl-YTMDfkJqPidup0gZDMLgS0rClhHExwc5VdX07eoLAWENKj5uFExlyZau8W1ip8Y_TrUJBzoW5MoNcng8Pqfh2EzA-yE_CUOaWONLHlnqHy2GbFjDM1DyHS4XpDe2x8P-wD5nvC1y2OtEifz_P_GtczgkODykABYR_RJduUcETtzJF4mNSdAhNRZlFfzvnPFLXj-_FE6Laou2yB8mgO3ug&sig=Cg0ArKJSzGPtVy_EAooT&fbs_aeid=%5Bgw_fbsaeid%5D&adurl=https://www.kickstarter.com/projects/theresilientbrainco/synaptic-symphony-co-op-strategy-game-for-mental-resilience%3Fref%3D3kf1fx
+                - img [ref=f124e6] [cursor=pointer]
+                - button [ref=f124e10] [cursor=pointer]:
+                  - img [ref=f124e11]
+            - article [ref=f111e1303]:
+              - generic [ref=f111e1304]:
+                - button "Woodenman Avatar User actions menu" [ref=f111e1306] [cursor=pointer]:
+                  - img "Woodenman Avatar" [ref=f111e1308]
+                  - generic [ref=f111e1309]: User actions menu
+                - generic [ref=f111e1310]:
+                  - 'link "Microbadge: Uwe says..." [ref=f111e1431] [cursor=pointer]':
+                    - /url: /microbadge/37042
+                    - 'img "Microbadge: Uwe says..." [ref=f111e1432]'
+                  - 'link "Microbadge: Through the Ages: A New Story of Civilization fan" [ref=f111e1433] [cursor=pointer]':
+                    - /url: /microbadge/36999
+                    - 'img "Microbadge: Through the Ages: A New Story of Civilization fan" [ref=f111e1434]'
+                  - 'link "Microbadge: 10 Year Geek Veteran" [ref=f111e1435] [cursor=pointer]':
+                    - /url: /microbadge/25730
+                    - 'img "Microbadge: 10 Year Geek Veteran" [ref=f111e1436]'
+                  - 'link "Microbadge: Spirit Island fan" [ref=f111e1437] [cursor=pointer]':
+                    - /url: /microbadge/37348
+                    - 'img "Microbadge: Spirit Island fan" [ref=f111e1438]'
+                  - 'link "Microbadge: Parent of a Boy and a Girl" [ref=f111e1439] [cursor=pointer]':
+                    - /url: /microbadge/2700
+                    - 'img "Microbadge: Parent of a Boy and a Girl" [ref=f111e1440]'
+              - generic [ref=f111e1324]:
+                - generic [ref=f111e1326]:
+                  - link "Phillip Wood" [ref=f111e1327] [cursor=pointer]:
+                    - /url: /profile/Woodenman
+                    - heading "Phillip Wood" [level=2] [ref=f111e1330]
+                  - img "New Zealand flag" [ref=f111e1334]
+                  - link "@Woodenman" [ref=f111e1338] [cursor=pointer]:
+                    - /url: /profile/Woodenman
+                - link "23 Jul 2022" [ref=f111e1342] [cursor=pointer]:
+                  - /url: /thread/2574752/article/40497018#40497018
+                  - time [ref=f111e1344]: 23 Jul 2022
+              - generic [ref=f111e1347]:
+                - text: The forum democracy series continues - In the last matchup Sharp Fangs chased away Habsburg Level 6. This time its Lightning's Swift Strike vs Russia 6. If you don't know what I'm talking about - BGG plays as Lightning and we all vote on the best play at each decision point. I explain in more detail below. Come on over and join in!
+                - link "Time for Round 7!" [ref=f111e1441] [cursor=pointer]:
+                  - /url: /geeklist/301797/a-lightning-storm-threatens-ivans-terrible-travels
+                  - generic [ref=f111e1353]: Time for Round 7!
+              - generic [ref=f111e1354]:
+                - list [ref=f111e1355]:
+                  - listitem [ref=f111e1356]:
+                    - generic [ref=f111e1361]:
+                      - button "Give a thumbs up" [ref=f111e1362] [cursor=pointer]:
+                        - img [ref=f111e1363]
+                      - button "View 2 Thumbs" [ref=f111e1443] [cursor=pointer]: "2"
+                  - listitem [ref=f111e1366]:
+                    - group [ref=f111e1371]:
+                      - button "Give GeekGold" [ref=f111e1373] [cursor=pointer]:
+                        - generic [ref=f111e1374]: Give GeekGold
+                        - img [ref=f111e1375]
+                        - generic [ref=f111e1378]: Tip
+                - list [ref=f111e1379]:
+                  - listitem [ref=f111e1380]:
+                    - button "Reply" [ref=f111e1381] [cursor=pointer]
+                  - listitem [ref=f111e1382]:
+                    - button "Quote" [ref=f111e1383] [cursor=pointer]
+                  - listitem [ref=f111e1384]:
+                    - button "More Options" [ref=f111e1386] [cursor=pointer]:
+                      - img [ref=f111e1388]
+                      - generic [ref=f111e1390]: More Options
+    - contentinfo [ref=f111e364]:
+      - generic [ref=f111e366]:
+        - generic [ref=f111e367]:
+          - heading "Footer Links" [level=1] [ref=f111e368]
+          - link "Board Game Geek" [ref=f111e369] [cursor=pointer]:
+            - /url: /
+            - img "Board Game Geek" [ref=f111e370]
+        - generic [ref=f111e371]:
+          - heading "Company" [level=2] [ref=f111e372]
+          - list [ref=f111e373]:
+            - listitem [ref=f111e374]:
+              - link "About" [ref=f111e375] [cursor=pointer]:
+                - /url: /wiki/page/Welcome_to_BoardGameGeek
+            - listitem [ref=f111e376]:
+              - link "Contact" [ref=f111e377] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=f111e378]:
+              - link "Advertise" [ref=f111e379] [cursor=pointer]:
+                - /url: https://advertising.boardgamegeek.com
+            - listitem [ref=f111e380]:
+              - link "Support BGG" [ref=f111e381] [cursor=pointer]:
+                - /url: /support
+        - generic [ref=f111e382]:
+          - heading "Policies" [level=2] [ref=f111e383]
+          - list [ref=f111e384]:
+            - listitem [ref=f111e385]:
+              - link "Community Guidelines" [ref=f111e386] [cursor=pointer]:
+                - /url: /community_rules
+            - listitem [ref=f111e387]:
+              - link "Privacy" [ref=f111e388] [cursor=pointer]:
+                - /url: /privacy
+            - listitem [ref=f111e389]:
+              - link "Terms" [ref=f111e390] [cursor=pointer]:
+                - /url: /terms
+            - listitem [ref=f111e391]:
+              - button "Manage Cookies" [ref=f111e392] [cursor=pointer]
+        - generic [ref=f111e393]:
+          - heading "Connect" [level=2] [ref=f111e394]
+          - list [ref=f111e395]:
+            - listitem [ref=f111e396]:
+              - link "Facebook" [ref=f111e397] [cursor=pointer]:
+                - /url: https://www.facebook.com/groups/132851767828/
+                - generic [ref=f111e398]: Facebook
+                - img [ref=f111e400]
+            - listitem [ref=f111e402]:
+              - link "Bluesky" [ref=f111e403] [cursor=pointer]:
+                - /url: https://bsky.app/profile/boardgamegeek.com
+                - generic [ref=f111e404]: Bluesky
+                - img [ref=f111e406]
+            - listitem [ref=f111e408]:
+              - link "Instagram" [ref=f111e409] [cursor=pointer]:
+                - /url: https://www.instagram.com/boardgamegeek/
+                - generic [ref=f111e410]: Instagram
+                - img [ref=f111e412]
+            - listitem [ref=f111e414]:
+              - link "Youtube" [ref=f111e415] [cursor=pointer]:
+                - /url: https://www.youtube.com/user/boardgamegeektv
+                - generic [ref=f111e416]: Youtube
+                - img [ref=f111e418]
+            - listitem [ref=f111e420]:
+              - link "Twitch" [ref=f111e421] [cursor=pointer]:
+                - /url: https://www.twitch.tv/boardgamegeektv
+                - generic [ref=f111e422]: Twitch
+                - img [ref=f111e424]
+            - listitem [ref=f111e426]:
+              - link "Discord" [ref=f111e427] [cursor=pointer]:
+                - /url: https://discord.gg/XyQpPNZAmc
+                - generic [ref=f111e428]: Discord
+                - img [ref=f111e430]
+          - generic [ref=f111e432]:
+            - link "Download the BGG App on the App Store" [ref=f111e433] [cursor=pointer]:
+              - /url: https://apps.apple.com/app/apple-store/id1559701270?pt=122806029&ct=bggfooter&mt=8
+              - generic [ref=f111e434]: Download the BGG App on the App Store
+              - img [ref=f111e435]
+            - link "Download the BGG App on the Google Play Store" [ref=f111e444] [cursor=pointer]:
+              - /url: https://play.google.com/store/apps/details?id=com.boardgamegeek.app
+              - generic [ref=f111e445]: Download the BGG App on the Google Play Store
+              - img [ref=f111e446]
+      - paragraph [ref=f111e455]: Geekdo, BoardGameGeek, the Geekdo logo, and the BoardGameGeek logo are trademarks of BoardGameGeek, LLC.
+  - generic [ref=f111e456]: No results available
+  - dialog "Your Privacy" [ref=f111e457]:
+    - generic [ref=f111e458]:
+      - generic [ref=f111e459]:
+        - heading "Your Privacy" [level=2] [ref=f111e460]
+        - generic [ref=f111e461]:
+          - text: We rely on cookies to remember your preferences, login info, analyze website traffic, and serve you personalized content.
+          - link "View cookie settings" [ref=f111e462] [cursor=pointer]:
+            - /url: javascript:void(0);
+            - text: My Options
+      - generic [ref=f111e463]:
+        - button "I'm OK with that" [ref=f111e464] [cursor=pointer]
+        - button "Reject All" [ref=f111e465] [cursor=pointer]

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spirit Island — Theme Mockups</title>
+<style>
+  body{margin:0;background:#111;color:#eee;font-family:system-ui,sans-serif}
+  .switcher{position:sticky;top:0;z-index:10;display:flex;gap:.5rem;flex-wrap:wrap;padding:1rem;background:#0a0a0a;border-bottom:1px solid #333}
+  .switcher button{font:inherit;cursor:pointer;padding:.5rem 1rem;border-radius:6px;border:1px solid #444;background:#1a1a1a;color:#ddd}
+  .switcher button.active{background:#fff;color:#000;font-weight:700}
+  .stage{padding:0}
+  .theme{display:none}
+  .theme.active{display:block}
+  .label{padding:.6rem 1rem;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;opacity:.6;background:#0a0a0a}
+
+  /* ============ shared component skeleton, themed via .t* wrapper vars ============ */
+  .frame{min-height:100vh}
+  .frame main{width:100%;max-width:1080px;margin:0 auto;padding:4vh 1.5rem 8vh}
+  .frame h1{margin:0 0 .3rem;font-size:2.1rem}
+  .frame .subtitle{margin:0 0 1.4rem;font-size:.95rem;opacity:.75}
+  .frame nav{display:flex;flex-wrap:wrap;gap:.55rem;padding-bottom:1rem;margin-bottom:2rem}
+  .frame nav button{font:inherit;cursor:pointer;padding:.5rem 1.1rem;border-radius:999px}
+  .frame h2{margin:2rem 0 .3rem;font-size:1.5rem;padding-bottom:.55rem}
+  .frame .intro{margin:.5rem 0 1.4rem;font-size:.95rem;opacity:.8}
+  .frame .filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
+  .frame .filters button{font:inherit;cursor:pointer;font-size:.82rem;padding:.4rem .8rem;border-radius:6px}
+  .frame .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+  .frame .card{border-radius:10px;padding:1rem 1.1rem;cursor:pointer;transition:transform .15s,box-shadow .15s}
+  .frame .card:hover{transform:translateY(-3px)}
+  .frame .card h4{margin:0 0 .35rem;font-size:1.02rem}
+  .frame .card .tag{display:inline-block;font-size:.7rem;padding:.12rem .45rem;border-radius:4px;margin:0 .3rem .3rem 0}
+  .frame .card p{margin:.4rem 0 0;font-size:.85rem;opacity:.85}
+  .frame .acc{border-radius:10px;margin-bottom:.55rem;overflow:hidden}
+  .frame .acc .hd{display:flex;justify-content:space-between;padding:.85rem 1.1rem;cursor:pointer;font-weight:600}
+  .frame .acc .bd{padding:0 1.1rem 1rem;font-size:.9rem;opacity:.85}
+
+  /* ================= THEME 1: MYSTIC NATURE / DARK ================= */
+  .t1 .frame{
+    font-family:"Iowan Old Style",Palatino,Georgia,serif;
+    color:#dfeae7;
+    background:
+      radial-gradient(60% 45% at 78% 8%, rgba(124,92,214,.18) 0%, transparent 60%),
+      radial-gradient(70% 50% at 12% 4%, rgba(46,196,182,.14) 0%, transparent 55%),
+      linear-gradient(180deg,#08161a 0%,#04100f 60%,#020a09 100%);
+  }
+  .t1 h1{color:#7defd0;text-shadow:0 0 22px rgba(46,196,182,.5),0 2px 6px #000;letter-spacing:.01em}
+  .t1 nav{border-bottom:1px solid rgba(46,196,182,.25)}
+  .t1 nav button{color:#cfe6e1;background:rgba(124,92,214,.08);border:1px solid rgba(124,255,224,.22)}
+  .t1 nav button.active{background:linear-gradient(180deg,#2ec4b6,#1a8b82);color:#04100f;font-weight:700;border-color:#7defd0;box-shadow:0 0 16px rgba(46,196,182,.55)}
+  .t1 h2{color:#7defd0;border-bottom:1px solid rgba(46,196,182,.28);text-shadow:0 0 16px rgba(46,196,182,.35)}
+  .t1 .filters button{color:#cfe6e1;background:rgba(255,255,255,.04);border:1px solid rgba(124,92,214,.4)}
+  .t1 .filters button.active{background:linear-gradient(180deg,#9b7cf0,#6f4fd0);color:#0b0616;font-weight:700;border-color:#b9a3ff}
+  .t1 .card,.t1 .acc{
+    background:linear-gradient(160deg,rgba(20,44,46,.9),rgba(10,26,28,.92));
+    border:1px solid rgba(46,196,182,.22);
+    box-shadow:0 4px 18px rgba(0,0,0,.5),inset 0 1px 0 rgba(124,255,224,.08);
+  }
+  .t1 .card:hover{box-shadow:0 10px 26px rgba(0,0,0,.6),0 0 22px rgba(46,196,182,.25)}
+  .t1 .card h4{color:#8ff0da}
+  .t1 .card .tag{background:rgba(124,92,214,.22);color:#cbb8ff;border:1px solid rgba(124,92,214,.4)}
+  .t1 .acc .hd{color:#8ff0da}
+
+  /* ================= THEME 2: PAINTERLY PARCHMENT / WARM ================= */
+  .t2 .frame{
+    font-family:"Iowan Old Style",Palatino,Georgia,serif;
+    color:#3a2c1a;
+    background:
+      radial-gradient(80% 60% at 50% -10%,#f3e6c8 0%,#e7d3a8 55%,#d8bf8c 100%),
+      #e7d3a8;
+  }
+  .t2 h1{color:#8a3b1f;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+  .t2 .subtitle,.t2 .intro{opacity:.85;color:#5c4a30}
+  .t2 nav{border-bottom:2px solid #b98a4e}
+  .t2 nav button{color:#4a3a22;background:rgba(255,255,255,.35);border:1px solid #b98a4e}
+  .t2 nav button.active{background:linear-gradient(180deg,#c0562f,#9a3f1f);color:#fdf1dc;font-weight:700;border-color:#8a3b1f;box-shadow:0 2px 8px rgba(120,50,20,.35)}
+  .t2 h2{color:#8a3b1f;border-bottom:2px solid #b98a4e}
+  .t2 .filters button{color:#4a3a22;background:rgba(255,255,255,.4);border:1px solid #b98a4e}
+  .t2 .filters button.active{background:linear-gradient(180deg,#3f6b3a,#2c5230);color:#f3e6c8;font-weight:700;border-color:#244524}
+  .t2 .card,.t2 .acc{
+    background:linear-gradient(160deg,#fbf3df,#f1e2bf);
+    border:1px solid #c9a463;
+    box-shadow:0 4px 10px rgba(90,60,20,.22),inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .t2 .card:hover{box-shadow:0 10px 18px rgba(90,60,20,.3)}
+  .t2 .card h4{color:#7a3418}
+  .t2 .card .tag{background:rgba(63,107,58,.16);color:#2c5230;border:1px solid #7fa06b}
+  .t2 .acc .hd{color:#7a3418}
+
+  /* ================= THEME 3: CLEAN MODERN / HIGH-CONTRAST ================= */
+  .t3 .frame{
+    font-family:system-ui,"Segoe UI",Roboto,sans-serif;
+    color:#1c2733;background:#f5f7f9;
+  }
+  .t3 h1{color:#0f1a24;letter-spacing:-.02em;font-weight:800}
+  .t3 .subtitle,.t3 .intro{color:#5a6b7a}
+  .t3 nav{border-bottom:1px solid #dde3e8}
+  .t3 nav button{color:#33465a;background:#fff;border:1px solid #d3dbe2}
+  .t3 nav button.active{background:#0d9488;color:#fff;font-weight:700;border-color:#0d9488}
+  .t3 h2{color:#0f1a24;border-bottom:2px solid #0d9488;font-weight:800;letter-spacing:-.01em}
+  .t3 .filters button{color:#33465a;background:#fff;border:1px solid #d3dbe2}
+  .t3 .filters button.active{background:#0d9488;color:#fff;font-weight:700;border-color:#0d9488}
+  .t3 .card,.t3 .acc{background:#fff;border:1px solid #e2e8ed;box-shadow:0 1px 3px rgba(20,40,60,.08)}
+  .t3 .card:hover{box-shadow:0 8px 20px rgba(20,40,60,.14)}
+  .t3 .card h4{color:#0f1a24}
+  .t3 .card .tag{background:#e6f6f4;color:#0a6e64;border:1px solid #b8e5df}
+  .t3 .acc .hd{color:#0f1a24}
+
+  /* ================= THEME 4: ELEMENTAL / FOUR-COLOR ================= */
+  .t4 .frame{
+    font-family:"Trebuchet MS",system-ui,sans-serif;
+    color:#e6e8ec;background:#14171c;
+  }
+  .t4 h1{color:#fff;letter-spacing:.01em}
+  .t4 .subtitle,.t4 .intro{color:#9aa2ad}
+  .t4 nav{border-bottom:1px solid #2a2f37}
+  .t4 nav button{color:#cfd4db;background:#1c2128;border:1px solid #2f3742}
+  .t4 nav button.active{background:#f2f4f7;color:#14171c;font-weight:700;border-color:#f2f4f7}
+  .t4 h2{color:#fff;border-bottom:2px solid #2f3742}
+  .t4 h2 .accentbar{display:inline-block;width:.5rem;height:1.1rem;margin-right:.5rem;vertical-align:-1px;border-radius:2px;
+    background:linear-gradient(180deg,#f4b73f,#e05a3c,#3f9be0,#4caf50)}
+  .t4 .filters button{color:#cfd4db;background:#1c2128;border:1px solid #2f3742}
+  .t4 .filters button.active{background:#3f9be0;color:#0b1116;font-weight:700;border-color:#3f9be0}
+  .t4 .card,.t4 .acc{background:#1b1f26;border:1px solid #2b323b;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .t4 .card{border-left:4px solid var(--el,#3f9be0)}
+  .t4 .card:hover{box-shadow:0 8px 20px rgba(0,0,0,.55);border-left-color:var(--el,#3f9be0)}
+  .t4 .card h4{color:#fff}
+  .t4 .card .tag{background:#242a32;color:#c7ced7;border:1px solid #333b45}
+  .t4 .acc .hd{color:#fff}
+  /* element accent colors */
+  .t4 .el-fire{--el:#e05a3c}.t4 .el-water{--el:#3f9be0}.t4 .el-plant{--el:#4caf50}.t4 .el-air{--el:#c9d1d9}.t4 .el-earth{--el:#a9743f}.t4 .el-sun{--el:#f4b73f}.t4 .el-moon{--el:#8f7fd6}
+</style>
+</head>
+<body>
+
+<div class="switcher">
+  <button data-t="t1" class="active">1 · Mystic / Dark</button>
+  <button data-t="t2">2 · Parchment / Warm</button>
+  <button data-t="t3">3 · Clean Modern</button>
+  <button data-t="t4">4 · Elemental</button>
+</div>
+
+<div class="stage">
+  <!-- content template cloned into each theme via JS -->
+  <template id="tpl">
+    <div class="frame"><main>
+      <h1>Spirit Island Strategy Guide</h1>
+      <p class="subtitle">Per-spirit playstyles, adversary matchups, mechanics deep-dives, and team-building insight.</p>
+      <nav>
+        <button class="active">Core Strategy</button><button>Spirits</button><button>Adversaries</button>
+        <button>Mechanics</button><button>Team Building</button><button>Tips &amp; Tricks</button>
+      </nav>
+      <h2><span class="accentbar"></span>Spirits</h2>
+      <p class="intro">Each spirit plays differently — energy tempo, offense vs. control, and how it scales. Filter by expansion.</p>
+      <div class="filters">
+        <button class="active">All</button><button>Base</button><button>Branch &amp; Claw</button>
+        <button>Jagged Earth</button><button>Nature Incarnate</button>
+      </div>
+      <div class="grid">
+        <div class="card CL1"><h4>Lightning's Swift Strike</h4><span class="tag">Base</span><span class="tag">Low</span><p>Fast offense; snowballs early with major powers and tempo.</p></div>
+        <div class="card CL2"><h4>Vital Strength of the Earth</h4><span class="tag">Base</span><span class="tag">Low</span><p>Slow, durable, defensive powerhouse that outlasts the board.</p></div>
+        <div class="card CL3"><h4>River Surges in Sunlight</h4><span class="tag">Base</span><span class="tag">Low</span><p>Flexible growth and gathering; strong presence economy.</p></div>
+        <div class="card CL4"><h4>A Spread of Rampant Green</h4><span class="tag">Branch &amp; Claw</span><span class="tag">High</span><p>Wilderness lockdown; converts land into no-go zones.</p></div>
+      </div>
+      <h2><span class="accentbar"></span>Mechanics Deep-Dives</h2>
+      <p class="intro">The systems that decide games — fear economy, blight cascades, and ravage/build timing.</p>
+      <div class="acc AC1"><div class="hd"><span>Fear economy &amp; terror levels</span><span>▸</span></div></div>
+      <div class="acc AC2"><div class="hd"><span>Blight cascades and the blight card</span><span>▸</span></div></div>
+    </main></div>
+  </template>
+
+  <div class="theme t1 active" id="t1"></div>
+  <div class="theme t2" id="t2"></div>
+  <div class="theme t3" id="t3"></div>
+  <div class="theme t4" id="t4"></div>
+</div>
+
+<script>
+  const tpl = document.getElementById('tpl').content;
+  // element accent classes to demonstrate theme 4's color-coding
+  const elMap = {t4:['el-fire','el-earth','el-water','el-plant']};
+  ['t1','t2','t3','t4'].forEach(id=>{
+    const host = document.getElementById(id);
+    const node = tpl.cloneNode(true);
+    if(elMap[id]){
+      const cards = node.querySelectorAll('.card');
+      elMap[id].forEach((c,i)=>cards[i]&&cards[i].classList.add(c));
+    }
+    host.appendChild(node);
+  });
+  document.querySelectorAll('.switcher button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.switcher button').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById(b.dataset.t).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

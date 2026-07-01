@@ -4,6 +4,8 @@ Public repo of single-file HTML reference guides/apps, hosted via GitHub Pages.
 
 Each guide is a mega-guide for its topic — consolidates strategy/insight scattered across wikis/forums/blogs into one place, so the reader never needs to look elsewhere.
 Not a reference/rulebook mirror — skip stats, card text, mechanics-as-written, or anything findable in-game or in the manual. Cover oft-repeated community strategy/advice AND notable insight from individual sources (with attribution where it adds credibility) AND general tips/tricks (secondary focus).
+When writing guide content, teach transferable insight, not formulas — WHY a play/build/approach is strong, WHEN it applies, the tradeoffs and situational exceptions. Reader should come away able to reason about novel situations, not just follow a script.
+Don't reproduce step-by-step walkthroughs (turn-by-turn openers, exact build orders, "do A then B then C"); teach the principle behind them — why this opener, what conditions favor it, how to adapt when conditions differ.
 Depth over brevity — go deep on strategy and edge cases; surface-level summaries defeat the purpose. Prefer thorough over concise for guide content itself (this rule doesn't apply to CLAUDE.md/skill files).
 
 ## Structure
@@ -29,5 +31,6 @@ Commit requested → also push.
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
 New guide → new subfolder, own `index.html` or descriptively-named `.html` file.
 New guide → add a card linking to it in root `index.html`.
-New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` then fans out `guide-research-distiller` per source (`.claude/agents/`) for sourcing.
+New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` (writes `{guide}/.research/_sources.md`) then runs `guide-research-distiller` sequentially per row (`.claude/agents/`) for sourcing.
+`{guide}/.research/_sources.md` = finder's source table (`slug | title | url | note`); slug is category-prefixed kebab-case (`spirit-…`, `mechanic-…`) and is the distiller's output filename + diff key.
 `{guide}/.research/*.md` are gitignored scratch from guide research — not committed, not a source of truth once stale.

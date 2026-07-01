@@ -21,13 +21,14 @@ Auto-pick a color theme/aesthetic fitting {topic} on its own merits (palette, fo
 - New subfolder gets its own `CLAUDE.md` (empty/minimal placeholder — filled in once guide structure is known)
 - Add the new guide to the `## Guides` list in root `CLAUDE.md`
 
-## 3. Research (find sources, then fan out distillers in parallel)
+## 3. Research (find sources, then distill each sequentially)
 
 Ensure `{topic-slug}/.research/` is gitignored (add/confirm entry in root `.gitignore`, create the file if it doesn't exist).
 
-- Dispatch `guide-research-finder` with {topic}. It returns a source list (`slug | url | note`), no files written yet.
-- From that list, dispatch one `guide-research-distiller` per source, all in a single message (parallel) — each gets {topic}, `{topic-slug}`, and its own `{source-slug}` + url. Each distiller reads its one source and writes its own `.md` immediately, before ending its turn.
+- Dispatch `guide-research-finder` with {topic} and `{topic-slug}`. It writes `{topic-slug}/.research/_sources.md` (table: `slug | title | url | note`) and returns the same rows inline.
+- For each row in `_sources.md`, dispatch `guide-research-distiller` one at a time, sequentially — wait for each to finish before dispatching the next. Pass {topic}, `{topic-slug}`, the row's `slug` as `{source-slug}` (verbatim — it's the output filename), and the row's url. Distiller reads its one source and writes `{topic-slug}/.research/{source-slug}.md` before ending its turn. Sequential avoids burning the session-message limit on a parallel fan-out that dies mid-batch.
 - Don't pass file-naming/splitting/organization instructions in these dispatch prompts — each distiller owns exactly one source → one file; that scheme lives in `guide-research-distiller.md`, not the dispatch prompt.
+- After all distillers run, diff the finder's source list against the written `.md` files; re-run any source that produced no file (session limit, fetch block, etc).
 
 ## 4. Propose layout
 

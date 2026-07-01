@@ -3,51 +3,1510 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spirit Island Reference</title>
-<meta name="description" content="A reference guide for Spirit Island — spirits, powers, fear, dahan, and invader mechanics.">
+<title>Spirit Island Strategy Guide</title>
+<meta name="description" content="A strategy guide for Spirit Island — per-spirit playstyles, adversary matchups, mechanics deep-dives, and team-building insight.">
 <style>
   :root{
-    --canopy:#0e1f15;
-    --panel:#16301f;
-    --bark:#2a1c13;
-    --ink:#eee6d3;
-    --ink-dim:#a9b8a3;
-    --moss:#6fa16a;
-    --moss-bright:#92c98a;
-    --fire:#d4622b;
-    --water:#3f9ba6;
-    --earth:#b08a3e;
-    --line:#23402b;
-    --line-bright:#365a3e;
-    --shadow:rgba(0,0,0,.55);
+    --paper:#e9d8b0; --paper-lo:#dcc596; --paper-hi:#f2e6c8;
+    --card:#f6ecd2; --card-lo:#ecdcb6; --card-hover:#fbf2dc;
+    --ink:#33271a; --ink-soft:#5a4a32; --ink-faint:#8a7350;
+    --rule:#b98f52; --rule-soft:#cbad76;
+    --terra:#a8401f; --terra-dk:#822f16;
+    --forest:#3d6238; --forest-dk:#2c4a2a;
+    --gold:#b07d2a;
+    --shadow:rgba(70,45,15,.30);
+    --radius:14px 6px 16px 5px;
   }
   *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
   body{
-    margin:0;
-    min-height:100vh;
+    margin:0;min-height:100vh;color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    font-size:17px;line-height:1.64;-webkit-font-smoothing:antialiased;
+    background-color:var(--paper);position:relative;
+  }
+  /* aged paper: warm radial wash */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
     background:
-      radial-gradient(120% 80% at 50% -10%, #1c3a26 0%, var(--canopy) 55%, #081109 100%) fixed,
-      var(--canopy);
-    color:var(--ink);
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-    font-size:18px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
+      radial-gradient(70% 55% at 50% -8%, var(--paper-hi), transparent 60%),
+      radial-gradient(45% 40% at 8% 100%, rgba(120,80,30,.16), transparent 60%),
+      radial-gradient(45% 40% at 100% 60%, rgba(120,80,30,.14), transparent 60%),
+      linear-gradient(180deg,var(--paper),var(--paper-lo));
   }
-  main{width:100%;max-width:960px;margin:0 auto;padding:6vh 1.5rem}
+  /* paper grain speckle */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:
+      radial-gradient(rgba(90,60,25,.10) .6px, transparent .7px),
+      radial-gradient(rgba(90,60,25,.07) .6px, transparent .7px);
+    background-size:5px 5px, 8px 8px;
+    background-position:0 0, 3px 4px;
+    mix-blend-mode:multiply;
+  }
+  main{width:100%;max-width:1000px;margin:0 auto;padding:5vh 1.5rem 8vh}
+
+  /* ---------- header ---------- */
+  header{margin-bottom:2rem;text-align:center}
+  .kicker{color:var(--ink-faint);font-size:.74rem;letter-spacing:.36em;text-transform:uppercase;
+    margin:0 0 .8rem;font-family:"Trebuchet MS",sans-serif}
   h1{
-    color:var(--moss-bright);
-    font-size:2rem;
-    letter-spacing:.02em;
-    margin:0 0 1.5rem;
-    border-bottom:1px solid var(--line);
-    padding-bottom:.75rem;
+    margin:0 auto;display:inline-block;position:relative;
+    font-size:2.6rem;line-height:1.1;color:var(--terra-dk);font-weight:700;letter-spacing:.01em;
+    text-shadow:1px 1px 0 var(--paper-hi), 2px 2px 0 rgba(130,47,22,.18);
+    padding:.2rem .4rem;
   }
+  .flourish{display:flex;align-items:center;justify-content:center;gap:.7rem;margin:.7rem auto 0;color:var(--rule)}
+  .flourish .l{height:2px;width:min(120px,22vw);background:var(--rule);box-shadow:0 4px 0 -2.5px var(--rule-soft)}
+  .flourish .d{font-size:.9rem;color:var(--terra)}
+  .subtitle{color:var(--ink-soft);font-size:1rem;margin:1rem auto 0;max-width:62ch;font-style:italic}
+
+  /* ---------- top-level section nav: pressed wood tabs ---------- */
+  nav.section-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin:1.8rem 0 0;padding:0 0 1.6rem;position:relative}
+  nav.section-nav::after{content:"";position:absolute;left:8%;right:8%;bottom:0;height:3px;border-radius:2px;
+    background:repeating-linear-gradient(90deg,var(--rule) 0 8px,transparent 8px 12px);opacity:.5}
+  nav.section-nav button{
+    font-family:inherit;font-size:.92rem;cursor:pointer;color:var(--ink-soft);
+    padding:.5rem 1.05rem;border-radius:4px;position:relative;
+    background:linear-gradient(180deg,var(--paper-hi),var(--paper-lo));
+    border:1px solid var(--rule);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 2px 3px var(--shadow);
+    transition:transform .18s, color .18s;
+  }
+  nav.section-nav button:hover{color:var(--ink);transform:translateY(-1px)}
+  nav.section-nav button.active{
+    color:var(--paper-hi);font-weight:700;
+    background:linear-gradient(180deg,var(--terra),var(--terra-dk));
+    border-color:var(--terra-dk);
+    box-shadow:0 2px 5px rgba(120,47,22,.4), inset 0 1px 0 rgba(255,255,255,.2);
+  }
+
+  section.view{display:none;padding-top:1.5rem}
+  section.view.active{display:block}
+
+  /* ---------- section heading: ink-stamp sigil + hand rule ---------- */
+  h2{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0 .4rem;font-size:1.6rem;font-weight:700;color:var(--terra-dk)}
+  .stamp{
+    flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;
+    color:var(--terra);font-size:1.15rem;transform:rotate(-7deg);
+    border:2.5px solid var(--terra);box-shadow:inset 0 0 0 2px var(--paper);opacity:.9;
+  }
+  h2 .rule{flex:1;height:2px;background:var(--rule);box-shadow:0 4px 0 -2.5px var(--rule-soft);opacity:.7}
+  .section-intro{color:var(--ink-soft);font-size:.98rem;margin:.6rem 0 1.5rem;max-width:70ch;font-style:italic}
+
+  h3{color:var(--terra-dk);font-size:1.2rem;margin:1.8rem 0 .6rem}
+
+  /* ---------- generic info-card grid (Core Strategy, Team Building, Tips) ---------- */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem}
+  .info-card{
+    position:relative;padding:1.1rem 1.2rem 1.2rem;
+    background:linear-gradient(165deg,var(--card),var(--card-lo));
+    border:1px solid var(--rule);border-radius:var(--radius);
+    box-shadow:0 4px 10px var(--shadow), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 20px rgba(120,80,30,.06);
+  }
+  .info-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(150,110,55,.35);
+    border-radius:10px 4px 12px 3px;pointer-events:none}
+  .info-card h4{margin:0 0 .4rem;color:var(--terra-dk);font-size:1.05rem;position:relative}
+  .info-card p{margin:0;color:var(--ink-soft);font-size:.9rem;position:relative}
+
+  /* ---------- accordion: field-journal folios (Mechanics) ---------- */
+  .accordion-item{
+    margin-bottom:.7rem;position:relative;
+    background:linear-gradient(165deg,var(--card),var(--card-lo));
+    border:1px solid var(--rule);border-radius:8px 4px 8px 4px;overflow:hidden;
+    box-shadow:0 3px 7px var(--shadow), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .accordion-header{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+    padding:.9rem 1.15rem;cursor:pointer;font-weight:600;color:var(--terra-dk)}
+  .accordion-header:hover{background:rgba(255,255,255,.18)}
+  .accordion-header .chevron{color:var(--terra);font-size:1.05rem;transition:transform .22s;flex-shrink:0;margin-left:1rem}
+  .accordion-item.open .accordion-header .chevron{transform:rotate(90deg)}
+  .accordion-body{display:none;padding:0 1.15rem 1.05rem;color:var(--ink-soft);font-size:.92rem}
+  .accordion-item.open .accordion-body{display:block}
+  .accordion-body::before{content:"";display:block;height:1px;margin:0 0 .9rem;
+    background:repeating-linear-gradient(90deg,var(--rule-soft) 0 6px,transparent 6px 10px);opacity:.6}
+
+  /* ---------- expansion filter: bookmark-ribbon tabs ---------- */
+  .filter-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.6rem}
+  .filter-row button{
+    font-family:inherit;font-size:.82rem;cursor:pointer;color:var(--ink-soft);
+    padding:.35rem .8rem;border-radius:3px;border:1px solid var(--rule);
+    background:linear-gradient(180deg,var(--paper-hi),var(--paper));transition:color .18s;
+  }
+  .filter-row button:hover{color:var(--ink)}
+  .filter-row button.active{color:var(--paper-hi);font-weight:700;
+    background:linear-gradient(180deg,var(--forest),var(--forest-dk));border-color:var(--forest-dk)}
+
+  /* ---------- entity cards: journal clippings w/ wax seal ---------- */
+  .entity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem}
+  .entity-card{
+    position:relative;padding:1.1rem 1.15rem 1.2rem;cursor:pointer;color:var(--ink);
+    background:linear-gradient(165deg,var(--card),var(--card-lo));
+    border:1px solid var(--rule);border-radius:var(--radius);
+    box-shadow:0 4px 10px var(--shadow), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 20px rgba(120,80,30,.06);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .entity-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(150,110,55,.35);
+    border-radius:10px 4px 12px 3px;pointer-events:none}
+  .entity-card .seal{position:absolute;top:-10px;right:-8px;width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;font-size:.85rem;color:#fbe9c8;transform:rotate(8deg);
+    background:radial-gradient(circle at 38% 32%, #c8532f, #8a2f16 70%);
+    box-shadow:0 3px 6px rgba(80,20,10,.45), inset 0 1px 2px rgba(255,255,255,.3);border:1px solid #6e2410}
+  .entity-card.seal-green .seal{background:radial-gradient(circle at 38% 32%,#5a8a4d,#2c4a2a 70%);border-color:#22381f}
+  .entity-card.seal-gold .seal{background:radial-gradient(circle at 38% 32%,#d3a648,#9a6f1e 70%);border-color:#7a561a}
+  .entity-card:hover{transform:translateY(-3px) rotate(-.3deg);box-shadow:0 12px 20px var(--shadow), inset 0 1px 0 rgba(255,255,255,.55)}
+  .entity-card .card-art{position:relative;margin:-1.1rem -1.15rem .8rem;height:120px;overflow:hidden;
+    border-radius:13px 5px 0 0;border-bottom:1px solid var(--rule)}
+  .entity-card .card-art img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;
+    filter:sepia(.15) saturate(1.05)}
+  .entity-card .card-art::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(40,25,10,.35));pointer-events:none}
+  .entity-card h4{margin:0 0 .4rem;color:var(--terra-dk);font-size:1.06rem;position:relative}
+  .entity-card .tag{display:inline-block;font-size:.7rem;letter-spacing:.02em;color:var(--forest-dk);
+    padding:.12rem .5rem;border-radius:3px;margin:0 .3rem .3rem 0;position:relative;
+    background:rgba(61,98,56,.12);border:1px solid rgba(61,98,56,.4);font-family:"Trebuchet MS",sans-serif}
+  .entity-card p{margin:.5rem 0 0;color:var(--ink-soft);font-size:.88rem;position:relative}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:100;
+    background:rgba(50,30,10,.55);align-items:flex-start;justify-content:center;
+    padding:6vh 1.5rem;overflow-y:auto;}
+  .modal-overlay.active{display:flex}
+  .modal-box{
+    position:relative;max-width:640px;width:100%;padding:1.9rem 2rem;
+    background:linear-gradient(165deg,var(--card),var(--card-lo));
+    border:1px solid var(--rule);border-radius:16px 8px 16px 8px;
+    box-shadow:0 18px 40px rgba(40,20,5,.5), inset 0 1px 0 rgba(255,255,255,.55);
+  }
+  .modal-box::before{content:"";position:absolute;inset:8px;border:1px solid rgba(150,110,55,.35);
+    border-radius:12px 5px 12px 5px;pointer-events:none}
+  .modal-box .modal-close{position:absolute;top:.7rem;right:1rem;background:none;border:none;
+    color:var(--ink-faint);font-size:1.5rem;cursor:pointer;line-height:1;z-index:1}
+  .modal-box .modal-close:hover{color:var(--terra-dk)}
+  .modal-box .modal-art{position:relative;margin:-1.9rem -2rem 1.2rem;height:180px;overflow:hidden;
+    border-radius:15px 7px 0 0;border-bottom:1px solid var(--rule)}
+  .modal-box .modal-art img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;
+    filter:sepia(.15) saturate(1.05)}
+  .modal-box .modal-art::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(40,25,10,.4));pointer-events:none}
+  .modal-box h3{margin-top:0;color:var(--terra-dk);position:relative}
+  .modal-box #modal-body{position:relative}
+  .modal-box #modal-body h4{color:var(--terra-dk);font-size:1.02rem;margin:1.1rem 0 .35rem}
+  .modal-box #modal-body h4:first-child{margin-top:0}
+  .modal-box #modal-body p{margin:.3rem 0 .7rem;color:var(--ink-soft)}
+  .modal-box #modal-body ul{margin:.3rem 0 .7rem;padding-left:1.2rem;color:var(--ink-soft)}
+  .modal-box #modal-body li{margin-bottom:.35rem}
+
+  footer{margin-top:3.5rem;padding-top:1.4rem;text-align:center;color:var(--ink-faint);font-size:.82rem;
+    font-style:italic;border-top:2px solid var(--rule);position:relative}
+  footer::before{content:"❦";position:absolute;top:-.85rem;left:50%;transform:translateX(-50%);
+    background:var(--paper);padding:0 .6rem;color:var(--terra);font-style:normal}
 </style>
 </head>
 <body>
 <main>
-  <h1>Spirit Island Reference</h1>
+  <header>
+    <p class="kicker">A Field Compendium</p>
+    <h1>Spirit Island Strategy Guide</h1>
+    <div class="flourish"><span class="l"></span><span class="d">&#10087;</span><span class="l"></span></div>
+    <p class="subtitle">Per-spirit playstyles, adversary matchups, mechanics deep-dives, and team-building insight — the community strategy scattered across wikis, forums, and guides, gathered into one place.</p>
+    <nav class="section-nav">
+      <button class="nav-btn active" data-target="core-strategy">Core Strategy</button>
+      <button class="nav-btn" data-target="spirits">Spirits</button>
+      <button class="nav-btn" data-target="adversaries">Adversaries</button>
+      <button class="nav-btn" data-target="mechanics">Mechanics</button>
+      <button class="nav-btn" data-target="team-building">Team Building</button>
+      <button class="nav-btn" data-target="tips">Tips &amp; Tricks</button>
+    </nav>
+  </header>
+
+  <!-- 1. Core Strategy -->
+  <section id="core-strategy" class="view active">
+    <h2><span class="stamp">&#10087;</span>Core Strategy<span class="rule"></span></h2>
+    <p class="section-intro">Every spirit, every game, shares the same underlying puzzle before you specialize into a playstyle: read which win condition your table is actually racing toward, spend tempo on disrupting the invader pipeline rather than just mopping up after it, and know which resources are worth defending versus worth losing. The principles below apply regardless of which spirit is in front of you.</p>
+    <div class="card-grid">
+      <div class="info-card">
+        <h4>Fear Is a Win Condition, Not a Side Effect</h4>
+        <p>Spirit Island has two parallel win paths: clear every Invader off the board, or advance the Fear track until a Fear card itself ends the game. New players default to board-clearing and treat Fear as flavor text, but the Fear track is usually the faster, more forgiving route — the board-clear requirement actually loosens as Terror Level rises (eventually you only need to clear cities and towns, not every last Explorer). A power that deals 2 damage and generates 2 Fear is often a better play than one that deals 4 damage and none. Check the Fear track's current tier before choosing your line for the round, and don't discount a card just because its damage number looks small.</p>
+      </div>
+      <div class="info-card">
+        <h4>Disrupt the Pipeline, Don't Just React to It</h4>
+        <p>Invaders run Explore &rarr; Build &rarr; Ravage every round whether or not you act. You cannot out-race that pipeline by only killing what's already on the board — a land you ignore this round explores again next round regardless. The efficient target is upstream: killing or moving an Explorer before it builds prevents both the Build and the Ravage that would have followed. Ask "what enters the pipeline this round" before asking "what do I kill."</p>
+      </div>
+      <div class="info-card">
+        <h4>Defense Before Offense, Every Round</h4>
+        <p>Before playing any card, identify which lands will actually Ravage this round — that's the damage you cannot undo. Secure or accept those first; only then look for offensive or disruptive plays elsewhere. The common beginner failure mode is chasing satisfying Invader kills on turn 1 while a fully preventable Ravage goes unaddressed, because killing feels productive and defending doesn't.</p>
+      </div>
+      <div class="info-card">
+        <h4>Fast vs. Slow Power Timing</h4>
+        <p>Fast powers resolve before the Invader phase and can stop this round's Ravage outright. Slow powers resolve after Invaders act, so they set up future rounds rather than saving the current one. Confusing the two — relying on a Slow power to save a land that Ravages this round — is one of the most common and most game-losing rules errors in the game.</p>
+      </div>
+      <div class="info-card">
+        <h4>Coastal Chokepoints Early</h4>
+        <p>Invaders only ever enter the board via coastal lands. Spreading Presence evenly across the map wastes early tempo — concentrating on coastal lands in the first few rounds, before Towns fill those regions, chokes off inland spread for the rest of the game. The same Presence placed on the coast in round 1 is worth far more than in round 4, because it prevents an entire lineage of future Explore/Build/Ravage cycles rather than answering one.</p>
+      </div>
+      <div class="info-card">
+        <h4>Fast Spirits, Slow Spirits, and Why Both Win</h4>
+        <p>Some spirits (Lightning, Shadows) come online almost immediately and punch hard from round one; others (Earth, Keeper) are deliberately slow, spending early turns building a board-wide engine that pays off from the midgame on. Neither is strictly better — a fast spirit buys the table time for a slow spirit to ramp, and a slow spirit's eventual ceiling can outscale what a fast spirit sustains solo.</p>
+      </div>
+      <div class="info-card">
+        <h4>Energy Is the Real Bottleneck, Not Card Count</h4>
+        <p>Having a hand full of powerful cards is worthless if you can't afford to play them. Energy income (growth track, innate effects) determines how many of your options are actually live each round — track it as deliberately as you track board threats. When a growth choice trades presence/cards for energy, weigh it against whether you're currently option-constrained or energy-constrained.</p>
+      </div>
+      <div class="info-card">
+        <h4>"Always Thin the Biggest City" Is a Trap — Usually</h4>
+        <p>Big Invader cities look like the highest-value target, but a card that clears a stacked city is often a card that could have prevented three smaller Ravages elsewhere for the same cost. Default to prevention; escalate to demolition only when a city is about to cascade Blight, sits on a Fear-card condition you need, or blocks a Terror Level threshold.</p>
+      </div>
+      <div class="info-card">
+        <h4>Solo Demands Self-Sufficiency; Multiplayer Rewards Specialization</h4>
+        <p>Solo, every gap in your spirit's toolkit is a gap nobody else covers. Multiplayer changes the underlying puzzle rather than just scaling it up: spirits that struggle to be self-sufficient often perform much better with a partner, since you can informally trade tempo ("I clear this, you clear that"). Don't judge a spirit's multiplayer strength by imagining it trying to solo-cover the whole island.</p>
+      </div>
+      <div class="info-card">
+        <h4>Let Difficulty Level Set Your Risk Tolerance</h4>
+        <p>At low difficulty, losing an undefended, Dahan-free, Blight-free land is a real, affordable choice — spend your tempo building your engine instead of firefighting everything. At high difficulty, cascading Blight and faster escalation punish the same "let it go" calls that were free at lower levels. Recalibrate risk tolerance to the difficulty you're actually playing.</p>
+      </div>
+      <div class="info-card">
+        <h4>Expect an Early Struggle — That's the Shape of the Game</h4>
+        <p>Games follow a predictable arc: Invaders are ahead for the first several rounds, there's a midgame inflection point, and spirits pull ahead from there as engines come online. Don't panic or overcommit resources trying to prevent early damage that isn't fatal — strategic patience early is what lets your spirit reach the power spike that actually wins the game.</p>
+      </div>
+      <div class="info-card">
+        <h4>Talk Before You Plan</h4>
+        <p>Two minutes of table talk before each planning phase — which lands Ravage this round, what each spirit can actually do about it, what's falling through the cracks — consistently outperforms silent parallel play. Coordinate in outcomes ("that mountain is handled"), not full inventories of your hand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Spirits -->
+  <section id="spirits" class="view">
+    <h2><span class="stamp">&#128462;</span>Spirits<span class="rule"></span></h2>
+    <p class="section-intro">Every spirit is a deliberately incomplete toolkit — strong at some things, structurally blind to others. The write-ups below go past "what the cards do" into why a spirit's engine works the way it does, which growth lines are genuine tradeoffs rather than one being simply correct, and where new players usually misplay it. Click a card for the full breakdown.</p>
+    <div class="filter-row" id="spirit-filters">
+      <button class="filter-btn active" data-expansion="all">All</button>
+      <button class="filter-btn" data-expansion="base">Base</button>
+      <button class="filter-btn" data-expansion="branch-claw">Branch &amp; Claw</button>
+      <button class="filter-btn" data-expansion="jagged-earth">Jagged Earth</button>
+      <button class="filter-btn" data-expansion="nature-incarnate">Nature Incarnate</button>
+      <button class="filter-btn" data-expansion="horizons">Horizons</button>
+      <button class="filter-btn" data-expansion="promo">Promo</button>
+    </div>
+    <div class="entity-grid" id="spirit-grid">
+      <div class="entity-card" data-expansion="base" data-modal="spirit-lightning" data-img="https://spiritislandwiki.com/images/thumb/c/c2/Lightning%27s_Swift_Strike.png/400px-Lightning%27s_Swift_Strike.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/c/c2/Lightning%27s_Swift_Strike.png/400px-Lightning%27s_Swift_Strike.png" alt="Lightning's Swift Strike" loading="lazy"></div>
+        <span class="seal">&#9889;</span>
+        <h4>Lightning's Swift Strike</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: Low</span>
+        <p>Burns towns and cities off the map in sudden bursts, then idles while it recharges for the next strike.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="base" data-modal="spirit-rampant-green" data-img="https://spiritislandwiki.com/images/thumb/7/7f/A_Spread_of_Rampant_Green.png/400px-A_Spread_of_Rampant_Green.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/7/7f/A_Spread_of_Rampant_Green.png/400px-A_Spread_of_Rampant_Green.png" alt="A Spread of Rampant Green" loading="lazy"></div>
+        <span class="seal">&#127807;</span>
+        <h4>A Spread of Rampant Green</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: Moderate</span>
+        <p>Spreads everywhere, sacrifices itself to stop disasters, and quietly makes every ally's turn better.</p>
+      </div>
+      <div class="entity-card" data-expansion="base" data-modal="spirit-vital-strength" data-img="https://spiritislandwiki.com/images/thumb/c/c2/Vital_Strength_of_the_Earth.png/400px-Vital_Strength_of_the_Earth.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/c/c2/Vital_Strength_of_the_Earth.png/400px-Vital_Strength_of_the_Earth.png" alt="Vital Strength of the Earth" loading="lazy"></div>
+        <span class="seal">&#9970;</span>
+        <h4>Vital Strength of the Earth</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: Low</span>
+        <p>Passively no-sells small ravages at every Sacred Site while its energy glut buys Major Power after Major Power.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="base" data-modal="spirit-keeper" data-img="https://spiritislandwiki.com/images/thumb/a/ae/Keeper_of_the_Forbidden_Wilds.png/400px-Keeper_of_the_Forbidden_Wilds.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/a/ae/Keeper_of_the_Forbidden_Wilds.png/400px-Keeper_of_the_Forbidden_Wilds.png" alt="Keeper of the Forbidden Wilds" loading="lazy"></div>
+        <span class="seal">&#127795;</span>
+        <h4>Keeper of the Forbidden Wilds</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: Moderate</span>
+        <p>Stakes out territory, pushes everything else off it, and only gets scarier the longer the game runs.</p>
+      </div>
+      <div class="entity-card" data-expansion="base" data-modal="spirit-bringer" data-img="https://spiritislandwiki.com/images/thumb/a/aa/Bringer_of_Dreams_and_Nightmares.png/400px-Bringer_of_Dreams_and_Nightmares.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/a/aa/Bringer_of_Dreams_and_Nightmares.png/400px-Bringer_of_Dreams_and_Nightmares.png" alt="Bringer of Dreams and Nightmares" loading="lazy"></div>
+        <span class="seal">&#128372;</span>
+        <h4>Bringer of Dreams and Nightmares</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: High</span>
+        <p>Can't destroy a single invader itself — terrifies them into fleeing instead, and turns every ally's damage into Fear.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="base" data-modal="spirit-thunderspeaker" data-img="https://spiritislandwiki.com/images/thumb/b/bd/Thunderspeaker.png/400px-Thunderspeaker.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/b/bd/Thunderspeaker.png/400px-Thunderspeaker.png" alt="Thunderspeaker" loading="lazy"></div>
+        <span class="seal">&#129445;</span>
+        <h4>Thunderspeaker</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: High</span>
+        <p>Marches with a roving Dahan army and crushes whatever it catches — if it survives the early energy crunch.</p>
+      </div>
+      <div class="entity-card" data-expansion="base" data-modal="spirit-ocean" data-img="https://spiritislandwiki.com/images/thumb/d/d8/Ocean%27s_Hungry_Grasp.png/400px-Ocean%27s_Hungry_Grasp.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/d/d8/Ocean%27s_Hungry_Grasp.png/400px-Ocean%27s_Hungry_Grasp.png" alt="Ocean's Hungry Grasp" loading="lazy"></div>
+        <span class="seal">&#127754;</span>
+        <h4>Ocean's Hungry Grasp</h4>
+        <span class="tag">Base</span><span class="tag">Complexity: High</span>
+        <p>Rolls in with the tide, drowns everything on the coast, and turns the corpses into energy.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="branch-claw" data-modal="spirit-river" data-img="https://spiritislandwiki.com/images/thumb/f/ff/River_Surges_in_Sunlight.png/400px-River_Surges_in_Sunlight.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/f/ff/River_Surges_in_Sunlight.png/400px-River_Surges_in_Sunlight.png" alt="River Surges in Sunlight" loading="lazy"></div>
+        <span class="seal">&#127754;</span>
+        <h4>River Surges in Sunlight</h4>
+        <span class="tag">Branch &amp; Claw</span><span class="tag">Complexity: Low</span>
+        <p>Floods the board on a reliable clock — feed the innate every turn and let Massive Flooding do the killing.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="branch-claw" data-modal="spirit-shadows" data-img="https://spiritislandwiki.com/images/thumb/d/d2/Shadows_Flicker_Like_Flame.png/400px-Shadows_Flicker_Like_Flame.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/d/d2/Shadows_Flicker_Like_Flame.png/400px-Shadows_Flicker_Like_Flame.png" alt="Shadows Flicker Like Flame" loading="lazy"></div>
+        <span class="seal">&#127769;</span>
+        <h4>Shadows Flicker Like Flame</h4>
+        <span class="tag">Branch &amp; Claw</span><span class="tag">Complexity: Moderate</span>
+        <p>A control spirit wrongly pigeonholed as a fear-rush spirit — its real strength is erasing invaders before fear even matters.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="branch-claw" data-modal="spirit-sharpfangs" data-img="https://spiritislandwiki.com/images/thumb/a/a5/Sharp_Fangs_Behind_the_Leaves.png/400px-Sharp_Fangs_Behind_the_Leaves.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/a/a5/Sharp_Fangs_Behind_the_Leaves.png/400px-Sharp_Fangs_Behind_the_Leaves.png" alt="Sharp Fangs Behind the Leaves" loading="lazy"></div>
+        <span class="seal">&#128058;</span>
+        <h4>Sharp Fangs Behind the Leaves</h4>
+        <span class="tag">Branch &amp; Claw</span><span class="tag">Complexity: Moderate</span>
+        <p>Turns Beasts loose across the board — presence is just a means to seed Beasts, which do the real work.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-heartwildfire" data-img="https://spiritislandwiki.com/images/thumb/2/21/Heart_of_the_Wildfire.png/400px-Heart_of_the_Wildfire.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/2/21/Heart_of_the_Wildfire.png/400px-Heart_of_the_Wildfire.png" alt="Heart of the Wildfire" loading="lazy"></div>
+        <span class="seal">&#128293;</span>
+        <h4>Heart of the Wildfire</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: High</span>
+        <p>Presence placement is an attack — every growth choice is also an offense decision, and every attack risks feeding your own blight.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-serpent" data-img="https://spiritislandwiki.com/images/thumb/1/1a/Serpent_Slumbering_Beneath_the_Island.png/400px-Serpent_Slumbering_Beneath_the_Island.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/1/1a/Serpent_Slumbering_Beneath_the_Island.png/400px-Serpent_Slumbering_Beneath_the_Island.png" alt="Serpent Slumbering Beneath the Island" loading="lazy"></div>
+        <span class="seal">&#128009;</span>
+        <h4>Serpent Slumbering Beneath the Island</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: Very High</span>
+        <p>Wakes slowly into an overwhelming late game — but in multiplayer, its early turns are really about reading the table, not its own board.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-downpour" data-img="https://spiritislandwiki.com/images/thumb/7/74/Downpour_Drenches_the_World.png/400px-Downpour_Drenches_the_World.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/7/74/Downpour_Drenches_the_World.png/400px-Downpour_Drenches_the_World.png" alt="Downpour Drenches the World" loading="lazy"></div>
+        <span class="seal">&#127783;&#65039;</span>
+        <h4>Downpour Drenches the World</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: High</span>
+        <p>A defensive tank that repeats one power up to five times a turn — the best defensive spirit in the game, underrated because it looks unglamorous on paper.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-manyminds" data-img="https://spiritislandwiki.com/images/thumb/a/a3/Many_Minds_Move_as_One.png/400px-Many_Minds_Move_as_One.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/a/a3/Many_Minds_Move_as_One.png/400px-Many_Minds_Move_as_One.png" alt="Many Minds Move as One" loading="lazy"></div>
+        <span class="seal">&#128012;</span>
+        <h4>Many Minds Move as One</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: High</span>
+        <p>One of Jagged Earth's most consistent spirits — fear, control, and positioning that barely changes shape across difficulty levels.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="jagged-earth" data-modal="spirit-lure" data-img="https://spiritislandwiki.com/images/thumb/2/25/Lure_of_the_Deep_Wilderness.png/400px-Lure_of_the_Deep_Wilderness.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/2/25/Lure_of_the_Deep_Wilderness.png/400px-Lure_of_the_Deep_Wilderness.png" alt="Lure of the Deep Wilderness" loading="lazy"></div>
+        <span class="seal">&#127807;</span>
+        <h4>Lure of the Deep Wilderness</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: High</span>
+        <p>Pulls invaders and Dahan into the wild to die there — a patient, nearly all-Slow destructive engine that can't touch the coast.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-trickster" data-img="https://spiritislandwiki.com/images/thumb/f/f0/Grinning_Trickster_Stirs_Up_Trouble.png/400px-Grinning_Trickster_Stirs_Up_Trouble.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/f/f0/Grinning_Trickster_Stirs_Up_Trouble.png/400px-Grinning_Trickster_Stirs_Up_Trouble.png" alt="Grinning Trickster Stirs Up Trouble" loading="lazy"></div>
+        <span class="seal">&#127917;</span>
+        <h4>Grinning Trickster Stirs Up Trouble</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: Moderate</span>
+        <p>Chaotic on the surface, reliable underneath — reads the random Minor deck and turns Strife combos into repeatable Fear engines.</p>
+      </div>
+      <div class="entity-card" data-expansion="jagged-earth" data-modal="spirit-mist" data-img="https://spiritislandwiki.com/images/thumb/4/4e/Shroud_of_Silent_Mist.png/400px-Shroud_of_Silent_Mist.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/4/4e/Shroud_of_Silent_Mist.png/400px-Shroud_of_Silent_Mist.png" alt="Shroud of Silent Mist" loading="lazy"></div>
+        <span class="seal">&#127787;</span>
+        <h4>Shroud of Silent Mist</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: Moderate</span>
+        <p>A quiet damage-over-time spirit that farms bonus Energy and Fear by keeping three lands with damaged invaders at once.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="jagged-earth" data-modal="spirit-fractured-days" data-img="https://spiritislandwiki.com/images/thumb/8/81/Fractured_Days_Split_the_Sky.png/400px-Fractured_Days_Split_the_Sky.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/8/81/Fractured_Days_Split_the_Sky.png/400px-Fractured_Days_Split_the_Sky.png" alt="Fractured Days Split the Sky" loading="lazy"></div>
+        <span class="seal">&#8987;</span>
+        <h4>Fractured Days Split the Sky</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Complexity: Very High</span>
+        <p>Plans across two futures at once — banks Time to fuel a pre-selected pool of powers and a game-warping support ability few spirits can match.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="nature-incarnate" data-modal="spirit-starlight" data-img="https://spiritislandwiki.com/images/thumb/6/6b/Starlight_Seeks_Its_Form.png/400px-Starlight_Seeks_Its_Form.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/6/6b/Starlight_Seeks_Its_Form.png/400px-Starlight_Seeks_Its_Form.png" alt="Starlight Seeks Its Form" loading="lazy"></div>
+        <span class="seal">&#10024;</span>
+        <h4>Starlight Seeks Its Form</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Very High</span>
+        <p>No fixed build — six independent growth tracks let it reshape into whatever the draws and board call for, if you're willing to read and adapt turn to turn.</p>
+      </div>
+      <div class="entity-card" data-expansion="nature-incarnate" data-modal="spirit-shifting-memory" data-img="https://spiritislandwiki.com/images/thumb/0/0f/Shifting_Memory_of_Ages.png/400px-Shifting_Memory_of_Ages.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/0/0f/Shifting_Memory_of_Ages.png/400px-Shifting_Memory_of_Ages.png" alt="Shifting Memory of Ages" loading="lazy"></div>
+        <span class="seal">&#128301;</span>
+        <h4>Shifting Memory of Ages</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Moderate</span>
+        <p>Two card plays, unlimited ambition — banks element markers to threshold huge multi-land Majors regardless of what they naturally need.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="nature-incarnate" data-modal="spirit-fathomless-mud" data-img="https://spiritislandwiki.com/images/thumb/f/f6/Fathomless_Mud_of_the_Swamp.png/400px-Fathomless_Mud_of_the_Swamp.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/f/f6/Fathomless_Mud_of_the_Swamp.png/400px-Fathomless_Mud_of_the_Swamp.png" alt="Fathomless Mud of the Swamp" loading="lazy"></div>
+        <span class="seal">&#128167;</span>
+        <h4>Fathomless Mud of the Swamp</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Low</span>
+        <p>Caps every Build at Explorer-level and oozes presence wherever the next threat is forming — prevention over firefighting.</p>
+      </div>
+      <div class="entity-card" data-expansion="nature-incarnate" data-modal="spirit-voice" data-img="https://spiritislandwiki.com/images/thumb/a/a4/Wandering_Voice_Keens_Delirium.png/400px-Wandering_Voice_Keens_Delirium.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/a/a4/Wandering_Voice_Keens_Delirium.png/400px-Wandering_Voice_Keens_Delirium.png" alt="Wandering Voice Keens Delirium" loading="lazy"></div>
+        <span class="seal">&#128371;</span>
+        <h4>Wandering Voice Keens Delirium</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: High</span>
+        <p>Drives invaders to madness with Strife and Derangement rather than killing them outright.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="nature-incarnate" data-modal="spirit-wounded-waters" data-img="https://spiritislandwiki.com/images/thumb/2/24/Wounded_Waters_Bleeding.png/400px-Wounded_Waters_Bleeding.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/2/24/Wounded_Waters_Bleeding.png/400px-Wounded_Waters_Bleeding.png" alt="Wounded Waters Bleeding" loading="lazy"></div>
+        <span class="seal">&#128167;</span>
+        <h4>Wounded Waters Bleeding</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Moderate</span>
+        <p>Heals the land to hurt the invaders on it — a unique damage-through-restoration identity built on Water and Earth.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="nature-incarnate" data-modal="spirit-roots" data-img="https://spiritislandwiki.com/images/thumb/7/74/Towering_Roots_of_the_Jungle.png/400px-Towering_Roots_of_the_Jungle.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/7/74/Towering_Roots_of_the_Jungle.png/400px-Towering_Roots_of_the_Jungle.png" alt="Towering Roots of the Jungle" loading="lazy"></div>
+        <span class="seal">&#127795;</span>
+        <h4>Towering Roots of the Jungle</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: High</span>
+        <p>Grows an unkillable Incarna body from the jungle floor, trading early flexibility for a late-game titan.</p>
+      </div>
+      <div class="entity-card" data-expansion="nature-incarnate" data-modal="spirit-eyes" data-img="https://spiritislandwiki.com/images/thumb/5/53/Eyes_Watch_from_the_Trees.png/400px-Eyes_Watch_from_the_Trees.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/5/53/Eyes_Watch_from_the_Trees.png/400px-Eyes_Watch_from_the_Trees.png" alt="Eyes Watch from the Trees" loading="lazy"></div>
+        <span class="seal">&#128065;</span>
+        <h4>Eyes Watch from the Trees</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Moderate</span>
+        <p>A card-tempo support engine whose minor powers punch above their cost when timed around ally turns.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="nature-incarnate" data-modal="spirit-stone" data-img="https://spiritislandwiki.com/images/thumb/b/bf/Stone%27s_Unyielding_Defiance.png/400px-Stone%27s_Unyielding_Defiance.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/b/bf/Stone%27s_Unyielding_Defiance.png/400px-Stone%27s_Unyielding_Defiance.png" alt="Stone's Unyielding Defiance" loading="lazy"></div>
+        <span class="seal">&#129704;</span>
+        <h4>Stone's Unyielding Defiance</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: Moderate</span>
+        <p>Welcomes Blight instead of fearing it and turns a fortress sacred site into a counterattack machine.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="nature-incarnate" data-modal="spirit-behemoth" data-img="https://spiritislandwiki.com/images/thumb/4/4e/Ember-Eyed_Behemoth.png/400px-Ember-Eyed_Behemoth.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/4/4e/Ember-Eyed_Behemoth.png/400px-Ember-Eyed_Behemoth.png" alt="Ember-Eyed Behemoth" loading="lazy"></div>
+        <span class="seal">&#128293;</span>
+        <h4>Ember-Eyed Behemoth</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: High</span>
+        <p>A rampaging Incarna that flattens whatever's in its path — positioning it right is most of the game.</p>
+      </div>
+      <div class="entity-card" data-expansion="nature-incarnate" data-modal="spirit-relentless-gaze" data-img="https://spiritislandwiki.com/images/thumb/0/04/Relentless_Gaze_of_the_Sun.png/400px-Relentless_Gaze_of_the_Sun.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/0/04/Relentless_Gaze_of_the_Sun.png/400px-Relentless_Gaze_of_the_Sun.png" alt="Relentless Gaze of the Sun" loading="lazy"></div>
+        <span class="seal">&#9728;&#65039;</span>
+        <h4>Relentless Gaze of the Sun</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: High</span>
+        <p>Slow ramp, brutal ceiling — repeat-cost badlands and presence-destroy loops that concentrate and clear entire lands.</p>
+      </div>
+      <div class="entity-card" data-expansion="nature-incarnate" data-modal="spirit-breath-darkness" data-img="https://spiritislandwiki.com/images/thumb/0/03/Breath_of_Darkness_Down_Your_Spine.png/400px-Breath_of_Darkness_Down_Your_Spine.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/0/03/Breath_of_Darkness_Down_Your_Spine.png/400px-Breath_of_Darkness_Down_Your_Spine.png" alt="Breath of Darkness Down Your Spine" loading="lazy"></div>
+        <span class="seal">&#127772;</span>
+        <h4>Breath of Darkness Down Your Spine</h4>
+        <span class="tag">Nature Incarnate</span><span class="tag">Complexity: High</span>
+        <p>A tempo-and-fear engine that swallows isolated invaders into the Dark — brutal against light spread, weak against dense stacks.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="horizons" data-modal="spirit-whirlwind" data-img="https://spiritislandwiki.com/images/thumb/7/7b/Sun-Bright_Whirlwind.png/400px-Sun-Bright_Whirlwind.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/7/7b/Sun-Bright_Whirlwind.png/400px-Sun-Bright_Whirlwind.png" alt="Sun-Bright Whirlwind" loading="lazy"></div>
+        <span class="seal">&#128168;</span>
+        <h4>Sun-Bright Whirlwind</h4>
+        <span class="tag">Horizons</span><span class="tag">Complexity: Moderate</span>
+        <p>Pushes invaders off a land before Build resolves — prevention dressed up as a shove.</p>
+      </div>
+      <div class="entity-card seal-gold" data-expansion="horizons" data-modal="spirit-rising-heat" data-img="https://spiritislandwiki.com/images/thumb/7/7f/Rising_Heat_of_Stone_and_Sand.png/400px-Rising_Heat_of_Stone_and_Sand.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/7/7f/Rising_Heat_of_Stone_and_Sand.png/400px-Rising_Heat_of_Stone_and_Sand.png" alt="Rising Heat of Stone and Sand" loading="lazy"></div>
+        <span class="seal">&#128293;</span>
+        <h4>Rising Heat of Stone and Sand</h4>
+        <span class="tag">Horizons</span><span class="tag">Complexity: Moderate</span>
+        <p>Shrinks town/city health at its own Sacred Sites, turning "almost enough damage" into "exactly enough."</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="promo" data-modal="spirit-vengeance" data-img="https://spiritislandwiki.com/images/thumb/f/f2/Vengeance_as_a_Burning_Plague.png/400px-Vengeance_as_a_Burning_Plague.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/f/f2/Vengeance_as_a_Burning_Plague.png/400px-Vengeance_as_a_Burning_Plague.png" alt="Vengeance as a Burning Plague" loading="lazy"></div>
+        <span class="seal">&#9760;&#65039;</span>
+        <h4>Vengeance as a Burning Plague</h4>
+        <span class="tag">Promo</span><span class="tag">Complexity: High</span>
+        <p>Turns its own presence dying into a Disease stockpile and Blight into free damage amplification.</p>
+      </div>
+      <div class="entity-card seal-green" data-expansion="promo" data-modal="spirit-finder" data-img="https://spiritislandwiki.com/images/thumb/d/d9/Finder_of_Paths_Unseen.png/400px-Finder_of_Paths_Unseen.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/d/d9/Finder_of_Paths_Unseen.png/400px-Finder_of_Paths_Unseen.png" alt="Finder of Paths Unseen" loading="lazy"></div>
+        <span class="seal">&#128506;&#65039;</span>
+        <h4>Finder of Paths Unseen</h4>
+        <span class="tag">Promo</span><span class="tag">Complexity: Very High</span>
+        <p>Deals almost no damage itself — wins by herding invaders into one pile and detonating it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spirit modal-source content (hidden; read by JS into the shared modal) -->
+  <div class="modal-source" id="spirit-lightning" hidden>
+    <p><strong>Identity:</strong> the game's purest burst-destroyer. Lightning doesn't hold territory or grind down invaders slowly — it periodically detonates a Town or City via its innate, Thundering Destruction, then spends a turn or two rebuilding the fuel for the next detonation. Reputation as the easiest spirit in the base game to pilot competently is earned: the card-selection logic barely depends on reading card text.</p>
+    <h4>Core Strategy: the Engine</h4>
+    <p>Lightning's real constraint isn't energy or actions — it's <em>card scarcity</em>. Its card-play track is the best in the base game, but it has no way to gain new cards outside Reclaim, so most turns it has more plays available than cards worth playing. That inverts the usual deckbuilding logic: prioritize acquiring any playable card over holding out for a strong effect, and when picking minor powers, weight energy cost and element (Fire/Air) far above the printed effect.</p>
+    <p>The innate itself scales hard with cards committed: 3 Fire+2 Air kills a Town, 4 Fire+3 Air kills a City, and 5 Fire+4 Air+1 Water kills two settlements in one activation. Reaching the top tier wants 4-5 cards in a turn, exactly what Lightning's play track is built to support.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Three viable shapes, not a single correct line: <strong>Destroyer of Towns</strong> minimizes presence growth for consistent 2-town-per-turn destruction via heavy reclaiming — highest sustained impact but card-luck dependent. <strong>Stable Card Play</strong> builds energy/hand consistency before leaning on the innate, which doesn't fully come online until around turn 5 — lower ceiling, far more forgiving. <strong>Riding the Storm</strong> deliberately alternates weak 1-card turns with explosive 4-5 card turns, banking presence and Sacred Sites during the quiet turns — most destructive over a full game, but requires comfort with turns that look like you're doing nothing.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Swiftness of Lightning</strong> (special rule): every Air element lets you treat one Slow power as Fast. Keep Air in reserve as a tactical resource — a Slow power that resolves after invaders often outperforms its Fast conversion because it had more setup time.</li>
+      <li><strong>Shatter Homesteads</strong> is Lightning's single most valuable starting card — denies builds and threatens towns from range, independent of the innate.</li>
+      <li><strong>Gather + Push combo:</strong> pull a Town adjacent to a City so one innate activation levels both.</li>
+      <li>Letting invaders build up before striking means a bigger kill and proportionally more Fear when the hammer falls.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Playing Raging Storm reactively just because energy is idle — it's weak solo and shines paired with an ally finishing off damaged invaders.</li>
+      <li>Chasing card-play growth before the energy to actually fund those plays.</li>
+      <li>Neglecting Sacred Site range math until it's already a problem late-game.</li>
+    </ul>
+    <h4>Weaknesses &amp; Pairings</h4>
+    <p>Explorers are Lightning's blind spot — it has no efficient way to clear them and will accumulate Blight without help. Pairs well with spirits that patch that gap (Keeper of the Forbidden Wilds, Serpent Slumbering Beneath the Island).</p>
+    <h4>Aspects</h4>
+    <p><strong>Immense</strong> doubles Energy gained per presence placed but halves card plays (rounded down) — the natural response is to stop optimizing for card-play volume and fund a small number of powerful Major Powers instead. Bank Energy through growth before Reclaiming into a Major, rather than reclaiming while cash-poor. Trades early board impact for a stronger, later-arriving engine.</p>
+    <p><strong>Verdict:</strong> the easiest spirit in the game to pick up and play well. Strong first-spirit pick.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-rampant-green" hidden>
+    <p><strong>Identity:</strong> a support-and-area-denial spirit whose real strength isn't any single power, but the ability to juggle 3+ separate lands' problems in one turn using low-cost, flexible tools — and to donate growth to allies at almost no opportunity cost via Gift of Proliferation. Regularly cited as one of the strongest spirits in the base game.</p>
+    <h4>Core Strategy: Juggling the Invaders, Not Clearing Them</h4>
+    <p>Green does not need to keep every land clear. Its unique power, Choke the Land with Green, sacrifices its own presence to cancel a Build or Ravage — which means Green can deliberately let 1-2 lands (ideally coastal) build up indefinitely as long as you keep preventing the Ravage. Trying to actively clear every land wastes its efficiency; the spirit's value is triage, not cleanup.</p>
+    <p>Decide per-land whether stopping the Build or the Ravage is more efficient — if invaders present can't cause Blight even if they hit, let the Build happen and save your presence; if Blight is otherwise unavoidable, spend presence preventing the Ravage instead.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Card-play growth generally edges out the Major unlock in value for Green specifically, since its game is played through frequent small-to-medium interventions rather than one big swing per turn. Presence sacrificed to Choke the Land is recoverable through growth — treat it as a renewable resource, not a permanent loss.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Gift of Proliferation</strong> and <strong>Growth Through Sacrifice</strong> — 0-cost, multi-element minors that let allies spread for the cost of Green's own presence. The backbone of its support identity.</li>
+      <li><strong>Moon+Water combo turns</strong> let Green defend and attack the same turn, activating both innate tiers simultaneously.</li>
+      <li><strong>Lightning + Green opener:</strong> Green accelerates Lightning via Gift of Proliferation; Lightning returns the favor. Both Fast — can destroy starting towns before invaders finish exploring.</li>
+      <li>Pairs especially well supporting fragile early-game spirits (Thunderspeaker, Shadows Flicker Like Flame, Vital Strength of the Earth) — hold support for a stronger ally until later, since early donations to an already-strong spirit have lower marginal value.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Trying to keep every touched land permanently clear — unnecessary and inefficient.</li>
+      <li>Under-using the multi-land juggling that is the spirit's actual power source.</li>
+      <li>Placing presence back onto the board before clearing space on growth tracks first.</li>
+    </ul>
+    <h4>Complexity Note</h4>
+    <p>A strong Green turn might touch 4-6 lands at once, which asks a lot of short-term memory even though no single decision is individually hard — Moderate complexity is about orchestration, not any one power's text. Explorers are a genuine gap (no efficient solo removal), so it leans on allies or Choke-the-Land denial.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-vital-strength" hidden>
+    <p><strong>Identity:</strong> a slow, energy-rich, card-poor spirit whose real engine is its passive defense and its ability to fund and cycle Major Powers, not its printed innate. Treat the energy track, not the innate ability, as this spirit's true strength.</p>
+    <h4>Core Strategy: Majors Over Minors, Sacred Sites Over Spread</h4>
+    <p>Earth has the fastest energy track and the slowest card-play track of any base-game spirit — a shape that argues against cycling minor powers or forcing the innate, and strongly for a small number of expensive, powerful Major Powers played repeatedly. Building toward the innate competes directly with the "just take strong Majors" plan for the same budget — treat the innate as a nice-to-have to revisit mid-to-late game.</p>
+    <p>The passive, Earth's Vitality, gives every Sacred Site +3 Defend automatically — it no-sells Ravage damage if total invader damage is 3 or less, but the invaders are still there afterward. Treat every Vitality-blocked Ravage as a bought turn, not a solved problem — follow up with a Dahan counterattack or damage power, or that land keeps re-building until it exceeds 3 damage.</p>
+    <h4>Growth-Track Priorities</h4>
+    <ul>
+      <li>Reclaim-and-place is uniquely efficient for Earth — one of the only spirits where Reclaim places presence and refreshes cards simultaneously, at range 2 (better than the "gain a new power" option's range 0).</li>
+      <li>Push energy to 3/turn, then take one extra card play, then push energy further (up to 8/turn), and only then chase a 4th card play — the starting hand already costs more energy than it can spend.</li>
+      <li>Maximize Sacred Site count above almost everything else — by end-game a well-played Earth can have 6, each independently defending 3.</li>
+    </ul>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Rituals of Destruction</strong> scales hard with Dahan present (up to 5 damage + 2 fear with 3+ Dahan). It's Slow, so only cast on a land not about to Ravage — the Ravage would kill gathered Dahan first.</li>
+      <li><strong>A Year of Perfect Stillness</strong> (invaders do nothing this turn) scales well against adversaries with many simultaneous invader actions per turn (England is the standout example).</li>
+      <li><strong>Guard the Healing Land</strong> combos with Rituals, and locks a land's Blight count where it is regardless of damage taken when played on an already-blighted land about to Ravage.</li>
+      <li>Because Earth doesn't need its innate's elements, it's free to pick Majors purely for raw effect strength rather than threshold-fit.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Trying to force the innate instead of treating it as an occasional bonus.</li>
+      <li>Over-protecting Dahan at the expense of Blight/presence management — the built-in 3 defense already makes most fights favorable.</li>
+      <li>Hoarding cards out of caution instead of cycling via Reclaim once the power suite is established.</li>
+    </ul>
+    <h4>Weaknesses &amp; Complexity</h4>
+    <p>Weak against many simultaneous small invader groups spread across the map, since flat 3-defense everywhere doesn't help if each fight still needs a follow-up kill. Genuinely low-complexity to operate — one of the game's four commonly-recommended starter spirits, though its slow, defense-first identity can be confusing for brand-new players still learning the damage/Blight economy.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-keeper" hidden>
+    <p><strong>Identity:</strong> a territorial, major-power-hungry carry spirit built around "stake out land and push everything else out." Widely regarded as one of the strongest spirits in the base game once it gets rolling — its one real flaw is a fragile opening, not its ceiling.</p>
+    <h4>Core Strategy: the Engine</h4>
+    <p>Keeper's defining growth option lets it place 2 presence <em>and</em> gain a power card in a single pick — no other base spirit combines both. The early game is about affording that option repeatedly: end every turn with at least 2 energy banked, even if that means sacrificing a card play that turn to hit the number.</p>
+    <p>The tradeoff: most of Keeper's kit is Slow, so turns 1-2 are largely setup with little active impact, and one or two early Blight can be a real setback. This is load-bearing, not an oversight — survive turns 3-4 and the power curve takes off sharply from there.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Element priority for the innate: Fire (need 2/turn, start with only 1), Sun (pairs with Plant to boost the primary damage power), Plant (maintain 3+/turn), Major Power thresholds, then Air. Roughly three-quarters of minor power draws include at least 2 of these key elements.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Punish Those Who Trespass</strong> is the primary damage engine — fuels off Fire/Sun.</li>
+      <li><strong>Towering Wrath</strong>: build a network of non-adjacent Sacred Sites, clear lands between them with Punish, then Towering Wrath strikes for 6-8 damage scaling off adjacent shrines.</li>
+      <li><strong>Sacrosanct Wilderness</strong> is worth grabbing early even off-element — covers gaps and adds strong Dahan-pushing utility.</li>
+      <li>Deliberately placing presence into invader-infested lands for an immediate 6+ damage Punish hit is a legitimate aggressive line — clean up the resulting Blight afterward.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Spending the last 2 energy of a turn on a non-essential play instead of preserving next turn's key growth option.</li>
+      <li>Overvaluing a minor power's printed effect over its elemental fit for Punish Those Who Trespass.</li>
+      <li>Taking a Major without the 5+ end-of-turn energy needed to actually cast it comfortably.</li>
+    </ul>
+    <h4>Weaknesses &amp; Pairings</h4>
+    <p>Struggles against adversaries that accelerate exploration past its reach (Brandenburg-Prussia) or punish land abandonment (higher Sweden levels). Pairs extremely well with A Spread of Rampant Green's early presence donations to prop up its rocky opening. A good beginner "carry" pick — Moderate complexity, but the correct game plan is fairly stable once known.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-bringer" hidden>
+    <p><strong>Identity:</strong> the base game's clearest example of a spirit that changes what kind of game you're playing. Bringer's special rule, To Dream a Thousand Deaths, converts damage/destruction it would deal into a Push plus a large Fear gain instead — it fundamentally cannot clear a land by itself. Fear Victory is a realistic primary win condition here, not a fallback.</p>
+    <h4>Core Strategy: Support and Fear Infrastructure, Not a Damage Dealer</h4>
+    <p>Fear generation is <em>not</em> what makes this spirit strong — over-focusing it is the most common way to underperform with it. The actual gameplan is support, utility, and Dahan protection. Because Bringer can't kill invaders directly, Dahan are its only source of real destruction until allies arrive — protecting them is a genuine strategic priority worth spending tempo on.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Priority one: unlock the Moon element by turn 3 (turn 4 acceptable), since Bringer's innates depend on it. Default to gaining cards and spreading presence early; after Moon is secured, switch to "any element" growth or a 3rd card play depending on expected game length.</p>
+    <h4>Fear Card Management (the core skill)</h4>
+    <p>Try to earn one Fear card every turn. When flipping a newly-earned Fear card, avoid revealing one that would activate the same turn — pass on flipping it and let it trigger next round once you've set up for it. Sequencing which cards flip when is arguably the single biggest lever on Bringer's output.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Dread Apparitions</strong> grants Defend equal to Fear generated in that land this turn — converts the Fear engine directly into board defense.</li>
+      <li><strong>Call on Midnight's Dreams</strong> can be spent for Fear, or discarded to instantly play a Major with an energy rebate scaled to Dahan present.</li>
+      <li>Group invaders onto lands where an ally can finish them, or onto Dahan-defended lands — Bringer loves a partner who has already damaged (not destroyed) a target.</li>
+    </ul>
+    <h4>Pairings</h4>
+    <p><strong>Bringer + Ocean's Hungry Grasp</strong> is frequently cited as one of the strongest two-spirit combos in the base game — Bringer's pushes funnel invaders toward Ocean's water, and Ocean's Drowning handles the kill Bringer structurally cannot.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Chasing Fear generation as the primary goal instead of a byproduct of good support play.</li>
+      <li>Losing Dahan early, removing the only real destruction the spirit has access to.</li>
+      <li>Mistimed Fear card flips that reveal an effect the same turn it activates.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — not recommended as a first spirit. Weak solo, especially at high difficulty, since it has no invader-limiting lever beyond Dahan; excellent in multiplayer where allies supply the removal it lacks.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-thunderspeaker" hidden>
+    <p><strong>Identity:</strong> a mobile offensive powerhouse built around leading concentrated Dahan armies across the board rather than holding territory defensively. 3-4 Dahan backed by 2-3 of Thunderspeaker's own presence can crush almost anything. Its special rule (moving presence together with Dahan) forces thinking across different phases of the round than most spirits — several experienced reviewers argue it plays as High complexity despite a printed Moderate rating.</p>
+    <h4>Core Strategy: Concentrate, Strike, Move On</h4>
+    <p>Thunderspeaker cannot afford to babysit every minor threat. The gameplan is to identify high-value targets, mass Dahan and presence there for a decisive strike, then abandon that position and start a new campaign elsewhere rather than defending what's already cleared. Delegate small-scale cleanup to allies. Scattering single Dahan across lands is fine, not wasteful — regather via the innate when it's time to concentrate force again.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>The defining early tension: Thunderspeaker's opening hand costs roughly 6 energy against a weak early income track. Multiple valid lines exist — a conservative energy-first line (smoothest curve, slowest tempo), an aggressive double-presence line (rougher energy curve, faster armies), a top-track opening (very weak turn 1, pays off from turn 3, suited to slower adversaries like England), and a full-bottom-track opening (highest card-play count and earliest Reclaim, delays elements). All trade the same resource for different payoffs — no line gets everything fast.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Manifestation of Power and Glory</strong> scales damage by presence &times; Dahan at the target — coordinated positioning can produce 9-16+ damage, enough to clear a City+Town+Explorer stack outright.</li>
+      <li><strong>Sudden Ambush</strong> (Fast) kills an Explorer before it builds — a preemptive strike whose value depends on a good target existing.</li>
+      <li>Turn 1 card choice is a live read, not a script — the "best" pair on paper is worse than a worse pair that actually lands given the board.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Trying to comprehensively control the board instead of accepting the hit-and-move identity.</li>
+      <li>Forcing innate thresholds fast at the cost of raw damage output.</li>
+      <li>Engaging small skirmishes personally instead of delegating to allies.</li>
+    </ul>
+    <p><strong>Pairings:</strong> works especially well with Dahan-generating spirits (River Surges in Sunlight, Fractured Days Split the Sky) and Dahan-movers (Bringer of Dreams and Nightmares, Shadows Flicker Like Flame), or defensive spirits like Vital Strength of the Earth that hold ground it isn't built to hold.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-ocean" hidden>
+    <p><strong>Identity:</strong> "rolls in with the tide, destroys everything it can, rolls back out." Ocean makes ocean tiles — normally dead space — genuinely important, converting them into a self-reinforcing kill zone. Its special rule, Drowning, destroys any invader pushed or explored into an ocean where Ocean has presence, converting their health into energy roughly 1:1 — directly offsetting Ocean's otherwise weak energy generation.</p>
+    <h4>Core Strategy: the Drowning Loop</h4>
+    <p>Ocean starts with essentially no passive energy income, but Drowning turns every kill into fuel for the next kill, bootstrapping its own economy purely through coastal destruction. Prioritize actions that funnel invaders into your ocean presence over pure damage powers — a drowned invader is both removed and paid for. The innate can reach its City-drowning tier as early as turn 2 with the right Water+Earth elements.</p>
+    <p>The tradeoff for this efficiency is range: Ocean's special restriction means it can only be pushed as far inland as the coast itself — essentially no reach beyond the shoreline on its own. This is the spirit's central limitation.</p>
+    <h4>Key Powers &amp; Combos</h4>
+    <ul>
+      <li><strong>Swallow the Land-Dwellers</strong> destroys an Explorer, Town, and Dahan simultaneously — never target a land with your own Dahan present, it kills them too.</li>
+      <li><strong>Tidal Boon</strong> gives allies +2 energy and pushes invaders toward your water for a follow-up drowning.</li>
+      <li><strong>Call of the Deeps</strong> (Fast) gathers Explorers into oceans — its main value is prevention, canceling a Build before it happens.</li>
+      <li>Presence cycling discipline: don't let presence permanently pool in ocean tiles — push it back toward the coast roughly as fast as it accumulates, or the engine stalls.</li>
+    </ul>
+    <h4>Sequencing Priorities</h4>
+    <ol>
+      <li>Kill Explorers during the explore phase to prevent Town construction in the first place.</li>
+      <li>Let isolated Towns sit unaddressed if not urgent — one re-explored before drowning converts to more energy.</li>
+      <li>Prioritize upgrading to the City-drowning tier over other innate upgrades.</li>
+    </ol>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Placing two range-0 drowning powers on the same coastal land instead of spreading breadth across two.</li>
+      <li>Using Swallow the Land-Dwellers on a Dahan-occupied land, killing your own ally for no gain.</li>
+      <li>Turtling on your own board instead of actively helping shut down allies' coastlines.</li>
+    </ul>
+    <h4>Pairings &amp; Player-Count Notes</h4>
+    <p>Pairs exceptionally well with River Surges in Sunlight (River pushes invaders into Ocean's water) and Finder of Paths Unseen (makes inland lands "Coastal," letting Drowning reach further). <strong>Bringer + Ocean</strong> is one of the strongest two-spirit combos in the game. Strongest in 2-3 player games where coastal reach covers a larger fraction of the board; noticeably weaker in larger games. High complexity — not recommended as a first spirit.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-river" hidden>
+    <p><strong>Playstyle:</strong> a control/offense engine spirit that spends its first several turns building toward one repeatable payoff — its top-tier innate — then leans on that payoff every turn for the rest of the game. Low decision density once the engine is built.</p>
+    <h4>The Engine: Massive Flooding</h4>
+    <p>River's four starting powers all share Sun/Water elements, and Massive Flooding scales in three tiers off exactly those elements, topping out at 2 damage to every invader in a land range 1 of a shrine. River's special rule means a River presence in Wetlands counts as a shrine at just 1 presence, so shrines are cheap to establish — get enough card plays to dump your whole Sun/Water hand into the innate every turn.</p>
+    <p><strong>River's Bounty</strong> is worth building around: it consolidates scattered Dahan (feeding a bonus Dahan + energy) and is River's energy engine simultaneously — almost always the correct reclaim target. Exception: in multiplayer, when a teammate is energy-starved, reclaiming Boon of Vigor instead to subsidize their turn can be better.</p>
+    <h4>Growth-Track Priority</h4>
+    <p>Prioritize card plays (unlocks Reclaim) over energy early. Target reaching enough card-play capacity by turn 4 that the innate's full element cost no longer eats your entire hand. At turn 5, continuing heavy bottom-track investment versus pulling top-track presence for majors is a live tension — the mixed split is generally a trap unless the matchup rewards big spike turns, since banked energy under that split is often stranded with nothing to spend it on.</p>
+    <h4>Key Combos &amp; Tactical Notes</h4>
+    <ul>
+      <li><strong>Wash Away</strong> is best used on a land invaders just explored that started with a town, preventing lock-in before it happens.</li>
+      <li><strong>Flash Floods</strong> is the standard "forget" target once majors start rolling in.</li>
+      <li>Push toward the coast to strand explore-prone invaders and group enemies for a strong tier-3 Massive Flooding hit.</li>
+    </ul>
+    <h4>Pairing Notes</h4>
+    <p>Weak alone against heavy Builder/Pillager pressure, but combos well with spirits that capitalize on grouped, weakened invaders (Ocean's Hungry Grasp). Works well with Shadows Flicker Like Flame — River's Bounty consolidating Dahan directly feeds Shadows' Favors Called Due combo.</p>
+    <p><strong>Verdict:</strong> Low complexity, strongly beginner-friendly — the opening is close to a solved sequence, and the payoff is forgiving even when misplayed. Best on Wetland-heavy boards.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-shadows" hidden>
+    <p><strong>Playstyle:</strong> flexible explorer-hunter and Dahan-support spirit whose signature trick — paying 1 energy to ignore range limits on a power — turns it into a long-range emergency responder, especially valuable in 3+ player games.</p>
+    <h4>Identity Correction: Not a Fear Spirit</h4>
+    <p>Shadows' theme leads new players to slot it into a pure fear-rush role it's mediocre at. The designer has stated its actual strength is combining modest fear generation with strong control (removing/relocating explorers), so that by fear level II/III there simply aren't many invaders left to mop up. Treat it as a control spirit with a fear side-effect, not a fear engine.</p>
+    <h4>The Engine: Darkness Swallows the Unwary</h4>
+    <p>Uses Moon+Fire elements, fully cumulative. None of the 4 starting cards alone supplies the 2 Fire needed for tier 2 — you need both Mantle of Dread and Crops Wither and Fade the same turn, burning your entire starting hand on setup. Prioritize Fire (ideally Moon/Air) when picking up new minors. It only reaches range 1 of a sacred site unless you spend 1 energy on Shadows of the Dahan via a land containing Dahan.</p>
+    <h4>Growth-Track Priority: Delay the First Reclaim</h4>
+    <p>Shadows' presence tracks ramp unusually fast relative to how little presence gets placed. The designer's recommendation: push the first reclaim-all back to turn 4, exploiting "gain power + presence" growth options beforehand, then arrive at turn 4 with enough energy/plays to reclaim and immediately deploy a major power. Played on the generic reclaim schedule, Shadows underperforms; delayed reclaim is considerably stronger.</p>
+    <h4>Card Judgment Calls</h4>
+    <ul>
+      <li><strong>Mantle of Dread</strong> — target lands about to build, not lands about to ravage (too late, it's slow).</li>
+      <li><strong>Favors Called Due</strong> — combos with anything that consolidates/protects Dahan (River's Bounty). It's slow, so a land about to build still needs separate protection next turn.</li>
+      <li><strong>Crops Wither and Fade</strong> — strongest against a city (downgrading to a town), or paired with Shadows of the Dahan to bypass its 0-range restriction.</li>
+    </ul>
+    <h4>Matchup &amp; Pairing Notes</h4>
+    <p>Weak vs. England and France — both build somewhat independently of explorer presence. Strong pairing with Lightning's Swift Strike, whose "make a power fast" effect converts Mantle of Dread/Crops Wither into proactive plays. Its range-ignore ability scales up on larger maps; on small maps, pivot toward a major-power-focused strategy instead.</p>
+    <p><strong>Verdict:</strong> Nominally "Low complexity" but misleading — playing it well is a Moderate-complexity puzzle.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-sharpfangs" hidden>
+    <p><strong>Playstyle:</strong> beast-manipulation and fear spirit whose board control routes almost entirely through Beast tokens rather than presence itself — a deliberate inversion of the "presence = board control" instinct most spirits follow.</p>
+    <h4>The Core Skill: Beast Placement, Not Presence Placement</h4>
+    <p>Nearly every presence Sharp Fangs gains should become a Beast rather than stay on the island — only 2-3 island presence tokens are actually needed. Beasts power the innate, enable presence placement outside jungles, move presence around the board, and fuel two unique powers simultaneously. Getting a Beast into a target land before you need it is a large damage multiplier (as much as 3+ damage vs. only 1 reactively) — pre-seed lands you expect to need.</p>
+    <h4>The Engine: Ranging Hunt</h4>
+    <p>Converts Plant+Animal elements into damage. Element requirements are light — only one hard requirement per growth-track choice — past that, high card flexibility and reclaim access route around element gaps. This frees minor-power picks to prioritize function over color: take blight-handling minors over marginally-better elements.</p>
+    <h4>Choosing an Opening Shape</h4>
+    <p>Several genuinely different opening shapes exist, and which is correct depends on matchup: a top-track hybrid (minor-focused) trades early tempo for information/flexibility, good against fast/aggressive adversaries; a full bottom track stacks card plays for consistent Prey on the Builders punishment, strong against build-heavy adversaries; a mixed hybrid with a major patches Fangs' blight-clearing gap; a reclaim-heavy line keeps Ranging Hunt castable from turn 1 at the cost of card-play variety.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Hoarding presence on the island instead of converting it to Beasts.</li>
+      <li>Placing Beasts reactively instead of pre-seeding lands you expect to need.</li>
+      <li>Trying to fix chronic energy scarcity by delaying presence placement — usually the wrong fix.</li>
+    </ul>
+    <p><strong>Pairing Notes:</strong> pairs well with other token-oriented spirits (Stone's Unyielding Defiance, Vengeance) and coast-reaching support (River, Bringer). Rated among spirits capable of beating very high difficulty, since destructive output doubles as fear generation. Moderate complexity — the beast-placement skill has real depth but turn-to-turn execution is fairly mechanical once the shape is chosen.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-heartwildfire" hidden>
+    <p><strong>Playstyle:</strong> aggressive damage spirit whose defining tension is unusually tight — maximize damage while controlling the blight it generates simply by growing. Fast board presence and fear generation, but comparatively low, non-resilient damage against defense-heavy adversaries.</p>
+    <h4>Why Wildfire's Openings Resist Templating</h4>
+    <p>Presence placement <em>is</em> an action — placing presence deals damage and triggers effects directly, rather than merely setting up future card plays. Every growth choice doubles as an offense decision, and presence placement pushes blight onto the board simply by growing, coupling tempo to self-inflicted blight risk. Treat any fixed opening line as a scaffold.</p>
+    <h4>The Squeeze: Weak Energy, Expensive Powers</h4>
+    <p>Wildfire's energy track is weak, but unique powers cost roughly 3 energy, and its main damage source (Blazing Presence) comes from card plays, not powers. Reclaim turns are unusually costly — delay reclaim as long as feasible, lean on presence-heavy growth between reclaims. Ignore the top presence track (energy) except its very first unlock — rushing it delays power thresholds for a payoff of only about +4 cumulative energy by turn 5.</p>
+    <h4>Element Priorities: Plant &gt; Fire</h4>
+    <p>Draft preference is Fire+Plant &gt; Plant alone &gt; Fire alone, because presence tracks already passively supply 2 Fire — a card supplying more Fire adds less marginal value than one supplying the scarcer Plant. Prioritize blight-management powers and Defend effects over marginal elemental efficiency.</p>
+    <h4>Two Opening Shapes</h4>
+    <p><strong>Full bottom track</strong> front-loads presence growth for early Fire thresholds, letting presence-placement damage substitute for card plays — costs a late 3rd card-play slot and faster blight accumulation. <strong>Delayed 2-fire</strong> leads with Flame's Fury turn 1 for immediate burst — fastest damage, earliest 3 card plays, low blight generation, but Firestorm-style scaling arrives later.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Rushing the top (energy) track early — the power-threshold delay costs more than the energy gained.</li>
+      <li>Defaulting to Flash-fires as filler instead of a last resort.</li>
+      <li>Placing presence for tempo without checking whether it's also seeding blight you'll regret.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — nearly every decision is simultaneously an economy and offense decision, with self-inflicted blight as an ever-present third variable. Not recommended as a first Jagged Earth spirit.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-serpent" hidden>
+    <p><strong>Playstyle:</strong> a slow-waking carry spirit that eventually dominates its own board, but whose opening — in any game with 2+ spirits — is defined almost entirely by supporting allies rather than developing itself.</p>
+    <h4>The Core Fact: Solo and Multiplayer Are Different Spirits</h4>
+    <p>Serpent's four Gift powers can all augment its own card plays in solo play. With 2+ spirits, three of the four Gifts must target another spirit — guaranteeing at least one turn of nearly empty value purely based on which Gift comes up first. Don't plan a Serpent opening in isolation — the right play depends on reading which Gift you drew and which ally can extract the most value.</p>
+    <p>General allocation rule: slower-tempo spirits get more value from an extra card play (their bottleneck is plays-per-turn); faster/flexible spirits get more value from element access (their bottleneck is thresholds).</p>
+    <h4>Two Skills Replace "Optimize My Own Board"</h4>
+    <ul>
+      <li><strong>Predictive management of the presence cap.</strong> Allies can accelerate Serpent's waking faster than expected — deliberately sacrifice presence via Ravage in the midgame before using Serpent Wakes in Power, whenever you can see 1-2 turns ahead.</li>
+      <li><strong>Reading allies' reclaim cycles.</strong> Gifts can delay or accelerate an ally's reclaim — the best allocation changes every game based on which ally's cycle benefits most.</li>
+    </ul>
+    <h4>Growth Priority: Card Plays Before Waking Up</h4>
+    <p>The single biggest mistake — and a fairly universal Spirit Island principle — is rushing to wake up at the expense of board presence and card-play tempo. Prioritize reaching 2 card plays early over grabbing an early flashy minor; 2 plays becomes Serpent's ceiling for most of the game.</p>
+    <h4>Key Combo</h4>
+    <p>Absorb Essence + Elemental Aegis nets a meaningful energy swing and sets up Serpent Rouses in Anger to crush or push a town — close to a lock in the early game once both are in hand.</p>
+    <h4>Fun/Pacing Caveat</h4>
+    <p>Some experienced players flag Serpent as a "loop-and-win" spirit whose degenerate play pattern can feel slow and inevitable rather than exciting.</p>
+    <p><strong>Verdict:</strong> Very High complexity, particularly in multiplayer — its own board is close to on autopilot early, but reading allies' Gift needs and reclaim cycles turn-to-turn is a genuinely demanding, ever-changing puzzle.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-downpour" hidden>
+    <p><strong>Playstyle:</strong> a defensive control spirit built around stacking heavy presence into a single land and repeating a chosen power card up to five times off that stack — soaks damage and stalls, rather than dealing it directly.</p>
+    <h4>The Engine: Pour Down Water Across the Island</h4>
+    <p>Downpour's special rule lets it trade pairs of Water elements for energy or to repeat a power card up to five times per turn, fast or slow phase, on any land-targeting power. A well-chosen cheap (ideally 0-cost) Water minor, repeated five times, can sweep blight off multiple lands, move six lands' worth of invaders, or stack enormous Defend. Prioritize cheap Water minors heavily — repeatability matters more than individual power level.</p>
+    <p>Both innates reinforce the tank identity: Rain and Mud Suppress Conflict grants Defend plus reduced Dahan damage taken; Water Nourishes Life's Growth converts into energy plus blight removal/prevention.</p>
+    <h4>Presence Strategy: Stack, Don't Spread</h4>
+    <p>Downpour wants presence concentrated in one land, not spread thin — the special rule's leverage scales with stacked presence in the shrine land. This runs counter to the usual spread-for-coverage instinct.</p>
+    <h4>Minor Power Selection: Fill Gaps, Not Strengths</h4>
+    <p>Don't reinforce what the kit already does well (stalling, energy). Look for the two gaps it doesn't cover: explorer <em>removal</em> (it only has control/movement — matters most against Russia), and Defend without counterattack suppression (avoid minors that bundle Defend with "no counterattack").</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Spreading presence thin instead of stacking it.</li>
+      <li>Drafting minors that duplicate the native kit's strengths instead of covering gaps.</li>
+      <li>Rushing majors early at the expense of the minor-repeat engine, where most of the power actually lives.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Rated by some experienced players as the single best defensive spirit in the game and the "biggest power-level surprise" — widely underrated. High complexity, best paired with an aggressive damage-focused spirit whose gaps it can plug. Too complex to pilot optimally for new players.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-manyminds" hidden>
+    <p><strong>Playstyle:</strong> a beast-swarm fear and control spirit built on action economy — everything should advance multiple goals at once. Its innate gathers or pushes pieces at range 2, and its sacred site counts as a beast.</p>
+    <h4>Tempo Is the Central Concept</h4>
+    <p>Acting <em>on</em> tempo means solving a land exactly when it matters. Acting <em>above</em> invader tempo means preemptively repositioning beasts into a land that will build next turn, instead of burning the innate reactively to save a ravaging land. The second is more skilled and higher-value, and this spirit wants to stay at or ahead of invader pace to make its Event synergies impactful.</p>
+    <h4>Growth 3: Beast Doesn't Need to Match Presence</h4>
+    <p>A frequently-missed detail: the gathered beast from Growth 3 does not need to go into the same land as the new presence — this is what enables playing "above tempo."</p>
+    <h4>Power Spike Thresholds</h4>
+    <p>Two concrete thresholds mark when the spirit "turns on": 2 energy / 4 card plays for a minor-focused build, and 3 energy / 3 card plays for a major-focused build. After either, Many Minds should meaningfully out-scale the invaders.</p>
+    <h4>Choosing a Build</h4>
+    <p>Ever-Multiplying Swarm is close to an auto-play on turn 1 in nearly every build. Past that, five viable shapes exist ranging from fast card-drafting to defensive above-tempo play to major-focused stockpiling — the choice depends on matchup and player count more than a fixed "best" line.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Reacting to ravages with the innate instead of pre-empting builds.</li>
+      <li>Building two-beast sacred sites by doubling presence when repositioning an existing beast would do.</li>
+      <li>Treating Boon of Swarming Bedevilment as weak in multiplayer because its raw text looks unimpressive — its value is coordination, not solo utility.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity but unusually consistent — its strategy barely shifts across difficulty levels or between solo and multiplayer. Rated by several tier lists as S-tier or borderline.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-lure" hidden>
+    <p><strong>Identity:</strong> a destructive "carry" spirit that doesn't kill directly so much as relocate invaders (and Dahan) into wilderness/badlands/beasts it controls, then lets its innates and thresholds do the killing. One of the strongest and most diverse destructive kits in Jagged Earth.</p>
+    <h4>Core Strategy: the Engine</h4>
+    <p>Lure's four unique powers gather explorers/towns/beasts/Dahan into a land, then convert that gathering into badlands, wilds, disease, or damage scaled by token count. Nearly all of Lure's powers are Slow, rewarding prediction over reaction — read where explorers are headed and stage the gather/kill zone a turn ahead. Often, leaving a target alive an extra turn to grow presence/threshold first outperforms an immediate kill — patience with the combo, not haste, separates a good Lure from a great one.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>The bottom track buys board presence/card-play capacity; G3 (top track) is the only source of Energy + Elements without spending a growth slot on presence. Split these jobs deliberately. Sequence growth choices backward from what you intend to play next. Once both innates are online, settle into a rough one-G3-to-one-G4 rhythm — lean too far into G3 and power acquisition stalls; too far into G4 and you're Energy-starved.</p>
+    <h4>Key Combos</h4>
+    <ul>
+      <li><strong>+ Many Minds Move as One:</strong> Many Minds floods the board with beasts, Lure's bait lands gather them into concentrated kill zones.</li>
+      <li><strong>+ Ocean's Hungry Grasp:</strong> Ocean clears the coast, Lure pulls survivors inland — patches Lure's own coastal blind spot.</li>
+    </ul>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Treating the turn-1/2 combo rush as mandatory — often correct to let a target ride another turn.</li>
+      <li>Forgetting the coastal blind spot: Lure's special rule means only one power can target the coast at all.</li>
+      <li>Ignoring that almost the entire kit is Slow — little answer to a surprise Fast threat mid-turn.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Rated in the community's very top tier for power, but the difficulty is cadence — sequencing growth, thresholds, and gather timing correctly is fiddly even once you understand the pieces.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-trickster" hidden>
+    <p><strong>Identity:</strong> reads as pure chaos (random Minor Powers, a swingy unique) but its actual engine is dependable — Strife is a reliable token, Dahan movement is limited-but-consistent. Explosive from turn 1, does a bit of everything.</p>
+    <h4>Core Strategy: the Strife Combo and Its Trap</h4>
+    <p>Impersonate Authority + Incite the Mob (+ often Overenthusiastic Arson) chain Strife into a kill and Fear, loopable via Reclaim indefinitely — but the designer has explicitly flagged over-reliance on this loop as a trap, since reclaim-looping siphons the Energy and Growth picks needed for new cards. The best Trickster play minimizes reclaiming, adapting to draws rather than running the same loop turn after turn. Break the loop once it stops finding good targets or you can assemble a solid turn without it.</p>
+    <h4>Taming the Randomness</h4>
+    <p>"Let's See What Happens" looks swingy but is tameable: track the discard pile for Defends seen, Dahan-cards seen, and invader-push cards seen. Whichever is under-represented tells you where the odds favor targeting.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>No fixed order — the deciding factor is what elements your Growth-3 Minor hands you. Air+Moon rewards leaning top track; mixed elements point toward the plays track. Rarely forget Impersonate Authority or Incite the Mob (core combo); Unexpected Tigers is usually the first cut.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Treating the Reclaim loop as the whole game plan rather than an early-game bootstrap.</li>
+      <li>Panicking at a bad Arson roll instead of recognizing it's the expected ~50% outcome.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Low-to-Moderate once the core loop is learned — the ceiling comes from knowing the Minor deck well enough to read odds and knowing when to abandon the reliable combo. A strong, forgiving pick for a player past their first few spirits.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-mist" hidden>
+    <p><strong>Identity:</strong> base-complexity Jagged Earth spirit built around a special rule that rewards spreading light, repeated damage: gain 1 Energy (and extra Fear) whenever you have 3 lands holding damaged invaders. The opening's real goal is getting to 3 damaged lands as fast as possible, then keeping that number every turn.</p>
+    <h4>Core Strategy: the 3-Damaged-Lands Engine</h4>
+    <p>Mist's four unique powers' real job in the opening is spreading small amounts of damage across multiple lands rather than concentrating it. Dahan counterattacks are a deliberately-used tool — provoking one in a third land is often the cheapest way to hit that turn's 3rd damaged-invader land.</p>
+    <h4>Growth-Track Priority</h4>
+    <p>Two published openings diverge on tempo vs. risk: <strong>Early-reclaim</strong> plays safe with a steady floor but slower scaling; <strong>Greedy bottom-track</strong> pushes hard from turn 2, accepting a weak turn 2-3 for stronger turn 4+ scaling. Both share the same turn-1 shape: play toward 2 Moon/2 Air/2 Water to hit both innates at tier 1. If you haven't triggered the bonus by turn 3, default to Reclaiming instead of pushing forward.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Chasing a 3rd card play at the cost of the turn's Energy/Element goals.</li>
+      <li>Ignoring the Dahan-counterattack angle as a cheap way to manufacture the 3rd damaged land.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Straightforward mechanically, but requires tracking a specific board-state trigger turn over turn — Moderate complexity, solid for a player past their first spirit.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-fractured-days" hidden>
+    <p><strong>Identity:</strong> one of the hardest spirits in the game to pick up — its entire plan hinges on the "Days That Never Were" mechanic (a personal stack of Minors/Majors selected during setup) and on which allies are at the table, so there is no single fixed "best line." Read any advice as a decision framework, not a script.</p>
+    <h4>Core Strategy: Bank Time, Spend It Reactively</h4>
+    <p>Build a flexible pool of Time by turn 3, then spend it reactively rather than hoarding it. A common failure mode: over-investing in the Days-That-Never-Were engine without ever converting banked Time into board presence or removal. The four starters rank clearly by flexibility, with Blur the Arc of Years as the workhorse default.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Turn 1 is close to fixed: take a Minor from the Days stack for its effect, position presence for turn 2. From turn 2 on, growth choice is dictated by what you just Reclaimed — the card in hand should decide the growth pick, not the reverse.</p>
+    <h4>Key Power: Slip the Flow</h4>
+    <p>Three tiers gated by Sun/Moon/Air, making a Power fast or letting an ally Reclaim. Targeting yourself is often correct specifically to unlock Visions of a Shifting Future — pre-empting a known bad Event before it hits.</p>
+    <h4>Pour Time Sideways — the Polarizing Unique</h4>
+    <p>New players near-universally forget this on drawing a Major, dismissing it as too complicated — that reflex is wrong more often than right. It's a full skip-vs-double split of an entire adversary action type across two boards. In true solo play it is mechanically dead (the two boards cancel out) — solo gets a free extra starting Time specifically to compensate, and the intended solo play is to Forget it on drawing a Major.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Hoarding Time instead of spending it.</li>
+      <li>Playing Pour Time Sideways as a reflexive panic button rather than tallying preventable effects first.</li>
+      <li>Attempting this as an early "very high complexity" spirit — get significant reps with other spirits first.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Very High — unusually opaque even relative to other Very High spirits. Best picked up only after the fundamentals are second nature, best played with an experienced group given its support-first identity.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-starlight" hidden>
+    <p><strong>Identity:</strong> structurally unique — every other spirit has two branching presence tracks; Starlight has six, making its build space a genuine spectrum. Different playtest groups independently converged on different "optimal" strategies — there is no solved build.</p>
+    <h4>Core Strategy: the Two Poles</h4>
+    <p><strong>Major-power ("keystone") builds:</strong> grab a Major early, then pick free elements and Minors to hit its threshold and reclaim/replay it every turn. Weaknesses: hinges on turn 1-2 draw quality; repeating a Major caps card-play growth; most Majors have range 0-1.</p>
+    <p><strong>Minors/card-plays ("elemental flex") builds:</strong> beeline card-plays, accumulate cheap Minors via repeated Boon of Reimagining, win by triggering 2-3 innate thresholds every turn off a rainbow of elements. More consistent since it isn't gated on one high-variance draw.</p>
+    <p><strong>Hybrid</strong> is genuinely more viable here than on most spirits, since the 4 element rows are independent of the energy/plays tracks.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>The core skill isn't picking a build turn 1 — it's reading what you're given each turn and pivoting. Hold off spending your first unlocked element until you've seen a couple of Power draws. Let the innate follow the elements you're collecting, not the reverse — Push (Air) and Defend (Earth) are low-variance defaults; Moon and Sun swing hard on adversary/draws.</p>
+    <h4>Key Combos</h4>
+    <p><strong>+ Serpent Slumbering Beneath the Island:</strong> stacks repeat-major effects for extreme per-turn density. <strong>+ Shifting Memory of Ages:</strong> Memory can feed Starlight Majors, freeing every one of Starlight's growth picks for scaling.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Arriving with a fixed plan and forcing it against unfavorable draws.</li>
+      <li>Treating starting uniques as cards to preserve rather than fuel — they're strong specifically because they can be Forgotten for a bonus.</li>
+      <li>Under-valuing mobility — Major-heavy builds can end up unable to project beyond their own board.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Very High — not from any single hard mechanic, but from genuine build-space breadth and the discipline to read hands and pivot rather than execute a script.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-shifting-memory" hidden>
+    <p><strong>Identity:</strong> a Moon-primary, Earth-secondary spirit permanently capped at 2 card plays for most of the game. Everything Memory does is about extracting maximum value from few plays, leaning on big, multi-land Majors and heavy thresholding rather than a wide spread of small ones.</p>
+    <h4>Core Strategy: the Observe Engine</h4>
+    <p>Observe the Ever-Changing World is described as Memory's "engine, factory, and lifeblood" — pay an element marker to hit it, and it nets marker-neutral-or-positive if it lands on a spot already getting a second action. Element-reward priority: bank one Moon first (compounds future hits), then whatever's needed for a Major threshold, then Earth for the Defend innate.</p>
+    <h4>Special Rule: Discard-Not-Forget</h4>
+    <p>Memory can Forget hand cards from the discard pile once played, not from active hand-holding — a card sitting in hand is free insurance against a bad Event, so Memory should reclaim more aggressively than other spirits specifically to keep spare cards on hand as future forget-fodder.</p>
+    <h4>Growth-Track Priorities</h4>
+    <p>Core opening goal: reach "2 card plays + energy + a Moon marker" as fast as possible without spending a growth on the flat +9-Energy option. Two competing opening philosophies — fast-double-major (front-loads power, stalls on weak draws) vs. steadier growth (slower early, more consistent later) — neither is flatly better.</p>
+    <h4>Key Combos</h4>
+    <p><strong>+ Immense (Lightning aspect):</strong> Memory's Boon can delay a reclaim turn, directly relieving Immense's tightest constraint. Also recommended: Snake, Earth, Fractured Days.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Drafting more Majors than the 2-play ceiling can realistically play or threshold.</li>
+      <li>Playing Majors as single-land tools without weighing multi-land coverage.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Moderate — the 2-play ceiling demands real per-turn prioritization discipline. A solid mid-tier carry that needs team support early, scaling into one of the game's strongest late-game engines once a good Major lands.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-fathomless-mud" hidden>
+    <p><strong>Identity:</strong> a defensively-oriented, low-complexity spirit whose win condition is denying invader escalation rather than racing to kill everything. Widely recommended as a strong teaching spirit — its prevention-first mindset instills good habits that transfer to every other spirit.</p>
+    <h4>Core Strategy: Cap Builds, Starve Explores, Reposition Constantly</h4>
+    <p>Capping a land at Explorer-level starves neighboring lands of Explore sources too, creating a "safe zone." Explorers are also cheaper to clean up than Towns/Cities. The innate (Dreadful Mire) bundles four effects — the skill is prioritizing which effect matters most for the one land you can afford to target. Mobility is the defining trait: reposition to wherever the next threat is developing, especially to snuff out a Build before it lands.</p>
+    <h4>Key Power/Combo Callouts</h4>
+    <ul>
+      <li><strong>Thickets</strong> (Defend 5) — a common trap is reflexively defending every land about to Blight with no Dahan present, accomplishing nothing. Move Dahan in first so Defend enables a counterattack.</li>
+      <li><strong>Foul Vapors</strong> resolves after Invaders Explore, so it's often played without a known target — play now, decide target once Explore resolves.</li>
+    </ul>
+    <h4>Adversary Notes</h4>
+    <p>Strong vs. England (buildings-heavy scoring, directly negated). Weaker vs. France and Russia at first glance, though its baseline toolkit still functions. Power curve is strong at low difficulty; opinions diverge at high difficulty.</p>
+    <p><strong>Verdict:</strong> Low — consistently cited as one of the most approachable Nature Incarnate spirits and a strong pick for new players.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-voice" hidden>
+    <p><strong>Identity:</strong> drives invaders to madness with Strife and Derangement rather than killing them outright — a control spirit whose damage comes indirectly, through invaders turning on each other or fleeing in terror.</p>
+    <h4>Core Strategy</h4>
+    <p>Voice's kit revolves around stacking Strife and Derangement conditions rather than raw damage, converting invader presence into self-inflicted chaos. Its power lies in disruption timing — applying conditions before a Ravage or Build so the invaders' own actions do the work. Reading which lands benefit most from derangement versus which need direct removal is the core decision each turn.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Expecting Derangement to substitute for direct removal everywhere — it's most efficient on lands that would otherwise escalate on their own.</li>
+      <li>Under-valuing the setup turns needed before the condition-stacking engine pays off.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — the indirect damage model takes real practice to sequence well, since payoff is delayed relative to direct-damage spirits.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-wounded-waters" hidden>
+    <p><strong>Identity:</strong> heals the land to hurt the invaders on it — a unique damage-through-restoration identity built on Water and Earth, unlike any other spirit's damage model.</p>
+    <h4>Core Strategy</h4>
+    <p>Wounded Waters' healing actions double as offense — restoring a land's health or clearing Blight is itself the trigger for damage to invaders present. This inverts the usual "damage vs. support" split: every defensive/restorative action is also a combat action, so there's little pure downtime between offense and defense.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Treating healing actions as purely defensive and undervaluing their attached damage.</li>
+      <li>Forgetting to track which lands are eligible for the healing-triggered damage before committing a turn's actions.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Moderate complexity — the dual-purpose healing/damage identity is intuitive once grasped, with a community note that its triggers are easy to forget mid-game.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-roots" hidden>
+    <p><strong>Identity:</strong> grows an unkillable Incarna body from the jungle floor, trading early flexibility for a late-game titan. Empower timing (when to invest in growing the Incarna versus playing conventional powers) is the central strategic question.</p>
+    <h4>Core Strategy</h4>
+    <p>Roots plays a patient, Lure-adjacent game early — establishing traps and control — before its Incarna comes fully online. The core tension is deciding how early to commit Empower actions toward the Incarna versus keeping pace with the board using conventional powers; over-committing early can leave the board unmanaged before the payoff arrives.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Empowering too aggressively before the board can tolerate a quiet stretch.</li>
+      <li>Comparing its playstyle directly to Lure of the Deep Wilderness without accounting for the Incarna investment — they diverge sharply once the Incarna is online.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — the Empower-timing decision has real stakes and no single correct answer across games.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-eyes" hidden>
+    <p><strong>Identity:</strong> a card-tempo support engine whose minor powers punch above their cost when timed around ally turns rather than played in isolation.</p>
+    <h4>Core Strategy</h4>
+    <p>Eyes' strength comes from card-play tempo and timing minor powers to set up or follow ally actions, rather than raw individual power strength. Sequencing — playing a setup power the turn before an ally needs it — is worth more than optimizing any single card in isolation.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Evaluating Eyes' cards for solo strength rather than their support/tempo value in a multiplayer sequence.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Moderate complexity — rewards a player thinking about ally timing, not just their own board.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-stone" hidden>
+    <p><strong>Identity:</strong> welcomes Blight instead of fearing it and turns a fortress sacred site into a counterattack machine — a defense/sacred-site specialist whose kit is uniquely resilient to the resource most other spirits treat as pure downside.</p>
+    <h4>Core Strategy</h4>
+    <p>Stone can push Blight straight to the box, bypassing the board-blight step entirely — this makes it a standout counter to Blight-heavy adversaries (Habsburg Mining Expedition especially), since it never faces the "blight the board vs. keep land clear" tension other spirits are forced into. Its kit also exploits clustered/stacked invader groups, since a dense target is a better payoff for counterattack/destroy effects than scattered ones.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Treating Blight as something to avoid rather than a resource this spirit is specifically built to exploit.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Moderate complexity — straightforward fortress gameplan, but reported as feeling "one-sided" against Blight-heavy adversaries at high difficulty by experienced players.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-behemoth" hidden>
+    <p><strong>Identity:</strong> a rampaging Incarna that flattens whatever's in its path — positioning it right, turn to turn, is most of the game.</p>
+    <h4>Core Strategy</h4>
+    <p>Behemoth's Incarna movement is the core resource to plan around — its damage is powerful but tied to where the Incarna physically travels each turn, so route planning (which lands it passes through) determines most of its output. Unlike stationary damage spirits, its "threat range" changes every turn based on the path chosen.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Planning Incarna movement reactively instead of routing it a turn ahead toward where invaders will be.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — the movement-as-damage model asks for spatial planning most spirits don't require.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-relentless-gaze" hidden>
+    <p><strong>Identity:</strong> slow ramp, brutal ceiling — repeat-cost badlands and presence-destroy loops that concentrate and clear entire lands once the engine is running.</p>
+    <h4>Core Strategy</h4>
+    <p>Relentless Gaze's core loop revolves around repeat-cost math: badlands and presence-destroy effects that get cheaper or more efficient the more they're used, rewarding a "concentrate and clear" approach over spreading thin. The early game is genuinely weak while this loop is being established — patience through a slow ramp is required before the payoff arrives.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Judging the spirit by its weak early turns without accounting for the ceiling once the repeat-cost loop is running.</li>
+      <li>Spreading actions across many lands instead of concentrating for the loop's compounding effect.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — a slow-ramp, high-ceiling spirit that needs early team support and rewards patience.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-breath-darkness" hidden>
+    <p><strong>Playstyle:</strong> a tempo-and-fear engine built around an Incarna that abducts lone invaders into the Endless Dark, then scales two innate powers off moon/air/beast elements. Brutal against light, spread-out invader presence; structurally weaker against dense built-up lands.</p>
+    <h4>Core Engine: the Dark as a Stockpile</h4>
+    <p>The instinct is to treat abduction as one-and-done removal. The stronger read: invaders pulled into the Dark are a stockpile you control the release timing on. Delay reclaiming your hand for as long as possible, keep feeding the Dark, and only let it go once you've extracted maximum fear value. Every turn detoured into hand-refresh infrastructure is a turn not spent at maxed innate output.</p>
+    <h4>Growth-Track Priority</h4>
+    <p>Bottom track (plays/innate scaling) favors adversaries that spread wide. Top track (energy/majors) patches the gap against dense, tall-stacking adversaries, since the abduction powers require being the only invader in a land. Most commonly recommended: a hybrid — a little top track early for flexibility before committing to the bottom-track rush.</p>
+    <h4>Weak Spot / Pairing Notes</h4>
+    <p>Built-up, densely stacked lands are this spirit's clearest structural weakness. In multiplayer, a co-op partner with better bulk-clear tools covers this gap naturally.</p>
+    <p><strong>Verdict:</strong> High complexity — the reclaim-timing management, dual-track fork, and multi-tier innate tracking add real decision load.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-whirlwind" hidden>
+    <p><strong>Playstyle:</strong> a control spirit whose defining gimmick — placing Presence pushes Explorers/Dahan off that land — reads as a build-prevention tool first, damage-dealer second.</p>
+    <h4>Core Strategy: Push-as-Control Beats Push-as-Damage</h4>
+    <p>Pushing an invader off a land before Build resolves denies the build entirely, cheaper than using the same push reactively against an existing town. Read every Presence placement first as "what does this push stop."</p>
+    <h4>The Core Tension</h4>
+    <p>Placement competes with itself: build a Sacred Site for long-term thresholds, or hold this land open to push an incoming threat elsewhere. Treat this as a live tradeoff each growth phase.</p>
+    <h4>Growth-Track Priority</h4>
+    <p>Early innate thresholds are useful on their own. Treat a range/rate-boosting growth option as close to mandatory early if you want to reliably reach the top innate tiers.</p>
+    <p><strong>Verdict:</strong> Moderate — the core "push stops a build" read is intuitive and immediately useful, though the placement-vs-Sacred-Site tension takes a game or two to internalize.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-rising-heat" hidden>
+    <p><strong>Playstyle:</strong> a damage/control hybrid whose special rule reduces the health of Towns/Cities sitting at its own Sacred Sites, converting marginal "can't quite finish this land" situations into one-hit kills.</p>
+    <h4>Core Engine</h4>
+    <p>The tiered innate's level 1 kills lone Explorers and is easy to hit almost every turn regardless of growth track — three of the four unique powers carry Fire+Air, feeding it passively.</p>
+    <h4>Growth-Track Priority</h4>
+    <p>Energy/Majors vs. Plays/Minors is a genuine, forgiving fork — both tracks cap at the same total, so neither starves the other. Innate level 1 stays cheap on either path, making Rising Heat unusually forgiving about which track you commit to.</p>
+    <h4>Key Strategic Pattern: Consolidation</h4>
+    <p>Push everything toward a single kill zone, ideally coastal — cheaper to solve with fewer powers than scattered small problems, and it throttles new Explorer sources. Combine with the Sacred-Site health-reduction rule by building your Sacred Site where the pile ends up.</p>
+    <p><strong>Verdict:</strong> Moderate — the dual-track fork and consolidation logic take a game to click, but the Sacred-Site rule is simple to state with immediately visible payoff.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-vengeance" hidden>
+    <p><strong>Playstyle:</strong> a disease-and-revenge spirit whose three special rules only make sense read together — "two spirits stapled together," splitting between spreading Disease and dealing scaled damage. Its early game exists purely to fund a mid-game power spike.</p>
+    <h4>Core Thesis: Race to the Power Spike</h4>
+    <p>Vengeance is weak and fragile before reaching roughly 3 presence on the energy track plus 3 card plays. Below that point expect a rough early game; above it, everything else is gravy. Don't judge turn 1-3 by "did I solve every land," judge it by "how many turns until the spike."</p>
+    <h4>The Engine</h4>
+    <p>Letting a Build happen preserves the Disease tokens the kit needs; presence destroyed by non-spirit actions adds a Disease token; Blight counts as Badlands for Vengeance's damage powers. Together: place presence into a land about to Ravage, let it die, harvest the Disease, spend it, while accumulating Blight buffs your damage innates.</p>
+    <h4>Key Combo</h4>
+    <p>Fetid Breath seeds Disease &rarr; Plaguebearers relocates the resulting stack into one consolidated land &rarr; Epidemics Run Rampant hits the pile next turn.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Blocking every Build reflexively — denies your own kit the Disease tokens it needs.</li>
+      <li>Playing Strike Low too early, before enough sacrifice-fueled Blight has accumulated.</li>
+    </ul>
+    <p><strong>Verdict:</strong> High complexity — the interlocking special rules require holding several resource loops in mind at once. Not a first-spirit pick, but very rewarding once the spike clicks.</p>
+  </div>
+
+  <div class="modal-source" id="spirit-finder" hidden>
+    <p><strong>Playstyle:</strong> a pure setup/control spirit with no direct board-cleansing core power. Its push effects and near-unrestricted presence movement invert the normal spirit-planning model — you rearrange the board to match whatever powers and Dahan you already have.</p>
+    <h4>Core Strategy: Concentration + a Spike, Not Attrition</h4>
+    <p>Finder's win condition isn't attrition, it's concentrating nearly the entire invader presence into one land (usually coastal), then burning it down before it blights out with a land-wipe finisher. Chipping away at a stacked land with small powers is the wrong instinct — the pile only pays off once you have, or are teching toward, a finisher.</p>
+    <h4>Table-Size Fork: This Changes the Whole Plan</h4>
+    <p><strong>Multiplayer:</strong> Finder doesn't need to kill anything itself — its job is pure logistics, feeding a partner's big single-land detonation. <strong>True solo:</strong> Finder has no efficient way to remove invaders alone, so it must eventually pick up its own land-wipe major and execute the plan itself.</p>
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li>Whittling a stacked land down with small powers instead of banking toward the finisher.</li>
+      <li>Committing fully to one growth track (pure energy or pure plays) instead of balancing to avoid repeated forced reclaims.</li>
+    </ul>
+    <p><strong>Verdict:</strong> Very High complexity — designer-acknowledged as deliberately high-complexity with a high skill ceiling. Not a beginner spirit; explicitly weaker/duller in 2-player games, coming alive with more players.</p>
+  </div>
+
+  <!--SPIRIT-MODAL-SOURCES-END-->
+
+  <!-- 3. Adversaries -->
+  <section id="adversaries" class="view">
+    <h2><span class="stamp">&#9760;</span>Adversaries<span class="rule"></span></h2>
+    <p class="section-intro">Every adversary escalates through 6 levels via its own escalation-card track, and "difficulty" isn't a fixed number — community win-rate data and poll threads show the same adversary rated hardest by one table and easiest by another, because each one pressures a different axis (build rate, ravage damage, blight, explorer volume) and rewards a different spirit archetype. The difficulty tags below are rough community consensus at high level (5-6), not a guarantee — read each entry for <em>why</em> it bites before picking a counter. This set covers the 7 adversaries with the deepest community write-ups; others exist but aren't covered here in comparable depth.</p>
+    <div class="entity-grid" id="adversary-grid">
+      <div class="entity-card" data-modal="adversary-england" data-img="https://spiritislandwiki.com/images/thumb/2/2e/England_WrinkledFlag.png/170px-England_WrinkledFlag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/2/2e/England_WrinkledFlag.png/170px-England_WrinkledFlag.png" alt="England" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>England</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 5-6</span>
+        <p>Explorers build whether you interact with them or not — the usual "shut it down early" playbook doesn't work here.</p>
+      </div>
+      <div class="entity-card" data-modal="adversary-brandenburg-prussia" data-img="https://spiritislandwiki.com/images/thumb/d/de/Brand-Prussia_Flag.png/170px-Brand-Prussia_Flag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/d/de/Brand-Prussia_Flag.png/170px-Brand-Prussia_Flag.png" alt="Brandenburg-Prussia" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>Brandenburg-Prussia</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 2-3</span>
+        <p>No twists, no gimmicks — just an early, sharp Stage III card that tests whether you're fast enough before the game's even warmed up.</p>
+      </div>
+      <div class="entity-card" data-modal="adversary-sweden" data-img="https://spiritislandwiki.com/images/thumb/4/4a/Sweden_WrinkledFlag.png/170px-Sweden_WrinkledFlag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/4/4a/Sweden_WrinkledFlag.png/170px-Sweden_WrinkledFlag.png" alt="Sweden" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>Sweden</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 3-5</span>
+        <p>Hits hardest turns 2-3 and tapers off after — if a Ravage happens on its terms, expect double blight.</p>
+      </div>
+      <div class="entity-card" data-modal="adversary-france" data-img="https://spiritislandwiki.com/images/thumb/b/bd/France_%28Plantation_Colony%29_WrinkledFlag.png/170px-France_%28Plantation_Colony%29_WrinkledFlag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/b/bd/France_%28Plantation_Colony%29_WrinkledFlag.png/170px-France_%28Plantation_Colony%29_WrinkledFlag.png" alt="France" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>France</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 2-3</span>
+        <p>Front-loaded instead of back-loaded — handle Towns and doubled Explorers by turn one, or the plantation engine snowballs.</p>
+      </div>
+      <div class="entity-card" data-modal="adversary-russia" data-img="https://spiritislandwiki.com/images/thumb/e/e9/Russia_WrinkledFlag.png/170px-Russia_WrinkledFlag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/e/e9/Russia_WrinkledFlag.png/170px-Russia_WrinkledFlag.png" alt="Russia" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>Russia</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 5-6</span>
+        <p>Not a building problem — a swarm of Explorers that hit harder than normal and refuse to sit still.</p>
+      </div>
+      <div class="entity-card seal-gold" data-modal="adversary-scotland" data-img="https://spiritislandwiki.com/images/thumb/9/9f/Scotland_WrinkledFlag.png/170px-Scotland_WrinkledFlag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/9/9f/Scotland_WrinkledFlag.png/170px-Scotland_WrinkledFlag.png" alt="Scotland" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>Scotland</h4>
+        <span class="tag">Jagged Earth</span><span class="tag">Difficulty: 3-4</span>
+        <p>No stat-padding gimmick — just one coastal land that keeps recurring until it's a near-certain multi-city Ravage.</p>
+      </div>
+      <div class="entity-card" data-modal="adversary-habsburg" data-img="https://spiritislandwiki.com/images/thumb/1/13/Habsburg_Mining_Expedition_Flag.png/170px-Habsburg_Mining_Expedition_Flag.png">
+        <div class="card-art"><img src="https://spiritislandwiki.com/images/thumb/1/13/Habsburg_Mining_Expedition_Flag.png/170px-Habsburg_Mining_Expedition_Flag.png" alt="Habsburg Mining Expedition" loading="lazy"></div>
+        <span class="seal">&#9760;</span>
+        <h4>Habsburg Mining Expedition</h4>
+        <span class="tag">Base</span><span class="tag">Difficulty: 2-4 (spirit-dependent)</span>
+        <p>Runs almost entirely on blight-as-liability — spirits indifferent to blight can trivialize it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adversary modal-source content -->
+  <div class="modal-source" id="adversary-england" hidden>
+    <h4>How the engine ticks</h4>
+    <p>England inverts the game's default rhythm. Its buildings carry bonus health, but more importantly, Explorers build regardless of whether you've touched them — prevention-based play loses most of its value since the build isn't conditional on your interference. Its escalation stacks on top: England can build even without invaders once a land is adjacent to two buildings, and its high-Terror stages punish you with further builds and steep fear-efficiency demands. It pressures the whole board simultaneously — generalist spirits get overwhelmed while specialists that lean hard into one of the two real win conditions do better.</p>
+    <h4>Early vs. late danger</h4>
+    <p>England ramps slowly rather than hitting hard immediately — early turns are comparatively survivable, rewarding spirits with a backloaded power curve. The real bite arrives mid-to-late: extra invader health and build-without-invaders escalation compound around level 5, and by level 6 terror requirements get steep. Watch coastal and repeatedly-ravaged lands — England's explore patterns keep re-seeding them.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Destroy-effect spirits</strong> (Ocean, Thunderspeaker, Lure) bypass the bonus-health problem by removing buildings outright rather than chipping damage.</li>
+      <li><strong>Fear-race spirits</strong> (Bringer, Starlight, Many Minds, Shadows) out-pace England to a terror victory before its escalation forces a loss.</li>
+      <li><strong>Isolate (Jagged Earth)</strong> is the sharpest single tool against England — one of the only ways to functionally stop a build rather than out-racing it.</li>
+      <li><strong>Slow-to-awaken spirits</strong> (Serpent, Trickster) get an unusually good runway here — England's gradual ramp buys the time these spirits normally lack.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Playing prevention-first as if England were a normal adversary — engage a land after the build resolves instead of trying to pre-empt it.</li>
+      <li>Relying on repeated small/capped damage to clear buildings — bonus health means you fall behind the build rate.</li>
+      <li>Using a "funnel everything into one crisis land" tactic — England's build-everywhere pattern doesn't create a single crisis land to solve.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-brandenburg-prussia" hidden>
+    <h4>How the engine ticks</h4>
+    <p>The simplest adversary in the game — no extra invader health, no build-order twists, no bonus actions. Its entire identity is tempo: an unusually early, escalating Stage III card front-loads several Ravage/Build waves before spirits have normally developed. It functions as a pure speed check rather than a mechanical-interaction check. Crush the early towns/explorers and the rest of the game is nearly trivial; fall behind early and there's no mid-game runway to recover in.</p>
+    <h4>Early vs. late danger</h4>
+    <p>Almost entirely front-loaded. Levels 0-1 are tutorial-grade. Levels 2-5 are a fair testing ground. Level 6 is a sharp spike (multiple lands escalating turn one) severe enough that experienced players sometimes avoid known-weak spirit picks. There isn't much of a late game — if you survive the opening pressure, the rest is comparatively easy.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Fast, explosive spirits with minimal setup cost</strong> (Wildfire, Thunderspeaker, Lure, Trickster, Fangs, Green) — matchup quality correlates almost entirely with turns 1-4 strength.</li>
+      <li><strong>Containment</strong> (denying explorers/builds outright) — BP has no way to cheat builds into existence, so denial shuts down its entire engine.</li>
+      <li><strong>Cheap Dahan-based clears</strong> — no toughness boost on invaders, so "defend + a couple of Dahan" clears cheaply.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Playing a slow-scaling combo/engine spirit as if there's time to pay off a long-term plan — BP's game length usually doesn't extend far enough.</li>
+      <li>Prioritizing blight-resilience plans — the game is typically won or lost before blight accumulation matters.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-sweden" hidden>
+    <h4>How the engine ticks</h4>
+    <p>Sweden has no bolt-on loss condition — it just amplifies the normal one. Above a damage threshold, Ravages add an extra Blight; higher levels raise town/city damage so that threshold gets crossed almost automatically. "If they Ravage, you lose" — Sweden punishes failure to prevent Ravages disproportionately, since double Blight compounds badlands and cascades fast. It's front-loaded, not sustained — no scaling explore/build engine keeps pressure up late (level 5's blight-triggers-new-town rule is the one exception).</p>
+    <h4>Early vs. late danger</h4>
+    <p>Danger peaks early (turn 2-3 onward) and fades once you're past the opening — inverting the usual "ramp up" shape most adversaries follow.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Ravage-prevention / control</strong> (Trickster's Strife-cancel, Finder's pre-Ravage removal, River's push-before-Ravage, Green's Ravage-ignore) — act before the Ravage resolves, the only place Sweden's math can be defused.</li>
+      <li><strong>Fear-rush spirits</strong> (Many Minds, Starlight) — still rewards racing a Fear-track win before the Blight math comes due.</li>
+      <li><strong>Blight-benefiting spirits</strong> (Vengeance) — converts the adversary's own escalation into fuel.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Assuming fixed "Defend N" values still hold — Sweden's boosted damage means old breakpoints frequently fail to fully stop a Ravage.</li>
+      <li>Leaning on blight-removal minor powers as your main answer — you never get ahead of the rate against double-blight lands.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-france" hidden>
+    <h4>How the engine ticks</h4>
+    <p>France's difficulty runs backwards from the game's usual arc — it demands you already handle Towns and multiple Explorers per land from turn one; its low-level escalation is what actually hurts, not its high-level effects. Two pressures run in parallel: the escalating "plantation" engine, and the Slave Rebellion special event, a secondary win condition — Dahan mobilized into France's built-up lands ahead of that event can wipe multiple Towns in a single stroke.</p>
+    <h4>Early vs. late danger</h4>
+    <p>Front-loaded and multiplicative — unanswered Explorers become extra Towns, and multiple Explorers per land compounds fast. Turns 1-3 are the highest-leverage window for isolate/board-control tactics.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Prevention-focused spirits</strong> — flat-out Town-prevention or pre-build Explorer clearing removes France's fuel at the source.</li>
+      <li><strong>Dahan/Fear-mobilization spirits</strong> (Thunderspeaker, Trickster) — pre-positioning Dahan/Strife into built-up lands converts an ordinary turn into a multi-Town wipe via Slave Rebellion.</li>
+      <li><strong>Damage/board-wipe spirits</strong> — France stacks multiple Explorers per land, so per-target removal that's normally inefficient suddenly clears two Invaders at once.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Playing a spirit whose kit scatters/relocates Invaders rather than destroying them — delay is specifically punished by compounding Town-count.</li>
+      <li>Treating France as a slow-burn adversary and stalling — its escalation front-loads pressure.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-russia" hidden>
+    <h4>How the engine ticks</h4>
+    <p>Russia's core threat is explorer volume and damage, not city/town density — its "little dudes" individually hit harder than normal. Defend is weaker than usual since blocking is less efficient than removing or stranding Explorers outright. Mobility matters more than usual too, since Russia's explorers spread and move aggressively.</p>
+    <h4>Early vs. late danger</h4>
+    <p>Escalation triggers land on alternating turns at high levels, paradoxically making top-difficulty Russia easier to manage for certain decks than mid-level Russia. Several event/fear cards at high difficulty can chain into effectively instant-loss states — part of Russia's difficulty is genuinely variance/gimmick-driven, a different flavor of hard than England's or Sweden's.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Lure</strong> — near hard-counter. Explorers deal no damage to Lure's beasts, and its kit is built around killing exactly the token type Russia floods the board with.</li>
+      <li><strong>Broad, cheap AOE invader damage</strong> (Mist, Many Minds) — a small ping that clears an entire stacked Explorer group is disproportionately valuable against a swarm.</li>
+      <li><strong>Isolate</strong> works as a release valve when a board state is drowning in explorers.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Leaning on defend as a primary plan — boosted per-explorer damage makes blocking inefficient.</li>
+      <li>Rushing fear indiscriminately at high difficulty — pulling an extra Invader card can be catastrophic when explorer pressure is already elevated.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-scotland" hidden>
+    <h4>How the engine ticks</h4>
+    <p>Scotland has no bonus invader damage/health, no invulnerability, no card-count reduction — difficulty comes purely from geography and card-sequencing pressure, a "universal tax" rather than a specific counter. Land #2 (coastal, double-city) recurs constantly due to invader-deck structure, compounding toward near-certain multiple ravages there. Level 5 adds extra blight-to-ocean, specifically punishing previously-dominant coastal plays.</p>
+    <h4>Early vs. late danger</h4>
+    <p>Below level 5, several "obvious" counters (Ocean, Stone) look dominant. At level 5+, the added ocean-blight rule flips that. Scotland also tends to run long, favoring backloaded/support spirits (Vengeance, Memory). Board-clear victories are unusually hard against constant town production — plan around needing a full fear-track win.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Isolate/prevention effects</strong> (Finder, Downpour, Green, Trickster) — attack the compounding mechanism directly.</li>
+      <li><strong>Fast/early-elimination spirits</strong> — most danger accrues at the Ravage/Coastal-card stage, so ending the game before that point sidesteps the design.</li>
+      <li><strong>Card-cycling spirits</strong> (Fractured Days) — Scotland telegraphs exactly when its worst card is coming.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Trusting a spirit-vs-Scotland verdict without checking the level it assumes — level 5's ocean-blight rule can flip a "strong" verdict to "weak."</li>
+      <li>Ignoring Land #2 in favor of spreading attention evenly — it recurs by deck structure alone and deserves dedicated early answers.</li>
+    </ul>
+  </div>
+
+  <div class="modal-source" id="adversary-habsburg" hidden>
+    <h4>How the engine ticks</h4>
+    <p>Habsburg's identity is built around blight as a loss condition and escalation trigger — its own loss condition only counts blight removed from the Fear/adversary card itself, and its high-level escalations effectively force you to blight the board yourself to manage town durability. Its signature move is gathering multiple towns into defense-in-depth clusters. The strongest counters aren't just generically strong spirits — they're spirits indifferent to or positively rewarded by blight.</p>
+    <h4>Early vs. late danger</h4>
+    <p>Playable and fair for most spirits at moderate levels, but Stage 2 escalation adds heavy turn-planning overhead. At level 4, destroying towns on non-blighted land requires double attack power — a hard mechanical gate.</p>
+    <h4>What counters it, and why</h4>
+    <ul>
+      <li><strong>Stone</strong> — the standout counter. Can push blight straight to the box, bypassing the board-blight step, and fully exploits Habsburg's clustered-towns pattern. Reported as feeling "one-sided" at high difficulty.</li>
+      <li><strong>Vengeance</strong> — damage output scales directly with blight present, so its power curve outpaces the invaders' growth curve.</li>
+      <li><strong>Mist</strong> — Habsburg's town-gather/movement mechanic feeds Mist's fear-generation engine.</li>
+    </ul>
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Picking a spirit that needs clean, blight-free land without checking Habsburg's blight-liability mechanic first.</li>
+      <li>Underestimating level 4's double-attack-power gate for non-blighted land.</li>
+    </ul>
+  </div>
+
+  <!-- 4. Mechanics Deep-Dives -->
+  <section id="mechanics" class="view">
+    <h2><span class="stamp">&#128293;</span>Mechanics Deep-Dives<span class="rule"></span></h2>
+    <p class="section-intro">These are the mechanics that reward a deeper read than their card text suggests — keywords and systems that cut across every spirit rather than belonging to any one of them. Understanding when they're strong, and when they're a trap, separates a mechanically-fluent table from one that's just moving pieces.</p>
+    <div class="accordion" id="mechanics-accordion">
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Isolate — a scalpel, not a wall</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>Isolate (Jagged Earth) severs a land's adjacency for Explore, Build-related movement, and adjacency-dependent effects — it doesn't destroy anything, it just breaks the logistics link. Used once, speculatively, it's a minor add-on worth roughly a point of Fear or a bit more than Defend 1 — noticeably underwhelming, and new players who try it a couple of times often walk away unimpressed. It only becomes strong with volume or precision: spirits that can apply it repeatedly (Downpour Drenches the World repeating a land power, Finder of Paths Unseen's innate) or players who target it deliberately rather than guessing. Target Explorer <em>sources</em>, not destinations — isolating the land Invaders would explore from deterministically blocks Explore into every land adjacent to it, instead of gambling on a single destination. Isolate is also the answer to several adjacency-dependent Adversary rules (Scotland's coastal adjacency, Russia's post-Ravage movement) — check whether an Adversary's special rule depends on adjacency before dismissing Isolate against it. It does not affect Dahan movement, spirit targeting, or Blight cascade.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Blight as a resource, not just a countdown</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>Treat presence, Dahan, energy, and Blight as fungible resources whose relative value shifts by situation, rather than a checklist you're obligated to keep clean. A single Blight token, an individual presence marker, or Dahan losses (as long as enough survive to retaliate) are usually acceptable losses — over-defending every last point costs more tempo than it saves. The real danger isn't isolated Blight, it's <strong>cascades</strong>: a land can stack 3-4 Blight from repeated neighboring cascades, and once every land on the board is Blighted, any further Blight triggers a chain that is effectively the true loss condition — not the Blight counter itself. Intervene actively when a land faces multiple Invader actions in one cycle, when Blight is clustering adjacent to already-Blighted lands, or when an action would flip the Blight Card. Otherwise, let it ride.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>The Blight Card / Event Deck coupling</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>The Blight Card tracks Blight not yet on the island; its "Blighted Island" side has a pool size that acts as a hidden pacing dial. If you're running the Event Deck, a Blight Card is mandatory, since many Events reference island Blight state directly. If you're not running events, avoid thin Blight Cards (around 2 Blight/player on the blighted side) — those were balanced around the mitigation events provide, and without events they just make the post-flip phase brutally short. Solo tightens this further: a thin card that's manageable when several players share the response burden becomes especially punishing when one player covers every leak alone.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Reading the Fear deck — tiers and thresholds</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>The Fear deck is split into groups by Terror Level, with each Fear card printing multiple tiered effects — resolve the tier matching your current Terror Level, not the weakest top line. Using only the top effect once a stronger tier is unlocked is a common misplay that quietly costs a team real value. Destroying towns and cities is one of the most reliable Fear generators, which is part of why "always kill the biggest stack" and "prioritize Fear" often point at the same targets even though they're different justifications. Once a Fear win is realistically close, shift the whole team's priorities from territorial defense to maximizing Fear output.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Sacred sites as an investment, not a bonus</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>A sacred site is presence committed to a specific land to unlock a card's bonus effect there — it's a targeting requirement, not free upside, and it only pays off if you can actually deliver the matching power to that land on the turn(s) you need it. Placing a sacred site early to guarantee a strong Slow power lands cleanly later is a legitimate use of tempo, but only when that land will still be relevant when the payoff card comes due. Isolating a land that hosts a valuable sacred site is a solid way to guarantee it survives a Stage where you can't otherwise defend it.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Elemental thresholds — a hidden co-op layer</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>Major powers typically carry an elemental threshold that unlocks a bonus effect if enough matching elements were generated that turn; minors usually don't. Elements come from the card itself, growth choices, innate/presence-track effects, and — depending on the specific card's wording — sometimes teammates' plays too, a frequent source of table confusion (some thresholds check only your own elements, others check the whole board). Don't evaluate a major's "floor" effect in isolation: its real ceiling depends on what element support is available that turn, which is exactly why some cards function as deliberate co-op glue rather than solo-optimal picks.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Play vs. Use vs. Threshold (and why the distinction matters)</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>Three distinct things happen with a card, and conflating them causes real rules errors: <strong>Play</strong> is paying the cost and placing the card into play; <strong>Use</strong> is actually resolving its effect in the Fast or Slow phase; <strong>threshold</strong> is meeting its elemental requirement, checked at end of the Spirit phase. You can Play a card purely for its elements without ever intending to Use its effect. Less obviously, you can meet a threshold without ever Using the card at all — for example playing a Slow-phase card during the Spirit phase, having its threshold check succeed at end of Spirit phase, and then the game ending before the Slow phase would have resolved the effect. "Threshold met" and "effect used" are independent — don't assume one implies the other when tracking what a turn accomplished.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Aspects and Incarna (Nature Incarnate) — mechanic-level primer</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p><strong>Aspects</strong> are alternate configurations of an existing spirit — they can swap out special rules or innate powers, change setup, add new unique power cards, or grant Incarna access, letting a table get a materially different playstyle out of a spirit they already own without learning an entirely new one. <strong>Incarna</strong> is a physical token representing the spirit's avatar directly on the board; it counts as presence for movement purposes and is available to several new Nature Incarnate spirits directly plus a handful of older spirits via their Aspects. Practically, an Aspect changes not just numbers but the shape of the decisions a spirit asks you to make each turn — read an Aspect's changed special rule/innate before assuming a spirit you already know will play the same way.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header"><span>Digital client quirks (Steam app — not tabletop rules)</span><span class="chevron">&#9656;</span></div>
+        <div class="accordion-body"><p>A handful of interactions are worth flagging specifically for the digital client. <strong>Isolate</strong>: for each nearby action, the app asks you (per action, per instance) whether the isolated land counts as connected — not a fixed one-time toggle. <strong>Tokens that can count as multiple things</strong> (e.g. a sacred site counting as both animal and badlands): the app lets you decide per-token, per-action, which matters when an Event or Adversary effect targets/removes "animals" — opt individual tokens out to protect them. <strong>Sacrifice victories</strong>: an action resolves fully before win/loss is checked, so if a single action simultaneously satisfies a win condition and triggers a loss condition, the app rules it a win. These are implementation clarifications, not tabletop house rules — worth knowing if you play both formats.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Team Building -->
+  <section id="team-building" class="view">
+    <h2><span class="stamp">&#9906;</span>Team Building<span class="rule"></span></h2>
+    <p class="section-intro">Multiplayer Spirit Island isn't solo play with extra hands — assembling a table of spirits is a distinct puzzle, since each spirit's toolkit is deliberately incomplete and depends on the group to cover what it can't. A good lineup trades weaknesses for strengths rather than stacking redundant ones.</p>
+
+    <h3>Pairing Principles</h3>
+    <div class="card-grid">
+      <div class="info-card">
+        <h4>Cover the Gap, Don't Duplicate the Strength</h4>
+        <p>Every spirit is missing something by design — a reliable answer to some Invader type, a way to clean up what it starts, raw damage, or range. The strongest tables aren't the ones stacking spirits that are all great at the same thing; they're the ones where each spirit's blind spot is another spirit's specialty.</p>
+      </div>
+      <div class="info-card">
+        <h4>Pair Fast Tempo with Slow Ceiling</h4>
+        <p>A fast-acting spirit buys time for a slow-building spirit to ramp without the table losing control in the meantime. Two fast spirits can both flame out once Invaders scale past their ceiling; two slow spirits can both get run over before either comes online. Pairing tempo profiles smooths the table's power curve across the whole game.</p>
+      </div>
+      <div class="info-card">
+        <h4>Trade Tempo Informally, Turn to Turn</h4>
+        <p>Multiplayer's real advantage over solo isn't just more hands — it's the ability to informally barter resources across turns: "I take an extra Presence placement and clear your Explorers next round." This is the main reason spirits that look weak solo often perform fine at the table. Build this into your team's shorthand explicitly rather than assuming it happens automatically.</p>
+      </div>
+      <div class="info-card">
+        <h4>Read the Adversary Before Finalizing the Lineup</h4>
+        <p>An Adversary's specific triggers matter more than its raw difficulty number — a spirit that struggles with an Adversary's core engine is a worse pick than the numbers alone suggest, and vice versa. Where the table can see the Adversary before assigning spirits, lean the lineup toward whichever spirits directly answer its pressure points rather than picking spirits in a vacuum.</p>
+      </div>
+      <div class="info-card">
+        <h4>Coordination Overhead Scales Faster Than Player Count</h4>
+        <p>Two-spirit tables can coordinate with a quick "I've got the coast" exchange; four-to-six-spirit tables need actual shorthand or planning grinds to a halt. Set shared priorities as simple rules and communicate in outcomes ("that region's handled") rather than listing which cards you're using — the goal is shared situational awareness, not a full inventory of every hand.</p>
+      </div>
+    </div>
+
+    <h3>Notable Combos</h3>
+    <div class="card-grid">
+      <div class="info-card">
+        <h4>Blight-Soak + Free-Swinging Damage</h4>
+        <p>Pairing an aggressive, damage-forward spirit with one built to absorb or relocate Blight lets the aggressive spirit play without the team eating its Blight downside. A direct application of "cover the gap": one spirit's cost becomes the other spirit's specialty.</p>
+      </div>
+      <div class="info-card">
+        <h4>Relocation Feeding a Kill Zone</h4>
+        <p>A spirit that can teleport or forcibly relocate Invaders can move problem targets into a zone another spirit reliably dominates. Any spirit with strong movement/displacement tools is a force-multiplier for any spirit with a strong but narrow kill zone, since it extends that zone's effective reach across the whole board.</p>
+      </div>
+      <div class="info-card">
+        <h4>Generator + Payoff (Beast/Token Economies)</h4>
+        <p>Some spirits flood the board with a resource (beast tokens, Dahan, strife/disease markers) without much of a payoff themselves, while others convert that same resource into damage or control. Pairing a generator with its natural payoff spirit turns two individually-middling engines into a strong one.</p>
+      </div>
+      <div class="info-card">
+        <h4>Ramp Spirits Feeding a Slow, High-Ceiling Third</h4>
+        <p>In three-plus spirit games, it's worth dedicating one or two spirits to accelerating a slow-but-high-ceiling teammate's presence/energy growth rather than insisting every spirit pull independent weight from turn one. A slow spirit can hit its power spike far earlier if teammates spend early tempo feeding its ramp.</p>
+      </div>
+      <div class="info-card">
+        <h4>The Pipeline Combo: Push, Kill, Control</h4>
+        <p>A recurring shape: one spirit pushes/funnels Invaders toward a chokepoint, a second provides the reliable kill there, and a third adds Fear or board-wide control for whatever slips through. A repeatable, low-variance pattern — the underlying principle (funnel &rarr; finish &rarr; clean up) can be built from many different spirit combinations.</p>
+      </div>
+      <div class="info-card">
+        <h4>Treat "Best Pairing" Polls with Caution</h4>
+        <p>Crowd-sourced "best pairing" rankings often measure thematic appeal as much as actual synergy — a top-voted pair can turn out to be "fine, but nothing special" once actually played. Use community pairing suggestions as leads to try, not proven optimal-play combos; verify what the two kits actually cover for each other, not the pairing's popularity.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Tips & Tricks -->
+  <section id="tips" class="view">
+    <h2><span class="stamp">&#10022;</span>Tips &amp; Tricks<span class="rule"></span></h2>
+    <p class="section-intro">Smaller-grain lessons that don't rise to core strategy but repeatedly trip up new tables — misplays, sequencing tricks, and a few digital-client-specific gotchas worth knowing before they cost you a game.</p>
+    <div class="card-grid">
+      <div class="info-card">
+        <h4>Learn the Base Game Before Adding Modules</h4>
+        <p>First games should skip Blight Cards, Adversaries, and Special Scenarios entirely — get comfortable with the core Explore/Build/Ravage loop and your spirit's own kit before layering on modules that change the math.</p>
+      </div>
+      <div class="info-card">
+        <h4>Don't Skip Your Spirit's Special Rule</h4>
+        <p>Every spirit has a unique special rule beyond its power cards, and new players routinely forget to use it or don't realize it's central to how the spirit functions. For several spirits, the special rule — not any single card — is the actual engine the rest of the kit is built around.</p>
+      </div>
+      <div class="info-card">
+        <h4>Move Invaders, Don't Just Kill Them</h4>
+        <p>Push/pull effects look weak next to direct-damage cards but are frequently the more efficient play: they can hit more Invaders per card, get threatened Dahan out of harm's way, and can prevent a Build or Ravage before it happens rather than punishing it after. Don't undervalue a control card just because its damage line reads as zero.</p>
+      </div>
+      <div class="info-card">
+        <h4>Stack Dahan Instead of Spreading Them</h4>
+        <p>Dahan defense is a threshold effect, not a linear one. Two Dahan against a lone Explorer can end in a wash; three Dahan in the same spot can wipe it outright. Concentrating Dahan into fewer, thicker stacks beats spreading them thin.</p>
+      </div>
+      <div class="info-card">
+        <h4>Never Discard Your Starting Power Cards</h4>
+        <p>Starting powers are deliberately elemental-diverse — that diversity is often exactly what an innate power's threshold depends on. When upgrading to major powers, replace cards you picked up mid-game, not your original starting hand.</p>
+      </div>
+      <div class="info-card">
+        <h4>Pick Cards for Elements When You're Threshold-Constrained</h4>
+        <p>When you're close to unlocking an innate's elemental requirement, take the card that supplies the missing element over the card with the flashier effect — closing the gap can save an entire extra card play that turn. Earlier in the game, with more slack, pick for effect quality as normal.</p>
+      </div>
+      <div class="info-card">
+        <h4>Know Which Lands Are Cheap to Lose</h4>
+        <p>An undefended land with no Dahan and no Blight yet is a safe sacrifice — the cost of defending it usually exceeds its value, especially early or at lower difficulty. Learn to distinguish "cheap to lose" lands from expensive ones (Dahan present, Blight already clustering, sacred site committed) so letting something go is a deliberate read, not an accident.</p>
+      </div>
+      <div class="info-card">
+        <h4>Physically Track Your Spent Resources</h4>
+        <p>Place energy tokens directly on growth-track options as you gain them, place tokens on cards as you commit to playing them, and tap/exhaust cards as you activate them rather than doing it from memory. Per-turn state is dense enough that "which of my numbers is already spent" errors are one of the most common sources of accidental misplays.</p>
+      </div>
+      <div class="info-card">
+        <h4>Digital Client: Per-Instance Choices Aren't One-Time Toggles</h4>
+        <p><em>Digital (Steam app) only.</em> Some interactions ask you to decide per-action rather than setting a fixed state once — e.g. whether an Isolated land counts as connected for a given action, or whether a token that can count as multiple things counts as one or the other for a specific effect. Check the prompt each time it appears.</p>
+      </div>
+      <div class="info-card">
+        <h4>A Card Can Meet Its Threshold Without Ever Resolving</h4>
+        <p>Elemental thresholds are checked at end of the Spirit phase, independent of whether the card's effect ever actually resolves in the Fast/Slow phase that follows. Don't assume "threshold met" means "effect happened" when reviewing what a turn accomplished — they're tracked independently.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>Compiled from community strategy across the Spirit Island Wiki, BoardGameGeek, Spirit Island Hub, the Dahan Codex, and other player write-ups. Not affiliated with Greater Than Games.</footer>
 </main>
+
+<!-- Shared modal for spirit / adversary detail -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-art" id="modal-art" hidden><img id="modal-art-img" src="" alt=""></div>
+    <h3 id="modal-title">Placeholder Title</h3>
+    <div id="modal-body"><p>Placeholder detail content.</p></div>
+  </div>
+</div>
+
+<script>
+  // Top-level section nav
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('section.view').forEach(v => v.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+
+  // Expansion filter (Spirits section)
+  document.querySelectorAll('#spirit-filters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#spirit-filters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const exp = btn.dataset.expansion;
+      document.querySelectorAll('#spirit-grid .entity-card').forEach(card => {
+        card.style.display = (exp === 'all' || card.dataset.expansion === exp) ? '' : 'none';
+      });
+    });
+  });
+
+  // Accordion (Mechanics)
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      header.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Modal (Spirit / Adversary cards) — rich content lives in a sibling
+  // .modal-source[id="<data-modal value>"] element (hidden, not displayed inline).
+  const modalOverlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  const modalArt = document.getElementById('modal-art');
+  const modalArtImg = document.getElementById('modal-art-img');
+
+  document.querySelectorAll('.entity-card').forEach(card => {
+    card.addEventListener('click', () => {
+      modalTitle.textContent = card.querySelector('h4').textContent;
+      const src = document.getElementById(card.dataset.modal);
+      modalBody.innerHTML = src ? src.innerHTML : '<p>No detail available.</p>';
+      const img = card.dataset.img;
+      if (img) {
+        modalArtImg.src = img;
+        modalArtImg.alt = card.querySelector('h4').textContent;
+        modalArt.hidden = false;
+      } else {
+        modalArt.hidden = true;
+      }
+      modalOverlay.classList.add('active');
+    });
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => {
+    modalOverlay.classList.remove('active');
+  });
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+  });
+</script>
 </body>
 </html>
