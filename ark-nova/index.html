@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ark Nova — Strategy Guide</title>
+<meta name="description" content="A strategy guide for Ark Nova — zoo layout, card engine, appeal/conservation balance, and action strategy.">
+<style>
+  :root{
+    --void:#0e1a15;
+    --panel:#152621;
+    --panel-raised:#1c332c;
+    --ink:#e8ecdf;
+    --ink-dim:#9db0a1;
+    --leaf:#5a9c6e;
+    --leaf-bright:#7ec98f;
+    --sand:#c9a25a;
+    --sand-bright:#e2bd76;
+    --water:#3f7f8a;
+    --water-bright:#5aa3ae;
+    --line:#25392f;
+    --line-bright:#39534450;
+    --shadow:rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #1e352c 0%, var(--void) 55%, #08110d 100%) fixed,
+      var(--void);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    color:var(--sand-bright);
+    letter-spacing:.02em;
+  }
+
+  header.site{
+    padding:2.5rem 1.5rem 1.5rem;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header.site h1{
+    margin:0 0 .3rem;
+    font-size:2.2rem;
+  }
+  header.site p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:.95rem;
+  }
+
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:2rem 1.5rem 4rem;
+  }
+
+  /* Tab nav */
+  nav.tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    justify-content:center;
+    margin-bottom:2rem;
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:linear-gradient(var(--void) 78%, transparent);
+    padding:1rem 0 .75rem;
+  }
+  nav.tabs button{
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    background:var(--panel);
+    color:var(--ink-dim);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:.5rem 1.1rem;
+    font-size:.85rem;
+    letter-spacing:.03em;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  nav.tabs button:hover{
+    color:var(--ink);
+    border-color:var(--line-bright);
+  }
+  nav.tabs button.active{
+    background:var(--leaf);
+    color:var(--void);
+    border-color:var(--leaf);
+    font-weight:600;
+  }
+
+  section.tab-panel{ display:none; }
+  section.tab-panel.active{ display:block; animation:fade .25s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:translateY(0)} }
+
+  section.tab-panel h2{
+    font-size:1.6rem;
+    margin:0 0 .3rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.6rem;
+  }
+  section.tab-panel > p.lede{
+    color:var(--ink-dim);
+    font-size:1rem;
+    margin:.8rem 0 2rem;
+    font-style:italic;
+  }
+
+  h3{
+    font-size:1.25rem;
+    margin:2.2rem 0 .6rem;
+    color:var(--leaf-bright);
+  }
+  h3 .icon{ margin-right:.4rem; }
+  h4{
+    font-size:1rem;
+    color:var(--sand-bright);
+    margin:1.3rem 0 .4rem;
+  }
+  p{ margin:.7rem 0; }
+  ul, ol{ padding-left:1.4rem; margin:.7rem 0; }
+  li{ margin:.4rem 0; }
+  strong{ color:var(--sand-bright); font-weight:600; }
+  em.tag{
+    display:inline-block;
+    font-style:normal;
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    font-size:.72rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--water-bright);
+    border:1px solid var(--water);
+    border-radius:4px;
+    padding:.1rem .45rem;
+    margin-right:.4rem;
+    vertical-align:middle;
+  }
+
+  /* Card / panel blocks */
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.1rem 1.3rem;
+    margin:1rem 0;
+    box-shadow:0 4px 18px var(--shadow);
+  }
+  .card.raised{ background:var(--panel-raised); }
+  .card h4{ margin-top:0; }
+
+  .callout{
+    border-left:3px solid var(--sand);
+    background:var(--panel);
+    padding:.8rem 1.1rem;
+    margin:1.2rem 0;
+    border-radius:0 8px 8px 0;
+  }
+  .callout.solo{ border-left-color:var(--water); }
+  .callout p{ margin:.3rem 0; }
+  .callout .label{
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--sand);
+    display:block;
+    margin-bottom:.3rem;
+  }
+  .callout.solo .label{ color:var(--water-bright); }
+
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+    margin:1rem 0;
+  }
+  @media (max-width:640px){ .grid2{ grid-template-columns:1fr; } }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1rem 0;
+    font-size:.95rem;
+  }
+  th,td{
+    text-align:left;
+    padding:.5rem .6rem;
+    border-bottom:1px solid var(--line);
+  }
+  th{
+    color:var(--sand-bright);
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    font-weight:600;
+    font-size:.8rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+
+  .tier-row{ display:flex; gap:.6rem; align-items:baseline; margin:.5rem 0; flex-wrap:wrap; }
+  .tier-badge{
+    font-family:"Optima","Segoe UI",Georgia,sans-serif;
+    font-weight:700;
+    font-size:.8rem;
+    color:var(--void);
+    background:var(--sand-bright);
+    border-radius:5px;
+    padding:.1rem .5rem;
+    flex-shrink:0;
+  }
+
+  footer{
+    text-align:center;
+    color:var(--ink-dim);
+    font-size:.8rem;
+    padding:2rem 1.5rem;
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <h1>Ark Nova — Strategy Guide</h1>
+  <p>Zoo layout, card engine, appeal/conservation balance, and action strategy — written for solo play.</p>
+</header>
+<main>
+  <nav class="tabs" id="tabs">
+    <button data-tab="core" class="active">Core Strategy</button>
+    <button data-tab="scoring">Scoring &amp; Tracks</button>
+    <button data-tab="zoo">Zoo Building</button>
+    <button data-tab="cards">Cards &amp; Animals</button>
+    <button data-tab="maps">Maps</button>
+  </nav>
+
+  <section class="tab-panel active" id="tab-core">
+    <h2>Core Strategy</h2>
+    <p class="lede">Solo Ark Nova is a 27-turn sprint against a fixed break schedule, not a marathon against opponents. Everything below assumes that context.</p>
+
+    <h3><span class="icon">⚖️</span>Action efficiency is the whole game</h3>
+    <p>Every turn is one action, period — there's no bonus-action economy to out-produce. The differentiator between a good solo game and a bad one isn't how much money or how many cards you end with, it's <strong>points generated per action spent</strong>. Any resource left over at game end (money, cards, unused workers, empty board space) was potential you didn't convert. The one exception: X-tokens. Banking them idle is pure loss — they exist to multiply a future action's strength, so spend them.</p>
+    <p>Rule of thumb for comparing actions: <strong>1 Conservation Point ≈ 3 Appeal</strong> at final scoring (roughly 2:1 at the very start of the conservation track, climbing to 3:1 after). Use this to judge whether a trade is worth it — releasing a 12-appeal animal to gain 1 conservation point is a bad trade under this heuristic, even though "conservation point" sounds intrinsically valuable.</p>
+    <p>Don't default to "take the rightmost/highest-power slot." A low-power action that lands the exact tag, animal, or project you need usually beats a nominally stronger action that doesn't fit your plan. Optimize for what the action unlocks, not its printed number.</p>
+
+    <h3><span class="icon">🏃</span>Why solo plays differently than the rulebook assumes</h3>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>Solo's break token isn't triggered by your choices — a cube slides on the solo tracking board after <em>every</em> turn regardless of what action you took, and breaks come faster as the game progresses. In multiplayer, strong players deliberately slow the break by avoiding card-draw/cash actions late-game; that lever doesn't exist solo. You can't defer a break by playing "quietly."</p>
+      <p>Total turn budget is fixed at roughly 27, and late rounds compress — the game ends sooner than the turn count "feels" like it should. Misjudging this pacing (planning as if you have a multiplayer-length runway) is the single most common way new solo players end up with a negative score they can't explain. Build up fast rather than optimizing for a long-run payoff you won't have turns left to cash in.</p>
+      <p>By late game you'll typically have more cash than usable actions — turns, not money, are the binding constraint. Don't hoard cash waiting for a better moment; if you can spend it now to convert into appeal or conservation points, do it.</p>
+    </div>
+
+    <h3><span class="icon">🌱</span>Invest, then convert: why Cards and Association compound</h3>
+    <p>The two scoring tracks (Appeal, Conservation) are not interchangeable, and the board doesn't visually signal which one compounds. This is the source of the classic new-player pattern: highest appeal at the table, lowest conservation, and a confusing loss.</p>
+    <p><strong>Appeal is transactional</strong> — play an animal, gain appeal, done. Linear, per-card, no engine underneath. It <em>feels</em> productive (visible board, constant activity) but the felt experience is inverted from the actual value.</p>
+    <p><strong>Association compounds</strong>, because it's the entry point to three sub-systems that pay off repeatedly over the rest of the game:</p>
+    <ul>
+      <li><strong>Workers</strong> — an early worker is reusable every cycle for the rest of the game. Hiring later gives fewer cycles to recoup the investment.</li>
+      <li><strong>Reputation</strong> — gates which card-market positions you can draft from. Rep earned early means drafting from stronger cards for the entire rest of the game; rep delayed means staying stuck on cheap, weak cards throughout.</li>
+      <li><strong>Conservation donations</strong> — scale with the Association card's current strength (which decays as it's used and refreshes as it cycles). Donating early while the card is fresh nets a meaningful chunk in one action; getting the same total piecemeal later can cost three actions for the same yield.</li>
+    </ul>
+    <p><strong>Cards compounds too</strong>, and reinforces Association: more cards early means more options for the rest of the game, and narrow early drafting locks you into one strategy by round 4 while broad drafting keeps options open longer. Without reputation you're stuck on cheap market cards; without card depth you can't complete the projects that need specific cards — the two systems drag each other down if either falls behind.</p>
+    <p>Practical priority for the opening stretch: <strong>Cards and Association first, Build and Animals second.</strong> The board looking empty in round 1 isn't the problem — an empty hand and no engine several rounds in is. This isn't a fixed script (starting hands and the card market vary too much for one), it's a lens: know which track compounds before deciding what an action is for.</p>
+
+    <h3><span class="icon">🪤</span>Common traps</h3>
+    <div class="grid2">
+      <div class="card">
+        <h4>The "Elephant Trap"</h4>
+        <p>Don't let one big, tempting animal in your starting hand dictate your whole early-game shape. A single large animal is often already too many commitments (cash, enclosure space, prerequisites) for what your engine can support that early — it's a payoff to grow into, not an opening plan.</p>
+      </div>
+      <div class="card">
+        <h4>Over-associating early</h4>
+        <p>Recruiting partner zoos/universities before you can afford to use their outputs burns actions and money without proportional payoff, and it resets the Association card's power before it reaches 5 — the level needed to support a conservation project.</p>
+      </div>
+      <div class="card">
+        <h4>The no-money loop</h4>
+        <p>Buy one animal, go broke until next income, repeat — a self-reinforcing trap. Prevent it rather than trying to escape it: see Zoo Building for the sequencing that avoids it forming in the first place.</p>
+      </div>
+      <div class="card">
+        <h4>Chasing hand-limit early</h4>
+        <p>The instinct to grab hand-size upgrades early is usually wrong — once you manage cards deliberately, 3 in hand is rarely a real constraint. Exception: if you're leaning on Pouch/Sunbathing-style card-selling abilities, which want more raw hand space.</p>
+      </div>
+    </div>
+
+    <h3><span class="icon">🔧</span>Upgrade priority</h3>
+    <p>Only four action-card upgrades exist in a game (a fifth slot is possible via the Conservation-2 milestone, see below) — treat them as a genuinely scarce resource, not a checklist to clear top-to-bottom.</p>
+    <ol>
+      <li><strong>Build, usually first.</strong> A healthy income engine is a core win condition, and the base Build action only lets you build one structure per turn. The upgrade lets you place a kiosk cluster alongside a pen in the same action — the compounding income source that actually breaks a cash-poor start. Skip or delay only if your map needs very few kiosks to hit its bonuses.</li>
+      <li><strong>Cards, but time it.</strong> Near-mandatory eventually — more draws, open selection from your reputation range, and it gates reputation-track progress past a threshold most games want to cross. It's weak while your reputation is still low (small draw range), so upgrade once you're a couple of reputation cards in, not as your very first move.</li>
+      <li><strong>Association, situational but usually worth it.</strong> Real value is racing cheap early donations before the board state moves past them, and unlocking a 3rd/4th partner zoo if you need those continent icons for projects.</li>
+      <li><strong>Animals, usually later.</strong> Peaks once Build and Cards are already up — its value (placing several animals per turn, drawing straight from your reputation range) is downstream of the other two.</li>
+      <li><strong>Sponsors, rarely correct.</strong> Real benefits exist, but justifying this over the other four needs a specific strong-sponsor case, not just "some good sponsors are available."</li>
+    </ol>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>Upgrade Association early specifically to unlock donations as soon as possible — donations are a reliable conservation-point source that compounds the earlier it starts, and independent solo reports converge on this as the single highest-value first upgrade in the format. Also weight <strong>Clever/Boost</strong> sources (abilities that slide an action card straight back to full strength) higher than you would in multiplayer: in a 27-turn sprint you need to cycle Association back up to strength fast in the closing rounds, and X-tokens only boost one action at a time where Clever/Boost can re-charge several in sequence.</p>
+    </div>
+
+    <h4>The Conservation-2 choice: card upgrade vs. extra worker</h4>
+    <p>At conservation level 2 you choose between a 4th card upgrade or an extra Association worker. Default to the <strong>upgrade</strong> — it's a scarce, one-time resource, while extra workers are usually reachable elsewhere (a 2nd partner zoo, a 2nd university). Take the <strong>worker instead</strong> only when several of these line up at once: you have no other near-term path to a 2nd/3rd worker, you can spend the extra action productively this same turn, the card upgrade would be low-value in your current game state, or the game is trending short/break-heavy.</p>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>The worker option is more attractive solo than the multiplayer baseline suggests. Solo is explicitly a sprint — the choice that scores fastest right now can beat banking a permanent upgrade you may not get enough turns to fully leverage. Some maps' conservation track don't even offer a worker as a project reward elsewhere, making the 2CP bonus the only route to a 3rd/4th worker at all on those maps.</p>
+    </div>
+
+    <h3><span class="icon">📋</span>Reading your opening hand</h3>
+    <p>Apply this checklist to any dealt hand rather than following a fixed script:</p>
+    <ol>
+      <li><strong>Cut unplayable cards first.</strong> Big late-game animals or cards with heavy unmet prerequisites are dead weight — hand size shrinks fast at breaks, so a card you can't cast for many turns is taking a slot from something playable now.</li>
+      <li><strong>Guarantee you can support <em>some</em> project soon</strong> — "any project," not necessarily the best one. A hand that can't support anything after the first stretch is a bigger risk than a hand with a mediocre project.</li>
+      <li><strong>Look for small synergies</strong> (2-3 cards sharing an icon or ability chain), not a full deep build — the game doesn't reward committing to one archetype from turn one the way some engine games do.</li>
+      <li><strong>Sequence-check the plan</strong> — verify the cards you're keeping are reachable via the same early path, not two divergent ones (e.g. don't lean on both a university-science card and a partner-zoo card you have no route to for many turns).</li>
+    </ol>
+    <p>Don't undervalue late-game bombs (eagles, rhinos) just because they have no immediate use — hold them absent a specific reason not to (e.g. the diversity project they'd support is already claimed). A card's building footprint can also redeem an otherwise weak pick if it happens to chain toward a placement bonus on your specific map — check map-specific synergy before cutting on generic power level alone.</p>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>Pick your starting hand to match your map's specific base conservation projects, not raw card power — in a short solo game you only get a handful of project supports total, so a hand that lines up with what's actually achievable on your board compounds into a fast, cheap early conservation-point hit. Let your enclosure footprint target known placement bonuses on the map deliberately, rather than building organically and hoping to patch it later — there won't be spare actions to fix a suboptimal layout.</p>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-scoring">
+    <h2>Scoring &amp; the Two Tracks</h2>
+    <p class="lede">Why Appeal and Conservation are kept separate, what that separation is actually doing for the game, and how to use the endgame trigger to your advantage.</p>
+
+    <h3><span class="icon">🧮</span>The scoring reduces to one number</h3>
+    <p>Despite the two markers crossing from opposite ends of a shared track, only two things ever determine your final score: appeal points and conservation points, converted to a common scale and compared. It doesn't matter when or how the markers cross — only the final count of each matters.</p>
+    <p>The conversion rate is roughly <strong>1 conservation point ≈ 3 appeal</strong> — but only after an initial stretch; at the very start of the conservation track it's closer to 2:1. There are 114 appeal spaces on the track, and since score is zero when the markers meet, everyone effectively starts the game at –114. A negative final score is not a sign of a bad game — it's just where the scale is zeroed. Read your score relative to how close you got to closing the gap, not against zero.</p>
+
+    <h3><span class="icon">🤝</span>Why two tracks instead of one summed number</h3>
+    <p>It's tempting to ask why the game doesn't just sum appeal + 3×conservation into one VP total. The two-track design is doing more than one job at once:</p>
+    <ul>
+      <li>The markers meeting <strong>is</strong> the end-game trigger — collapsing them into one number would need a separate, more arbitrary end condition.</li>
+      <li>Appeal also drives income during breaks, not just final score — keeping it visible lets you read "how much will I earn next break" without mentally subtracting out conservation's share.</li>
+      <li>Conservation has its own early-game bonus thresholds; appeal has its own thresholds (5 and 25) that specific cards key off. A merged number can't expose either cleanly.</li>
+      <li>Conservation gains are largely "free" (via project support) while appeal gains generally cost money (playing animals) — two different economic textures that a single number would obscure.</li>
+    </ul>
+    <p>Practically: once you're past conservation's early undervalued stretch, there's little intrinsic difference in raw point value between ~3 appeal and 1 conservation point — both are just "the highest number you can get." Conservation's rate of return per action is usually strong and its bonuses are large, so don't ignore it, but don't treat it as automatically superior to a cheap appeal source either. Compare actual point yield for the action, not track identity.</p>
+    <div class="callout">
+      <span class="label">Trade-off heuristic</span>
+      <p>Don't try to actively "balance" the two tracks as a design goal for your own zoo — evaluate individual trades against the ~3:1 exchange rate and let totals fall where they land. Conservation's value is front-loaded (it unlocks bonuses early); appeal's value is more linear and ongoing (it feeds income). A high-appeal animal is rarely worth releasing just to bank one conservation point.</p>
+    </div>
+
+    <h3><span class="icon">🏁</span>Playing the endgame trigger</h3>
+    <p>Crossing the point where the two markers meet ends the round — and in multiplayer, gives every other player one final bonus turn. Unless you have a commanding lead, the strongest line is to end your turn positioned just short of the crossing point, then complete the crossing on your <em>next</em> turn — banking maximum value before the game-end state locks in. This "sandbagging" is a recognized tactic, not a loophole.</p>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>There are no opponents to hand a bonus turn to, so the multiplayer "don't trigger unless your lead exceeds what one good opponent turn could produce" caution doesn't apply. What still applies: don't cross the finish line a turn earlier than you have to if you can bank one more action's worth of value first — the same sandbagging principle, just without the opponent-timing risk layered on top. Since solo's fixed turn budget means you know roughly how many turns remain, use that visibility to plan your last 1-2 actions toward maximizing the count at the moment you do cross.</p>
+    </div>
+
+    <h3><span class="icon">🎖️</span>Reputation track</h3>
+    <p>Reputation has no direct final-score value — it sits between appeal and conservation in importance because it unlocks the Association upgrade and widens which reputation-range cards your upgraded Cards action can pull from. Only spend an action purely on reputation when you specifically need a reputation-gated bonus, or when your better Association options (zoos, projects) are already used up and this is the best remaining use of a worker.</p>
+    <div class="card">
+      <h4>Ruling: reputation bonuses trigger on pass-through, not just landing</h4>
+      <p>Any bonus space your reputation token advances onto <em>or through</em> in a single move triggers — you don't need to stop exactly on it. A reputation gain that jumps several spaces at once collects every bonus space along the way, not just the final one. This makes multi-step reputation gains strictly better than they first appear.</p>
+      <p>When a single action triggers multiple bonuses simultaneously, you may resolve them in whichever order you choose — pick the order that maximizes value (e.g. resolve a bonus that changes what a later bonus needs, first).</p>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-zoo">
+    <h2>Zoo Building &amp; Enclosures</h2>
+    <p class="lede">Cash tightness, what to build, and when specialized strategies (large animals, bird aviaries, filling the map) are actually worth pursuing.</p>
+
+    <h3><span class="icon">💰</span>Running low on cash is normal</h3>
+    <p>Cash tightness between breaks is baked into the game's pacing, not a sign of misplay — it's rare to be able to both build a new enclosure <em>and</em> play multiple animals inside the same cycle. The intended skill is alternating: spend one stretch building, the next stretch playing animals into what you built, rather than trying to fund both at once. Trying to do both simultaneously is what most often causes a stall.</p>
+    <p>Concrete cash levers worth stacking together rather than relying on any single one: appeal-driven income, sponsor cards (especially upgraded ones), zoo placement bonuses, map-specific bonus icons, the conservation-project cash cube, selling cards via Sunbathing-keyword animals, and conservation-track money bonuses. No single lever solves cash tightness — the skill is combining several.</p>
+    <div class="callout">
+      <span class="label">Avoid front-loading large animals</span>
+      <p>Playing a size-4/5 enclosure animal early is a common trap: the enclosure plus the animal itself typically consumes all starting money before you can even reach it. Prioritize small/cheap animals first to get appeal (and income) moving, and treat large animals as something you graduate into once income is running — not an opening move, absent specific discount support.</p>
+    </div>
+
+    <h3><span class="icon">🔁</span>Preventing the no-money loop</h3>
+    <p>The trap: buy one animal, go broke until the next income tick, repeat — income never grows because every cycle spends down to zero. The fix is upstream sequencing, not an escape maneuver once you're in it:</p>
+    <ul>
+      <li>Push appeal to roughly 20 early via cheap sources, then be content sitting there a while — appeal has sharply diminishing returns as the track climbs, so chasing it further via ever-bigger enclosures is exactly the over-investment that produces the loop.</li>
+      <li>Play only the minimum animals needed to hit tag requirements; get appeal from other sources (sponsor cards that grant appeal directly convert to income with no capital outlay, which is stronger than appeal bought with cash).</li>
+      <li>Kiosks and pavilions are undervalued: roughly 2 money for 1 appeal is a better points-per-money conversion than most animals in the game. "Build densely" is a legitimate core approach, not just board filler.</li>
+      <li>Avoid over-associating (recruiting workers/zoos) before you can afford to use them — a common beginner trap that burns actions without proportional payoff.</li>
+      <li>Avoid donations costing more than 5 money — rarely a better points-per-cost deal than an equivalent animal.</li>
+    </ul>
+    <p>This reduces the risk of a <em>self-inflicted</em> loop, but doesn't fully insulate against bad card luck (no usable income sponsors drawn) — the framework lowers risk, it isn't a guarantee.</p>
+
+    <h3><span class="icon">🦁</span>Large animals: a pivot, not an opening plan</h3>
+    <p>Large-animal strategies fail for a specific, repeatable reason: marquee payoff cards (large animals, big sponsor-driven combos) stack hidden secondary gates — a reputation threshold, a science icon, a sponsorship requirement — on top of the visible cash-and-space cost. A hand full of large animals looks synergistic but actually front-loads several independent unlock conditions competing for the same early actions your normal economy also needs.</p>
+    <p>Treat large animals as a payoff to become <em>ready</em> for, not something to draft toward from turn one: get your reputation, science, and income engine running first, then pivot into large-animal plays once the prerequisites are already clear.</p>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>Solo's tighter turn budget makes this even more binding than in multiplayer — the action economy required to build a large-enough habitat and then acquire/place the animal often doesn't pay back fast enough inside ~27 turns. This isn't a claim large animals are weak in general, just that solo's fixed clock punishes slow-payoff commitments harder.</p>
+    </div>
+
+    <h3><span class="icon">🐦</span>Bird Aviary vs. Reptile House</h3>
+    <p>Reptile House gets built far more often than Bird Aviary at the table, but that's a card-pool artifact, not a power difference. All 25 reptile cards are Reptile-House-eligible; only 11 of 25 bird cards are Aviary-eligible. Per-card, Aviary birds are actually the stronger pick: about 28% more appeal and roughly 2.5× the space saved per animal versus reptiles, at the cost of a higher price tag and a smaller eligible pool. Treat the Aviary as a <strong>low-frequency, high-payoff play</strong> — worth building once you already hold or have played multiple aviary-eligible birds (especially large ones where the space savings is biggest), not something to chase as a standalone strategy from the outset.</p>
+
+    <h3><span class="icon">🗺️</span>Filling the map</h3>
+    <p>Filling the entire board (every space covered by a structure, not necessarily stocked with an animal) is achievable but shouldn't be a standalone goal — pursue it only when it aligns with a scoring card you're already building toward. An upgraded Build action is close to a prerequisite, since action economy (not money) is usually the real bottleneck to covering a large board. Special buildings from sponsor cards and cheap kiosks/pavilions are the highest-leverage fill tools; the size-2 enclosure reward from a conservation project is a recurring free filler for small gaps.</p>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>Filling the map is noticeably rarer solo than in multiplayer — the tighter turn budget makes it uncommon even when deliberately pursued with an early Build upgrade. Don't treat it as a realistic default target; evaluate whether the actions it costs beat the alternative use of the same build actions and cash.</p>
+    </div>
+
+    <h3><span class="icon">🌍</span>Diversity conservation projects</h3>
+    <p>Species Diversity (needing distinct animal <em>type</em> icons) is meaningfully easier to complete than Habitat Diversity (needing distinct <em>continent</em> icons), despite identical thresholds and payouts — there are 7 animal types to draw from versus only 5 continents, and some animals carry two type icons at once, giving extra overlap. When both are live as project targets, Species Diversity is the softer, more efficient one to aim for.</p>
+
+    <h3><span class="icon">📜</span>Rules traps worth knowing before you plan around them</h3>
+    <div class="grid2">
+      <div class="card">
+        <h4>"Base" conservation project is a strict term</h4>
+        <p>Only the four project cards face-up at setup count as "base" projects. A project fetched to hand later (e.g. via an Assertion-style ability) does not retain base status once played from hand — even if the fetch text calls it a base project. This matters because Breeding Cooperation/Program discounts specifically require supporting a <em>base</em> project; a fetched-then-played project won't trigger them.</p>
+      </div>
+      <div class="card">
+        <h4>Unique-building sponsors need a legal spot</h4>
+        <p>Sponsor cards that come with a unique building require that building to actually be placed — if there's no legal spot for it, you cannot play the card at all, not even for a partial benefit. Confirm your layout has room before committing to (or holding for) one of these.</p>
+      </div>
+      <div class="card">
+        <h4>Handshake icon ≠ plain continent icon</h4>
+        <p>A plain continent icon requirement can be satisfied by any source of that continent's symbol (an animal, a partner zoo, even a sponsor). A handshake icon is stricter — it requires an actual partner zoo of the matching continent; nothing else substitutes. Conflating the two is a common misplay.</p>
+      </div>
+      <div class="card">
+        <h4>Association power-5 tension</h4>
+        <p>Supporting a conservation project needs your Association card at power 5, but universities/partner zoos are usually taken at lower power and reset the card back to power 1. Every project support costs a full 1→5 cycle — this is the mechanical reason you can only support a handful of projects per game with one worker, and why sequencing Association plays deliberately (rather than opportunistically) matters.</p>
+      </div>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-cards">
+    <h2>Cards &amp; Animals</h2>
+    <p class="lede">A card's power is almost entirely contextual — tier lists of "strong cards" are near-useless on their own, because a 2-appeal slow worm can be exactly the right play if it completes the icon set you need. What follows is the evaluative lens, plus the standout cards where the reasoning itself is instructive.</p>
+
+    <h3><span class="icon">🔍</span>How to evaluate any card</h3>
+    <p>Across dozens of worked examples from experienced players, the same few lenses keep resurfacing. Run any card in your hand through these before judging it by raw stats:</p>
+    <ul>
+      <li><strong>Does it convert an action you'd take anyway?</strong> The strongest project/sponsor cards ride on top of your natural game plan rather than requiring a dedicated detour — e.g. a card that turns "play a partner-zoo animal" (something you were doing regardless) into bonus conservation points and reputation.</li>
+      <li><strong>Does it compound over remaining turns?</strong> A sponsor that supercharges a repeated action (like Build) multiplies with turns remaining — the earlier it lands, the more it's worth.</li>
+      <li><strong>Does it buy flexibility or choice?</strong> Cards that let you pick the best-fit project or animal on demand remove the mismatch risk everyone else faces, and are worth more than their raw printed stats suggest.</li>
+      <li><strong>Does timing change its value?</strong> Several cards are only strong played early (before a threshold is crossed) or only strong played late (once an engine is running) — the same card can be excellent or dead depending on when it lands.</li>
+    </ul>
+
+    <h3><span class="icon">🃏</span>Standout cards worth knowing</h3>
+    <div class="card raised">
+      <h4>White/Indian Rhinoceros — the game's strongest single ability</h4>
+      <p>The Assertion ability draws and immediately lets you play a conservation project from the deck — effectively letting you choose your best-fit project rather than take what's available, typically worth 4-5 conservation points for only a size-4 enclosure. White Rhino edges out Indian Rhino by needing no card flip, giving more lead time to plan around whatever project surfaces.</p>
+    </div>
+    <div class="card">
+      <h4>Eagles &amp; King Cobra — Determination</h4>
+      <p>Play for appeal, then immediately play a conservation project — a big tempo swing, or a decisive closing move if you want to end the game on your terms. Both eagles cost only one Aviary space, which is disproportionately cheap for the power level.</p>
+    </div>
+    <div class="card">
+      <h4>Engineer &amp; Federal Grants (sponsors)</h4>
+      <p>Engineer supercharges the Build action, snowballing into placement bonuses and a fuller zoo faster — the value compounds with turns remaining, so it's strongest played early. Federal Grants is a strong first sponsor specifically: an immediate cash injection plus a near-free endgame conservation point, and it carries a science icon that boosts other science-synergy cards.</p>
+    </div>
+    <div class="card">
+      <h4>Breeding Program (project card)</h4>
+      <p>Converts a play you were already going to make — getting a partner-zoo animal into play before the first break — into 2 conservation points and 2 reputation for free. A clean example of "rides on top of your natural plan" rather than requiring a detour.</p>
+    </div>
+    <div class="card">
+      <h4>Horse (and cheap petting-zoo animals generally)</h4>
+      <p>Don't dismiss cheap animals by face value — evaluate appeal-and-income per money and per build action. Horse specifically also grants reputation on top of standard petting-zoo value, pushing it into genuinely strong territory despite its low cost.</p>
+    </div>
+    <div class="card">
+      <h4>Side Entrance</h4>
+      <p>Undervalued at a glance — building on one side of your board, then dropping Side Entrance on the other, unlocks building almost anywhere. The value shows up in what it unlocks afterward, not the card's own printed stats.</p>
+    </div>
+
+    <h3><span class="icon">📊</span>Card pool shape (what to expect from the deck)</h3>
+    <p>Birds and reptiles are the most common animal-type tags in the base card pool — strategies built around them have more supporting cards to draw into, making synergy and project requirements easier to hit consistently. Primates are the scarcest tag by a wide margin; committing early to a primate-heavy plan is a real gamble since there just aren't many cards to draw into. Africa, the Americas, and Asia are close to equally common continent tags (all noticeably ahead of Europe/Australia) — treat them as comparably strong options rather than hunting for a "best" continent.</p>
+    <p>Size-2 enclosures are the most frequently required size across the card pool — the safe default bet, since more of the deck can fill it. Size-5 is the rarest requirement, meaning building for it upfront is a narrower bet that only pays off for specific high-value targets you've already committed to.</p>
+
+    <h3><span class="icon">🏛️</span>Universities</h3>
+    <p>Provide research tags, a hand-limit increase, a card upgrade, and possibly reputation — but the hand-limit chase is a common trap (see Core Strategy). Suggested default pick order, reasoning by "does this compound or is it conditional":</p>
+    <ol>
+      <li><strong>Hand-size/reputation university first</strong> — a bigger hand pays off every subsequent turn once active.</li>
+      <li><strong>Single science/reputation university second</strong> — moving the reputation track is worth more the earlier you do it, since it unlocks a cascade of further thresholds.</li>
+      <li><strong>Pure double-science university last</strong> — only cashes in when you actually need science for a specific play; a conditional payoff rather than an always-useful one.</li>
+    </ol>
+    <p>Research tags are otherwise binary: they gate some of the strongest sponsors and a specific final-scoring card, but few other cards need them directly. Go all-in on research early, or ignore it — there's little efficient middle ground.</p>
+  </section>
+  <section class="tab-panel" id="tab-maps">
+    <h2>Maps</h2>
+    <p class="lede">Map strength data below comes from multiplayer (mostly 2-player) analysis — treat rankings as directional, not gospel, and lean harder on the terrain/spacing principles, which transfer directly to solo.</p>
+
+    <h3><span class="icon">🧭</span>What actually makes a map strong or weak</h3>
+    <p>The throughline across both community tier lists and statistical analysis: <strong>flexibility beats raw ceiling.</strong> Ark Nova is high-variance (huge card pool, no deck cycling within a game), so the best maps are the ones that reward the normal good plays every game state calls for — build enclosures, play animals, run projects — rather than maps that need one specific draw to pay off. Early tempo and income compound through the engine, so an early advantage is worth more than a same-sized advantage arriving later.</p>
+    <p>For solo specifically, a dedicated data-driven solo map analysis identifies the two root causes of a weak map, and they're worth checking on any map before you commit to a build:</p>
+    <ul>
+      <li><strong>Money issues</strong> — a map's bonuses don't generate enough income to fuel a real engine.</li>
+      <li><strong>Spacing issues</strong> — cramped or awkwardly-shaped terrain that restricts flexible enclosure building, even when a map's raw resource output looks fine on paper.</li>
+    </ul>
+    <p>Both hurt your floor and ceiling simultaneously, so a map can show a deceptively okay win rate while still capping how high you can score. Two more terrain-level principles from that same analysis: <strong>placement-bonus geography matters as much as bonus type</strong> (a strong bonus tucked in a corner far from your natural build path is effectively wasted, while a mediocre bonus near your start gets used reliably), and <strong>rock/water adjacency drives enclosure flexibility</strong> (terrain segregated into large separate zones forces committing to one region early; interleaved terrain lets you flexibly place either type near the same bonuses).</p>
+
+    <h3><span class="icon">🥇</span>Silverlake — the consistent standout</h3>
+    <p>Ranked clearly above the rest of the field by both community tier lists and independent statistical regression against real game data. The reasoning holds up under scrutiny from both angles: a strong, flexible opening (free building, 2 reputation reachable before the first break) works under almost any strategy, and its endgame bonus effectively guarantees a double Association-action closing turn that on every other map requires actually drawing the right card. Early tempo plus the strongest available closing move is a rare combination — this is a case where community reputation and the data agree for a clear, teachable reason, not just "generically good."</p>
+
+    <h3><span class="icon">📈</span>Where community opinion and the data disagree</h3>
+    <p>Two maps are worth flagging specifically because independent multiplayer statistical analyses and community perception point in different directions:</p>
+    <div class="grid2">
+      <div class="card">
+        <h4>Observation Tower — likely underrated</h4>
+        <p>Widely disliked at the table (inflexible layout, awkward rock/water placement), but statistical analysis rates it roughly average-to-positive: a reliable appeal ceiling and a strong per-break conservation-point money bonus outweigh the placement annoyance more than intuition suggests. It's also commonly cited as a forgiving beginner map, since its restrictions are more forgiving of a new player's mistakes than limiting for an experienced one who'd otherwise exploit flexibility elsewhere.</p>
+      </div>
+      <div class="card">
+        <h4>Rescue Station — possibly overrated</h4>
+        <p>Community reputation ranks it near the top, sometimes above Silverlake — but regression analysis puts it close to average. The likely explanation: its dig/tuck bonus has a high ceiling <em>conditional</em> on your starting hand supporting it, but is unremarkable when picked blind, which may explain why informed community picks and blind aggregate data diverge. Small sample size is a real caveat here too, so don't treat this as fully settled.</p>
+      </div>
+    </div>
+
+    <h3><span class="icon">⚠️</span>Consistently weak</h3>
+    <p>Hollywood Hills and Geographical Zoo land at the bottom of both community tier lists and statistical analysis alike — the agreement across independent sources makes this the most reliable read in the map data. Hollywood Hills specifically needs a cluster of good sponsor draws to function, and even engaged analysts report not having found a consistently strong plan for it; treat it as the map most players struggle to solve rather than one with a known fix. Geographical Zoo's core tension is that it rewards spreading across habitats while most conservation projects reward specializing — fighting the map's own incentive against the scoring incentive.</p>
+
+    <h3><span class="icon">🎯</span>Solo terrain notes</h3>
+    <p>A dedicated solo-mode map analysis (tracking win rate, average score, and high-score rate separately, since a map can have a good win rate via a low safe average while still lacking any high-score ceiling) flags specific terrain patterns to watch for:</p>
+    <ul>
+      <li>A map whose money-generating bonus is real but slow (not coverable until several rounds in without a specific sponsor draw) can look strong on income stats while actually being spacing-bottlenecked — money sits unspent because there's nowhere to build, not because there's nothing to spend it on. Check which resource is your actual constraint before trusting a map's raw income ranking.</li>
+      <li>Narrow terrain chokepoints between rock and water zones prevent chaining large enclosures across consecutive rounds — a key scaling pattern on more open maps.</li>
+      <li>A map's power/ability can rescue a bad opening hand but be irrelevant with a good one — don't weight a map's power ability too heavily in isolation from how the rest of its layout plays.</li>
+    </ul>
+  </section>
+</main>
+<footer>Community strategy, distilled — not a rules reference.</footer>
+<script>
+  document.getElementById('tabs').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-tab]');
+    if(!btn) return;
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.tab-panel').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+</script>
+</body>
+</html>
