@@ -23,6 +23,7 @@
     --shadow:rgba(0,0,0,.6);
   }
   *{box-sizing:border-box}
+  html{font-size:18px}
   body{
     margin:0;
     min-height:100vh;
@@ -238,6 +239,7 @@
     <button data-tab="zoo">Zoo Building</button>
     <button data-tab="cards">Cards &amp; Animals</button>
     <button data-tab="maps">Maps</button>
+    <button data-tab="house-rules">House Rules</button>
   </nav>
 
   <section class="tab-panel active" id="tab-core">
@@ -248,6 +250,7 @@
     <p>Every turn is one action, period — there's no bonus-action economy to out-produce. The differentiator between a good solo game and a bad one isn't how much money or how many cards you end with, it's <strong>points generated per action spent</strong>. Any resource left over at game end (money, cards, unused workers, empty board space) was potential you didn't convert. The one exception: X-tokens. Banking them idle is pure loss — they exist to multiply a future action's strength, so spend them.</p>
     <p>Rule of thumb for comparing actions: <strong>1 Conservation Point ≈ 3 Appeal</strong> at final scoring (roughly 2:1 at the very start of the conservation track, climbing to 3:1 after). Use this to judge whether a trade is worth it — releasing a 12-appeal animal to gain 1 conservation point is a bad trade under this heuristic, even though "conservation point" sounds intrinsically valuable.</p>
     <p>Don't default to "take the rightmost/highest-power slot." A low-power action that lands the exact tag, animal, or project you need usually beats a nominally stronger action that doesn't fit your plan. Optimize for what the action unlocks, not its printed number.</p>
+    <p>The <strong>Cards action's Snap option</strong> (take any one card from the display, not just your reputation range) trades quantity for certainty — use it when you know exactly which card you need (completing a project's requirement, grabbing a card about to leave the display) rather than as a default draw method. The <strong>X-action</strong> has two underused tactical uses beyond generic token-spending: rescuing a card that's been stuck unplayable for several turns by finally affording it, and late-game, weighing an X-boost against simply breaking a spent card for cash when turns are nearly out and the boost's future payoff has no time left to matter.</p>
 
     <h3><span class="icon">🏃</span>Why solo plays differently than the rulebook assumes</h3>
     <div class="callout solo">
@@ -295,7 +298,7 @@
       <li><strong>Build, usually first.</strong> A healthy income engine is a core win condition, and the base Build action only lets you build one structure per turn. The upgrade lets you place a kiosk cluster alongside a pen in the same action — the compounding income source that actually breaks a cash-poor start. Skip or delay only if your map needs very few kiosks to hit its bonuses.</li>
       <li><strong>Cards, but time it.</strong> Near-mandatory eventually — more draws, open selection from your reputation range, and it gates reputation-track progress past a threshold most games want to cross. It's weak while your reputation is still low (small draw range), so upgrade once you're a couple of reputation cards in, not as your very first move.</li>
       <li><strong>Association, situational but usually worth it.</strong> Real value is racing cheap early donations before the board state moves past them, and unlocking a 3rd/4th partner zoo if you need those continent icons for projects.</li>
-      <li><strong>Animals, usually later.</strong> Peaks once Build and Cards are already up — its value (placing several animals per turn, drawing straight from your reputation range) is downstream of the other two.</li>
+      <li><strong>Animals, usually later.</strong> Peaks once Build and Cards are already up — its value (playing several animals per turn straight from the display, trading cash for tempo by skipping the hand step) is downstream of the other two. Don't confuse this with the Cards upgrade: only Cards II lets you <em>take</em> a card into hand from your reputation range — Animals/Sponsors/Association II let you <em>play</em> straight from the display instead, which is a different, narrower trick.</li>
       <li><strong>Sponsors, rarely correct.</strong> Real benefits exist, but justifying this over the other four needs a specific strong-sponsor case, not just "some good sponsors are available."</li>
     </ol>
     <div class="callout solo">
@@ -321,8 +324,11 @@
     <p>Don't undervalue late-game bombs (eagles, rhinos) just because they have no immediate use — hold them absent a specific reason not to (e.g. the diversity project they'd support is already claimed). A card's building footprint can also redeem an otherwise weak pick if it happens to chain toward a placement bonus on your specific map — check map-specific synergy before cutting on generic power level alone.</p>
     <div class="callout solo">
       <span class="label">Solo-specific</span>
-      <p>Pick your starting hand to match your map's specific base conservation projects, not raw card power — in a short solo game you only get a handful of project supports total, so a hand that lines up with what's actually achievable on your board compounds into a fast, cheap early conservation-point hit. Let your enclosure footprint target known placement bonuses on the map deliberately, rather than building organically and hoping to patch it later — there won't be spare actions to fix a suboptimal layout.</p>
+      <p>Pick your starting hand to match your map's specific base conservation projects, not raw card power — in a short solo game you only get a handful of project supports total, so a hand that lines up with what's actually achievable on your board compounds into a fast, cheap early conservation-point hit. Let your enclosure footprint target known placement bonuses on the map deliberately, rather than building organically and hoping to patch it later — there won't be spare actions to fix a suboptimal layout. Conservation projects are never claimed or blocked by anyone else solo, so there's no timing pressure forcing an early commitment to a specific project — take your time reading the board before locking in.</p>
     </div>
+
+    <h3><span class="icon">🎯</span>Managing your goal pair</h3>
+    <p>The two final-scoring goal cards you're dealt aren't independent — some pairs actively conflict (progress on one directly undercuts the other), some partially overlap, and some share enough underlying requirements that pursuing both barely costs more than pursuing one. Read your pair for which relationship you've got before committing a build around either: a hand that happens to support both goals with the same animals/icons is worth far more than the printed point values suggest, while a genuinely conflicting pair means picking one early and treating the other as a lost cause rather than half-heartedly hedging both.</p>
   </section>
   <section class="tab-panel" id="tab-scoring">
     <h2>Scoring &amp; the Two Tracks</h2>
@@ -345,6 +351,7 @@
       <span class="label">Trade-off heuristic</span>
       <p>Don't try to actively "balance" the two tracks as a design goal for your own zoo — evaluate individual trades against the ~3:1 exchange rate and let totals fall where they land. Conservation's value is front-loaded (it unlocks bonuses early); appeal's value is more linear and ongoing (it feeds income). A high-appeal animal is rarely worth releasing just to bank one conservation point.</p>
     </div>
+    <p>Some final-scoring and sponsor cards cap out at a fixed appeal threshold (commonly 25) rather than scaling forever. If you're holding or eyeing one of these, that's a soft deadline: your own appeal track keeps climbing regardless, and once you pass the card's cap you've locked yourself out of ever benefiting from it. Play or discard it before your own growth outpaces it, rather than letting it linger unplayed.</p>
 
     <h3><span class="icon">🏁</span>Playing the endgame trigger</h3>
     <p>Crossing the point where the two markers meet ends the round — and in multiplayer, gives every other player one final bonus turn. Unless you have a commanding lead, the strongest line is to end your turn positioned just short of the crossing point, then complete the crossing on your <em>next</em> turn — banking maximum value before the game-end state locks in. This "sandbagging" is a recognized tactic, not a loophole.</p>
@@ -352,6 +359,7 @@
       <span class="label">Solo-specific</span>
       <p>There are no opponents to hand a bonus turn to, so the multiplayer "don't trigger unless your lead exceeds what one good opponent turn could produce" caution doesn't apply. What still applies: don't cross the finish line a turn earlier than you have to if you can bank one more action's worth of value first — the same sandbagging principle, just without the opponent-timing risk layered on top. Since solo's fixed turn budget means you know roughly how many turns remain, use that visibility to plan your last 1-2 actions toward maximizing the count at the moment you do cross.</p>
     </div>
+    <p><em>Multiplayer note:</em> turn order interacts with who benefits from the trigger. The player who triggers it forfeits their own bonus turn entirely, while the player first in turn order after them is guaranteed to get one — the trigger's value is asymmetric by seat position, not just by who's leading.</p>
 
     <h3><span class="icon">🎖️</span>Reputation track</h3>
     <p>Reputation has no direct final-score value — it sits between appeal and conservation in importance because it unlocks the Association upgrade and widens which reputation-range cards your upgraded Cards action can pull from. Only spend an action purely on reputation when you specifically need a reputation-gated bonus, or when your better Association options (zoos, projects) are already used up and this is the best remaining use of a worker.</p>
@@ -359,6 +367,10 @@
       <h4>Ruling: reputation bonuses trigger on pass-through, not just landing</h4>
       <p>Any bonus space your reputation token advances onto <em>or through</em> in a single move triggers — you don't need to stop exactly on it. A reputation gain that jumps several spaces at once collects every bonus space along the way, not just the final one. This makes multi-step reputation gains strictly better than they first appear.</p>
       <p>When a single action triggers multiple bonuses simultaneously, you may resolve them in whichever order you choose — pick the order that maximizes value (e.g. resolve a bonus that changes what a later bonus needs, first).</p>
+    </div>
+    <div class="callout solo">
+      <span class="label">Solo-specific</span>
+      <p>You don't have to lock in which of your two final-scoring cards you're aiming for early — it's fine to keep both live and decide late, once your realized icon counts and board state make it obvious which one actually pays off. Solo has no opponent moves to read for signal, so this deferred read of your own board is the only "information" you get — use it rather than guessing upfront. Solo is also higher-variance than multiplayer in one specific way: there's no other players' hands cycling the deck, so a run of bad draws can't be diluted the way it would be across a multiplayer table — expect wider score swings from the same skill level.</p>
     </div>
   </section>
   <section class="tab-panel" id="tab-zoo">
@@ -463,6 +475,10 @@
       <h4>Side Entrance</h4>
       <p>Undervalued at a glance — building on one side of your board, then dropping Side Entrance on the other, unlocks building almost anywhere. The value shows up in what it unlocks afterward, not the card's own printed stats.</p>
     </div>
+    <div class="card">
+      <h4>Reading swingy abilities (e.g. Elephant)</h4>
+      <p>Some animal abilities draw a random scoring card and are worth wildly different amounts depending on the draw — value these at their <em>average</em> payout across the full range of outcomes, not the best case you're picturing. A card that's a blowout one time in four and a whiff the rest averages out closer to a small, unreliable bonus than a guaranteed swing.</p>
+    </div>
 
     <h3><span class="icon">📊</span>Card pool shape (what to expect from the deck)</h3>
     <p>Birds and reptiles are the most common animal-type tags in the base card pool — strategies built around them have more supporting cards to draw into, making synergy and project requirements easier to hit consistently. Primates are the scarcest tag by a wide margin; committing early to a primate-heavy plan is a real gamble since there just aren't many cards to draw into. Africa, the Americas, and Asia are close to equally common continent tags (all noticeably ahead of Europe/Australia) — treat them as comparably strong options rather than hunting for a "best" continent.</p>
@@ -476,6 +492,7 @@
       <li><strong>Pure double-science university last</strong> — only cashes in when you actually need science for a specific play; a conditional payoff rather than an always-useful one.</li>
     </ol>
     <p>Research tags are otherwise binary: they gate some of the strongest sponsors and a specific final-scoring card, but few other cards need them directly. Go all-in on research early, or ignore it — there's little efficient middle ground.</p>
+    <p>Whether to prioritize a university or a partner zoo with the same Association action is genuinely context-dependent — there's no fixed rule. Lean university when you specifically need the hand-size/reputation/research payoff outlined above; lean partner zoo when you need its continent icon or handshake requirement for a project or card you're already holding. Check what your current hand actually needs before defaulting to either.</p>
   </section>
   <section class="tab-panel" id="tab-maps">
     <h2>Maps</h2>
@@ -515,6 +532,40 @@
       <li>A map whose money-generating bonus is real but slow (not coverable until several rounds in without a specific sponsor draw) can look strong on income stats while actually being spacing-bottlenecked — money sits unspent because there's nowhere to build, not because there's nothing to spend it on. Check which resource is your actual constraint before trusting a map's raw income ranking.</li>
       <li>Narrow terrain chokepoints between rock and water zones prevent chaining large enclosures across consecutive rounds — a key scaling pattern on more open maps.</li>
       <li>A map's power/ability can rescue a bad opening hand but be irrelevant with a good one — don't weight a map's power ability too heavily in isolation from how the rest of its layout plays.</li>
+    </ul>
+  </section>
+  <section class="tab-panel" id="tab-house-rules">
+    <h2>House Rules for Solo Replay</h2>
+    <p class="lede">Ark Nova's base solo rules already lean low-luck compared to most euros — but a few spots still hide information or leave outcomes to a blind draw. If you're replaying a map to chase a better score, that residual randomness makes it hard to tell whether a higher number came from a better plan or a better shuffle. These rules strip out what's left, staying as close to the original game as possible.</p>
+
+    <div class="callout solo">
+      <span class="label">Philosophy</span>
+      <p>Stay close to the original rules — deviate only where it removes luck without changing what the game is testing. Prefer <strong>revealing hidden information</strong> over blind draws, and <strong>draw-then-choose</strong> over pure chance, so a repeat play is a fair comparison of decisions, not a fairer dice roll.</p>
+    </div>
+
+    <h3><span class="icon">🗂️</span>Conservation project deck — flip it face-up</h3>
+    <p>The project deck is the biggest source of hidden randomness in solo play, especially behind Assertion-style abilities (White/Indian Rhino) that draw and immediately let you play a project. Lay the whole deck out face-up (or flip it into an open row as space allows) instead of drawing blind. This doesn't add power — Assertion already lets you pick your best-fit project from what's drawn — it just lets you <em>see</em> the pool before deciding whether to trigger the ability at all, and removes the swing of the ability whiffing on a project you can't support yet.</p>
+
+    <h3><span class="icon">🐘</span>Random-payout animal abilities (Elephant and similar)</h3>
+    <p>A handful of animal abilities draw a random scoring/bonus card as their payout (Elephant is the standout example flagged in Cards &amp; Animals). Two options, in order of preference:</p>
+    <ul>
+      <li><strong>Draw-then-choose:</strong> draw 3, keep 1 (or whatever ratio feels close to the card's intended variance without eliminating it entirely). Keeps a live decision instead of a flat average.</li>
+      <li><strong>Average-out:</strong> if you'd rather not add a mini-decision, just take the known average payout for that ability every time it triggers. Simpler, fully static, best for pure score-comparison replays.</li>
+    </ul>
+    <p>Don't apply this to the deck as a whole (card market, sponsor market) — see below for why those are already fine as-is.</p>
+
+    <h3><span class="icon">🎴</span>Starting hand — pick your own</h3>
+    <p>For a genuine skill/score comparison across replays, deal yourself a fully open hand instead of a random one: lay out significantly more cards than your hand size (e.g. 2-3× ) face-up and draft freely, or — for a fully static setup when you're specifically trying to beat a previous score on the same map — fix the exact same starting hand every attempt. The latter is the closest Ark Nova equivalent to Feast for Odin's "same board, beat your record" solo loop.</p>
+    <p>If you'd rather keep some deal-with-what-you-get tension, a lighter middle ground: deal 2 hands, keep the better one (a single mulligan) rather than full open drafting.</p>
+
+    <h3><span class="icon">🗺️</span>Map — fix it for the run you're comparing</h3>
+    <p>Not a randomness fix (map choice isn't randomized to begin with) but the same replay-integrity logic applies: hold the map constant across attempts you're comparing. Switching maps between "attempts" mixes map strength into the score delta, which defeats the point of tracking improvement. Pick one map for a comparison run (Silverlake is the standout all-rounder per Maps, above) and stay on it until you're done chasing that particular score.</p>
+
+    <h3><span class="icon">✅</span>What's already fine as-is</h3>
+    <p>Two systems that look random but don't need a house rule, because the game already exposes the information:</p>
+    <ul>
+      <li><strong>Card market &amp; sponsor market</strong> — both deal into a face-up display you choose from (and Snap/upgraded actions widen or bypass the range entirely). The luck is already "revealed hidden info" by default; blind randomness only lives in what refills behind the display, which you can't see anyway in the paper original and isn't worth tracking against.</li>
+      <li><strong>Turn order / blocking</strong> — solo has no opponents contesting actions or board space, so there's nothing to self-block or randomize in the first place. Nothing to house-rule here.</li>
     </ul>
   </section>
 </main>

@@ -22,6 +22,7 @@ Each guide's design/layout/structure is independent — fit it to that guide's t
 - `feast-for-odin/` — A Feast for Odin strategy guide, base game + Norwegians expansion (occupations, tableau optimization, scoring strategy)
 - `ark-nova/` — Ark Nova strategy guide (zoo layout, card engine, appeal/conservation balance, action strategy)
 - `fields-of-arle/` — Fields of Arle strategy guide (worker placement, land reclamation, building engine, seasonal planning)
+- `balatro/` — Balatro strategy guide (joker synergies, deckbuilding, scoring math, run planning across stakes)
 
 ## Git
 
@@ -32,6 +33,7 @@ Commit requested → also push.
 ## Conventions
 
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
+Every guide sets `html{font-size:18px}` — root font-size is 18px, not the browser-default 16px, so `1rem`=18px.
 New guide → new subfolder, own `index.html` or descriptively-named `.html` file.
 New guide → add a card linking to it in root `index.html`.
 New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` (writes `{guide}/.research/_sources.md`) then runs `guide-research-distiller` sequentially per row (`.claude/agents/`) for sourcing.

@@ -411,6 +411,8 @@
   <button data-tab="occupations">Occupation Cards</button>
   <button data-tab="actionboard">Action Board Reference</button>
   <button data-tab="tips">Tips</button>
+  <button data-tab="houserules">House Rules</button>
+  <button data-tab="setup">Setup</button>
 </nav>
 
 <main>
@@ -483,6 +485,8 @@
   <section id="occupations" class="tab-panel">
     <h2>Occupation Cards</h2>
     <p class="placeholder-note">Score = community rubric (How Likely to be played 0-4, + How Strong when played 0-5; 0 = discard on sight, 9 = broken). Click a header to sort, click a row for the card's full text.</p>
+    <p class="placeholder-note">Norwegians adds a standing option, available any time you're allowed to play an occupation card (not just via the Tutor card): discard it instead for a flat VP token &mdash; 4-point tokens first (only 2 exist), then 3-point (6 exist), then unlimited 2-point once those run out. That scarcity means an early discard nets more than a late one, so the option quietly gets worse as the game goes on. It's best used as a release valve for a card that's genuinely dead in your build (no engine to plug into, no realistic window left to play it) rather than a default line &mdash; a marginal-but-synergistic card is usually still worth more played than cashed in, and reflexively discarding for guaranteed points is a commonly-cited overcorrection. The rubric scores below implicitly price this option in: a card scoring nothing purely by playability is a live discard candidate the moment it stops fitting your plan.</p>
+    <p class="placeholder-note">Reading the scores: a few patterns explain most of why a card lands where it does. Cards that need an early play to earn a slow trickle payoff (a recurring per-round bonus you only benefit from for a few rounds if drawn late) tend to score lower, since the timing risk is real &mdash; the rare exceptions are cards whose one-time effect is strong enough on its own that the trickle is a bonus, not the point. Cards that reward hoarding a tile in supply rather than banking it toward your build immediately score worse, since unplaced tiles don't score at all. And cards that key off green/blue tiles generally outscore ones keyed to red/yellow/raw-resource tiles, simply because green/blue are the tiles you're already trying to accumulate for their own sake &mdash; a red/yellow-keyed card can still be strong, but usually only when you're already resource-starved in that specific category. When judging a card the table doesn't make an easy call on, those three questions (does it pay off immediately or need trickle; does it want you hoarding a tile; does it reward tiles you already want) get you most of the way to a verdict without needing the full rubric.</p>
     <table class="sortable" id="occupation-tier-table">
       <thead>
         <tr>
@@ -527,7 +531,7 @@ This applies to both the first-column and last-column space for collecting a Wha
         <tr class="card" data-detail="<h3>Metalsmith</h3><p>When you play this card, you can immediately (and only once via this card) either receive 1 silverware at no cost, or buy the &quot;Crucifix&quot; special tile for 2 silver, or buy the &quot;Chalice&quot; special tile for 5 silver. (These are the printed costs.)</p>"><td>Metalsmith</td><td>7</td><td>When you play this card, you can immediately (and only once via this card) either receive 1 silverware at no cost, or buy the &quot;Crucifix&quot; special tile for 2 silver, or buy the &quot;Chalice&quot; special tile for 5 silver. (These are the printed costs.)</td></tr>
         <tr class="card" data-detail="<h3>Shepherd</h3><p>When you play this card, if you have at least 2 sheep, you immediately (and only once via this card) receive 1 milk and 1 wool. If you have at least 4 sheep, you receive 1 additional wool. (It does not matter whether or not the sheep are pregnant.)</p>"><td>Shepherd</td><td>6</td><td>When you play this card, if you have at least 2 sheep, you immediately (and only once via this card) receive 1 milk and 1 wool. If you have at least 4 sheep, you receive 1 additional wool. (It does not matter whether or not the sheep are pregnant.)</td></tr>
         <tr class="card" data-detail="<h3>Tanner</h3><p>At any time and any number of times, you can exchange salt meat in your supply for hide at a 1:1 ratio.</p>"><td>Tanner</td><td>6</td><td>At any time and any number of times, you can exchange salt meat in your supply for hide at a 1:1 ratio.</td></tr>
-        <tr class="card" data-detail="<h3>Tutor</h3><p>At any time and any number of times, you can pay 1 silver to play an occupation from your hand. Norwegians note: You may use this card instead to discard a card to gain a VP token.</p>"><td>Tutor</td><td>6</td><td>At any time and any number of times, you can pay 1 silver to play an occupation from your hand. Norwegians note: You may use this card instead to discard a card to gain a VP token.</td></tr>
+        <tr class="card" data-detail="<h3>Tutor</h3><p>At any time and any number of times, you can pay 1 silver to play an occupation from your hand.</p>"><td>Tutor</td><td>6</td><td>At any time and any number of times, you can pay 1 silver to play an occupation from your hand.</td></tr>
         <tr class="card" data-detail="<h3>Craft Apprentice</h3><p>Immediately before each time you use a &quot;Crafting&quot; action space, you can take a &quot;Take 1 Building Resource from a Mountain Strip&quot; action. (As usual, the &quot;2 silver&quot; are considered a single item.)</p>"><td>Craft Apprentice</td><td>6</td><td>Immediately before each time you use a &quot;Crafting&quot; action space, you can take a &quot;Take 1 Building Resource from a Mountain Strip&quot; action. (As usual, the &quot;2 silver&quot; are considered a single item.)</td></tr>
         <tr class="card" data-detail="<h3>Refugee Helper</h3><p>You receive a discount of 2 silver on all &quot;Emigration&quot; actions (on action spaces or via occupations). (So emigration costs you nothing in the first two rounds, 1 silver in the third round, and so on.) Norwegians note: Does not apply to small emigrations with a whaling boat.</p>"><td>Refugee Helper</td><td>6</td><td>You receive a discount of 2 silver on all &quot;Emigration&quot; actions (on action spaces or via occupations). (So emigration costs you nothing in the first two rounds, 1 silver in the third round, and so on.) Norwegians note: Does not apply to small emigrations with a whaling boat.</td></tr>
         <tr class="card" data-detail="<h3>Bean Farmer</h3><p>At any time and any number of times, you can pay 2 beans in your supply to receive 1 peas, 1 mead, and 1 stockfish.</p>"><td>Bean Farmer</td><td>6</td><td>At any time and any number of times, you can pay 2 beans in your supply to receive 1 peas, 1 mead, and 1 stockfish.</td></tr>
@@ -691,6 +695,7 @@ This applies to both the first-column and last-column space for collecting a Wha
   <section id="actionboard" class="tab-panel wide">
     <h2>Action Board Reference</h2>
     <p class="placeholder-note">Matches the official 1-2 Player Norwegians action-board summary table: rows = action categories, 5 columns = 1V, 2V, 3V (+draw 1 occupation), 4V (+play 1 occupation), and the special 1V-or-2V (+play 1 occupation) column. Click a card for detail; dashed cells mark cost tiers a category doesn't use. Scroll horizontally on narrow screens.</p>
+    <p class="placeholder-note">Norwegians ships with three action boards, keyed 1-2p/3p/4p &mdash; but which board you use is a free choice, not locked to your actual player count; the designer has confirmed all three are balanced regardless of who's sitting at the table. Playing a higher-count board at a lower player count means fewer people competing for the same spaces plus more parallel upgrade/cost tiers open at once &mdash; a looser, more build-your-engine game. Playing the matched board gives the tighter, more contested experience the expansion is usually reviewed around. Neither is more "correct"; pick based on which feel you want that session. Also worth noting: taking any action in the board's rightmost (5th) column ends your turn for the round, no matter how many Vikings you have left &mdash; so save a 5th-column action for when you're down to your last worker(s) rather than grabbing one early and forfeiting the rest of your round, unless denying it to an opponent right then is worth more than your remaining actions.</p>
     <div class="board-grid-scroll">
     <div class="board-grid" id="action-board-grid">
       <div class="board-row-label"></div>
@@ -905,12 +910,167 @@ This applies to both the first-column and last-column space for collecting a Wha
       <div class="tip-body">
     <p>Solo strategy in this game is really general strategy with the competition for spaces removed — nearly all of the advice below applies just as well in a multiplayer game, solo mode just makes it easier to execute without a race.</p>
     <ul>
+      <li><strong>Self-check your actions against a rough silver-equivalent value target.</strong> A 200+ point solo game needs an average of roughly 4.5 points of value per Viking-action across the whole game (with ~57-63 total actions available). Early actions naturally undershoot that — a round-1 action netting +2 isn't a mistake, it's normal, since engines haven't compounded yet — but you need to compensate with +5 to +8 actions by the mid-late game once bonus tiles and upgraded engines are online. Use this as a running sanity check on pace rather than a per-action rule: if you're several rounds in and still mostly landing +2-3 actions, that's the signal to pivot toward whatever's underdeveloped, not a sign you should keep grinding the same line.</li>
       <li><strong>Risk-free engines can compete with pillaging and whaling.</strong> A build leaning almost entirely on exploration boards plus houses (crafting, animal breeding, building) can reach elite scores while barely touching risk actions — one documented 192-point solo run took only two risk actions the entire game, and by the second one its downside was already mitigated by an unlocked weapon-card bonus. Risk actions aren't mandatory for a strong score; they're one route among several, and worth comparing against a pure-engine line rather than defaulting to.</li>
       <li><strong>Prioritize action-free (passive) engines over one-shot resource grabs.</strong> A Viking action that unlocks a recurring bonus square — a mead, pig, cow, or weapon-card bonus on an island or long house — pays for itself every remaining round, which compounds over a multi-round game far more than an equivalent action spent on a single resource grab. This is why strong solo (and multiplayer) games spend much of the mid-game unlocking bonus squares rather than just filling board space for immediate income.</li>
       <li><strong>Evaluate occupation cards by what engine they plug into and when they'll scale hardest, not by their point value in isolation.</strong> A card that trades a cow for a jewelry tile is only good if you're already breeding cows; a card that returns a Viking from a large action space is worth banking until you can chain several big actions in the same round, rather than playing it the first round it's available. Playing cards purely for their printed points, without checking whether they feed your existing production loop, is a commonly self-reported mistake.</li>
       <li><strong>Front-load a cheap occupation play even if you won't use its effect for several rounds.</strong> A card whose benefit only matters later (e.g. a house-building discount you won't use until round 5) is often still worth playing round 1 if the action cost is low then — Vikings get more valuable as the game goes on, so committing one early to bank the card beats risking never finding a good moment to play it at all.</li>
       <li><strong>Don't hoard resources waiting for a better moment.</strong> Spending down wood, stone, or weapons to secure a strong bonus now is usually correct — a stockpile doesn't score by itself, and a bonus claimed a round earlier is typically worth more than the flexibility of holding resources in reserve.</li>
       <li><strong>In the final round, sweep for loose unplaced resources — especially ore.</strong> Ore in particular can still often be dropped onto an exploration board for pure free points right up until scoring; leaving it in hand after your last action is a commonly self-reported way to leave a point or two on the table.</li>
+    </ul>
+      </div>
+    </details>
+
+    </div>
+
+  </section>
+
+  <section id="houserules" class="tab-panel">
+    <h2>House Rules</h2>
+    <p class="placeholder-note">Optional variants, not official rules — everything here changes the base game in some way. Click a section to expand it.</p>
+
+    <div class="tips-grid">
+
+    <details class="tip-section" open>
+      <summary class="tip-summary">
+        <h3>Face-Up Occupation Market</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <p>Replaces blind drawing from the occupation deck with a visible, choosable market — aimed at cutting the game's card-draw randomness without removing the deck entirely.</p>
+    <ul>
+      <li><strong>Setup:</strong> keep the occupation deck face-up instead of face-down, and lay the top 3 cards out next to it, so 4 total are visible at any time (the 3 laid out, plus the new top card of the deck itself).</li>
+      <li><strong>Drawing:</strong> when you'd normally draw an occupation card, take any one of the 4 visible cards instead of the top of the deck blind. Immediately refill the market back up to 3 laid-out cards from the top of the deck.</li>
+      <li><strong>Discarding:</strong> at the same time you draw, you may also discard any of the 3 laid-out cards (not the deck's own top card, and not a replacement card that just refilled the market). Discarded cards are out of the game, same as a normal discard.</li>
+      <li><strong>Why:</strong> a large share of this game's variance comes from which occupation cards you're dealt and when — see Tips → General &amp; Beginner Advice on reading your draws rather than forcing a script. This doesn't remove that skill test, it just lets you choose which problem to solve instead of being handed one at random, and gives a way to actively cull cards that don't fit your board instead of being stuck holding or blind-discarding them.</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>Fixed Die Results</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <p>Replaces the d8 (raiding) and d12 (pillaging) rolls with fixed results, removing dice variance from those actions entirely.</p>
+    <ul>
+      <li><strong>d8 rolls (raiding) always resolve as a 3.</strong></li>
+      <li><strong>d12 rolls (pillaging) always resolve as a 4.</strong></li>
+      <li><strong>Why:</strong> raiding and pillaging are otherwise the game's biggest swings of pure luck — see Tips → General &amp; Beginner Advice on dice-roll spaces being safe to gamble on regardless. Fixing the result turns them into a known, plannable quantity instead: you can now size a raid or pillage target exactly against a guaranteed outcome, the same way you'd plan around any other action. Pick fixed values that suit your group if 3/4 feel off for your table's typical resource boosts — the point is predictability, not matching these exact numbers.</li>
+    </ul>
+      </div>
+    </details>
+
+    </div>
+
+  </section>
+
+  <section id="setup" class="tab-panel">
+    <h2>Setup</h2>
+    <p class="placeholder-note">A step-by-step setup sequence for a <strong>solo game using the Norwegians expansion plus the Harvest expansion</strong> together — a combination none of the official rulebooks lay out as a single procedure, since Norwegians and Harvest are each written as deltas against the base game independently. This reconciles both sets of deltas into one ordered walkthrough. Click a section to expand it.</p>
+
+    <div class="tips-grid">
+
+    <details class="tip-section" open>
+      <summary class="tip-summary">
+        <h3>1. Action Board &amp; Supply</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <ul>
+      <li><strong>Use the three Norwegians action boards</strong>, not the single large base-game board. Set out the side matching your player count face up — for solo, that's the 1-2 player side. The base game's two 4-player extension tiles go back in the box; they're superseded by the Norwegians boards.</li>
+      <li><strong>Special tiles:</strong> place the Norwegians special-tile supply board (sword value 8 or lower, plus a few base-game tiles like the crucifix) instead of the base oval board. Flip the base-game special-tile board over — the higher-value base tiles go on its reverse side, used alongside the Norwegians board.</li>
+      <li><strong>Ships:</strong> use the new Norwegians ship supply board in place of the base one, and place the new "small emigration" tiles in their marked space on it.</li>
+      <li><strong>Mountain strips:</strong> shuffle the new Norwegians mountain strip into the base game's eight, then follow the normal count for your player number (two face up for 1-3 players). <strong>Solo tip:</strong> the rules themselves suggest laying out more mountain strips than required and tracking with pencil how many you can actually use each round — this saves a bookkeeping step every round without changing the odds, since you're the only one drawing from them anyway.</li>
+      <li><strong>VP tokens:</strong> place the Norwegians victory-point tokens (2× "4VP", 6× "3VP", 8× "2VP") near the action boards — these are new, not a base-game component.</li>
+      <li><strong>Exploration boards:</strong> lay out the 4 new Norwegians exploration boards front-side up. Return the base-game exploration boards to the box — but for a solo game (which uses the "up to 3 players" rules), also add the revised base-game boards: one from the A/B pair and one from the C/D pair, face up alongside the new ones. (You can add every base and Norwegians exploration board regardless of player count if you want more variety — nothing about it is illegal, it just adds board-selection choices you won't always take in a solo game.)</li>
+      <li><strong>Harvest exploration board:</strong> add the Isle of Mull board to the exploration board layout, Isle of Mull side face up.</li>
+      <li><strong>Goods boxes:</strong> lay out both base goods boxes per the standard sorting (rows by color, columns by shape — see the box art), then place the Harvest expansion's new goods tiles next to the boxes, or inside them if there's room.</li>
+      <li><strong>Artisan sheds:</strong> shuffle the Norwegians artisan shed tiles and deal yourself one at random (return the rest to the box). It starts unbuilt — you'll need to build it during play, choosing either printed side, before you can use it.</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>2. Home Board &amp; Vikings</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <ul>
+      <li>Take a home board and pick a side — long game (7 rounds) or short game (6 rounds). Either works solo; long is the default recommendation, short is the higher-difficulty variant once you know the game.</li>
+      <li>Choose a color and take your 12 Vikings, <strong>plus a second set of 12 Vikings in a different color</strong> — the solo game needs two colors for you alone (see the Solo Game Setup section below for why).</li>
+      <li>Place a Viking on each numbered space of your Banquet Table track; the rest go on the Thing Square as your starting pool. Short game gives you one extra starting Viking versus long game.</li>
+      <li>Sort wood, stone, ore, and silver tokens by type and keep them within reach.</li>
+      <li>Place the "shed", "stone house", and "long house" building tiles in separate stacks on the table. (Your dealt Norwegians artisan shed sits separately, unbuilt, until you build it in-game.)</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>3. Occupations &amp; Weapons</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <ul>
+      <li>Sort occupation cards into light brown and dark brown backs. Playing with Harvest changes the light-brown draw: instead of drawing 1 starting card, <strong>draw 2 and pick one</strong>, discarding the other before round 1. (The base solo rules also let you skip the draw entirely and simply choose your starting card if you want to explore a specific strategy — this applies whether or not you're using Harvest's draw-2 step.)</li>
+      <li><strong>Harvest ban list:</strong> before shuffling the dark brown deck, remove cards <strong>52a, 107B, 115b, 125c, 150c, 163a, 170a, 189B</strong> from the game entirely — these are banned outright when playing with Harvest, not just recommended cuts.</li>
+      <li><strong>Harvest recommended cuts:</strong> optionally also remove <strong>1A, 8a, 21b, 28B, 41a, 42b, 45C, 46B, 56A, 96A, 97B, 99A, 101B, 104b, 106B, 124B, 133B, 134A, 135A, 138c, 139C, 157C, 158A, 161B, 162C, 174a, 175B, 177B, 180C, 190B</strong> — Harvest's own rulebook flags these as optional; leave them in if you want a larger card pool.</li>
+      <li><strong>Norwegians errata:</strong> if you're using cards <strong>26, 31, 35, 52, 60, 66, 88, 99, 102, 108, 109, 110, 117, 123, 125, 148, 150, 157, 163, 170, 176, 179</strong>, apply the Norwegians rulebook's clarified wording for them — the printed text on these predates the expansion's interactions.</li>
+      <li>Shuffle the remaining dark brown occupation cards and remaining weapon cards into their own face-down stacks. Take your starting weapons: 1 bow and arrow, 1 snare, 1 spear, plus 1 mead goods tile.</li>
+      <li><strong>Harvest tokens:</strong> shuffle the 4 harvest tokens and reveal one at random onto the phase-2 space of the Round Overview tile — this is your first round's harvest. Shuffle the remaining 3 harvest tokens together with the 4 no-harvest tokens and set that stack face down nearby for later rounds.</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>4. Harvest: Long/Short Game Extras</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <p>Harvest adds an extra setup step depending which side of your home board you chose in Step 2. In solo play there's no turn order to go "around," so just resolve your own pick.</p>
+    <ul>
+      <li><strong>Long game (7 rounds):</strong> pick 1 resource token and place it by your home board, orange side up.</li>
+      <li><strong>Short game (6 rounds):</strong> take 3 silver and 1 additional random weapon card. Then pick 1 resource token (orange side up) — and because the short game gets an extra pick versus the long game, repeat the resource-token pick a second time.</li>
+      <li><strong>Because you're playing with Norwegians</strong> (either game length): skip the "draw 2 dark brown occupation cards" alternative Harvest offers to non-Norwegians groups. Instead, since you're already using a Norwegians artisan shed, that shed simply starts the game already <strong>built</strong> by your home board — you don't deal it unbuilt and construct it later like a normal Norwegians game.</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>5. Solo-Specific Setup</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <p>This is the step that makes it a solo game rather than a 1-player-shaped multiplayer game: you place a second color of Vikings to simulate a "ghost" opponent that blocks action spaces, so the board fills up and forces trade-offs the way it would with real opponents.</p>
+    <ul>
+      <li>Place 1 Viking of your <strong>second color</strong> on round space 1 of the Banquet Table (2 Vikings if playing the short game), and 2 more of that color on each of spaces 3, 5, and 7 (space 7 only exists in the long game).</li>
+      <li>Place 2 Vikings of your <strong>second color</strong> on each of round spaces 2, 4, and 6.</li>
+      <li>Place 5 Vikings of your <strong>first (real) color</strong> on the Thing Square, and 5 Vikings of the second color (6 in the short game) on the home board's solo waiting space (the small space at the bottom left, unused in multiplayer).</li>
+      <li>Remove whatever single Viking of the second color is left over from the game (in the short game, remove 1 Viking of your first color instead).</li>
+      <li>Play exactly like a multiplayer game, taking one turn at a time — but since there's no opponent to leave Vikings behind, <strong>you</strong> leave last round's Vikings sitting on the action board to block spaces, which is why two colors exist: one tracks your current actions, the other tracks the "ghost" occupying spaces from the previous round.</li>
+    </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>6. Running the First Rounds</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+    <p>Setup is only half the picture — the first two rounds play out differently from the rest of the game while the "ghost" Viking system spins up.</p>
+    <ul>
+      <li><strong>Round 1:</strong> play it exactly like a multiplayer round, but at phase 12 (end of round), don't remove any Vikings from the action board. Instead, move the 5 second-color Vikings from the solo waiting space onto the Thing Square.</li>
+      <li><strong>Round 2:</strong> you receive 2 additional second-color Vikings. At the end of round 2, leave the Vikings you placed that round on the action board (they become the "ghost" blockers for round 3), and return your round-1 Vikings to your home board to place again in round 3. Continue this one-round-lagged pattern for the rest of the game.</li>
+      <li><strong>You always go first</strong> — always skip phase 6 (turn order) entirely; there's no one to contest it with.</li>
+      <li>Once you're comfortable with the flow, you can skip phase 3 (checking which exploration boards are newly available) each round and just reference the appendix's exploration-board-by-round table instead of re-deriving it live.</li>
+      <li>At phase 12, cross-check the Banquet Table to see which Vikings must come off the action board that round.</li>
+      <li>A final score of 100 is considered a strong solo result — the blocking Vikings tend to depress solo scores below what the same board state would earn in a multiplayer game, so don't benchmark solo scores against multiplayer ones.</li>
     </ul>
       </div>
     </details>
