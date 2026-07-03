@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fields of Arle Strategy Guide</title>
+<meta name="description" content="A strategy guide for Fields of Arle — worker placement, land reclamation, building engine, and seasonal planning.">
+<style>
+  :root{
+    --sky:#7c8f96;
+    --field:#4f6b47;
+    --field-dark:#37492f;
+    --peat:#2a221c;
+    --thatch:#a67c4e;
+    --brick:#b4553a;
+    --panel:#f3ead9;
+    --panel-dim:#e6d9bf;
+    --ink:#2b2620;
+    --ink-dim:#5c5346;
+    --line:#c9b892;
+    --line-bright:#a88f5e;
+    --shadow:rgba(30,25,15,.25);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--panel);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    color:var(--field-dark);
+    letter-spacing:.01em;
+  }
+
+  header.site{
+    padding:2.5rem 1.5rem 1.5rem;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:var(--panel-dim);
+  }
+  header.site h1{
+    margin:0 0 .3rem;
+    font-size:2.2rem;
+  }
+  header.site p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:.95rem;
+  }
+
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:10;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:.4rem;
+    padding:.75rem 1rem;
+    background:rgba(243,234,217,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.tabs button{
+    font-family:inherit;
+    font-size:.95rem;
+    color:var(--ink-dim);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.4rem;
+    padding:.5rem 1rem;
+    cursor:pointer;
+    transition:color .15s, border-color .15s, background .15s;
+  }
+  nav.tabs button:hover{
+    color:var(--ink);
+    border-color:var(--line-bright);
+  }
+  nav.tabs button.active{
+    color:var(--panel);
+    background:var(--field-dark);
+    border-color:var(--field-dark);
+    font-weight:600;
+  }
+
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:2rem 1.5rem 5rem;
+  }
+
+  section.tab-panel{
+    display:none;
+  }
+  section.tab-panel.wide{
+    max-width:none;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+  }
+  section.tab-panel.active{
+    display:block;
+  }
+
+  section.tab-panel h2{
+    font-size:1.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.5rem;
+    margin-top:0;
+  }
+
+  section.tab-panel h3{
+    font-size:1.15rem;
+    margin:1.6rem 0 .5rem;
+  }
+
+  .placeholder-note{
+    color:var(--ink-dim);
+    font-size:1rem;
+  }
+
+  .callout{
+    background:var(--panel-dim);
+    border-left:3px solid var(--brick);
+    border-radius:.3rem;
+    padding:.9rem 1.1rem;
+    margin:1.2rem 0;
+  }
+  .callout p{
+    margin:0 0 .6rem;
+  }
+  .callout p:last-child{
+    margin-bottom:0;
+  }
+  .callout strong{
+    color:var(--field-dark);
+  }
+
+  .tips-grid{
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    margin-top:1.5rem;
+  }
+  .tip-section{
+    background:var(--panel-dim);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    overflow:hidden;
+    transition:border-color .15s;
+  }
+  .tip-section[open]{
+    border-color:var(--line-bright);
+  }
+  .tip-summary{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
+    padding:.9rem 1.1rem;
+    cursor:pointer;
+    list-style:none;
+    user-select:none;
+  }
+  .tip-summary::-webkit-details-marker{
+    display:none;
+  }
+  .tip-summary:hover{
+    background:var(--panel);
+  }
+  .tip-summary h3{
+    margin:0;
+    font-size:1.1rem;
+  }
+  .tip-chevron{
+    flex:0 0 auto;
+    color:var(--ink-dim);
+    font-size:.85rem;
+    transition:transform .15s;
+  }
+  .tip-section[open] .tip-chevron{
+    transform:rotate(180deg);
+  }
+  .tip-body{
+    padding:0 1.1rem 1.2rem;
+    border-top:1px solid var(--line);
+    padding-top:1rem;
+  }
+  .tip-body p{
+    margin:0 0 .8rem;
+  }
+  .tip-body ul{
+    margin:0;
+    padding-left:1.3em;
+  }
+  .tip-body li{
+    margin-bottom:.6rem;
+  }
+  .tip-body li:last-child{
+    margin-bottom:0;
+  }
+  .tip-body strong{
+    color:var(--field-dark);
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+    gap:1rem;
+    margin:1.5rem 0;
+  }
+  .card{
+    background:var(--panel-dim);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    overflow:hidden;
+    cursor:pointer;
+    text-align:center;
+    transition:transform .15s, border-color .15s;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--thatch);
+  }
+  .card .card-title{
+    padding:.6rem .5rem;
+    font-size:1rem;
+    color:var(--ink);
+  }
+
+  .board-grid-scroll{
+    overflow-x:auto;
+    margin:1.5rem 0;
+    display:flex;
+    justify-content:center;
+  }
+  #actionboard > h2,
+  #actionboard > p.placeholder-note{
+    max-width:960px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .board-grid{
+    display:inline-grid;
+    grid-template-columns:2.5rem repeat(2, minmax(13rem, max-content));
+    gap:.5rem;
+  }
+  .board-row-label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:.5rem .25rem;
+    color:var(--brick);
+    font-weight:600;
+    font-size:.85rem;
+    white-space:nowrap;
+    border-right:1px solid var(--line);
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    text-align:center;
+  }
+  .board-col-header{
+    text-align:center;
+    color:var(--ink-dim);
+    font-size:.8rem;
+    padding:.4rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .board-cell{
+    display:flex;
+    flex-direction:column;
+    gap:.2rem;
+    min-height:3.5rem;
+  }
+  .action-card{
+    position:relative;
+    background:var(--panel-dim);
+    border:1px solid var(--line);
+    border-radius:.4rem;
+    padding:.5rem .6rem;
+    cursor:pointer;
+    font-size:.85rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    transition:transform .15s, border-color .15s;
+    flex:1;
+    min-height:2.4rem;
+  }
+  .action-card:hover{
+    transform:translateY(-2px);
+    border-color:var(--thatch);
+  }
+  .anytime-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+    gap:1rem;
+    margin:1.5rem 0;
+    max-width:960px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,16,10,.75);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:2rem;
+  }
+  .modal-overlay.active{
+    display:flex;
+  }
+  .modal{
+    background:var(--panel);
+    border:1px solid var(--line-bright);
+    border-radius:.6rem;
+    max-width:720px;
+    width:100%;
+    height:92vh;
+    overflow-y:auto;
+    padding:3.5rem 4rem;
+    box-shadow:0 20px 60px var(--shadow);
+    position:relative;
+  }
+  .modal h3{
+    margin-top:0;
+    font-size:1.6rem;
+  }
+  .modal p{
+    margin:0 0 1.1rem;
+  }
+  .modal p:last-child{
+    margin-bottom:0;
+  }
+  .modal-close{
+    position:absolute;
+    top:1.25rem;
+    right:1.5rem;
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    font-size:1.4rem;
+    cursor:pointer;
+    line-height:1;
+  }
+  .modal-close:hover{
+    color:var(--ink);
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <h1>Fields of Arle</h1>
+  <p>A solo strategy guide — worker placement, land reclamation, and the building engine</p>
+</header>
+
+<nav class="tabs">
+  <button data-tab="thinking" class="active">How to Think About Arle</button>
+  <button data-tab="actionboard">Action Board Reference</button>
+  <button data-tab="opening">Opening Principles</button>
+  <button data-tab="buildings">The Building Engine</button>
+  <button data-tab="land">Land &amp; Resources</button>
+  <button data-tab="animals">Animals &amp; Food</button>
+  <button data-tab="vehicles">Vehicles &amp; Trade</button>
+  <button data-tab="endgame">Endgame</button>
+  <button data-tab="teatrade">Tea &amp; Trade</button>
+</nav>
+
+<main>
+
+  <section id="thinking" class="tab-panel active">
+    <h2>How to Think About Arle (Solo)</h2>
+    <p class="placeholder-note">This guide assumes solo play throughout: four workers per half-year, no rival, no automa. The only rule change from multiplayer is that the cross-season special action is gone — you're restricted to whichever season's action row is live. Everything below is written for that constraint.</p>
+
+    <h3>What actually beats you</h3>
+    <p>Arle doesn't punish you the way Agricola does. There's no starvation spiral, no aggressive opponent taking your spot, no bad-luck event deck. The rulebook itself only nudges you softly — 3 food due each half-year, 2 peat needed before winter — and everything else is open. That openness is the whole design: roughly 15 action spaces per season, 18-ish buildings, and far more good options each turn than you have workers to spend on them. The game is a test of exclusion, not execution. You lose points not to variance but to spreading four workers a season across too many half-finished plans instead of committing hard enough to a few that actually compound.</p>
+    <p>Post-game reflection almost never turns up "bad luck" as the cause of a disappointing score — it turns up a specific decision: a tool upgrade delayed a round too long, a vehicle bought late, investment spread across three pillars instead of pushed hard into two. That's good news for a strategy guide, because it means the causes are legible and fixable next game, but it also means there's no shortcut — you have to actually understand why a play is strong, not just copy a move list.</p>
+
+    <h3>Breadth vs. depth: the central tension</h3>
+    <p>Every game hands you three roughly independent pillars: <strong>livestock</strong> (breeding sheep/cows/horses for offspring and byproducts), <strong>goods processing</strong> (upgrading raw wood/clay/flax into higher-value goods and clothing via buildings and vehicles), and <strong>infrastructure</strong> (dikes, moors, vehicles, tool upgrades — the stuff that makes everything else run faster). You cannot max out all three in one game. Nine half-years and four workers each simply isn't enough action economy to run every engine at full tilt.</p>
+    <p>The corollary that trips up newer players: a building's one-time bonus or a single scoring category rarely pays back the action spent chasing it unless it plugs into an engine you're already running. One community data point is illustrative rather than definitive — a player who specialized hard into one or two VP routes scored <em>worse</em> than earlier games where they'd spread investment across categories, and the working theory is that one-off building abilities (especially the cheaper blue/yellow tiles) don't generate enough compounding value on their own to justify pulling workers off a running engine. Take it as a caution against chasing isolated bonuses, not as proof that specialization is wrong — the flip side (see Endgame) is that focused manufacturing and animal-balance plays are also well-documented as strong. The resolution isn't "always specialize" or "always spread" — it's commit to two pillars that reinforce each other (e.g. livestock feeding a goods-processing chain, or infrastructure feeding a build-heavy finish) and treat the third as filler, rather than trying to run three independent programs with the same four workers.</p>
+
+    <h3>Payoff is gradual, not explosive</h3>
+    <p>Unlike engine-builders with a single "pop" moment, Arle's mid-late-game hum starts around half-year 6-7 of 9, once tool upgrades, vehicles, and processing chains started early begin to compound together. There's no catch-up mechanic and no late-game multiplier that rewards a delayed pivot — passivity in half-years 1-3 means there's nothing to harvest in half-years 7-9. This is why the resource-priority and phase-shape framework in Opening Principles matters more than any single clever building pick: the early game's job is to get generators (forests, fields, animal pairs, tool upgrades, vehicles) online, because every half-year one comes online late is a half-year of compounding you don't get back.</p>
+
+    <h3>Scoring starts negative — don't panic mid-game</h3>
+    <p>Your home board's VP contribution typically starts around -16 and has to climb to +30 to +60 for a good final score. That means a messy mid-game board — half-upgraded resources, unused land, an incomplete dike line — is expected, not a sign you're behind. The correction happens in the back half via big buildings and space-clearing (cutting the last peat off a moor, advancing dikes to remove the sea penalty). Treat your mid-game board as "under construction," not "behind schedule."</p>
+
+    <h3>Where the real decisions live: the building race</h3>
+    <p>Worker-placement conflict barely exists in solo (there's no rival to block you), but the equivalent tension in multiplayer — which buildings are drawn/available meaningfully gating what strategies are even open to you — still shapes solo play, just without the racing. At setup, the specific mix of buildings on the board is the one major swing factor outside your control, and it's worth actually reading the available building pool before committing to a plan rather than assuming your favorite combo will be there. A combinatorially large action space (the community has called it "staggering" — calculating a truly optimal line would take days) plus setup-driven building variance is what keeps the game replayable well past a dozen plays, not randomness or forced reaction.</p>
+  </section>
+
+  <section id="actionboard" class="tab-panel wide">
+    <h2>Action Board Reference</h2>
+    <p class="placeholder-note">Rows are paired exactly as the physical board lays them out — 1st Summer action opposite 1st Winter action, and so on. Click a card for what it does and when it's worth a worker. Anytime Actions (below the seasonal grid) cost no worker and can be used whenever, including mid-resolution of another action.</p>
+    <div class="board-grid-scroll">
+    <div class="board-grid" id="action-board-grid">
+      <div class="board-row-label"></div>
+      <div class="board-col-header">Summer</div>
+      <div class="board-col-header">Winter</div>
+
+      <div class="board-row-label">Row 1</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Fisherman</h3><p>Take 1 Sheep, move your Fish Trap tool one space right for free, then take 1 Food per Fish Trap you own.</p><p>A sheep plus scaling food for a single worker — the sheep alone is decent value, and once you've invested a couple of Master actions into Fish Trap this becomes a strong repeatable food source that costs nothing but the worker. Weak the very first time you take it (Fish Trap starts at zero), so it rewards early tool investment rather than being a walk-up play.</p>">Fisherman<br><span style="font-size:.75em;color:var(--ink-dim)">Sheep + Food/Fish Trap</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Peat Boatman</h3><p>Take 3 Peat, plus 1 more Peat per Peat Boat you own, from the General Supply.</p><p>The most direct peat-income action on the board, and it scales with a resource (Peat Boats) you likely already want for the anytime peat-to-goods trade. Peat is a soft currency once you own a boat — see Vehicles &amp; Trade — so this action is really an income booster for that engine, not just a peat grab. Strong any time you're running a boat-based flexible economy; less useful if you have no boat yet, since the base 3 Peat alone is a middling return for a full worker.</p>">Peat Boatman<br><span style="font-size:.75em;color:var(--ink-dim)">Peat, scales w/ Peat Boats</span></div></div>
+
+      <div class="board-row-label">Row 2</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Grocer (Summer)</h3><p>Take one of: Timber, Brick, Sheep, Cattle, or Horse. Also take 1 Grain and 1 Leather.</p><p>Flexible — the choice slot lets you patch whatever single resource is currently your bottleneck (an animal to start or top up a breeding pair, or a building material without spending a vehicle-upgrade action on it), while the fixed Grain+Leather is useful filler for feast payments or a leather-goods chain. Good early-game action for topping up a breeding pair cheaply.</p">>Grocer<br><span style="font-size:.75em;color:var(--ink-dim)">Choice + Grain + Leather</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Tanner</h3><p>Per Fleshing Beam you have (Tool Indicator), convert 1 Hide to 1 Leather.</p><p>Pure conversion action — worthless with zero Fleshing Beams, and scales directly with how much you've invested in that tool via Master. Only worth taking once you have hides to convert and at least one Fleshing Beam; otherwise it's a wasted worker. Feeds a leather/clothing-goods chain specifically.</p">>Tanner<br><span style="font-size:.75em;color:var(--ink-dim)">Hide→Leather ×Fleshing Beam</span></div></div>
+
+      <div class="board-row-label">Row 3</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Wool Weaver</h3><p>Per Weaving Loom you have, convert 1 Wool to 1 Woolen.</p><p>Like Tanner, this is a pure conversion action gated by a tool track (Weaving Loom via Master). Only take it once wool is actually flowing from a sheep engine and you've put at least one upgrade into Loom — otherwise you're spending a worker to convert zero or one unit. Feeds a wool/clothing-goods chain; note this and Linen Weaver compete for the same Loom investment; if you're running both wool and flax sources you're splitting one tool track's benefit two ways.</p">>Wool Weaver<br><span style="font-size:.75em;color:var(--ink-dim)">Wool→Woolen ×Loom</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Linen Weaver</h3><p>Per Weaving Loom you have, convert 1 Flax to 1 Linen.</p><p>The flax-side twin of Wool Weaver, drawing on the same Loom tool track. Only worth it once flax is flowing (from fields) and Loom is upgraded at least once. Because Wool Weaver and Linen Weaver share the same tool investment, running both is more efficient use of Loom upgrades than running only one — a single tool investment then pays off on both conversion actions rather than sitting idle half the game.</p">>Linen Weaver<br><span style="font-size:.75em;color:var(--ink-dim)">Flax→Linen ×Loom</span></div></div>
+
+      <div class="board-row-label">Row 4</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Colonist</h3><p>Take 1 Horse and/or flip one of your Moor tiles to its dehydrated side (place exactly 4 Peat tokens on it from the General Supply).</p><p>Two useful things bundled into one worker: a horse (feeds breeding or a Horse-driven food engine) and a moor dehydration, which is the prerequisite step before you can ever cut peat from that moor. Dehydrating early is valuable because a moor sitting un-dehydrated is dead board space — you can't build or place animals under it until it's fully cut out. Good early-to-mid pick specifically because it front-loads a step (dehydration) with no compounding value of its own except unlocking the next several actions.</p">>Colonist<br><span style="font-size:.75em;color:var(--ink-dim)">Horse and/or dehydrate Moor</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Butcher</h3><p>Per Slaughtering Table you have, convert 1 Animal (any type) to 3 Food and 2 Hides, plus 1 more Food if the animal converted is Cattle.</p><p>The main release valve for animal overpopulation and a solid food/hide source once Slaughtering Table is upgraded. Directly useful for the animal-balance scoring trick (see Animals &amp; Food): rather than letting one animal type run away and score zero at game end, butcher down your most-populous type to keep counts roughly even across sheep/cattle/horses. Needs Slaughtering Table investment to be worth a worker at all — with zero upgrades this converts nothing.</p">>Butcher<br><span style="font-size:.75em;color:var(--ink-dim)">Animal→Food+Hides ×Slaughter Table</span></div></div>
+
+      <div class="board-row-label">Row 5</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Peat Cutter</h3><p>Per Spade you have, take 1 Peat token off one of your Moor tiles.</p><p>The main way to actually harvest peat that's already sitting on a dehydrated moor (each moor holds up to 4 cubes once dehydrated). Scales with the Spade tool track, so early Master investment into Spade pays off every time you revisit this action. Once a moor's 4 peat cubes are fully cut, the tile can be removed, opening that land for building or animals — so this action is also, indirectly, a land-reclamation action.</p">>Peat Cutter<br><span style="font-size:.75em;color:var(--ink-dim)">Cut Peat ×Spade</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Cattle Trader</h3><p>Take 2 Grain, 1 Sheep, and 1 Cattle or 1 Horse.</p><p>A dense one-worker bundle: two grain (feast currency or Field-feeding), a sheep, and a choice of cattle or horse. Strong for jump-starting or topping up multiple animal lines at once, which matters for the animal-balance scoring trick — this is one of the few actions that hands you two different animal types (sheep plus your choice) in a single worker, helping you keep herd counts level without dedicating separate actions to each type.</p">>Cattle Trader<br><span style="font-size:.75em;color:var(--ink-dim)">Grain + Sheep + Cattle/Horse</span></div></div>
+
+      <div class="board-row-label">Row 6</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Dike Builder</h3><p>Take 1 Sheep or 1 Cattle. Additionally, for each Pair of Shovels you have, advance 1 Dike per the dike-advancement rules.</p><p>Widely flagged as a trap action unless you're genuinely short on board space — it costs a worker that doesn't directly score, and the animal it hands you is a consolation prize, not the point. Only prioritize this when your dike line is actually the binding constraint on where you can build or place animals; otherwise spend the worker on something with direct point value. The Shovels-Pair scaling means it gets better the more you've invested in that tool, but that investment competes with Spade upgrades (used by Peat Cutter) for Master-action slots.</p">>Dike Builder<br><span style="font-size:.75em;color:var(--ink-dim)">Sheep/Cattle + advance Dike</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Grocer (Winter)</h3><p>Take 1 Peat off one of your Moor tiles, 1 Animal of any type, 1 Wood, and 1 Clay.</p><p>A dense multi-resource bundle: peat, a free-choice animal, and the two base building materials (wood, clay) in one worker. The animal choice slot is useful for the same balance-scoring reason as Cattle Trader — pick whichever type you're shortest on. Good generalist pick in the early-to-mid game when you need a bit of everything rather than a lot of one thing.</p">>Grocer<br><span style="font-size:.75em;color:var(--ink-dim)">Peat + Animal + Wood + Clay</span></div></div>
+
+      <div class="board-row-label">Row 7</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Clay Worker</h3><p>Take 1 Clay per Shovel you have.</p><p>Direct clay income scaling with the Shovel tool track. Clay upgrades into Brick (via vehicles, at a cost of 1 Peat per upgrade), and brick is the currency of most Carpenter/Builder building purchases — so this action's real value is measured by how much brick your building plan needs, not by clay's face value. Beginner guidance is consistently to prioritize wood and clay income ahead of board-space actions, since these two feed the vehicle-upgrade pipeline that big buildings depend on.</p">>Clay Worker<br><span style="font-size:.75em;color:var(--ink-dim)">Clay ×Shovel</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Builder's Merchant</h3><p>Take 2 Hides, 1 Wood or 1 Clay, and 1 Timber or 1 Brick.</p><p>A building-material bundle that hands you both a raw resource and its already-upgraded form in one worker — useful when you need brick or timber immediately without spending a vehicle-load action to upgrade it yourself. The 2 Hides are a bonus for a leather/clothing chain. Solid generalist pick whenever your building plan is bottlenecked on brick or timber specifically (a commonly-cited tightest constraint on a build-heavy finish).</p">>Builder's Merchant<br><span style="font-size:.75em;color:var(--ink-dim)">Hides + Wood/Clay + Timber/Brick</span></div></div>
+
+      <div class="board-row-label">Row 8</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Farmer</h3><p>Build a Plow (costs 1 Wood and either 1 Cattle or 1 Horse) and place it in your Barn. Additionally or alternatively, place a Flax or Grain Field on your Home Board per Plow you own.</p><p>The only way to add Fields to your board, which matters for Mill (scores off Field count) and for flax/grain income generally. The first Plow is the expensive part (costs an animal you may want for breeding instead) — several starter buildings (Plow Maker's Workshop, Novice's Hut) exist specifically to reduce reliance on this action, which tells you how often experienced players route around it rather than through it. Cheaper to use once you already have a Plow from elsewhere and just want another Field.</p">>Farmer<br><span style="font-size:.75em;color:var(--ink-dim)">Build Plow / place Field ×Plow</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Potter</h3><p>Per Pottery Wheel you have, convert 1 Clay to 3 Food and 1 Peat (from the common supply).</p><p>An efficient clay-to-food-and-peat conversion once Pottery Wheel is upgraded — 3 food per clay is a strong rate, and the bonus peat is a nice secondary output. Needs the tool investment to be worth a worker; with zero Pottery Wheels this does nothing. Potter's Inn (a blue building) scales directly off this same tool track, so investing in Pottery Wheel pays off twice if you're also planning that Inn.</p">>Potter<br><span style="font-size:.75em;color:var(--ink-dim)">Clay→Food+Peat ×Pottery Wheel</span></div></div>
+
+      <div class="board-row-label">Row 9</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Forester</h3><p>Pay 1 Food (or 1 Grain if no Food) and either place a Forest (free) or a Building (pay its printed cost) on an available Home Board space.</p><p>The only way to add Forest tiles, which yield 1 Wood every November and are a recognized fallback point-source late (flipping/valuing forests is a solid late-game play, and taking forests early secures both an early wood source and a later scoring asset off the same tile). Also a generic building-placement action when you'd rather not use Carpenter/Builder for a specific tile. The food cost is trivial once your food economy is running.</p">>Forester<br><span style="font-size:.75em;color:var(--ink-dim)">Forest (free) or Building</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Baker</h3><p>Per Oven you have, convert 1 Grain and 1 Peat to 6 Food (Flax can substitute for Grain, Wood for Peat, if you're out of the primary input).</p><p>A very strong food-conversion rate (6 food for two common resources) once Oven is upgraded, and the flexible substitution (Flax/Wood as backups) means it rarely whiffs entirely even if you're temporarily short on Grain or Peat specifically. Because food pressure is usually a mid-game problem that resolves once any one reliable source is running, a single Oven upgrade plus occasional visits here can solve your food economy outright and let you stop worrying about it.</p">>Baker<br><span style="font-size:.75em;color:var(--ink-dim)">Grain+Peat→Food ×Oven</span></div></div>
+
+      <div class="board-row-label">Row 10</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Woodcutter</h3><p>Take 1 Wood per Axe you have. (Forests are not required to use this action.)</p><p>Direct wood income scaling with the Axe tool track — notably decoupled from actually owning Forest tiles, so it's available from turn one regardless of board state. Early Master investment into Axe pays off every time you revisit this action for the rest of the game. Wood upgrades into Timber via vehicles and feeds most building costs, so — like Clay Worker — its value tracks how wood/timber-hungry your building plan is.</p">>Woodcutter<br><span style="font-size:.75em;color:var(--ink-dim)">Wood ×Axe</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Wood Trader</h3><p>Pay 1 Food (or 1 Grain if no Food) and either take 4 Wood, or place a Building (pay its cost) on an available Game Board space.</p><p>A flat 4 Wood for a trivial food cost is efficient raw-wood income independent of your Axe investment — useful early before Axe is upgraded, or any time you need a wood spike without waiting on the tool track. The building-placement alternative gives it the same generic utility as Forester when you want to place a tile without spending Carpenter/Builder.</p">>Wood Trader<br><span style="font-size:.75em;color:var(--ink-dim)">4 Wood or place Building</span></div></div>
+
+      <div class="board-row-label">Row 11</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Master (Summer)</h3><p>Per Workbench you have, move one of your Tool Indicators one space right (you may only move one of each tool per use). Pay the indicated cost per upgrade.</p><p>The tool-upgrade engine, and genuinely double-edged in solo. One well-known opening argues for upgrading tools (Axe/Spade) before anything else, on the logic that every subsequent resource-collection action becomes more efficient — a compounding-multiplier bet. A separate, equally well-attested view calls early tool-upgrading overrated: it spends scarce starting wood/clay on a multiplier before you have an engine running to exploit it, when that same wood/clay could buy vehicles or buildings directly. Resolve the tension by timing: upgrade a tool right before you're about to lean on the action it boosts repeatedly (e.g. Axe right before a wood-heavy building push), not reflexively round one. Workbench itself scales this action, and the yellow Workshop starter building doubles down on the same lever (see Building Engine).</p">>Master<br><span style="font-size:.75em;color:var(--ink-dim)">Upgrade Tool ×Workbench</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Master (Winter)</h3><p>Identical to the Summer Master action — per Workbench, move one Tool Indicator one space right, paying its cost.</p><p>Having Master available in both seasons means a tool-upgrade push doesn't have to wait for the right season to come around, which matters if you're running the tools-first opening (see Opening Principles) and want two upgrades close together early. Same timing logic as the Summer version applies: most valuable right before you start leaning hard on the boosted action, not as a reflexive first move.</p">>Master<br><span style="font-size:.75em;color:var(--ink-dim)">Upgrade Tool ×Workbench</span></div></div>
+
+      <div class="board-row-label">Row 12</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Carpenter (Summer)</h3><p>Place a Building (pay its printed cost), or a Stall (pay 2 Clay and 1 Grain), on an available Home Board space.</p><p>Your main route to a cheap Stall for a new animal line, or a generic building-placement slot when you'd rather not use Builder/Forester/Wood Trader for it. Stalls are the prerequisite for breeding (a pair needs stall space to reproduce), so this action is frequently the actual bottleneck on starting a second or third animal line, not the animals themselves.</p">>Carpenter<br><span style="font-size:.75em;color:var(--ink-dim)">Building or Stall</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Carpenter (Winter)</h3><p>Either place a Stall (2 Clay + 1 Grain) on an available space, or exchange an existing Stall for a Stable (2 Bricks). You cannot build a Stable directly.</p><p>The only way to upgrade a Stall into a Stable, which triples that pen's capacity (3 animals to 6). Because Stables can't be built from scratch, any animal-heavy plan has to route through a Stall first and this action second — factor that two-step cost into how early you start a breeding line if you intend to scale it up. Note the Depot/Stable choice at endgame (see Endgame) — a Stall you're planning to flip to a Depot instead should specifically not be upgraded here.</p">>Carpenter<br><span style="font-size:.75em;color:var(--ink-dim)">Stall, or Stall→Stable</span></div></div>
+
+      <div class="board-row-label">Row 13</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Builder</h3><p>Build a Building by paying its printed cost. Place the tile on an empty Land Space.</p><p>The default, always-available building-placement action — unlike Forester/Wood Trader/Carpenter, it has no secondary function or side cost, just build the tile. Use this as your primary building-placement action once your economy is running and you no longer need the food-payment or Stall/Stall-conversion side effects the other placement actions bundle in.</p">>Builder<br><span style="font-size:.75em;color:var(--ink-dim)">Place Building</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Wainwright</h3><p>Place a Vehicle or Peat Boat in your Barn, paying the indicated cost.</p><p>The dedicated vehicle-acquisition action (Farmer builds Plows specifically; this builds everything else — carts, wagons, carriages, peat boats). Getting a first vehicle online by the end of the first winter is a widely-repeated benchmark, since vehicles unlock the upgrade-and-trade economy (Vehicles &amp; Trade) that raw resource actions alone can't match. Build the cheaper small vehicle first and flip it to the larger version later via Warden/Dike Warden for free, rather than paying full price for the upgraded vehicle immediately here.</p">>Wainwright<br><span style="font-size:.75em;color:var(--ink-dim)">Place Vehicle/Peat Boat</span></div></div>
+
+      <div class="board-row-label">Row 14</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Warden</h3><p>Flip over a tile on your Home Board or in your Barn that has the Arrow Symbol, for free.</p><p>The only way (besides Dike Warden and Berum Castle) to flip a tile you already own to its upgraded back side without paying its build cost again — small vehicle to large, boat to plow, or dehydrating/advancing a moor tile. Because this is a pure timing play (build cheap now, flip free later, versus paying more up front to skip the wait), it's most valuable when you have a specific tile sitting on its base side that you're ready to upgrade, not as a reflexive pick every time it's available.</p">>Warden<br><span style="font-size:.75em;color:var(--ink-dim)">Flip a tile, free</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Dike Warden</h3><p>Flip over a tile you own with the Arrow Symbol, for free. Additionally, advance 1 Dike per the dike-advancement rules.</p><p>Strictly more than Warden — the same free flip, plus a dike advance bundled in for the same worker. Take this over the plain Warden action whenever both are relevant to you and you have the choice, since the dike advance is pure upside with no downside on top of the shared flip effect. Also one of only three actions (with Colonist and this one) that can dehydrate a moor tile.</p">>Dike Warden<br><span style="font-size:.75em;color:var(--ink-dim)">Flip a tile, free + advance Dike</span></div></div>
+
+      <div class="board-row-label">Row 15</div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Laborer (Summer)</h3><p>Pay 2 Food (or 1 Grain per missing Food) and either place a Vehicle in your Barn (pay its cost), or imitate an occupied Summer action space (regardless of who occupies it).</p><p>In solo, &quot;regardless of who occupies it&quot; is moot (there's no opponent), so this is functionally a second, food-gated route to any Summer action you've already used this round, or a food-taxed vehicle purchase. The imitate option is most useful when you desperately want to repeat a strong action (e.g. a second Woodcutter pull) but the space itself is only usable once per worker-placement round.</p">>Laborer<br><span style="font-size:.75em;color:var(--ink-dim)">Vehicle, or imitate Summer action</span></div></div>
+      <div class="board-cell"><div class="action-card" data-detail="<h3>Laborer (Winter)</h3><p>Pay 2 Food (or 1 Grain per missing Food) and either place a Building (pay its cost), or imitate an occupied Winter action space.</p><p>The Winter mirror of the Summer Laborer — same food-gated flexibility, but the placement half is a Building instead of a Vehicle. Useful late-game filler when you need one more repeat of a specific Winter action and have food to spare, since food pressure is typically solved by this point in the game (see Animals &amp; Food).</p">>Laborer<br><span style="font-size:.75em;color:var(--ink-dim)">Building, or imitate Winter action</span></div></div>
+    </div>
+    </div>
+
+    <h3 style="max-width:960px;margin-left:auto;margin-right:auto;padding:0 1.5rem">Anytime Actions</h3>
+    <p class="placeholder-note" style="max-width:960px;margin-left:auto;margin-right:auto;padding:0 1.5rem">No worker cost — usable as many times as you like, whenever you like, including mid-resolution of another action (e.g. upgrading a resource the instant you receive it, before finishing the action that produced it).</p>
+    <div class="anytime-grid" id="anytime-grid">
+      <div class="card" data-detail="<h3>Load Vehicles</h3><p>Upgrade one or more resources you own (Wood→Timber, Clay→Brick [costs 1 Peat], Linen→Summer Wear, Woolen→Winter Wear, Leather→Leather Wear) and place the flipped tile on an available vehicle space. Or visit a Destination by placing its tile on a vehicle, paying the indicated goods/vehicles, for immediate Food. Tiles placed on vehicles aren't collected until Inventorying.</p><p>The core engine of the mid-late game — see Vehicles &amp; Trade for the full breakdown of why upgrading beats gathering, and why Destinations are a food tool rather than a scoring engine in their own right.</p>">Load Vehicles</div>
+      <div class="card" data-detail="<h3>Rearrange Animals</h3><p>Move animals between any valid positions on your Home Board (dikes hold 1, land spaces hold 2 of the same type, stalls hold 3 of the same type, stables hold 6 of the same type, parks hold 2 of the same or different type).</p><p>Free housekeeping — use it to consolidate animals into breeding-eligible pairs, or to make room before a Butcher/Cattle Trader action changes your counts. Costs nothing, so there's no reason not to tidy your board whenever a placement is suboptimal.</p">>Rearrange Animals</div>
+      <div class="card" data-detail="<h3>Use Buildings</h3><p>Buildings on your Home Board marked with the clock symbol (the Dark Green small houses) can be used to exchange goods/resources for other items, any time, any number of times.</p><p>These are your rule-breaker/free-action outlets — community strategy explicitly frames a couple of well-chosen Dark Green buildings as more valuable than owning many buildings, because their worth comes from having a reliable conversion available exactly when you need it, not from stacking quantity. See Building Engine for the Small House tier breakdown.</p">>Use Buildings</div>
+      <div class="card" data-detail="<h3>Use Peat Boat</h3><p>Return 1 Peat you own (not on the Moor) to the General Supply and advance one Goods Indicator one space on your Goods Track.</p><p>Turns peat into a flexible currency — see Vehicles &amp; Trade. The value isn't the peat itself, it's the optionality: whenever your plan stalls on a specific missing resource, a Peat Boat covers the gap instead of costing you a wasted worker elsewhere.</p">>Use Peat Boat</div>
+      <div class="card" data-detail="<h3>Remove Equipment</h3><p>At any time, return equipment in your Barn to the General Supply.</p><p>Rarely urgent, but occasionally useful for clearing barn space or abandoning a vehicle/tool you've decided not to build out — a minor bookkeeping action with no real strategic weight of its own.</p">>Remove Equipment</div>
+    </div>
+  </section>
+
+  <section id="opening" class="tab-panel">
+    <h2>Opening Principles</h2>
+    <p class="placeholder-note">The specific building pool changes every setup, so the one thing worth fixing in advance is a resource-priority framework, not a memorized move order.</p>
+
+    <h3>Resource priority: wood &gt; clay &gt; peat &gt; board space</h3>
+    <p>Wood and clay are the base inputs that upgrade into timber and brick — the currency of most worthwhile buildings — so they come first. Peat is secondary fuel/space currency (feast payments, brick upgrades, the peat boat trade). Board space (via dikes, moor clearance) matters last, because you can't spend space productively until you actually have goods to fill it with. If you're unsure what to take with a flexible action, default to whichever of these you're shortest on, in this order.</p>
+
+    <h3>Vehicles are infrastructure, not upgrades</h3>
+    <p>Treat a horse cart or peat boat as close to mandatory rather than optional. Raw actions can produce timber/brick directly, but at too low a rate to fuel a real building plan on their own — the vehicle-based upgrade path (raw wood/clay flipped to timber/brick via Load Vehicles) is what actually supplies volume. This reframes early tool upgrades (Axe, Spade) as investments in throughput for that pipeline, not as point-scoring for their own sake.</p>
+    <p>Two openings are both well-attested and pull in different directions — treat them as bookends, not a single "correct" line:</p>
+    <ul>
+      <li><strong>Tools-first:</strong> upgrade Axe and Spade via Master before collecting anything, then gather wood, then clay, then a cheap building, then a wagon + peat boat in the first winter. Bet: early efficiency multipliers compound across the whole game, so pay the up-front cost before you've gathered anything.</li>
+      <li><strong>Resources-first:</strong> spend early actions accumulating raw wood/clay, get a horse pair and a cart online by round 2, and treat tool upgrades as overrated until you're already repeating the action they'd boost. Bet: a multiplier is wasted if you don't yet have an engine running to apply it to.</li>
+    </ul>
+    <p>The practical synthesis: whichever you pick, get a cart by half-year 2 as a hard floor — it's a gateway that unlocks food acquisition via Destinations and lets you upgrade wood/clay at will, and every half-year it's delayed is a half-year of worse conversions behind you. Build the cheap small vehicle first, flip it to the large version later for free via Warden/Dike Warden, rather than paying full price for the upgraded version up front.</p>
+
+    <h3>Front-load generators, not one-off goals</h3>
+    <p>Forests, fields, an animal breeding pair in a stall, and any wool/milk producer all throw off extra resources every remaining half-year once built. A generator built in half-year 2 pays out for the rest of the game; the same generator built in half-year 8 barely earns back its own cost. Sequence generators (things that produce every round) ahead of one-off scoring actions or goal buildings — the actual lesson beginner guides converge on is this return-on-investment framing, not any specific building name.</p>
+
+    <h3>Don't skip the weak version of an action</h3>
+    <p>Even when an action's scaled output is small (2 wool from an unupgraded Loom, for instance) it's still usually worth taking over passing — small steady output compounds over only nine half-years, and there's no bonus for waiting to take an action until its output looks impressive.</p>
+
+    <h3>Pick 1-2 target buildings before round 1, then adapt</h3>
+    <p>The building market is the one thing that changes setup to setup, so it's worth actually reading what's on the board before committing to a plan, rather than assuming your favorite combo will show up. Let a building's presence (or absence) steer which of the two pillars you commit to, rather than forcing a fixed script regardless of what's actually available this game.</p>
+
+    <div class="callout">
+      <p><strong>Common beginner trap: over-investing in Destinations/travelling.</strong> Visiting Destinations for food feels productive — it delivers food, minor goods, and a sense of progress every time — but it's a support action, not a strategy. Two independent solo players converged on the same diagnosis: leaning on travel as a primary line starves the vehicle-upgrade pipeline (timber/brick) that big buildings actually need. Use Destinations to solve a specific food shortfall, not as your default action when nothing else looks urgent.</p>
+    </div>
+  </section>
+
+  <section id="buildings" class="tab-panel">
+    <h2>The Building Engine</h2>
+    <p class="placeholder-note">Setup determines which buildings are even available (some are removed at random before the game starts), so this section is a framework for evaluating whatever's on your board, organized by the game's real tiers. The recurring lens across every tier: a building is good in proportion to how many worker-actions it lets you skip, and whether its cost competes with resources your actual strategy needs — not its raw point value in isolation.</p>
+
+    <h3>Starter Houses (Light Green)</h3>
+    <p>Cheap, one-time-per-November-Inventorying effects. In the base learning game these substitute for Small Houses entirely; in a full game a handful remain in the pool.</p>
+    <ul>
+      <li><strong>Farmer's House</strong> (Clay + may cut 1 Peat) — skips a Clay Worker/Peat Cutter action every November; consistently rated strong for its low cost.</li>
+      <li><strong>Plow Maker's Workshop</strong> (place 1 Field free) — skips the expensive first half of Farmer (the Plow build), which is the part that costs an animal. Especially valuable if you're not otherwise planning to build Plows, since it frees animals for breeding instead.</li>
+      <li><strong>Novice's Hut</strong> (Grain + advance 1 Dike free) — only valuable if dikes are actually your bottleneck; skippable otherwise despite the real mechanical benefit on paper.</li>
+      <li><strong>Workshop</strong> (Wood + may move 1 Tool Indicator, paying its cost) — the standout of the tier: it scales with your Master-action tool investments (Workbench, Ovens, Looms) rather than staying flat, so its value compounds across the whole game instead of paying out once.</li>
+    </ul>
+
+    <h3>Small Houses (Dark Green)</h3>
+    <p>Usable any time, any number of times, once built — these are the "clock icon" anytime buildings. Community advice: a couple of well-chosen ones beat owning many, since their value is having a reliable conversion ready exactly when needed, not stacking quantity.</p>
+    <ul>
+      <li><strong>Weaving Parlor</strong> (3 Flax → 1 Linen + cut 1 Peat) — only worth it if you're not already running Linen Weaver, which is a strictly better use of the same flax.</li>
+      <li><strong>Colonist's House</strong> (2 Woolen → 1 Clay + cut 1 Peat) — mirrors Farmer's House's clay/peat effect, but priced in Woolen, so it's gated by whether wool is scarce for you elsewhere.</li>
+      <li><strong>Carpenter's Workshop</strong> (4 Food + 1 Brick → upgrade a Stall to Stable) — a second route to Stable upgrades alongside the Winter Carpenter action; matters specifically for an animal-heavy build that wants to preserve brick for pricier buildings elsewhere.</li>
+      <li><strong>Schnapps Distillery</strong> (1 Grain + 1 Peat → 3 Food) — weak; food has too many alternate sources for this narrow conversion to matter once your economy is running.</li>
+      <li><strong>Loading Station</strong> (place 1 Peat on a vehicle space) — niche; only shines under a dedicated peat/resource-track strategy.</li>
+      <li><strong>Litter Storage</strong> (3 Flax → 1 Horse, if you already own 2+ Horses) — narrow trigger condition (you need horses to get more horses) that rarely comes up; still, it's free value on the rare turn the condition is met, and the endgame puzzle-solving section below shows it used twice in a single strong finish.</li>
+      <li><strong>Wood Trader</strong> (1 Timber + 1 Food → 2 Wood) — strong and frequently used, but requires already having vehicles/timber flowing, i.e. it's gated by board-state prerequisites rather than standalone.</li>
+    </ul>
+
+    <h3>Minor Craft Buildings (Yellow)</h3>
+    <p>One-time immediate effect when built, paid for in upgraded materials — the same currency your bigger buildings also want. Only build these if they're load-bearing for your specific plan; otherwise they're an opportunity-cost trap.</p>
+    <ul>
+      <li><strong>Turnery</strong> (per Forest: 1 Wood + cut up to 2 Peat) — strong if you're running several forests; combos with a Forest-heavy plan.</li>
+      <li><strong>Smokehouse</strong> (per Fish Trap: cut 1 Peat) — good if Fish Trap is already upgraded for Fisherman.</li>
+      <li><strong>Smithy</strong> (exchange Peat Boat/Hand Cart/Wagon for a Plow, free) — low standalone value, but a genuine strategy anchor if you commit a small vehicle fleet specifically to feed it.</li>
+      <li><strong>Cooperage</strong> (5/10/15 Dairy Animals → advance all Goods Indicators 1/2/3) — excellent for an animal-heavy strategy, essentially dead otherwise; a clean example of a building whose rating depends entirely on which pillar you've committed to.</li>
+      <li><strong>Bakehouse</strong> (per Oven: 2 Grain + 1 Flax → 8 Food) — generally weak: gated behind an expensive Oven upgrade to solve a resource (food) that's usually not your actual problem by the point you'd build this.</li>
+    </ul>
+
+    <h3>Major Craft Buildings (Orange)</h3>
+    <p>All six are available every game — no setup variance here, only whether your board state makes them worth their (often steep) cost.</p>
+    <ul>
+      <li><strong>Mill</strong> (3/5/6 Fields → 8/10/12 Food) — cheap for its payout once you own enough Fields; scales down in effective cost the more Fields you already have.</li>
+      <li><strong>Weaving Mill</strong> and <strong>Textile House</strong> — both share a real design tension: their build cost is paid in the same clothing-material resources (Wool/Flax-derived goods) that a clothing strategy is trying to accumulate, so building one can undercut the very engine it's meant to complement. Weigh whether the immediate one-time payout is worth temporarily draining your clothing pipeline.</li>
+      <li><strong>Saddlery</strong> (per Horse: cut 1 Peat) and <strong>Joinery</strong> (per Peat Boat: 2 Peat; per Plow: 1 Horse if space) — both narrow but strong when they fit an existing Horse- or Peat-Boat-heavy plan; weak as a standalone pick.</li>
+      <li><strong>Waterfront House</strong> (10 Food + advance up to 2 Dikes + move Fish Trap up to 3) — the strongest raw payout in the tier: skips several actions' worth of dike-advancing and food-gathering at once, and its Food cost is largely offset by the value it returns.</li>
+    </ul>
+
+    <h3>Inns (Blue)</h3>
+    <p>Three per game, one-time effect, and notably don't require upgraded materials to build — just base resources or goods, which is why this tier reads as uniformly strong. Build at least one or two whenever they're on the board.</p>
+    <ul>
+      <li><strong>Potter's Inn</strong> — only strong with several Pottery Wheel upgrades already in; otherwise outclassed by its peers in the tier.</li>
+      <li><strong>Farmer's Inn</strong> (replace up to 3 Fields with Forests) — a genuine resource-conversion tradeoff (you give up flax/grain income for wood income and a different scoring category), not free value, but well-regarded because Forests hold up better late-game than unconverted Fields in many plans.</li>
+      <li><strong>Junk Dealer's Inn</strong>, <strong>Gulf House Inn</strong>, <strong>Milk House Inn</strong>, <strong>Sluice Yard Inn</strong> — all deliver strong, largely unconditional value; Gulf House specifically rewards a Stall/Stable-heavy board and is a strong last-turn pick since its Timber/Brick payout doesn't decay with timing.</li>
+    </ul>
+
+    <h3>Large Buildings (Red) — solo-specific guidance</h3>
+    <p>This is the one tier where solo play genuinely diverges from multiplayer advice, and it's worth stating the tension plainly rather than picking a side.</p>
+    <div class="callout">
+      <p><strong>The solo-endgame view:</strong> a documented 130+ point solo finish built zero Red buildings at all. The reasoning: Red buildings' main value in multiplayer is contesting shared access and denying an opponent a powerful tile — a form of value that simply doesn't exist in solo. In solo, prioritize buildings by direct point/resource efficiency over Red buildings' typical denial value; they demand disproportionate setup investment (they're expensive) for a payoff that's often available more cheaply elsewhere.</p>
+      <p><strong>The countervailing (weaker) data point:</strong> a separate, more speculative and lower-confidence source observed that the top scorer in their group typically held 2 of the 3 Red buildings — read as anecdotal evidence they're unusually strong engines, though the author explicitly flagged no statistical backing and a small sample.</p>
+      <p><strong>How to reconcile:</strong> treat Red buildings as good but not mandatory in solo. If one is cheap relative to your current resource stockpile and its effect (see below) fits your build, take it — but don't warp your action economy chasing one on the assumption solo play needs it the way multiplayer denial-value might suggest.</p>
+    </div>
+    <ul>
+      <li><strong>Village Church</strong> (free Carriage) — its value is timing-sensitive: a Carriage is most useful early, but this is typically a late-game purchase once you can afford it, which shrinks its practical utility. The weakest of the three specifically because its reward decays with when you actually buy it.</li>
+      <li><strong>Lütestburg Castle</strong> (free Forest + move Spade/Pottery Wheel) and <strong>Berum Castle</strong> (move Oven/Loom + free tile flip) — both hold their value even bought on the last turn, since tool upgrades and a free flip are useful right up to the final scoring, unlike the Church's decaying vehicle reward.</li>
+    </ul>
+  </section>
+
+  <section id="land" class="tab-panel">
+    <h2>Land &amp; Resources</h2>
+
+    <h3>Home board tiles are permanent — plan placement ahead</h3>
+    <p>Once a tile (field, pasture, stall, stable, building) is built onto your home board, it cannot be removed or demolished. Loose pieces — animals, vehicles, equipment — can be returned to the supply freely, but placed board tiles are a one-way commitment. The only ways to open more space are advancing your dike line outward, or two narrow special-case removals (discarding a moor tile via visiting Bremen, or a field via visiting Hage). Because of this, home-board layout decisions are effectively permanent — a placement that turns out suboptimal can't be undone, only worked around at the cost of further actions. Plan the shape of your board ahead of time rather than placing opportunistically and expecting to fix it later.</p>
+
+    <h3>Advancing dikes</h3>
+    <p>You can't build or place animals on spaces ahead of your dike line (the 3 dikes in a row). Actions that advance a dike move the lowest one (rightmost, if tied) to the next open space in its column — and each time the rightmost dike moves, forming a new line, three new spaces open up at once. Dike Builder is the dedicated action for this, but it's widely flagged as a trap unless space is genuinely your binding constraint, since the action itself has no direct scoring value beyond the animal it hands you. Dike Warden is generally the better route when you need both a dike advance and a tile flip — it bundles both into a single worker at no extra cost over Warden alone.</p>
+
+    <h3>Moors: dehydrate, then cut, then (eventually) clear</h3>
+    <p>You can't build or place animals on land under your Moor tiles or Boardwalk until fully processed. The sequence is fixed: dehydrate first (Warden, Dike Warden, or Colonist flips the tile and places 4 peat cubes on it), then cut (Peat Cutter, or a building effect, removes cubes to your supply one or more at a time), and once all 4 cubes are gone you may remove the tile entirely, freeing that land. This is a multi-action commitment per moor — treat early dehydration as unlocking a resource stream (like unlocking a mine), not as an instant conversion.</p>
+    <p>One easy-to-miss rules detail worth knowing: dehydration is a pure adjacency-count rule, not a connected-network rule. Any land space bordered by at least 2 ditch/moor edges is dehydrated — the ditches don't need to form a continuous line or connect to open water. (This specific mechanic is Tea &amp; Trade's ditch system, distinct from the Boardwalk/Moor tiles in the base game, but the same "count the edges, not the network" logic applies — see Tea &amp; Trade Expansion.)</p>
+
+    <h3>Flipping tiles: build-side-choice vs. free-flip are different mechanisms</h3>
+    <p>Vehicle and moor tiles print a cost on both sides. There are exactly two ways to get the upgraded side, and they're not interchangeable: (1) build the upgraded side directly when you first acquire the tile, paying its (higher) printed cost as a normal build, or (2) build the cheap side now and flip it for free later via Warden, Dike Warden, or Berum Castle. There is no third option to "pay the difference" later on a tile you already built cheap — once built, the only path to the flip is one of those three free-flip sources. This is a genuine timing tradeoff: paying more now saves a future action and skips waiting for a Warden-type action to come up again; building cheap now saves resources but costs tempo and depends on a specific action type reappearing when you need it.</p>
+
+    <h3>Fields, forests, and the crop-rotation gap</h3>
+    <p>Fields (via Farmer/Plow) yield flax or grain each November; Forests yield wood. Community diagnosis of the underlying economy: animal-heavy strategies alone are capped (Uwe's scoring formula gives limited points per animal even for a large herd) — animals matter as a support input for building-oriented strategies (feed, plow-pulling via horses/cattle, wool/hide supply, slaughterhouse fodder) rather than as a standalone scoring category. And food pressure, which looks like a serious constraint early, tends to evaporate once trading routes (Destinations) are established mid-game — so don't over-invest in redundant food-security measures once one reliable source is running.</p>
+  </section>
+
+  <section id="animals" class="tab-panel">
+    <h2>Animals &amp; Food</h2>
+
+    <h3>The end-game animal-balance scoring trick</h3>
+    <p>Final animal scoring inverts the usual "specialize" instinct: 2 VP for each animal of the type you have the <em>least</em> of, 1 VP for the type you have the <em>second-most</em> of, and 0 for the type you have the most of. Maxing one animal type (say, a big sheep herd) means that entire herd scores nothing at game end if it's your most-populous type. The better play is deliberately keeping sheep/cattle/horse counts roughly level, so every animal counts at the top or middle tier instead of your single biggest herd scoring zero.</p>
+    <p>This requires real infrastructure, not just a passive choice: enough stall/stable capacity to hold three balanced herds rather than one large one, plus a release valve (Butcher, or trading actions like Cattle Trader) to bleed off excess whenever one type pulls ahead. Budget for that capacity investment if you're planning to lean on this trick rather than assuming balance happens on its own — animals breed in pairs regardless of what you want the ratio to be, so an unmanaged herd will drift toward imbalance by default.</p>
+
+    <div class="callout">
+      <p><strong>Tension with pure animal-first strategies:</strong> a separate community data point reports a 112-point solo game built around committing early to a single breeding pair from the first winter, snowballing to 8+ offspring by game end, paired with buildings that convert animal byproducts directly (wool→clay/peat, cattle→food/plow-pulling/points). That's real evidence animal-heavy plays can score well even without balancing three types — the two approaches aren't contradictory, they're different builds (balance-for-endgame-scoring vs. volume-for-conversion-throughput) and which one is better depends on what building support you've drafted. If your available buildings reward one animal type's byproducts heavily, lean into volume; if they don't, balance the herds instead.</p>
+    </div>
+
+    <h3>Food is a soft tax, not a threat — but plan a real source early</h3>
+    <p>Feeding requirements (3 Food each half-year, plus 2 Peat before winter) are more forgiving than Agricola's starvation pressure — a steady tax keeping the economy honest, not an existential risk. That said, don't ignore it entirely: lock in one reliable red-food source early (home-board mead-equivalent, a Baker with an upgraded Oven, or a growing cattle herd feeding Cattle Trader/Grocer) and stop actively worrying about food once it's running. Buying a small emergency top-up via a Destination visit is a fine safety valve when briefly short, but shouldn't be your plan.</p>
+    <p>Converting low-tier goods into food through multiple successive conversion steps in the same early game (e.g. stacking several different food-conversion actions before any single one is actually running at scale) tends to overextend the resource budget you're trying to protect. Pick one solid food engine and commit, rather than hedging across several partial ones.</p>
+
+    <h3>Prioritize productive assets over one-off goals</h3>
+    <p>Forests, fields, animal pairs in stalls, and wool/milk producers all generate extra resources every remaining half-year once built — the earlier they come online, the more total return over the game's fixed nine half-years. A generator built in half-year 2 pays out for the whole rest of the game; the same generator built in half-year 8 barely earns back its own cost. This is the same return-on-investment logic that governs vehicles and buildings generally (see Opening Principles) — it applies to animals specifically because breeding compounds pair-by-pair, so a late-started herd simply hasn't had enough reproduction cycles to matter.</p>
+
+    <h3>Uptrade the non-pregnant half of a breeding pair</h3>
+    <p>The pregnant animal in a pair produces offspring regardless of what happens to its partner. Upgrading or otherwise using the non-pregnant half (converting it to a good, selling it, slaughtering it via Butcher) loses nothing — the pair still reproduces on schedule — and usually nets more total value than leaving both animals idle in the stall.</p>
+  </section>
+
+  <section id="vehicles" class="tab-panel">
+    <h2>Vehicles &amp; Trade</h2>
+
+    <h3>Vehicles are the actual engine, not a convenience</h3>
+    <p>Two things a vehicle unlocks, both anytime actions costing no worker: <strong>Load Vehicles</strong> (upgrade a resource you own — Wood→Timber, Clay→Brick at a cost of 1 Peat, Linen→Summer Wear, Woolen→Winter Wear, Leather→Leather Wear — and place the flipped tile on the vehicle; it's collected at the next Inventorying) and <strong>visiting a Destination</strong> (place a Destination tile on the vehicle, pay the indicated goods/vehicles, receive food immediately). Both are zero-worker actions, meaning a vehicle is a standing, repeatable multiplier on your action economy rather than a one-time purchase.</p>
+    <p>Loading rules: each cart/wagon has one or more spaces for goods or destination tiles, which can overlap provided they exactly fit the space's boundary; smaller resources fit only on smaller carts and must be placed sideways. This is a real capacity constraint late-game — see Endgame, where cart space (not raw resources) became the binding bottleneck on a maximal building push.</p>
+
+    <h3>Build cheap, flip free — vehicle timing</h3>
+    <p>Get a first vehicle by the end of the first winter; take the cheaper small cart (5 Wood + a Horse) rather than paying for the upgraded 4-space cart immediately, then flip it to the larger version the following season via Warden or Dike Warden for free. Early vehicle access matters more than vehicle size — it starts the delivery/upgrade economy sooner, and every half-year that engine runs is value you don't get back by waiting for a bigger vehicle. By the end game, aim for 2-3 vehicles: flipping raw goods to their manufactured form via a vehicle you own is typically a 100-125% value increase over the raw good, meaning the marginal action becomes far more efficient once played through a vehicle than gathered directly.</p>
+    <p>Watch the double-wide vehicle trap: the larger upgraded vehicles (e.g. a Carriage) have double-wide spaces that can't hold Timber, Brick, or small Destination tiles — despite being the "better" vehicle on paper, they're narrower in what they can actually carry for certain goods. Factor this into which vehicle you flip and when, rather than assuming bigger is strictly better for every load type.</p>
+
+    <h3>Peat Boats: the fungibility play</h3>
+    <p>Once you own a Peat Boat, its anytime action lets you return 1 Peat you own (not on a moor) for any one Goods Indicator advance, as often as you like. This converts peat from "one specific resource" into flexible currency. The value isn't the peat itself — it's optionality: whenever your plan stalls because you're short a specific good, a Peat Boat covers the gap instead of forcing a wasted action elsewhere. This matters more in Arle than it might elsewhere, since a blocked resource path can cost you a whole half-year's worker if you have no fallback. Peat Boatman (the Winter action) scales its own output by how many Peat Boats you own, so investing in a second boat pays off both as more fungible currency and as better income from that action.</p>
+
+    <h3>Destinations are a food tool, not a scoring engine</h3>
+    <p>It's tempting to read Destination-visiting as a core strategy since it delivers food, minor goods, and a sense of progress every visit — but its real role is feeding your building/breeding economy, not scoring points directly. Once you're past the early game, converting stockpiled goods into travel-destination food usually costs more in opportunity value than the food is worth — the trade only pays off when there's still enough game left to spend that food productively. Treat heavy Destination use as a sign you should be checking whether your actual food or building engine is under-built, not as a plan in itself (see the beginner failure mode in Opening Principles).</p>
+  </section>
+
+  <section id="endgame" class="tab-panel">
+    <h2>Endgame</h2>
+
+    <h3>The last few half-years are triage, not accumulation</h3>
+    <p>By half-year 7, your economy and resource stockpile are largely fixed — the remaining decision is sequencing: which buildings to complete, using which vehicle trips, before the clock runs out. A documented 12-move solo finish (starting round 7, scoring 130.5) illustrates the shape of this puzzle clearly: more available building options than actions/resources to execute all of them, so the endgame is about choosing what to finish, not what to start.</p>
+    <p>That finish sequenced buildings deliberately: first a building that "cashes out" resources already on hand (a Cooperage-style goods-track advance, valuable specifically because accumulating more raw goods has no further use this late), then a food-generating building to fund the rest of the sequence, then a run of building placements gated by whatever resource was tightest. The general principle — bank what you've already accumulated first, secure the resource that everything else depends on second, then spend down in bottleneck order — transfers to any endgame regardless of which specific buildings are on your board.</p>
+
+    <h3>Brick and cart space are the real bottlenecks, not food or buildings</h3>
+    <p>In that same finish, both the solo player and a thread co-author independently flagged brick — via Clay Worker plus a Peat-fueled upgrade, processed before winter ends — as the tightest constraint on how many buildings could be completed in the final rounds, tighter than food or the buildings' own costs. Separately, even with resources in hand, cart-loading capacity per vehicle trip was a second, independent hard cap on how much could be hauled per round. Any "build everything" endgame plan needs to reverse-engineer from brick/timber supply and cart capacity specifically, not from which buildings simply look best on paper.</p>
+
+    <h3>Small actions add up when the big ones are exhausted</h3>
+    <p>Litter Storage (3 Flax → 1 Horse, if you already own 2+ Horses) was used twice in that same 12-move finish to convert marginal byproduct into an extra animal — a low-opportunity-cost action that's easy to forget (even the responding thread co-author admitted overlooking it) but free value when slotted into an already-packed sequence. Similarly, animal breeding triggers passively alongside your formal 12 remaining actions and should be counted as part of the endgame resource plan, not treated as incidental background.</p>
+    <p>In the very final round, sweep for loose unplaced resources — ore-equivalent leftovers (any resource that can still be dumped onto a vehicle or board space for free points) are commonly left in hand after a last action and represent points quietly left on the table.</p>
+
+    <h3>Depot vs. Stable: a genuine fork, not a stacking choice</h3>
+    <p>A Depot doubles the score of goods still sitting on your home board's Goods Track at game end (this effect applies once regardless of how many Depots you own). Converting a Stall into a Depot instead of a Stable is the endgame payoff for a stored-goods/manufacturing-focused build, and it's mutually exclusive with that same Stall's alternate upgrade path (a Stable, for animal-balance or volume-breeding plays) — decide which fork you're building toward before you commit a specific Stall's upgrade, since you can't have both from the same tile.</p>
+
+    <h3>Balance vs. specialize — still an open question, weight accordingly</h3>
+    <p>One low-confidence, small-sample data point is worth flagging honestly rather than treated as settled: a player's early games (using a generalist approach, scoring across many VP categories) outscored their later games where they deliberately specialized hard into one or two routes via one-off building bonuses. The author's own theory — one-shot building bonuses don't generate enough compounding value to justify the actions spent chasing them — lines up with the broader "commit to engines, not isolated bonuses" theme in this guide, but the source itself is speculative and admits no statistical backing. Treat "balance across scoring categories" and "specialize into 2 reinforcing pillars" (see How to Think About Arle) as compatible rather than contradictory: specializing into isolated one-off bonuses is the trap, not specializing into a running engine that scores across several categories as a byproduct (e.g. a Cattle-plus-Depot build scores animals, goods-track, and building VP simultaneously).</p>
+  </section>
+
+  <section id="teatrade" class="tab-panel">
+    <h2>Tea &amp; Trade Expansion</h2>
+    <p class="placeholder-note">Fields of Arle's actions are deliberately balanced against each other in the base game, so power comes from linking actions into a coherent engine rather than any single strong action — Tea &amp; Trade's new mechanics mostly exist to patch two base-game weak links, not to replace the base strategy framework above.</p>
+
+    <h3>Ditches: what they actually unlock (and why they're still overrated)</h3>
+    <p>Ditches fix two previously under-supported strategies by creating a use for dehydrated (drained) land: doubling plow effectiveness for a farming build, and enabling large-scale sheep breeding for a leather/slaughter build — both previously bottlenecked by how little dehydrated land the base game made available. Dehydration itself is governed by the same simple rule as base-game moors: any land space bordered by at least 2 ditch edges counts as dehydrated, regardless of whether those ditches form a connected network — you can dehydrate a specific target space with just 2 well-placed ditch edges rather than needing a long continuous run.</p>
+    <div class="callout">
+      <p><strong>But ditches are a documented novelty trap.</strong> One solo player's first Tea &amp; Trade game scored only 68 after getting drawn into heavy ditch-building (following the expansion's flavor text), then jumped to 119 after cutting ditches almost entirely and refocusing on core engine actions (buildings, boats, ovens) instead. A second, independent source frames ditches as consistently poor return-on-investment relative to other action-space plays across repeated games. The lesson generalizes beyond ditches specifically: new expansion content invites novelty bias — evaluate any new mechanic by its actual return-per-action, not by how central it feels narratively or how much flavor text pushes it.</p>
+    </div>
+    <p>The exception: ditches are a real enabler, not dead weight, for a farming or sheep/leather build specifically already planning to use dehydrated land at scale — the trap is over-investing in ditches as a goal in themselves rather than as infrastructure for one of those two builds.</p>
+
+    <h3>Boats are the expansion's real power spike</h3>
+    <p>The updated fixed opening for this expansion shifts toward boats: get a building and a boat (fishing or trading) plus a big vehicle round 1, then improve ovens and get more boats round 2. Boats are called out as disproportionately valuable here — worth prioritizing ahead of other action types early, more than the equivalent base-game vehicle-first advice would suggest. They extend the same doubling-engine logic that Depot uses in the base game (double points on stored goods), and add a tea-flipping loop on top: trading boats convert base tea into East Frisian tea, the expansion's higher-value tier.</p>
+
+    <h3>Grandma's double-turn combo</h3>
+    <p>Trading in 2 East Frisian Teas at Grandmother's grants a double turn on an action space — a standout power play, since actions (not raw resources) are the genuinely scarce thing being optimized around in this game, and this is one of the few ways to directly buy an extra action rather than just extra resources.</p>
+    <p>A related rules interaction worth knowing when using Grandmother: if you already hold tea when you visit, the "discard tea for food" effect can trigger twice in a single visit — you arrive holding N tea, the visit grants +1 tea and +4 food, and the resulting larger tea stack then triggers the discard-for-food conversion again, netting roughly double the base food (e.g. 8 food instead of 4, ending back at your original tea count). Practical takeaway: bank at least 1 East Frisian Tea before visiting Grandmother rather than spending down to zero beforehand — walking in already holding tea roughly doubles the food value of the visit.</p>
+
+    <h3>Round-count sensitivity: shorter games favor fewer conversion steps</h3>
+    <p>A 3-player Tea &amp; Trade game runs 7 rounds instead of 2-player's 9 — and multi-step conversion chains (breed an animal → shear/slaughter → process into leather/cloth → sell) need enough rounds to complete the loop more than once to be worth building around. In a shorter game, prioritize strategies with fewer conversion steps, or that start paying off immediately, over deep processing chains that need several rounds just to reach their first payout. Forests also lose relative value in a shorter game, since their long-term wood-generation payoff has less time to compound before the game ends.</p>
+
+    <h3>A worked example: moor-draining feeds peat feeds trade</h3>
+    <p>One proposed opening line pairs heavy ditch (Schloote) construction with Frisian-tea-boosted peat cutting, on the logic that draining moors does double duty — it frees fields for sheep/flax/wheat <em>and</em> unlocks peat cutting from the newly-drained land, and that peat becomes tradeable currency toward whatever a target building needs. Sequence: invest in ditch/peat-cutting tool upgrades round 1, drain moors via ditches, then burn tea to cut peat in bulk from the newly-drained land before competing pressure on that peat-cutting throughput builds up. Named tradeoff: this line runs wood- and vehicle-poor early, since every early action goes into ditches/peat/tea rather than wood-gathering or transport — it needs a deliberate plan to backfill wood access later (a Carriage, for instance, can substitute for the trading boat otherwise used to fetch tea). Worth noting: even a first, imperfectly-executed attempt at this line scored a competitive ~130.5, suggesting the core idea (moor-draining feeds peat feeds trade) is robust to imperfect sequencing rather than a narrow combo that only works executed exactly right.</p>
+  </section>
+
+</main>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  function activateTab(tabId){
+    const btn = document.querySelector(`nav.tabs button[data-tab="${tabId}"]`);
+    const panel = document.getElementById(tabId);
+    if(!btn || !panel) return;
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.tab-panel').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    panel.classList.add('active');
+    localStorage.setItem('foa-active-tab', tabId);
+  }
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+  });
+  activateTab(localStorage.getItem('foa-active-tab') || 'thinking');
+
+  const overlay = document.getElementById('modal-overlay');
+  const modalBody = document.getElementById('modal-body');
+  function openModal(html){
+    modalBody.innerHTML = html;
+    overlay.classList.add('active');
+  }
+  document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('active'));
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.classList.remove('active'); });
+
+  document.querySelectorAll('.board-grid').forEach(grid => {
+    grid.addEventListener('click', e => {
+      const card = e.target.closest('.action-card');
+      if(!card) return;
+      openModal(card.dataset.detail || '<p>Details pending.</p>');
+    });
+  });
+
+  document.querySelectorAll('.card-grid, .anytime-grid').forEach(grid => {
+    grid.addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if(!card) return;
+      openModal(card.dataset.detail || '<p>Details pending.</p>');
+    });
+  });
+</script>
+</body>
+</html>

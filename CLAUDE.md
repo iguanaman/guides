@@ -21,6 +21,7 @@ Each guide's design/layout/structure is independent — fit it to that guide's t
 - `spirit-island/` — Spirit Island strategy guide (per-spirit strategy, mechanics deep dives, tips/tricks)
 - `feast-for-odin/` — A Feast for Odin strategy guide, base game + Norwegians expansion (occupations, tableau optimization, scoring strategy)
 - `ark-nova/` — Ark Nova strategy guide (zoo layout, card engine, appeal/conservation balance, action strategy)
+- `fields-of-arle/` — Fields of Arle strategy guide (worker placement, land reclamation, building engine, seasonal planning)
 
 ## Git
 

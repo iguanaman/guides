@@ -22,6 +22,7 @@ On discovering a fetch fix (a domain that blocked one method but worked with ano
 | boardoflife.wordpress.com | WebFetch returns 200 but has repeatedly fabricated content on this domain (invented card names/stats, wrong framing) confirmed against real HTML — not a block, a silent accuracy failure | skip WebFetch, go straight to `curl-chrome -sL --max-time 40 "<url>" -o .tmp/distill-<source-slug>.html` and Read it |
 | dailyworkerplacement.com | Domain has been repurposed/squatted — WebFetch returns unrelated online-casino content, live site no longer hosts the original article | check `https://archive.org/wayback/available?url=<url>` (retry on 429 with backoff), then plain `curl -sL` the returned `web.archive.org/web/{timestamp}/{url}` snapshot URL — original WordPress article content is preserved in the archive |
 | reddit.com (post/comments) | WebFetch and curl-chrome both blocked (anti-bot verification page), including old.reddit.com `.json` API | Playwright `browser_navigate` to the url, then `browser_evaluate` `() => document.body.innerText` — gets through cleanly, returned directly (no file) |
+| boardgamegeek.com (forum subforum-index, e.g. `/forum/<id>/<slug>/strategy`) | WebFetch 403; curl-chrome returns JS-shell game page (Angular app, no thread list in HTML) | plain `curl "https://api.geekdo.com/api/forums/threads?ajax=1&forumid=<forumid>&nosession=1&objectid=<gameid>&objecttype=thing&pageid=1&showcount=50&sort=recent"` — no auth needed, returns JSON `threads[]` with subject/threadid/href/numrecommend for the whole subforum in one page. Get `forumid`/`objectid` by Playwright-navigating the index URL once and reading `browser_network_requests` (filter `forums/threads`) for the exact query params (`filterforums` value varies by game). |
 
 ## Forum/thread sources
 
@@ -35,7 +36,7 @@ One job per run: fetch the one given URL, write one `.research/{source-slug}.md`
 2. Blocked (403/empty/anti-bot) → `curl-chrome -sL --max-time 40 "<url>" -o .tmp/distill-<source-slug>.html`, Read it, delete it after.
 3. curl-chrome returns a JS-shell/empty-body page (client-rendered SPA, no article text in the HTML) → before falling to Playwright DOM scraping, find the underlying data API: Playwright `browser_navigate` to the url, then `browser_network_requests` (filter for `api|json|xhr`, non-static) to spot the XHR/fetch call that returns the actual content, then plain `curl` that endpoint directly (usually no auth/impersonation needed — same-origin JSON APIs are commonly public). Success → use it, and record it as a new fetch-fix row (step 7) so future runs skip straight to it.
 4. Still blocked (no usable API found) → Playwright `browser_navigate` + `browser_evaluate` returning text directly (no `browser_snapshot`, no file). Forum/thread source → see "Forum/thread sources" above (page 1, OP only) instead of multi-page fetch.
-5. All methods blocked → append "BLOCKED: <method> <error>" to this row in `_sources.md`, write no `.md`, end turn.
+5. All methods blocked → append "BLOCKED: <method> <error>" to this row in `_sources.md`, write no `.md`, report the block directly in your final message (source, URL, methods tried, error) instead of the Output format below, end turn.
 6. WebFetch content looks fabricated (invented specifics, mismatches page structure) → re-fetch via step 2, flag as caution in final message.
 7. New fetch fix found → append domain/block/method row to the table above.
 8. `{topic-slug}/.research/{source-slug}.md` (this run's own output file) already exists and is accurate to the source → leave it and `_sources.md` untouched, report no changes needed. Only delete a `_sources.md` row when a genuinely different source-slug/URL turns out to duplicate content already covered by another file — never delete this run's own row.
@@ -44,3 +45,4 @@ One job per run: fetch the one given URL, write one `.research/{source-slug}.md`
 ## Output
 
 One line confirming the file path written and what it covers. Do not paste file contents back into your final response.
+Unable to read the source at all (step 5) → skip this format, report the block instead.
