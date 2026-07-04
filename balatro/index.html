@@ -307,6 +307,7 @@
         <button class="acc-header"><span>Three of a Kind <span class="tag">+20/+2 · value lane</span></span><span class="chevron">▶</span></button>
         <div class="acc-body"><div class="acc-body-inner">
           <p>Weak on both axes from a base deck — low score and genuinely hard to draw (needs 3 of 4 copies of a rank). Only becomes viable with heavy rank-concentration (Strength, Death) letting you spam it across multiple hands. Discard rule: play it whenever present, keep pairs in hand (especially ranks with many copies left in deck), discard aggressively otherwise.</p>
+          <p>Its base score barely clears most blinds even with concentration, which tempts you into using a Glass card's double-or-destroy just to push it over the line — done too early, that's a real risk of breaking your one enhanced card before your build can afford the loss.</p>
         </div></div>
       </div>
 
@@ -433,12 +434,16 @@
       </div>
     </div>
     <p>With multiple copiers (via Showman-enabled duplicates), you can aim each at a <em>different</em> joker to weight retriggers unevenly — e.g. a Baron+Mime build wants many retriggers stacked onto Baron but only one extra proc on Mime, so you deliberately allocate copier coverage toward the joker that benefits most from stacking rather than splitting evenly.</p>
+    <p>Copy jokers matter most when the thing being copied is an <strong>XMult</strong> effect, not a flat bonus — flat Chips/Mult add, but a copied XMult multiplies against everything else on the board, so the gain compounds instead of just accumulating. That's why Blueprint/Brainstorm are considered cornerstones of "going infinite": good targets are jokers whose output scales per-card or per-hand rather than firing once (DNA, Baron, Perkeo, Vagabond, Triboulet are common picks), since copying a one-shot effect wastes the chain.</p>
+    <p><strong>Stacking order matters too:</strong> if you're copying Stuntman (+300 Chips, -2 hand size) alongside a hand-size joker like Burglar, copy Stuntman <em>after</em> the hand-size boost applies — you want the extra chips to stack without compounding the hand-size penalty on top of an already-shrunk hand.</p>
   </section>
 
   <section class="block">
     <h2>Shared-condition stacking</h2>
     <p>Rather than hunting for a single overpowered joker, look for jokers that key off the <em>same trigger</em> so one action grows several of them at once. Money-based scalers are the clearest example: Bootstraps (+2 Mult per $5 held) and Bull (+2 Chips per $1 held) both grow purely from cash you're already hoarding for interest — no extra behavior required. Hand-based pairs work the same way: Spare Trousers (+Mult on Two Pair) and Square Joker (+Chips on an exactly-4-card hand) can both fire off one played hand if it happens to satisfy both conditions.</p>
     <p>This is also why Spare Trousers is a favorite "background" scaling pick even outside a dedicated Two Pair build — its trigger condition (a hand containing Two Pair, including Full House and Four of a Kind) is common enough in ordinary play that it accumulates steadily without requiring you to build around it. A scaling joker's ceiling isn't its per-trigger gain, it's how often that trigger actually fires.</p>
+    <p>The same principle applies to money-scaling jokers beyond Bootstraps/Bull: <strong>Vampire</strong> (XMult per Enhanced card played, consuming the enhancement) and <strong>Fortune Teller</strong> (Mult per Tarot card used this run) both key off actions you're already taking rather than a dedicated build, while <strong>Red Card</strong> (+Mult whenever you skip a booster pack) turns a shop habit you might already have into free scaling.</p>
+    <p><strong>Obelisk</strong> (XMult that grows per consecutive hand played that is <em>not</em> your most-played type) rewards a different kind of stacking — deliberately playing a weaker, off-type hand to keep the streak alive, converting what looks like a scoring downgrade into more scaling reps.</p>
   </section>
 
   <section class="block">
@@ -449,8 +454,11 @@
       <li><strong>Ride the Bus</strong> (+Mult per hand with no scoring face card) looks restrictive, but face cards are fine as long as they don't <em>score</em> — an Ace-high hand or a non-face pair leaves the condition intact.</li>
       <li><strong>Green Joker</strong> (+Mult per hand played, -Mult per discard) is a non-issue if your build rarely discards, and actively rewards a "just play it" tempo.</li>
       <li><strong>Cavendish</strong> (×3 Mult, 1-in-1000 destroy chance) and <strong>Gros Michel</strong> (+15 Mult, higher destroy chance) both treat their destruction risk as close to free — the rate is low enough, or in Gros Michel's case the destruction is the intended path to unlocking Cavendish.</li>
+      <li><strong>Half Joker</strong> (+20 Mult if the played hand has 3 or fewer cards) is a trap in a normal 5-card build but a strong tempo pick in a High Card or Pair-focused hand.</li>
+      <li><strong>Ramen</strong> (×2 Mult, loses value per discard) rewards a low-discard playstyle the same way Green Joker does — fine if you're not digging hard for a specific hand.</li>
     </ul>
     <p>Evaluate a joker's drawback against your build's actual shape, not against "hands played in a vacuum" — the same card can be a trap in one build and a near-free upgrade in another.</p>
+    <p>The same logic runs in reverse for jokers with no drawback but a hidden fragility: <strong>Joker Stencil</strong> (Mult per empty joker slot) looks like free scaling, but its value shrinks with every other joker you add — it rewards a deliberately lean board, and is often worth less once your build is otherwise complete than it was early, when slots were still open.</p>
   </section>
 
   <section class="block">
@@ -470,6 +478,10 @@
       <p><strong>Hoarding compounds.</strong> Early money that stays banked funds better rerolls and shop access later; money spent early on a marginal upgrade is money that never got the chance to compound. The community-standard sequence is: spend just enough early to reliably clear blinds in two hands, then stop spending and let the bank climb to $25, and don't dip back below it except for a purchase that clearly earns its cost back.</p>
     </div>
     <p>When it's worth dipping below the floor anyway: a genuinely good voucher (ideally bought the shop visit right before it would otherwise leave — no cost to waiting until then), a reliable economy joker (Gold Joker, Egg) that will refill the gap itself, or a strong joker sitting directly in front of you that won't reappear. Price the real cost precisely — a $6 joker that yields $4/round and costs $1 in forgone interest has a true cost of about $3, not $6.</p>
+    <p><strong>Sequence purchases around doubling effects:</strong> Hermit and Temperance both grant a bonus proportional to money currently held, so buy them <em>before</em> spending the rest of your budget that shop visit, not after — a $3 Hermit against $7 held nets a real gain, the same Hermit bought last nets nothing.</p>
+    <div class="callout">
+      <p><strong>Credit Card debt trick:</strong> Credit Card lets you go into debt (down to -$20), which is normally just insurance against a bad round — but if you know a money-reset boss (one that zeroes your cash) is coming, deliberately spending into debt first turns the reset into a free wipe of what you owed, effectively converting the boss's downside into a cash advance.</p>
+    </div>
   </section>
 
   <section class="block">
@@ -486,6 +498,7 @@
       <li><strong>Palette</strong> (hand size) — strong, but conditional on whether your build wants the extra cards; ranks below Overstock precisely because its value isn't guaranteed every run.</li>
       <li><strong>Magic Trick / Illusion</strong> (adds playing/enhanced cards to the shop) — commonly underrated; still more consistently useful than the Planet vouchers below.</li>
       <li><strong>Planet Merchant / Planet Tycoon</strong> — weakest for most builds. More Planet availability in the shop is close to dead value unless you're specifically running Constellation (scales off Planets used) or Campfire (scales off cards sold, fed by consumable churn).</li>
+      <li><strong>Seed Money</strong> — raises the interest cap from $25 to $50. Only worth prioritizing once you're already comfortably hitting the base cap; before that, it's just a bigger target you're not using yet.</li>
     </ul>
   </section>
 
@@ -510,6 +523,8 @@
       <li><strong>Coupon tag</strong> (next shop free) — directly cancels the money half of the skip's cost.</li>
     </ul>
     <p>Everything else — a random rare joker tag being the classic beginner lure — is usually a worse bet than just visiting the shop, since rares are frequently niche or outright bricks for whatever you're actually building, and roughly half the time a free tagged joker rolls a sticker (Eternal/Rental/Perishable) that limits how useful it even is.</p>
+    <p><strong>Ante 1 is the one exception to "don't skip":</strong> both blinds clear comfortably with no bonuses at all, so skipping either (or both) for their tag rewards costs you almost nothing in real terms — there's no run-ending risk in giving up a blind you weren't relying on anyway.</p>
+    <p>If you're running <strong>Red Card</strong> (+Mult whenever a booster pack is skipped), that same shop-visit cost calculus flips for packs specifically: skipping a pack you don't need feeds Red Card directly, so a pack skip isn't pure loss the way a blind skip is — it's converting an unwanted pack into permanent scaling.</p>
   </section>
 
 </section>
@@ -600,6 +615,13 @@
         <button class="acc-header"><span>The Hook / The Tooth <span class="tag">forced discards / pay-per-card</span></span><span class="chevron">▶</span></button>
         <div class="acc-body"><div class="acc-body-inner">
           <p>The Hook discards 2 random cards per hand played — punishes Steel-card builds and anything that hates churn; Green Joker/Ramen-style builds that don't mind playing through it are fine. The Tooth costs $1 per card played — easy to beat mechanically, but a slow clear can bleed you broke for the rest of the run, so prioritize speed over a pretty hand here.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Cerulean Bell <span class="tag">forces a random card played every hand</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Widely considered the single hardest boss — it locks a random card into every hand you play, wrecking any build that depends on choosing exactly which cards go in (most oneshot- and value-lane hands). <strong>Counterplay:</strong> builds that don't care which specific cards are played fare best — heavy pair/two-pair/trips decks, or a Four Fingers/Shortcut straight build that tolerates a stray card. If you're carrying a Hanged Man, save it to destroy the forced card before you commit to the hand.</p>
         </div></div>
       </div>
 
@@ -721,6 +743,9 @@
 
     <h3>Forgetting the active boss blind</h3>
     <p>A large share of boss-blind losses aren't about raw difficulty — they're a player forgetting which restriction is active mid-round (playing a repeated hand into The Eye, discarding into The Water with 0 discards). Get in the habit of reading the upcoming boss before you shop and before you commit to a hand.</p>
+
+    <h3>Leaving a joker slot empty</h3>
+    <p>An empty joker slot scores nothing at all, so a mediocre joker in that slot is almost always better than leaving it open while you wait for something great — take the filler pick, and sell it the moment a real upgrade appears. If you still don't have at least one joker that can plausibly carry your score by around Ante 2, that's the signal to reroll harder or reconsider the run rather than hoping the next few blinds sort themselves out.</p>
   </section>
 
   <section class="block">
@@ -729,6 +754,7 @@
       <li><strong>Joker order is free score.</strong> Effects resolve strictly left-to-right, not in whatever order helps you most. Arrange Chips/setup jokers on the left, +Mult builders in the middle, and XMult finishers on the right, so multipliers apply after the additive total is already built — reordering costs nothing and is pure upside.</li>
       <li><strong>Card order matters too.</strong> The order you arrange played (and likely held) cards affects some per-card triggers — for Steel or Glass cards specifically, position them to trigger after other additive contributions have already been summed.</li>
       <li><strong>Discard as many cards as possible, not as few.</strong> A common new-player instinct is to discard conservatively, one or two cards at a time. That actually lowers your odds of finding the specific card you need — discard aggressively toward your target hand while keeping only the cards a high-probability line actually requires.</li>
+      <li><strong>A valid hand can still fail to clear the blind.</strong> The probability of drawing a given hand type isn't the same as the probability of clearing the blind with it — a low-value Straight or a Flush made of small cards can be a completely legal hand and still fall short on chips. Weigh the score a line will realistically produce, not just whether it completes.</li>
       <li><strong>Dual-purpose cards keep more outs alive.</strong> When two different target hands both use the same card, keep it — it maximizes the number of cards that could complete either line, rather than committing early to one path.</li>
       <li><strong>Reassess after every draw.</strong> A newly drawn card can double your outs on a line you'd half-abandoned, or force you to commit fully to one path over another — recompute rather than sticking to your first plan.</li>
       <li><strong>"1-in-4 is never" and "×1.5 is a lot."</strong> Two calibration lessons worth internalizing: a joker effect that misses a quarter of the time is not reliable enough to plan a whole build around, while a seemingly small ×1.5 XMult compounds hard once stacked with others.</li>
