@@ -37,21 +37,740 @@
     font-size:18px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    padding:6vh 1.5rem;
   }
-  main{width:100%;max-width:960px;margin:0 auto}
+  main{width:100%;max-width:960px;margin:0 auto;padding:0 1.5rem 6vh}
+  a{color:var(--gold)}
+
+  /* Header */
+  header{padding:5vh 1.5rem 2rem;text-align:center}
   h1{
     color:var(--gold);
-    font-size:2.2rem;
+    font-size:2.4rem;
     letter-spacing:.01em;
-    margin:0 0 1.5rem;
+    margin:0 0 .4rem;
+    text-shadow:0 2px 0 var(--shadow);
   }
-  /* empty shell — content filled after layout approval */
+  header p{color:var(--ink-dim);margin:0;font-size:1rem}
+
+  /* Sticky tab nav */
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    display:flex;flex-wrap:wrap;gap:.4rem;
+    justify-content:center;
+    padding:.75rem 1rem;
+    background:rgba(6,19,25,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 6px 18px var(--shadow);
+  }
+  nav.tabs button{
+    font-family:inherit;font-size:.85rem;font-weight:700;
+    color:var(--ink-dim);
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:.6rem;
+    padding:.5rem .9rem;
+    cursor:pointer;
+    transition:background .15s,color .15s,border-color .15s,transform .1s;
+    white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink);border-color:var(--line-bright)}
+  nav.tabs button.active{
+    color:var(--felt-deep);
+    background:var(--gold);
+    border-color:var(--gold);
+  }
+  nav.tabs button:active{transform:translateY(1px)}
+
+  /* Tab panels */
+  .panel{display:none;padding-top:2rem}
+  .panel.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+  section.block{margin-bottom:2.5rem}
+  section.block:last-child{margin-bottom:0}
+
+  h2{
+    color:var(--gold);
+    font-size:1.5rem;
+    margin:0 0 .3rem;
+    border-bottom:2px solid var(--line);
+    padding-bottom:.4rem;
+  }
+  h2 .sub{display:block;color:var(--ink-dim);font-size:.7rem;font-weight:400;margin-top:.25rem;letter-spacing:.02em;text-transform:uppercase}
+  h3{color:var(--blue-bright);font-size:1.1rem;margin:1.4rem 0 .5rem}
+  p{margin:.6rem 0}
+  ul,ol{margin:.6rem 0;padding-left:1.4rem}
+  li{margin:.3rem 0}
+  strong{color:var(--gold)}
+  em{color:var(--blue-bright);font-style:normal}
+  code{
+    font-family:inherit;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:.3rem;
+    padding:.05rem .35rem;
+    color:var(--green);
+    font-size:.9em;
+  }
+
+  .callout{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    border-radius:.5rem;
+    padding:.9rem 1.1rem;
+    margin:1rem 0;
+  }
+  .callout.red{border-left-color:var(--red)}
+  .callout.blue{border-left-color:var(--blue)}
+  .callout.green{border-left-color:var(--green)}
+  .callout p:first-child{margin-top:0}
+  .callout p:last-child{margin-bottom:0}
+
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+  th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line)}
+  th{color:var(--gold);border-bottom:2px solid var(--line-bright)}
+  tr:last-child td{border-bottom:none}
+
+  /* Accordion */
+  .accordion{border:1px solid var(--line);border-radius:.6rem;overflow:hidden;margin:1rem 0}
+  .accordion + .accordion{margin-top:.6rem}
+  .acc-item{border-bottom:1px solid var(--line)}
+  .acc-item:last-child{border-bottom:none}
+  .acc-header{
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    width:100%;text-align:left;
+    font-family:inherit;font-size:1rem;font-weight:700;color:var(--ink);
+    background:var(--panel-2);
+    border:none;padding:.8rem 1rem;cursor:pointer;
+  }
+  .acc-header:hover{background:var(--panel)}
+  .acc-header .tag{color:var(--ink-dim);font-weight:400;font-size:.8rem}
+  .acc-header .chevron{color:var(--gold);transition:transform .2s;flex:none}
+  .acc-item.open .acc-header .chevron{transform:rotate(90deg)}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .25s ease}
+  .acc-item.open .acc-body{max-height:none}
+  .acc-body-inner{padding:.9rem 1.1rem 1.1rem;background:var(--felt-deep)}
+  .acc-body-inner p:first-child{margin-top:0}
+  .acc-body-inner p:last-child{margin-bottom:0}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media (max-width:640px){.grid2{grid-template-columns:1fr}}
+
+  footer{text-align:center;color:var(--ink-dim);font-size:.8rem;padding:2rem 1.5rem 3rem}
 </style>
 </head>
 <body>
-<main>
+<header>
   <h1>Balatro Strategy Guide</h1>
+  <p>Scoring math, joker synergy, and run planning for every stake.</p>
+</header>
+
+<nav class="tabs" id="tabnav">
+  <button data-tab="scoring" class="active">Scoring &amp; Scaling</button>
+  <button data-tab="hands">Hands &amp; Archetypes</button>
+  <button data-tab="jokers">Jokers &amp; Synergy</button>
+  <button data-tab="economy">The Run: Economy &amp; Shop</button>
+  <button data-tab="antes">Antes, Bosses &amp; Stakes</button>
+  <button data-tab="tips">Tips &amp; Mistakes</button>
+</nav>
+
+<main>
+
+<!-- ============ TAB 1: SCORING & SCALING ============ -->
+<section class="panel active" id="panel-scoring">
+
+  <section class="block">
+    <h2>Chips × Mult<span class="sub">the core formula</span></h2>
+    <p>Every scored hand resolves as <strong>Chips × Mult</strong>. Chips come from the poker hand's base value plus the rank of each scored card; Mult is everything that multiplies that total. Both matter, but they don't matter equally — and mistaking which one to chase is the single biggest reason runs stall around Ante 3-4.</p>
+    <div class="callout">
+      <p><strong>Mult is the lever, not Chips.</strong> Far more effects in the game boost Mult than Chips, and because Mult is the multiplicand, growing it — especially as <em>XMult</em> — produces the huge late-game numbers. Chips alone plateau: you can only ever add to them, and addition can't keep pace with blind requirements that grow exponentially. There is no "XChips" anywhere in the game.</p>
+      <p>That doesn't mean ignore Chips. A weak chip floor caps what your Mult has to work with — 10,000 Mult on 40 Chips is worse than 2,000 Mult on 400 Chips. You need both, but when a choice arises between comparable options, the one that grows Mult (and especially XMult) usually wins the run.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>The Ante-3 scaling deadline<span class="sub">why the early game isn't about winning rounds</span></h2>
+    <p>Early antes are beatable on raw poker hands with zero jokers — a decent flush or straight clears Ante 1 on its own. That grace period is a trap if you spend it just trying to win efficiently. The real job of Ante 1-2 is <strong>setting up scaling before the wall hits</strong>: if you don't have some source of increased scoring online by the end of Ante 2, your deck typically cannot clear Ante 3. Scaling isn't optional insurance, it's the deadline the whole early game is organized around.</p>
+    <p>Practically, that means every early shop visit should be judged against one question: does this buy get me closer to a Chips leg, a Mult leg, and an XMult leg standing up before Ante 3? Everything else — pretty hands, clean rounds, spare cash sitting idle — is secondary to hitting that deadline.</p>
+  </section>
+
+  <section class="block">
+    <h2>The four Joker roles<span class="sub">the mental model for every joker you see</span></h2>
+    <p>Every joker in the shop fits one of four functional roles. Recognizing which role a joker fills — not just its raw numbers — is what makes shop decisions fast and correct.</p>
+
+    <div class="accordion">
+      <div class="acc-item open">
+        <button class="acc-header"><span>1. Intermediate Jokers <span class="tag">fixed additive Chips/Mult</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Flat +Chips or +Mult. They carry early antes and cut the number of hands you need to clear a blind — which matters because fewer hands played means more money left over. They are not enough on their own to beat a Showdown-level blind, so the plan is always to phase them out mid-run for Final Jokers.</p>
+          <p>Because you know you'll replace them, don't sweat a Perishable sticker on one — you were selling it anyway. Examples: Gros Michel (+15 Mult, small per-round destroy chance), Ice Cream (+100 Chips, decays every hand), Sly Joker (+50 Chips on a Pair).</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>2. Final Jokers <span class="tag">fixed XMult</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Multiplicative, and strong enough on their own to beat a Showdown blind — worth taking even Eternal, because you want to keep them forever anyway. Examples: Cavendish (×3 Mult, tiny destroy chance), Card Sharp (×3 if that poker hand was already played this round).</p>
+          <p>The subtle move: a <em>conditional additive</em> joker can graduate into a Final Joker if you build the deck around its condition. Lusty Joker (+3 Mult per scored Heart) is a middling Intermediate joker in a random deck, but in a Hearts-heavy deck it's Final-tier. The mid-run task is often reshaping your deck to promote a joker you already own.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>3. Scaling Jokers <span class="tag">grows with conditions, unbounded</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Weak at first, but with enough antes of holding, these eventually outscale any fixed-effect joker — mandatory if you intend to push past Ante 8 into Endless. Four sub-types dictate <em>when</em> to buy one and how it interacts with others:</p>
+          <ul>
+            <li><strong>Direct</strong> — the growth itself is the score. Glass Joker (×0.75 Mult per Glass card destroyed).</li>
+            <li><strong>Indirect</strong> — doesn't score directly, but enables growth elsewhere. Burnt Joker (levels up your first discarded hand each round) — sellable once it's leveled your hand enough.</li>
+            <li><strong>Retroactive</strong> — counts past actions, so buying late still credits your whole run's history. Throwback (×0.25 Mult per blind skipped this run, including ones before you owned it).</li>
+            <li><strong>Non-retroactive</strong> — only counts events from the moment you own it, so buy these EARLY to maximize their runway. Flash Card (+2 Mult per reroll, but only rerolls made while held).</li>
+          </ul>
+          <p>Some jokers become scaling only through combo: Perkeo (Negative-copies a random consumable each shop end) paired with Observatory (Planet cards in the consumables area give ×1.5 to their hand) means every Negative Planet you generate compounds multiplicatively — neither card scales alone.</p>
+          <p><strong>Shared-condition stacking</strong> is a related trick: pick jokers that grow off the <em>same</em> action so one play feeds several scalers at once. Bootstraps (+2 Mult per $5 held) and Bull (+2 Chips per $1 held) both scale off money you're already hoarding; Spare Trousers (+2 Mult on Two Pair) and Square Joker (+4 Chips on an exactly-4-card hand) can both fire off the same played hand.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>4. Effect Jokers <span class="tag">economy &amp; utility</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Don't raise score directly — they improve money, consumable access, or tempo, which indirectly funds and enables the other three roles. Necessary, but never confuse an Effect joker's usefulness with scoring power; if your board is all Effect jokers you have no way to actually clear a blind.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <p><strong>Buy-timing is a separate axis from role.</strong> When you see a scaling joker, ask: is it retroactive (buy anytime, it'll credit history) or non-retroactive (buy now or lose the runway)? Is it direct (scores itself) or indirect (only useful once it's fed another system)? Two jokers with identical-looking numbers can have completely different correct purchase timing.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Secondary scaling: Planets, enhancements, seals, retriggers</h2>
+    <p>Jokers are the primary and most versatile scaling method, but four other systems compound alongside them:</p>
+    <ul>
+      <li><strong>Planet cards</strong> permanently add +Chips/+Mult to a specific poker hand's base. Consistently leveling your <em>most-played</em> hand is fundamental scaling — a Planet spent on a hand you rarely make is close to wasted.</li>
+      <li><strong>Enhancements</strong> (Steel, Glass, Gold, Lucky, Stone, Bonus, Mult) raise per-card Chips/Mult or grant a special property. Which one you want depends entirely on your build's shape (see <a href="#" data-goto="jokers">Jokers &amp; Synergy</a> for held-vs-played card logic).</li>
+      <li><strong>Seals</strong> — Red Seal retriggers a card's ability, which is exceptional stacked with any retrigger-synergy joker or a Steel enhancement (double the ×1.5 held-mult, effectively).</li>
+      <li><strong>Deck manipulation</strong> — Tarot and Spectral cards reshape the 52-card deck itself, making your target hand type or a specific enhanced card show up more reliably. This is the difference between hoping to draw your combo and knowing you will.</li>
+    </ul>
+    <div class="callout green">
+      <p><strong>The run's arc in one line:</strong> Intermediate Jokers carry you early → phase into Final Jokers as the deck focuses → secure non-retroactive Scaling Jokers as early as you find them → exploit shared-condition stacking → sell off Indirect scalers once they've done their job and the slot is worth more elsewhere.</p>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============ TAB 2: HANDS & ARCHETYPES ============ -->
+<section class="panel" id="panel-hands">
+
+  <section class="block">
+    <h2>Four build lanes<span class="sub">every hand-type strategy is one of these</span></h2>
+    <p>Every hand type is a build direction defined by three things: how good its Planet scaling is, how consistently your deck can hit it, and which jokers/scoring sources it enables. That collapses the 12 hand types into four practical lanes:</p>
+    <ul>
+      <li><strong>Spam lane</strong> — High Card, Pair. Low ceiling per hand, but you can play them every single turn with zero manipulation. Feeds spam jokers (Green Joker, Ride the Bus, Square Joker, Supernova) that scale off <em>hands played</em>, not what's in them.</li>
+      <li><strong>Value lane</strong> — Two Pair → Full House → Four of a Kind → Five of a Kind → Flush Five. Number-scoring jokers (Fibonacci, Odd Todd, Even Steven, Smiley Face, Triboulet, Hack, Sock &amp; Buskin) push you up this ladder as rank-copying tools (Death, DNA) let you consolidate ranks.</li>
+      <li><strong>Oneshot lane</strong> — Straight → Straight Flush. Inconsistent per-hand but hits hard when it lands. Wants a thin deck, a large hand size, and every discard you can spare to dig for the one combination that clears the blind.</li>
+      <li><strong>Suit lane</strong> — Flush → (Straight Flush / Flush House / Flush Five). Easiest 5-card hand to force early via suit-changing Tarots, but has almost no dedicated scaling of its own — a bridge to something else, not a destination.</li>
+    </ul>
+    <div class="callout">
+      <p><strong>The spammable-vs-oneshot tradeoff is the core decision of any build.</strong> Spam hands don't oneshot a blind — you need extra hands (Burglar, Grabber, Nacho Tong) and per-hand-played scaling to make up the difference over several turns. Oneshot hands don't need extra hands — they need consistency tools (Four Fingers, Shortcut, deck-thinning) so the one big swing actually connects. Pick a lane based on what your shop is giving you, not which lane sounds strongest in the abstract.</p>
+    </div>
+    <p>One structural note that explains a lot of joker design: 5-card hands maximize per-card and retrigger effects (every scored card can trigger something), while low-card-count hands (High Card, Pair) keep more cards <em>in hand</em>, which is what unlocks held-card effects like Baron, Mime, Blue Seal, and Gold cards. Deciding how many cards you actually play each turn is itself a strategic choice, not just a side effect of the hand you happen to make.</p>
+  </section>
+
+  <section class="block">
+    <h2>Per-hand breakdown</h2>
+    <div class="accordion">
+
+      <div class="acc-item">
+        <button class="acc-header"><span>High Card <span class="tag">+10/+1 · spam lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Ceiling:</strong> lowest base scoring of any hand, but that's irrelevant once jokers carry the score. <strong>Consistency:</strong> perfect — you can always make it. <strong>Enabling jokers:</strong> every spam joker (Green Joker, Ride the Bus, Square Joker, Supernova) plus anything that scales off hands played rather than hand content.</p>
+          <p>Needs both a chip source (Square, Burnt, Space Joker) and a mult source (Green, Supernova), since base scoring contributes almost nothing on its own. Its real strength is that it's immune to hand-size restrictions and keeps the most cards in hand — the foundation of the held-card Baron/Mime builds described in <a href="#" data-goto="jokers">Jokers &amp; Synergy</a>. Discard rule: since you're not fishing for a specific hand, discards are best spent cycling the deck toward Gold cards or Blue Seals to hold.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Pair <span class="tag">+15/+1 · spam lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Great consistency at a normal hand size, slightly higher base than High Card, same spam-joker synergies. Best spammable beneficiary of Blue Seal scaling among the low hands. Manipulation needs are minimal — a couple of Strength Tarots to guarantee a pair is plenty; save Death for copying a Purple/Blue Seal or Gold card you want doubled.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Two Pair <span class="tag">+20/+2 · value lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Almost consistent at a normal hand size, and scores 4 cards instead of 1-2, giving a good value floor for per-card effects. Doesn't fit the High Card/Pair spam jokers, but pairs specifically with Spare Trousers (+Mult per Two Pair played) and number jokers early (Fibonacci, Smiley Face, Triboulet). It's a bridge toward Full House/Four of a Kind rather than an endgame in itself — its Planet (Uranus) is weak next to Earth/Mars/Ceres.</p>
+          <p><strong>Discard rule:</strong> no pair in hand → discard 4-5 cards; one pair already showing → discard 3-4 non-paired cards (4-5 if you're also digging for an enhanced card).</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Three of a Kind <span class="tag">+20/+2 · value lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Weak on both axes from a base deck — low score and genuinely hard to draw (needs 3 of 4 copies of a rank). Only becomes viable with heavy rank-concentration (Strength, Death) letting you spam it across multiple hands. Discard rule: play it whenever present, keep pairs in hand (especially ranks with many copies left in deck), discard aggressively otherwise.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Flush <span class="tag">+15/+2 · suit lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>The easiest 5-card hand to access — two suit-changing Tarots reliably force it — but it has almost no dedicated scaling beyond a couple of niche jokers (Bloodstone, Ancient Joker) and a small Planet. Its real value is that being easy-to-hit lets you hoard Glass cards of one color earlier and more aggressively than any other 5-card hand, since you know you'll keep completing the suit.</p>
+          <p>Treat it as a bridge: if more deck manipulation shows up, pivot into Straight Flush, Flush House, or Flush Five. Discard rule: dump every off-color card early; discard hard in later antes to pull your hoarded Glass cards into the scoring hand.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Full House <span class="tag">+25/+2 · value lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Leans hard on number-scoring jokers (Fibonacci, Odd Todd, Smiley Face, Even Steven, Triboulet) — whichever you find dictates the ranks you consolidate around. Hard to draw naturally, so most Full House decks play Two Pair early while accumulating rank copies via Death/DNA. Its Planet is unremarkable on its own, so late-game power comes from stacked Glass cards and retriggers rather than the base hand value. A color Tarot held in hand can occasionally snag a rare Flush House.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Four of a Kind <span class="tag">+30/+3 · value lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Even more card-stack-reliant than Full House — you're racing to max copies of a single rank via Death/DNA rather than relying on a number-scoring joker (though one still helps early). Mars, its Planet, is buyable immediately (unlike Planet X or Eris, which must be played once to unlock), and strong xMult support exists (Family, Trio, Seeing Double). Keep a single Glass card in reserve in case Death needs a target, but don't hoard Glass until copies have accumulated — Mars plus jokers cover scoring in the meantime.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Straight <span class="tag">+30/+3 · oneshot lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Inconsistent — discarding for a straight in a full deck carries a real fail chance, and even a 3% miss rate is lethal compounded over 20+ blinds. But the payoff is high enough that with sufficient Planet levels you may not need a dedicated chip joker at all. Wants a thin deck, a large hand size, and every discard/hand you can spare to dig — consistency tools (Shortcut, Four Fingers, Trading Card) are the priority buy, not more scoring.</p>
+          <p>Manipulation: cut low ranks first (2s and 3s, then 4s and Aces) — Strength conveniently hedges toward face-heavy decks at the same time, which also feeds Shoot the Moon/Baron/Triboulet builds. Thicken the center ranks (6-9) to 5-6 copies and avoid holes. Because the scaling is so strong, you can afford to Glass the center cards later than you would on other 5-card hands.</p>
+          <p><strong>Discard rule:</strong> open-ended draws (e.g. 3-4-5-6, two ways to complete) beat gutshots (3-4-6-7, one way) — keep scattered center ranks since they maximize outs, and reassess after every draw since a new card can double your outs or force you to commit to one line.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Straight Flush <span class="tag">+40/+4 · oneshot lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>A Straight, but mono-suit — same manipulation principles apply. Pivot into it only once your deck reliably hits it <em>and</em> the plain Straight Planet isn't already heavily leveled. Signals that a pivot is worth it: owning Four Fingers, or a Shortcut build on an already-monocolor deck. Its huge base value (+40/+4) means Glass is often unnecessary even for an Ante 8 clear.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Five of a Kind <span class="tag">+35/+3 · value lane</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>A harder-to-build Four of a Kind — play one early to unlock its Planet (Planet X) and start scaling. Doesn't benefit from Blue Seal held-card tricks the way Three/Four of a Kind can, since you can't hold many cards and still assemble it. Reached via DNA, Perkeo-fed Death copies, or occasionally Ouija.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Flush House <span class="tag">+40/+4 · late-endgame</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>A Full House that's far harder to assemble — a color Tarot gets you one, but sustaining it needs manipulation on a different order of magnitude (Smeared Joker, Checkered Deck, Sigil Spectral, massive Tarot generation via Vagabond). Incredible scoring, but not a build to reach for if you just need an Ante 8 clear — it's a late-endgame/Endless target.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>Flush Five <span class="tag">+50/+3 · late-endgame</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Five of a Kind with the flush requirement stacked on — absolutely requires heavy card copying (Death + Perkeo, DNA). Not reachable through ordinary play; skip this lane unless you've specifically found the copying pieces.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>High Card, Gold Stake template<span class="sub">why the "worst" hand wins the hardest stake</span></h2>
+    <p>High Card looks like a joke pick — lowest base value in the game — but it's the backbone of the most consistent Gold Stake template that exists, because its power comes from what it frees you from rather than what it scores. Playing exactly one card means an entire category of downsides on other jokers becomes free upside.</p>
+    <ul>
+      <li><strong>Chip joker: Stuntman.</strong> +300 Chips flat, -2 hand size. That hand-size penalty is meaningless when you only ever play one card.</li>
+      <li><strong>Scaling +Mult jokers: hand-based scalers</strong> (Supernova, Ride the Bus, Green Joker) over economy scalers — hand-based scaling is boosted by extra-hand vouchers and Burglar, and pairs with the most XMult synergies downstream.</li>
+      <li><strong>XMult finishers</strong> that don't require playing specific cards or big hands: Card Sharp, Hologram, Acrobat, Loyalty Card, Cavendish, Blackboard.</li>
+    </ul>
+    <p>The math works out lighter than it looks: with ~400 base Chips and a leveled High Card Planet, you might need only ~18× total from XMult sources spread across your hands per round — trivial once Card Sharp, Acrobat, and Loyalty are all online. Most final bosses do nothing to this build, since it plays no specific cards and very few of them; only Joker-shuffling bosses and the flat-score-wall bosses pose any real threat.</p>
+    <div class="callout red">
+      <p>Guard the one real failure point: don't shrink below 5 hand size while running this template, or The Psychic (forces exactly 5 cards played) ends the run outright.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Flush: strong early, outscaled late</h2>
+    <p>Flush is the natural beginner default — two suit-Tarots reliably force it, and a plain flush alone can clear Ante 1 with zero jokers. That's exactly the trap: it's the highest-EV hand at the very start of a run, so new players over-commit to it and then stall, because Flush breaks down for three structural reasons.</p>
+    <ul>
+      <li><strong>Hard to find without heavy manipulation.</strong> Without a Checkered Deck or serious suit-consolidation, you don't reliably draw 3-4 flushes a round, and higher stakes actively punish the digging (fewer discards, fewer hands, pricier packs).</li>
+      <li><strong>Hard to scale.</strong> No joker scales specifically for Flush — its Planet (Jupiter) is unremarkable, and the jokers that could ride it (Supernova, etc.) scale far better attached to an easy every-turn hand like High Card or Pair.</li>
+      <li><strong>Vulnerable to boss blinds.</strong> Several bosses specifically disrupt suit-based or digging-heavy hands (see <a href="#" data-goto="antes">Antes, Bosses &amp; Stakes</a>), while a joker-driven build shrugs most of them off.</li>
+    </ul>
+    <p>Use Flush as what it is — an excellent floor for the first couple of antes — and plan to pivot to a joker-carried spam or value lane before the scaling deadline hits.</p>
+  </section>
+
+  <section class="block">
+    <h2>Plasma / endgame math</h2>
+    <p>The Plasma deck changes the fundamental calculus: it averages total Chips and total Mult before the final multiply, so score is maximized when the two are close to equal rather than one being dramatically bigger. On a normal deck, chasing raw Chips is close to mandatory late-game (at 10,000 Mult, +100 Chips can be worth more than another ×10 Mult); on Plasma, that same +100 Chips buys only ~100 effective Mult, which is far worse than another scaling xMult source. That flips the priority entirely toward stacking xMult and largely ignoring Chips once the balance is favorable.</p>
+    <p>The wider lesson generalizes beyond Plasma: chasing huge single-hand scores (100M+ chip territory) is almost never about a bigger base hand — it's about stacking <strong>retriggers</strong> so a small number of scoring cards fire repeatedly, multiplied by xMult. The two canonical routes are a played-card retrigger build (Flush Five/Flush House concentrated in one suit or rank, retriggered by Hologram/Idol-style jokers) and a held-card retrigger build (Steel Kings held in hand, retriggered by Mime, multiplied by Baron) — both want the same enabling card: a <strong>Red Seal King</strong>, which self-retriggers whichever role it's playing.</p>
+  </section>
+
+</section>
+
+<!-- ============ TAB 3: JOKERS & SYNERGY ============ -->
+<section class="panel" id="panel-jokers">
+
+  <section class="block">
+    <h2>Every slot feeds one carry</h2>
+    <p>A build is Jokers plus enhanced cards of specific ranks/suits that all reinforce each other. You can win without deliberate synergy, but win rate is dramatically higher with it — because the underlying principle is that <strong>every joker slot should exist to feed one central engine</strong>, not five independent mini-strategies competing for the same hand.</p>
+
+    <h3>Worked example: Steel King / Baron</h3>
+    <div class="callout">
+      <p><strong>Baron</strong> (×1.5 Mult per King held in hand) + <strong>Mime</strong> (retriggers all held-in-hand card abilities) + <strong>Juggler</strong> (+1 hand size) + <strong>Troubadour</strong> (+2 hand size), deck consolidated entirely into Steel Kings.</p>
+      <p>Every held card is guaranteed to be a Steel King, so Baron applies to all of them at once; Mime retriggers both Baron's own trigger and each card's Steel bonus; the hand-size jokers push held-card count toward ~11. Net effect is roughly ×5 Mult <em>per King held</em>, stacking to a total that beats almost any blind outright.</p>
+    </div>
+    <p>The lesson isn't the specific combo — it's that Mime, Juggler, and Troubadour exist in this build purely to satisfy Baron's condition. None of them score meaningfully on their own; they're there because Baron needs more Kings held, more retriggers, and more hand size. When evaluating a joker for your own board, ask what carry it feeds, not whether it's individually strong.</p>
+  </section>
+
+  <section class="block">
+    <h2>Copy jokers: Blueprint &amp; Brainstorm</h2>
+    <p>Blueprint copies the joker immediately to its <strong>right</strong>; Brainstorm copies the <strong>leftmost</strong> joker. Both directions are fixed by the card, not chosen by you — which makes joker placement a real decision rather than cosmetic arrangement.</p>
+    <p>Copy jokers copy the ability/output, re-triggering it as if a second copy existed in that slot. They do not chain transparently — pointing two copy jokers only at each other resolves to nothing, since there's no concrete ability underneath either one to copy. The fix is to chain them onto one real joker: point Blueprint at a strong joker, then have Brainstorm copy Blueprint (which is itself copying that joker) — net result is three instances of that one effect. Ordering matters: Blueprint must sit immediately left of its target, and Brainstorm keys off whatever occupies the leftmost slot, so get the chain terminating at a real card, not at the other copier.</p>
+    <div class="grid2">
+      <div class="callout blue">
+        <p><strong>Single fixed target:</strong> where you physically place the pair barely matters — pin your intended copy target in a stable slot (often leftmost, since Brainstorm always reads it) and don't overthink layout.</p>
+      </div>
+      <div class="callout blue">
+        <p><strong>Frequent retargeting:</strong> if you swap the copied joker often, keep the copier adjacent to its current target so you can track what's being copied at a glance.</p>
+      </div>
+    </div>
+    <p>With multiple copiers (via Showman-enabled duplicates), you can aim each at a <em>different</em> joker to weight retriggers unevenly — e.g. a Baron+Mime build wants many retriggers stacked onto Baron but only one extra proc on Mime, so you deliberately allocate copier coverage toward the joker that benefits most from stacking rather than splitting evenly.</p>
+  </section>
+
+  <section class="block">
+    <h2>Shared-condition stacking</h2>
+    <p>Rather than hunting for a single overpowered joker, look for jokers that key off the <em>same trigger</em> so one action grows several of them at once. Money-based scalers are the clearest example: Bootstraps (+2 Mult per $5 held) and Bull (+2 Chips per $1 held) both grow purely from cash you're already hoarding for interest — no extra behavior required. Hand-based pairs work the same way: Spare Trousers (+Mult on Two Pair) and Square Joker (+Chips on an exactly-4-card hand) can both fire off one played hand if it happens to satisfy both conditions.</p>
+    <p>This is also why Spare Trousers is a favorite "background" scaling pick even outside a dedicated Two Pair build — its trigger condition (a hand containing Two Pair, including Full House and Four of a Kind) is common enough in ordinary play that it accumulates steadily without requiring you to build around it. A scaling joker's ceiling isn't its per-trigger gain, it's how often that trigger actually fires.</p>
+  </section>
+
+  <section class="block">
+    <h2>The "manageable downside" principle</h2>
+    <p>A joker with a real drawback attached to a strong effect regularly beats a weaker joker with no drawback at all — the question is always whether the downside is survivable in <em>your specific build</em>, not whether it exists in the abstract.</p>
+    <ul>
+      <li><strong>Stuntman</strong> (+300 Chips, -2 hand size) is disqualifying in a 5-card-hand build but free in a High Card build that only ever plays one card.</li>
+      <li><strong>Ride the Bus</strong> (+Mult per hand with no scoring face card) looks restrictive, but face cards are fine as long as they don't <em>score</em> — an Ace-high hand or a non-face pair leaves the condition intact.</li>
+      <li><strong>Green Joker</strong> (+Mult per hand played, -Mult per discard) is a non-issue if your build rarely discards, and actively rewards a "just play it" tempo.</li>
+      <li><strong>Cavendish</strong> (×3 Mult, 1-in-1000 destroy chance) and <strong>Gros Michel</strong> (+15 Mult, higher destroy chance) both treat their destruction risk as close to free — the rate is low enough, or in Gros Michel's case the destruction is the intended path to unlocking Cavendish.</li>
+    </ul>
+    <p>Evaluate a joker's drawback against your build's actual shape, not against "hands played in a vacuum" — the same card can be a trap in one build and a near-free upgrade in another.</p>
+  </section>
+
+  <section class="block">
+    <h2>Edition jokers as a chip/mult stopgap</h2>
+    <p>Foil (+50 Chips), Holographic (+10 Mult), and Polychrome (×1.5 Mult) editions can double as your Chip or Mult leg while you're still assembling a dedicated joker for that role. A Foil Golden Joker in particular is a strong early stopgap: it's simultaneously an economy joker (steady cash per round) and a flat chip source in the same slot, buying time until something better replaces it. Don't treat edition bonuses as a mere bonus on top of a joker you'd take anyway — sometimes the edition is the reason to take a middling joker at all.</p>
+  </section>
+
+</section>
+
+<!-- ============ TAB 4: THE RUN: ECONOMY & SHOP ============ -->
+<section class="panel" id="panel-economy">
+
+  <section class="block">
+    <h2>The interest engine<span class="sub">$25 is a floor, not a target</span></h2>
+    <p>Interest pays $1 per $5 held at the end of each round, capped at $25 held (so $5/round max). Because it's a hard cap, holding $25 is a floor you maintain, not a milestone you pass through — every dollar above the cap earns nothing extra, and every dollar you spend below it costs you interest on top of the purchase price.</p>
+    <div class="callout green">
+      <p><strong>Hoarding compounds.</strong> Early money that stays banked funds better rerolls and shop access later; money spent early on a marginal upgrade is money that never got the chance to compound. The community-standard sequence is: spend just enough early to reliably clear blinds in two hands, then stop spending and let the bank climb to $25, and don't dip back below it except for a purchase that clearly earns its cost back.</p>
+    </div>
+    <p>When it's worth dipping below the floor anyway: a genuinely good voucher (ideally bought the shop visit right before it would otherwise leave — no cost to waiting until then), a reliable economy joker (Gold Joker, Egg) that will refill the gap itself, or a strong joker sitting directly in front of you that won't reappear. Price the real cost precisely — a $6 joker that yields $4/round and costs $1 in forgone interest has a true cost of about $3, not $6.</p>
+  </section>
+
+  <section class="block">
+    <h2>Reroll framework</h2>
+    <p>The instinctive new-player habit is reroll-aversion: treat the $5 (rising) reroll cost as a luxury you can't afford while still building toward the interest cap, and only reroll once cash is overflowing around Ante 7. That instinct is too conservative once you're behind on the jokers your current build actually needs.</p>
+    <p>The better frame is comparative: reroll cost vs. the value of finding your missing piece <em>now</em> rather than later. Early on, when you don't yet know your build's direction, rerolling is often a trap — you don't know what you're digging for. Once a direction has emerged (usually by Ante 2-3), rerolling to find the specific role you're missing (a Chip joker, an XMult joker) is worth spending below the interest floor for, because a build that stalls at Ante 6 for lack of an XMult source loses far more value than a few dollars of interest ever would.</p>
+  </section>
+
+  <section class="block">
+    <h2>Voucher priority</h2>
+    <p>Voucher value tracks <em>consistency of usefulness</em> across any build, not raw ceiling in a specific one. Rate "always-on economy/selection" vouchers above "only if my build wants it" vouchers.</p>
+    <ul>
+      <li><strong>Overstock (and Overstock Plus)</strong> — near-universal top pick. Extra shop slots mean more chances per visit to find what you need, regardless of what you're building.</li>
+      <li><strong>Palette</strong> (hand size) — strong, but conditional on whether your build wants the extra cards; ranks below Overstock precisely because its value isn't guaranteed every run.</li>
+      <li><strong>Magic Trick / Illusion</strong> (adds playing/enhanced cards to the shop) — commonly underrated; still more consistently useful than the Planet vouchers below.</li>
+      <li><strong>Planet Merchant / Planet Tycoon</strong> — weakest for most builds. More Planet availability in the shop is close to dead value unless you're specifically running Constellation (scales off Planets used) or Campfire (scales off cards sold, fed by consumable churn).</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Consumable timing: the combat tool</h2>
+    <p>Tarot and Spectral cards aren't only setup tools for shaping the deck between rounds — they're combat tools mid-round. Use The World mid-hand to turn a completed Straight into a Straight Flush, or Death to complete a Pair into Two Pair or a partial Three of a Kind, right when you need the extra score to clear a blind. Treat your consumable inventory as something to spend reactively, not just something to bank.</p>
+    <div class="callout">
+      <p><strong>Inventory-filtering trick:</strong> holding a consumable prevents that exact card from appearing again in shops or packs — so deliberately holding what you <em>don't</em> want raises the odds of drawing what you <em>do</em> want. Works across all consumable types. Note that Showman (available Ante 4+) disables this filtering by allowing duplicates to appear again, which matters if you're intentionally farming multiple copies of the same card.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Skip-or-play</h2>
+    <p>A skip's true cost is larger than the blind reward it forgoes. Add up everything it actually removes: the blind's flat cash reward, leftover-hand cash (~$1 per unused hand), the interest that money would have generated, whatever your economy jokers would have produced that blind, any scaling you'd have banked into per-hand scalers, and — the part players most often forget — the entire shop visit itself, including its once-per-ante voucher and both booster packs. A single good shop can be worth more than any flat tag.</p>
+    <p>Because of that, the correct default is <strong>don't skip</strong>, especially past the first ante or two. The full cost easily reaches $15-20 in lost value on an ordinary blind, and higher stakes make it worse, not better — score requirements scale faster, so you need the shop access to find scaling jokers even more urgently than at low stakes.</p>
+    <h3>Tags narrow enough to actually be worth a skip</h3>
+    <ul>
+      <li><strong>Negative tag</strong> — treated as skip-at-all-costs by the community; a free extra joker slot (via a Negative joker) is worth almost any risk.</li>
+      <li><strong>Investment tag</strong>, especially Ante 1 — refunds a lump sum after the next boss kill, and Ante 1's blind pays so little that you give up almost nothing to take it.</li>
+      <li><strong>Buffoon tag</strong> (free jokers) — two joker picks usually beat what a played blind or two would generate, especially early.</li>
+      <li><strong>Orbital / Planet-level tags</strong> — only if the named hand is one you're actually building; otherwise it's dead value like any other off-build resource.</li>
+      <li><strong>Coupon tag</strong> (next shop free) — directly cancels the money half of the skip's cost.</li>
+    </ul>
+    <p>Everything else — a random rare joker tag being the classic beginner lure — is usually a worse bet than just visiting the shop, since rares are frequently niche or outright bricks for whatever you're actually building, and roughly half the time a free tagged joker rolls a sticker (Eternal/Rental/Perishable) that limits how useful it even is.</p>
+  </section>
+
+</section>
+
+<!-- ============ TAB 5: ANTES, BOSSES & STAKES ============ -->
+<section class="panel" id="panel-antes">
+
+  <section class="block">
+    <h2>The ante arc<span class="sub">setup → consolidate → XMult carry</span></h2>
+    <ul>
+      <li><strong>Early (Ante 1-2) — setup.</strong> Not about winning efficiently; about hitting the scaling deadline. Build interest toward $25, lock 1-2 consistent scaling jokers, decide on a primary scoring hand (buy its Planet), and start sculpting the deck toward it.</li>
+      <li><strong>Mid (Ante 3-6) — consolidate.</strong> Commit to 1-2 specific hand types and buy jokers that improve their odds. Required floor: at least one +Chip joker and one +Mult joker, ideally scaling types. Start hunting XMult jokers specifically — they're what carries you through Ante 7-8. Boss defense becomes proactive here: pick up a boss-reroll tool (Director's Cut) or a Boss Tag so a single bad matchup doesn't end the run.</li>
+      <li><strong>Late (Ante 7-8) — XMult carries.</strong> Flat additive scaling cannot beat these blind requirements; only stacked XMult keeps pace with the exponential curve. Everything set up in the earlier phases exists to reach this point with enough multiplicative scaling online.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Boss blinds<span class="sub">matchup logic, not raw difficulty</span></h2>
+    <div class="callout blue">
+      <p>No boss is hard in the abstract — difficulty is entirely boss-vs-your-deck. Before spending in a shop or committing a hand, always check the upcoming boss and ask what it punishes and whether your build happens to be exactly the archetype it targets.</p>
+    </div>
+    <div class="accordion">
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Arm <span class="tag">-1 level to most-played hand</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> over-investment in a single hand type's level. <strong>Counterplay:</strong> hold any Planet card you're about to use until <em>after</em> The Arm passes — using one right before it partially undoes the level-up you just paid for. No longer drops a hand to level 0, so it's survivable even if you forget.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Fish <span class="tag">cards drawn face-down until played</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> builds that need to see their hand to plan a complex play, especially ones with few discards and no one-shot capacity. <strong>Counterplay:</strong> a joker-carried build that scores regardless of hand content shrugs this off; a hand-reading Straight/Flush-digging build is the worst matchup.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Wall / Violet Vessel <span class="tag">inflated score requirement</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> a "robust but low-ceiling" engine — consistent, but not scoring high enough for the inflated target. <strong>Counterplay:</strong> none exists besides having enough scaling; it's a pure check on whether your engine's ceiling clears the number, not a puzzle to solve.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Plant <span class="tag">disables all face cards</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> face-card-dependent builds (Baron, Shoot the Moon). <strong>Counterplay:</strong> diversify scoring onto number cards — an enhanced Ace still counts as a high card and dodges the debuff, since Ace isn't classified as a face card.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Psychic <span class="tag">must play exactly 5 cards</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> any build that wants to play fewer than 5 (Square Joker's exactly-4 condition, High Card/Baron builds with shrunk hand size). <strong>Counterplay:</strong> keep hand size at 5 or above if you expect this boss; it's a hard stop for a High Card build that's dropped below 5 cards via Ectoplasm or similar.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Needle <span class="tag">only 1 hand allowed</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Punishes:</strong> a build whose engine isn't online yet — one hand can't clear the target before your synergy has developed. <strong>Counterplay:</strong> its threat is inversely tied to how developed your engine is; once your scaling is running, one hand clears it trivially, so the danger window is specifically early antes before your build has come together.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Eye / The Mouth <span class="tag">hand-type restrictions</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>The Eye forbids repeating a hand type all round; The Mouth allows only one hand type the whole round. <strong>Punishes:</strong> nothing mechanically hard — these repeatedly beat players who simply forget the restriction mid-round. <strong>Counterplay:</strong> a build already committed to one hand type (any Value-lane build) turns The Mouth into a non-issue; just remember the restriction is active.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Water / The Manacle <span class="tag">0 discards / -1 hand size</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Generic resource-squeeze bosses with no special trick. <strong>Punishes:</strong> The Water hits discard-digging builds (Straight/Flush hunters, Banner's discard-count scaling); The Manacle hits builds that got greedy with Spectral cards and now can't afford the lost slot. <strong>Counterplay:</strong> just tighter play — no shortcut exists.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Club <span class="tag">debuffs all Club cards</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Trivial for most decks — only devastating if you've concentrated scoring in Clubs specifically (a mono-suit build). <strong>Counterplay:</strong> if you haven't committed to Clubs, ignore it entirely.</p>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header"><span>The Hook / The Tooth <span class="tag">forced discards / pay-per-card</span></span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>The Hook discards 2 random cards per hand played — punishes Steel-card builds and anything that hates churn; Green Joker/Ramen-style builds that don't mind playing through it are fine. The Tooth costs $1 per card played — easy to beat mechanically, but a slow clear can bleed you broke for the rest of the run, so prioritize speed over a pretty hand here.</p>
+        </div></div>
+      </div>
+
+    </div>
+    <div class="callout">
+      <p><strong>Cross-cutting rule:</strong> read the next boss before you spend in the shop and before you commit to a hand. The single most common cause of boss-blind losses isn't raw difficulty — it's forgetting which restriction is active mid-round.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Stakes ladder</h2>
+    <p>Each stake adds its modifier on top of every lower stake — Gold Stake, the hardest, stacks all of them at once. Modifiers compound, so the run doesn't just get harder linearly; several disadvantages interact (fewer discards <em>and</em> a smaller hand size <em>and</em> a pricier reroll, all at once by Purple+).</p>
+    <table>
+      <tr><th>Stake</th><th>Adds</th></tr>
+      <tr><td>Red</td><td>Small Blind gives $0 reward</td></tr>
+      <tr><td>Green</td><td>Required score scales up faster</td></tr>
+      <tr><td>Black</td><td>~30% of shop jokers are Eternal (can't sell/destroy)</td></tr>
+      <tr><td>Blue</td><td>-1 discard</td></tr>
+      <tr><td>Purple</td><td>Scales even faster — the biggest single difficulty jump; most stalled runs die here</td></tr>
+      <tr><td>Orange</td><td>~30% of shop jokers are Perishable (debuff after 5 rounds)</td></tr>
+      <tr><td>Gold</td><td>~30% of shop jokers are Rental ($1 to buy, $3/round upkeep); guarantees a Soul card until you've won at Gold</td></tr>
+    </table>
+    <p><strong>Consistency beats ceiling</strong> as stakes rise: score requirements ramp so steeply that a deck needs its scoring jokers online early, which raises the value of seeing every shop far above the value of a flat skip-tag reward. Skipping gets <em>worse</em>, not better, at high stakes.</p>
+    <div class="callout red">
+      <p><strong>Sticker roulette:</strong> at higher stakes, roughly half of free/tagged jokers roll a sticker that limits them — Eternal (can't sell, so it occupies a slot you may not want long-term), Perishable (expires after 5 rounds), or Rental (ongoing upkeep cost). A free rare joker with a bad sticker can be worse than no joker at all.</p>
+    </div>
+    <p><strong>The Endless wall:</strong> even a deck that reliably clears Ante 8 typically hits a hard ceiling around Ante 10-11 in Endless mode, because requirements roughly 10× every two antes — a rate that outruns any additive scaling almost immediately. Only builds with genuinely compounding multiplicative scaling (retrigger stacks, per-hand xMult that itself grows) have real Endless runway; treat an Ante-8 win as the finish line unless your engine specifically compounds.</p>
+  </section>
+
+  <section class="block">
+    <h2>The 15 decks</h2>
+    <p>Ranked by the community across four axes — Stability (early consistency), Ease of Play (how forgiving the mid/late transition is), Versatility (build variety), and X Factor (late-game/Endless ceiling). The core tension: <strong>early stability and late scaling trade off against each other</strong>, and restrictive decks guarantee one strong line at the cost of flexibility, while flexible decks need better in-the-moment decisions to pay off. Pick by which axis matters for your goal — win-rate players weight Stability, Endless-pushers weight X Factor.</p>
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-header"><span>Red — +1 discard</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Best when building discard-economy synergies (Banner, digging builds) and against bosses that tax hands played rather than discards.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Blue — +1 hand</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>The safer of the pair — better raw early economy (one more scoring opportunity per round) and better against card-draw-punishing bosses.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Yellow — +$10 start</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Perfect stability: the cash lets you buy the shop out turn one and snowball economy immediately. Contributes nothing late — a pure jumpstart, but the extra cushion is precisely why it's a strong pick for a first high-stakes win.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Zodiac — Overstock + double Tarot/Planet frequency</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Weak immediate power, but floods you with consumables — huge scaling payoff with Constellation or Fortune Teller. Inverse profile to Yellow: nothing early, a lot late.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Checkered — only Hearts + Spades</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Forces a flush almost every hand — very high floor, near-guaranteed first-boss clear. Zero versatility (locked into Flush) and hard-countered by any anti-flush boss or joker.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Abandoned — no face cards, 40-card deck</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Thinner deck cycles to what you want faster — more consistent early Four of a Kind. Cost: any face-card-dependent joker is dead.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Black — -1 hand, +1 joker slot</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Pure risk/reward — zero early stability, elite late ceiling. The extra joker slot is the single most valuable static bonus in the game, but the lost hand can end runs before they start. High-roll deck: "if you win, you really win."</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Nebula — Telescope voucher, -1 consumable slot</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Telescope pushes you to hyper-focus one hand type and level it hard — strong scaling, low flexibility once committed.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Ghost — starts with a Hex, Spectral cards appear in shop</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Strong late via Spectral access (Polychrome editions are the payoff), but early impact is limited and gated on Spectral RNG.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Anaglyph — Double Tag after every Boss Blind</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Rewards strategic skip timing — you choose when to cash tags for value. RNG-dependent but consistently strong; adds agency without wrecking stability.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Erratic — fully randomized 52-card deck</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Variance is the feature — natural rank/suit concentration frequently hands you a broken start (an easy Five of a Kind setup, for example). High-roll deck that high-rolls often enough to rank top-tier.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Plasma — balances Chips + Mult before scoring</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Best overall by community ranking. Near-impossible to lose early rounds, and scales faster than the ante difficulty curve. Requires thinking about score differently — balance the two halves rather than maxing one — but the payoff is the smoothest floor-to-ceiling deck in the game. See <a href="#" data-goto="hands">Hands &amp; Archetypes</a> for the specific math.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Green — +$1 per unused hand/discard at round end</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Only pays off if you're consistently over-clearing blinds with leftover resources — fights against a "play it safe" style. Feels average without specific supporting synergies.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Magic — starts with Crystal Ball voucher + 2 Fool cards</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Stable, flexible opening (extra consumable slot, free Tarot value), but has no distinct late-game identity — a booster, not an engine.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-header"><span>Painted — +2 hand size, -1 joker slot</span><span class="chevron">▶</span></button>
+        <div class="acc-body"><div class="acc-body-inner"><p>Generally ranked worst. The missing joker slot is a permanent late-game crater — fewer slots for economy jokers early, fewer scaling slots late — and the hand-size upside doesn't scale to compensate. Losing a joker slot is almost never worth a static bonus.</p></div></div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>A static bonus that costs a joker slot (Painted, and inversely Black's gain) should be judged against the scaling value of that slot late-run — usually a bad trade to lose one, a great trade to gain one. Deck-thinning decks (Abandoned, Checkered) buy consistency by narrowing outcomes, at the cost of removing whole joker categories from relevance.</p>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============ TAB 6: TIPS & MISTAKES ============ -->
+<section class="panel" id="panel-tips">
+
+  <section class="block">
+    <h2>Common beginner mistakes</h2>
+
+    <h3>Over-skipping blinds</h3>
+    <p>New players chasing a rare tag reward routinely skip more than they should, and "struggling to progress" plus "skips a lot" are usually the same problem stated twice. A skip forfeits blind cash, the interest that cash would generate, and — the part that's easy to undercount — an entire shop visit with its guaranteed voucher and two booster packs. Default to playing the blind; reserve skips for the handful of tags detailed in <a href="#" data-goto="economy">The Run: Economy &amp; Shop</a>.</p>
+
+    <h3>Chips-vs-Mult imbalance</h3>
+    <p>Because Mult is the more impactful stat late, new players overcorrect and neglect Chips entirely. But score is a product — a huge Mult multiplying a tiny Chip total still produces a small number. Keep both legs standing; the priority queue is chips first (if you're not clearing blinds at all), then +Mult, then XMult once the floor is secure, then economy once you're comfortably ahead.</p>
+
+    <h3>Under-valuing economy</h3>
+    <p>Spending down to zero on every marginal joker feels productive but starves the interest engine that funds your ability to reroll into the pieces you actually need mid-run. The single most-cited "average to advanced" unlock is realizing that hoarding toward the $25 interest cap in Ante 1-4, and rerolling only once you know your build's direction, outperforms reactive spend-everything shopping.</p>
+
+    <h3>Forcing a preconceived build</h3>
+    <p>Committing to a specific combo before the shop has shown you the pieces for it is a common way to lose a winnable run. Read what your shop and packs are actually offering and pivot toward it — forcing a plan the game isn't supporting loses far more often than adapting to what's available.</p>
+
+    <h3>Forgetting the active boss blind</h3>
+    <p>A large share of boss-blind losses aren't about raw difficulty — they're a player forgetting which restriction is active mid-round (playing a repeated hand into The Eye, discarding into The Water with 0 discards). Get in the habit of reading the upcoming boss before you shop and before you commit to a hand.</p>
+  </section>
+
+  <section class="block">
+    <h2>Non-obvious plays</h2>
+    <ul>
+      <li><strong>Joker order is free score.</strong> Effects resolve strictly left-to-right, not in whatever order helps you most. Arrange Chips/setup jokers on the left, +Mult builders in the middle, and XMult finishers on the right, so multipliers apply after the additive total is already built — reordering costs nothing and is pure upside.</li>
+      <li><strong>Card order matters too.</strong> The order you arrange played (and likely held) cards affects some per-card triggers — for Steel or Glass cards specifically, position them to trigger after other additive contributions have already been summed.</li>
+      <li><strong>Discard as many cards as possible, not as few.</strong> A common new-player instinct is to discard conservatively, one or two cards at a time. That actually lowers your odds of finding the specific card you need — discard aggressively toward your target hand while keeping only the cards a high-probability line actually requires.</li>
+      <li><strong>Dual-purpose cards keep more outs alive.</strong> When two different target hands both use the same card, keep it — it maximizes the number of cards that could complete either line, rather than committing early to one path.</li>
+      <li><strong>Reassess after every draw.</strong> A newly drawn card can double your outs on a line you'd half-abandoned, or force you to commit fully to one path over another — recompute rather than sticking to your first plan.</li>
+      <li><strong>"1-in-4 is never" and "×1.5 is a lot."</strong> Two calibration lessons worth internalizing: a joker effect that misses a quarter of the time is not reliable enough to plan a whole build around, while a seemingly small ×1.5 XMult compounds hard once stacked with others.</li>
+      <li><strong>Interest breakpoints are exact, not fuzzy.</strong> Interest ticks up at every $5 of banked money (capping at $25). Don't let a small, low-impact purchase drop you below a breakpoint you were about to reach — but do the exact math before assuming a purchase isn't worth dipping below one; a joker that partially refunds itself can still net positive even after the lost interest.</li>
+      <li><strong>Small hands and large hands want different card effects.</strong> Builds that play few cards (High Card, Pair) benefit from held-card effects — Steel, Gold, Blue Seal, retriggers on unplayed cards. Builds that play full hands benefit from on-scored effects — Glass, Lucky, Gold Seal, retriggers on played cards. Match your enhancement choices to how many cards you actually play each turn.</li>
+      <li><strong>Time-sensitive jokers must be bought early to matter.</strong> Flat per-round scalers (chip-scaling anchors like Castle or Square Joker, non-retroactive scaling jokers) need antes of runway to compound — the same card that's a great Ante 1 pickup is close to useless found in Ante 6, since it has no time left to ramp.</li>
+    </ul>
+  </section>
+
+</section>
+
 </main>
+
+<footer>Balatro strategy guide — community insight distilled into one place.</footer>
+
+<script>
+  const buttons = document.querySelectorAll('nav.tabs button');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0,behavior:'instant'});
+    });
+  });
+
+  document.addEventListener('click', e=>{
+    const header = e.target.closest('.acc-header');
+    if(header){ header.parentElement.classList.toggle('open'); return; }
+
+    const goto = e.target.closest('[data-goto]');
+    if(goto){
+      e.preventDefault();
+      const target = goto.dataset.goto;
+      buttons.forEach(b=>b.classList.toggle('active', b.dataset.tab===target));
+      panels.forEach(p=>p.classList.toggle('active', p.id==='panel-'+target));
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+  });
+</script>
 </body>
 </html>
+</content>
