@@ -66,16 +66,24 @@
   /* Tab nav */
   nav.tabs{
     display:flex;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
     gap:.5rem;
-    justify-content:center;
+    justify-content:flex-start;
     margin-bottom:2rem;
     position:sticky;
     top:0;
     z-index:10;
     background:linear-gradient(var(--void) 78%, transparent);
-    padding:1rem 0 .75rem;
+    padding:1rem 1.5rem .75rem;
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:rgba(180,190,190,.25) transparent;
   }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:rgba(180,190,190,.25);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:rgba(180,190,190,.4)}
   nav.tabs button{
     font-family:"Optima","Segoe UI",Georgia,sans-serif;
     background:var(--panel);
@@ -87,6 +95,7 @@
     letter-spacing:.03em;
     cursor:pointer;
     transition:all .15s ease;
+    flex:0 0 auto;white-space:nowrap;
   }
   nav.tabs button:hover{
     color:var(--ink);

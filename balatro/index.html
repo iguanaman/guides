@@ -55,17 +55,25 @@
   /* Sticky tab nav */
   nav.tabs{
     position:sticky;top:0;z-index:20;
-    display:flex;flex-wrap:wrap;gap:.4rem;
-    justify-content:center;
+    display:flex;flex-wrap:nowrap;gap:.4rem;
+    justify-content:flex-start;
     padding:.75rem 1rem;
     background:rgba(6,19,25,.92);
     backdrop-filter:blur(6px);
     border-bottom:1px solid var(--line);
     box-shadow:0 6px 18px var(--shadow);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:rgba(169,183,189,.25) transparent;
   }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:rgba(169,183,189,.25);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:rgba(169,183,189,.4)}
   nav.tabs button{
     font-family:inherit;font-size:.85rem;font-weight:700;
-    color:var(--ink-dim);
+    color:var(--ink-dim);flex:0 0 auto;
     background:var(--panel-2);
     border:1px solid var(--line);
     border-radius:.6rem;

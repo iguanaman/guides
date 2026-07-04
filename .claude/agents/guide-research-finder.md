@@ -8,6 +8,7 @@ You find sources for {topic} (given in prompt) to support building a single-file
 
 ## Process
 
+- If {topic} is a board/tabletop game: always run dedicated searches for house rules / variants / balance fixes / mods (e.g. `"<topic>" house rules`, `"<topic>" variant rules reddit`, `"<topic>" BGG house rules`, `"<topic>" too random` / `"<topic>" too hard fix`) — these guides exist specifically to adjust base-game rules, so house-rule sources are always in scope even though they modify rather than just explain the rules. Give this its own category alongside entities/mechanics, not just an afterthought search.
 - First map {topic}'s entity categories — every kind of thing players seek per-entity guides on (e.g. playable characters/classes, opponents/factions, bosses, regions/levels, scenarios). Then enumerate the full roster within each category from wiki list/index pages
 - Also list {topic}'s specific gameplay mechanics/systems that attract their own deep-dive guides (e.g. a particular resource, card type, status effect, phase)
 - Primary search: DuckDuckGo HTML endpoint (deeper recall than WebSearch for niche/forum content) — Bash `curl-chrome -sL --max-time 40 "https://html.duckduckgo.com/html/?q=<url-encoded query>" -o .tmp/finder-<n>.html` then Read it; result links are in `uddg=<percent-encoded-url>` params, URL-decode them

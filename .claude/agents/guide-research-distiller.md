@@ -23,10 +23,12 @@ On discovering a fetch fix (a domain that blocked one method but worked with ano
 | dailyworkerplacement.com | Domain has been repurposed/squatted — WebFetch returns unrelated online-casino content, live site no longer hosts the original article | check `https://archive.org/wayback/available?url=<url>` (retry on 429 with backoff), then plain `curl -sL` the returned `web.archive.org/web/{timestamp}/{url}` snapshot URL — original WordPress article content is preserved in the archive |
 | reddit.com (post/comments) | WebFetch and curl-chrome both blocked (anti-bot verification page), including old.reddit.com `.json` API | Playwright `browser_navigate` to the url, then `browser_evaluate` `() => document.body.innerText` — gets through cleanly, returned directly (no file) |
 | boardgamegeek.com (forum subforum-index, e.g. `/forum/<id>/<slug>/strategy`) | WebFetch 403; curl-chrome returns JS-shell game page (Angular app, no thread list in HTML) | plain `curl "https://api.geekdo.com/api/forums/threads?ajax=1&forumid=<forumid>&nosession=1&objectid=<gameid>&objecttype=thing&pageid=1&showcount=50&sort=recent"` — no auth needed, returns JSON `threads[]` with subject/threadid/href/numrecommend for the whole subforum in one page. Get `forumid`/`objectid` by Playwright-navigating the index URL once and reading `browser_network_requests` (filter `forums/threads`) for the exact query params (`filterforums` value varies by game). |
+| galakta-games.com | Domain dead — curl gets exit 35 (SSL) on http, exit 7 (no connection) on https w/ -k; no live site | check `https://archive.org/wayback/available?url=<url>` (retry on 429 w/ backoff), then plain `curl -sL` the returned `web.archive.org/web/{timestamp}/{url}` snapshot URL — article content preserved under `<article>.entry-content` |
 
 ## Forum/thread sources
 
 Source is a forum/discussion thread (BGG/RPGGeek thread, Reddit post+comments, forum.greaterthangames.com, etc) → distill only the original poster's opening post — the guide/strategy content, not the thread. Ignore replies/comments and other commenters entirely, and ignore pagination (page 1 only, never fetch `pageid`/`page/N` beyond the first). This overrides any multi-page fetch steps below for these domains.
+OP is a bare question with no guide content of its own (e.g. "how do I manage X?") → distill the first substantive reply instead, noting the override in the file's source line.
 
 ## Process
 

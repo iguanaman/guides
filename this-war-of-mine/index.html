@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>This War of Mine: The Board Game — Survival Guide</title>
+<meta name="description" content="A survival guide for This War of Mine: The Board Game — scavenging, shelter management, moral choices, and house rules.">
+<style>
+  :root{
+    --ash:#1b1a18;
+    --panel:#26241f;
+    --panel-raised:#2f2c26;
+    --ink:#d8d0bf;
+    --ink-dim:#948c7c;
+    --rust:#a3452c;
+    --rust-bright:#c95c3c;
+    --amber:#b8873f;
+    --amber-dim:#7d5f34;
+    --line:#3a362d;
+    --line-bright:#4a453a;
+    --shadow:rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #2a2823 0%, var(--ash) 55%, #0f0e0c 100%) fixed,
+      var(--ash);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--amber);}
+  a:hover{color:var(--amber-dim);}
+
+  /* ---------- header ---------- */
+  header.hero{
+    padding:3.5rem 1.5rem 2.5rem;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(0,0,0,.25), transparent);
+  }
+  header.hero h1{
+    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    font-size:2.4rem;
+    letter-spacing:.02em;
+    margin:0 0 .5rem;
+    color:var(--ink);
+    text-shadow:0 2px 10px var(--shadow);
+  }
+  header.hero .subtitle{
+    color:var(--ink-dim);
+    font-size:1.05rem;
+    font-style:italic;
+    max-width:640px;
+    margin:0 auto;
+  }
+  header.hero .rust-rule{
+    width:80px;height:2px;background:var(--rust);
+    margin:1.1rem auto 0;
+    opacity:.7;
+  }
+
+  main{max-width:920px;margin:0 auto;padding:0 1.25rem 5rem}
+
+  /* ---------- nav tabs ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    display:flex;flex-wrap:nowrap;gap:.4rem;justify-content:flex-start;
+    padding:1rem 0;
+    background:linear-gradient(180deg, var(--ash) 78%, transparent);
+    margin-bottom:1.5rem;
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:rgba(180,170,150,.25) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:rgba(180,170,150,.25);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:rgba(180,170,150,.4)}
+  nav.tabs button{
+    appearance:none;border:1px solid var(--line-bright);
+    background:var(--panel);color:var(--ink-dim);
+    font:inherit;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+    padding:.55rem .9rem;border-radius:2px;cursor:pointer;
+    transition:all .15s ease;
+    flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{border-color:var(--amber-dim);color:var(--ink)}
+  nav.tabs button.active{
+    background:var(--rust);border-color:var(--rust-bright);
+    color:#f2e6d8;font-weight:600;
+  }
+
+  section.panel{display:none}
+  section.panel.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+
+  section.panel > h2{
+    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    font-size:1.7rem;color:var(--amber);
+    border-bottom:1px solid var(--line);
+    padding-bottom:.6rem;margin:0 0 .3rem;
+  }
+  section.panel > .lede{
+    color:var(--ink-dim);font-style:italic;margin:0 0 1.8rem;font-size:.95rem;
+  }
+
+  h3.sub{
+    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    font-size:1.2rem;color:var(--ink);
+    margin:2rem 0 .6rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  h3.sub::before{content:"";width:5px;height:1.1em;background:var(--rust);display:inline-block;flex-shrink:0}
+
+  .card-block{
+    background:var(--panel);border:1px solid var(--line);border-radius:3px;
+    padding:1rem 1.2rem;margin:0 0 1rem;
+  }
+  .card-block h4{margin:0 0 .4rem;font-size:1rem;color:var(--amber-bright,var(--amber))}
+  .card-block p{margin:.4rem 0}
+  .card-block p:first-of-type{margin-top:0}
+
+  .tag{
+    display:inline-block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--rust-bright);border:1px solid var(--rust);border-radius:999px;
+    padding:1px 8px;margin:0 0 .5rem;
+  }
+  .tag.amber{color:var(--amber);border-color:var(--amber-dim)}
+
+  .why{
+    border-left:2px solid var(--amber-dim);
+    padding:.15rem 0 .15rem .8rem;margin:.6rem 0;
+    color:var(--ink-dim);font-size:.92rem;
+  }
+  .why strong{color:var(--ink)}
+
+  /* ---------- character grid ---------- */
+  .char-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:12px;margin-top:1rem;
+  }
+  .char-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:3px;
+    padding:0;overflow:hidden;cursor:pointer;
+  }
+  .char-card summary{
+    list-style:none;padding:.8rem 1rem;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;
+    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    color:var(--ink);font-size:1.05rem;
+  }
+  .char-card summary::-webkit-details-marker{display:none}
+  .char-card summary::after{content:"+";color:var(--amber);font-size:1.2rem;flex-shrink:0}
+  .char-card[open] summary::after{content:"–"}
+  .char-card summary .name-block{display:flex;flex-direction:column;min-width:0}
+  .char-card summary .role{
+    font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);
+    display:block;margin-top:.3rem;font-family:"Iowan Old Style",Georgia,serif;
+    white-space:normal;
+  }
+  .char-card .body{padding:0 1rem 1rem;font-size:.92rem;color:var(--ink-dim)}
+  .char-card .body strong{color:var(--ink)}
+  .char-card .body p{margin:.5rem 0}
+
+  /* ---------- accordion (general) ---------- */
+  details.accordion{
+    background:var(--panel);border:1px solid var(--line);border-radius:3px;
+    margin-bottom:.6rem;overflow:hidden;
+  }
+  details.accordion summary{
+    list-style:none;padding:.75rem 1rem;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:1rem;
+    font-weight:600;color:var(--ink);
+  }
+  details.accordion summary::-webkit-details-marker{display:none}
+  details.accordion summary::after{content:"+";color:var(--amber);flex-shrink:0}
+  details.accordion[open] summary::after{content:"–"}
+  details.accordion .body{padding:0 1.1rem 1rem;color:var(--ink-dim);font-size:.94rem}
+  details.accordion .body p{margin:.5rem 0}
+
+  table.ref{
+    width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem;
+  }
+  table.ref th,table.ref td{
+    text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);
+  }
+  table.ref th{color:var(--amber);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
+  table.ref td{color:var(--ink-dim)}
+  table.ref tr:last-child td{border-bottom:none}
+
+  ul.tight{margin:.4rem 0;padding-left:1.2rem}
+  ul.tight li{margin:.3rem 0}
+
+  footer{
+    text-align:center;color:var(--ink-dim);font-size:.8rem;
+    padding:2rem 1rem;border-top:1px solid var(--line);
+  }
+
+  @media (max-width:640px){
+    header.hero h1{font-size:1.8rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>This War of Mine: The Board Game</h1>
+  <p class="subtitle">A survival guide for the civilians left behind — build order, character strategy, threat management, and the house rules to make a merciless game merciful enough to keep playing.</p>
+  <div class="rust-rule"></div>
+</header>
+
+<main>
+  <nav class="tabs" id="tabs">
+    <button data-panel="fundamentals" class="active">Fundamentals</button>
+    <button data-panel="characters">Characters</button>
+    <button data-panel="threats">Threats &amp; Misery</button>
+    <button data-panel="trading">Trading</button>
+    <button data-panel="campaign">Campaign</button>
+    <button data-panel="expansions">Expansions</button>
+    <button data-panel="houserules">House Rules</button>
+  </nav>
+
+  <!-- ============ FUNDAMENTALS ============ -->
+  <section class="panel active" id="fundamentals">
+    <h2>Survival Fundamentals</h2>
+    <p class="lede">The build order, hidden rules, and turn-1 sequencing that separate a shelter that survives from one that spirals. None of this is a fixed script — it's the reasoning behind the priorities, so you can adapt when your specific draw doesn't cooperate.</p>
+
+    <h3 class="sub">The three rules the box doesn't emphasize enough</h3>
+    <div class="card-block">
+      <h4>Food and alcohol can be consumed at any time</h4>
+      <p>Not just during the Dusk feeding step. This lets you front-load consumption: eat a character's food the moment the game starts (hunger drops a point) to unlock an extra action immediately, rather than waiting for the scripted feeding phase.</p>
+      <div class="why"><strong>Why it matters:</strong> hunger snaps back up to its normal level by evening regardless of when you ate — the food is spent either way. The only real question is whether you'd rather have the extra action now or bank nothing. Turn 1, when action economy is scarcest and the board state is most flexible, is when this trade is most worth taking; it gets weaker every day after as food becomes the persistent bottleneck instead of actions.</div>
+    </div>
+    <div class="card-block">
+      <h4>A character with no black-dot states can raise Fatigue by 2 for a 4th action</h4>
+      <p>Stack this with early eating and, in theory, all three starting characters could reach 4 actions apiece on turn 1 — a guaranteed (not luck-dependent) route to a huge opening turn.</p>
+      <div class="why"><strong>Why it's a trap at face value:</strong> the real ceiling on turn 1 isn't your action count, it's your build materials. With ~4 wood and 4 components on hand, you can finish maybe two fittings even with unlimited actions — a chunk of "bonus" actions have nothing to convert into. And Fatigue taken this way has to be paid down later via a bed before it compounds into its own problem. Use this rule to guarantee the reliably-good early moves (heaps, rubble-to-furniture, first scavenge prep) — not to chase a big number for its own sake.</div>
+    </div>
+    <div class="card-block">
+      <h4>A character can raise Fatigue by 2 to carry one extra weight unit home from scavenging</h4>
+      <p>Weight, not opportunity, is usually the real cap on a scavenging trip's payoff — this converts a spare Fatigue budget directly into extra loot.</p>
+    </div>
+    <div class="card-block">
+      <h4>Water, wood, and components have no carry limit returning from a scavenge</h4>
+      <p>Unlike food and other finds, these three don't count against your carry capacity on the way home. This is, by a wide margin, the single most commonly-missed rule among players who report repeated early losses to thirst — a scavenging trip that finds literally nothing else can still be "the quickest scavenge ever" by just loading up on every water/wood token at the location.</p>
+      <div class="why"><strong>Why it matters so much:</strong> water has no passive source until you've built a rainwater collector, and thirst compounds into Hunger <em>or</em> Misery fast. Any scavenge, regardless of what it finds, is a free opportunity to solve water for the next several days — there's no reason to ever ration carry slots for it.</div>
+    </div>
+
+    <h3 class="sub">Build order — the reasoning, not a checklist</h3>
+    <p>Treat this as "what to build first / a bit later / only if circumstances are right / skip" — character states, what you scavenge, and your dice should override the order below. The <em>reasoning</em> for each rung is the transferable part.</p>
+
+    <details class="accordion" open>
+      <summary>Workshop, then 3 board-ups — near-mandatory, rush this</summary>
+      <div class="body">
+        <p>Workshop is the highest-priority single build because it's the gate to everything else, most importantly Board Up. Board-ups are unusually efficient because they do double duty: each one reduces both raid damage/wounds <em>and</em> cold — one investment solving two of the game's biggest threats simultaneously. At least 4 Fate cards specifically increase Illness if your cold total is above a threshold, so 3 board-ups isn't just flavor defense, it's a hidden probability gate.</p>
+        <p>Multiple independent "why did I keep losing" threads converge on the same diagnosis: repeat-losers skipped or delayed board-ups in favor of other builds, and winners across the board treat Workshop → Board Up as the non-negotiable opening chain.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Bed — cheap, and stronger than it looks</summary>
+      <div class="body">
+        <p>A bed multiplies your action economy: sending a 2-3 Fatigue character to bed as their first action of the day is functionally free — you spend an action, but the character clears fully and you get that value back. Fatigue is repeatedly called out as the <em>easiest</em> state to manage, but only because beds exist to manage it — don't be afraid to let characters get fatigued, just stagger who's fatigued rather than letting the whole group crash together.</p>
+        <p>Deliberately keeping one weaker character (Anton, Cveta) completely clean of status dots so they can take a full night's rest and return with a fresh turn effectively banks a 4th action per day for that character — valuable insurance when materials are plentiful but action-count is the bottleneck.</p>
+        <div class="why"><strong>Unofficial hard rule:</strong> a character at Fatigue 4 is forced to bed the next night regardless of who else wants it — but you still choose sleep order between characters, so you can sequence who clears first.</div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Rainwater Collector vs. Cooking Stove vs. Deadfall Trap — pick your food/water economy</summary>
+      <div class="body">
+        <p><strong>Water first, almost always:</strong> water must be collected every single turn with no choice in what it targets, while a food shortfall is more forgiving (raw/canned food prevents future hunger too, and has more acquisition paths via trading). A 3-4 water roll on your first scavenge signals surplus, which is your cue to build the stove next rather than banking more water infrastructure.</p>
+        <p><strong>Deadfall Trap vs. Cooking Stove is a real, debated tradeoff</strong> — not a strict upgrade path:</p>
+        <ul class="tight">
+          <li><strong>Trap</strong>: cheaper to build and feed (1 Chem/use, and Chems sit safely in storage unlike the Stove's raid-exposed water/wood/food inputs), doesn't need the expensive, hard-to-gate Rainwater Collector, and has a higher base expected value per use. Downside: unupgraded, it can whiff (produce nothing) on a bad roll.</li>
+          <li><strong>Stove</strong>: no die roll, produces food instantly, and — the decisive factor once running — can be used multiple times per turn, which is what actually makes its economy "glorious" late-game. Downside: needs the Rainwater Collector chain first, so it's slower to get online.</li>
+        </ul>
+        <div class="why"><strong>How to choose:</strong> Trap is recommended for new players or when the first Fate/event card signals heavy early cold pressure (you can't afford the Stove's setup lag). Stove is for experienced players chasing a higher end-game ceiling once the early game is stabilized. Skip the Vegetable Garden in favor of either — it also consumes water, competing with your water economy, for less hunger-prevention value than raw/canned food.</div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Chair — the cheapest, most reliable misery fix in the game</summary>
+      <div class="body">
+        <p>No prerequisite beyond having the idea. Build it the moment any character hits Misery 1, not after a crisis starts — misery relief needs to be available <em>on demand</em>, since misery compounds (a miserable character performs worse, creating more stress elsewhere) and scrambling to fix it reactively is too slow.</p>
+        <p>Its effect is a die roll at first, but becomes <strong>guaranteed</strong> once all 3 book tokens are collected and kept on hand — the only cost-free, no-roll misery fix in the game once you're there. Keep a standing buffer of 2+ books rather than treating them as an occasional purchase.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Radio — foresight, not entertainment</summary>
+      <div class="body">
+        <p>Its music/relax function is weak for misery except in desperate cases. Its real value is intelligence: Tune In gives advance warning of upcoming events and night-raid severity, converting several of the game's most punishing cards (Airdrop, Shelling, Snipers, Bad News, Army Deals) from blindsides into things you can prepare for — pre-assigning guards, stocking up before a price spike, tuning character states ahead of a hard raid. This reframes it from a quality-of-life build into a risk-mitigation build.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Reinforced Door, Metal Workshop, Herbal Garden, Gunsmith — situational, in that order of likelihood</summary>
+      <div class="body">
+        <p><strong>Reinforced Door:</strong> cheap Prowess boost to the guard slot, but gated behind having 3 board-ups first — another reason to rush those. Matters less if most of your roster already has decent Prowess.</p>
+        <p><strong>Metal Workshop:</strong> only worth it if you can't find or trade for shovels/sawblades/lockpicks/hatchets. Hidden rule: dismantling a built fitting refunds its full resource cost — so you can build the Metal Workshop, craft what you need, then dismantle it for a refund.</p>
+        <p><strong>Herbal Garden:</strong> only essential if cigarette value spikes from events, since meds/bandages are excellent zero-weight trade goods once that garden is running.</p>
+        <p><strong>Alcohol Still, Gunsmith Workshop:</strong> build last if ever. Alcohol weighs too much to be a good trade good and other misery tools usually cover that need already — though a late "mad dash" into alcohol for an end-game misery reset can matter, since final scoring is partly based on each character's misery at ceasefire. Gunsmith is the most expensive fitting in the game and by the time you could build it, you can usually trade for the guns you need instead.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Rubble clearing and most of the shelter interior — low priority once past the essentials</summary>
+      <div class="body">
+        <p>Clearing rubble costs 2 actions for zero direct reward — only do it when it's actually blocking a fitting you want, never proactively. After the two Heaps, the Furniture search, the Saw action, and a second Furniture search are done, further exploring the shelter has poor action-value: opening doors is unreliable and clearing rubble is inefficient. Redirect actions to board-ups and Poke About for resources instead.</p>
+        <div class="why"><strong>A Sawblade</strong> (craft or trade for one early) routes around most rubble entirely and opens a Furniture card on its own — worth pursuing independent of which food economy you're building toward.</div>
+      </div>
+    </details>
+
+    <h3 class="sub">Turn 1 &amp; turn 2 sequencing</h3>
+    <div class="card-block">
+      <h4>Opening actions</h4>
+      <p>Standard, well-tested opener: clear the 2 Heap piles, clear rubble blocking the Furniture, then send your most expendable character (even a "healer" type — their value is elsewhere, not on turn-1 risk) Outside. The Residents deck at the very start is mostly harmless, so the optimal first scavenge differs from steady-state play:</p>
+      <ul class="tight">
+        <li>Send max-capacity characters, and carry nothing with weight — skip the shovel/weapons to maximize carry-back room.</li>
+        <li>Pick the nearest location, not the richest-looking one — it maximizes cards seen (up to 14), and close locations largely avoid the military-conflict encounters that farther ones expose you to.</li>
+        <li>Actively welcome encountering Residents this early — combat risk is low, and a trading Resident converts unneeded items into weightless resources for free.</li>
+        <li>Skip Hiding Places on this run (they cost 2 capacity) — they're recoverable later when you're not racing the clock.</li>
+        <li>Trade for a Saw Blade as soon as one's available — nets +5 value and opens a Furniture regardless of your build path.</li>
+      </ul>
+    </div>
+    <div class="card-block">
+      <h4>Don't get greedy chasing the 4th character on turn 1</h4>
+      <p>A 4th character (the Arrival card, roughly 5-in-12 in the deck early) is worth pursuing — extra actions and carry capacity compound fast — but if it hasn't shown after two tries, don't burn all your food for a huge action turn: you won't have food left for the new arrival's hunger, and each failed draw also shifts the deck's remaining odds against you. Restraint here preserves probability, not just resources.</p>
+      <p>Plan turn 2's build <em>before</em> returning from the first scavenge — verify you'll actually have the exact resources needed. A 1-wood shortfall discovered after you're already home is a wasted trip.</p>
+    </div>
+
+    <h3 class="sub">Scavenging discipline</h3>
+    <div class="card-block">
+      <p><strong>Go in goal-directed, not exhaustive.</strong> Decide what you need before drawing (a specific resource, a specific build gap) — once you have it, stop. Continued draws past that point are pure risk with no offsetting need. Roughly a third of exploration cards are net-negative (noise, wounds, forced discards for no benefit), which sets the baseline risk you're gambling against on every extra pull.</p>
+      <p><strong>Risk tolerance should shrink as noise rises</strong> — early in a trip (low noise) you can afford more unknown-deck draws; once noise exceeds roughly 3-4, the escalating danger stops being worth the marginal resource chance.</p>
+      <p><strong>Weapons brought on a scavenge are a shared pool</strong>, not locked to whoever was assigned one at setup — anyone present can pick up and swap weapons mid-fight, including loot found during the same run. Don't over-plan strict 1:1 assignments.</p>
+      <p><strong>Prefer close/small locations</strong> if you want good finds — they're the most likely to get replaced by a Fate card, so hitting them before replacement matters more than chasing a farther location's marginally better loot table.</p>
+    </div>
+  </section>
+
+  <!-- ============ CHARACTERS ============ -->
+  <section class="panel" id="characters">
+    <h2>Character Guide</h2>
+    <p class="lede">Stats and abilities <em>are</em> characterization here — a coffee addiction or high empathy isn't just a mechanical debuff, it's who that survivor is. Knowing how to play a character well is inseparable from understanding them. Memory-trigger notes below are strategic content for repeat plays, not spoilers to avoid — treat your first game differently if you want to discover them organically.</p>
+
+    <div class="char-grid">
+      <details class="char-card">
+        <summary><span class="name-block">Anton<span class="role">Fragile generalist — extra hands only</span></span></summary>
+        <div class="body">
+          <p>No fighting ability, unremarkable inventory, no special ability. Weak B/C spirits mean any wound, hunger, or illness compounds into a spiral he has little buffer against. His one strength: Spirit A keeps misery low if books are on hand, at the cost of higher fatigue.</p>
+          <p><strong>Best use:</strong> extra scavenging hands, and the character you assign negative status effects to when someone has to eat them. Memory triggers are net-neutral and mostly cost his card — rarely the best spend, except sacrificing him in a cold-weather emergency to save a stronger teammate.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Arica<span class="role">Early guard → late scavenger</span></span></summary>
+        <div class="body">
+          <p>Functional but unremarkable stats. Her noise-reset ability is a trap for the unwary — it breeds complacency letting noise creep up "to reset later," which can backfire if a resident's threshold triggers first. Her real liability: she's the only character who takes <strong>2</strong> misery (not 1) from an unmet cigarette addiction, and it's her most active spirit slot — an Herbal Garden becomes near-mandatory, or at minimum never let cigarette stock hit zero.</p>
+          <p><strong>Recommended arc:</strong> shelter guard early (Prowess deters early raiders), swap to scavenging once a board/weapon exists at home, where her stealth matters more.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Bruno<span class="role">Generalist, best for morally costly tasks</span></span></summary>
+        <div class="body">
+          <p>Solid prowess for a non-specialist, flexible for scavenging or guarding. His vegetable-growing ability has a poor real hit rate — not worth chasing. Notably low empathy makes him a good pick for morally costly actions (stealing from desperate people) without spiking his own misery, but ironically every one of his spirit options can <em>raise</em> misery, so keeping him fed/uninjured/smoking is a constant baseline cost.</p>
+          <p>Memory triggers worth prioritizing: building the upgraded cooking stove, and banking 4+ food — the food trigger drops hunger and misery shelter-wide, a strong communal payoff for spending his card.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Boris<span class="role">Top scavenging lead — high risk, high ceiling</span></span></summary>
+        <div class="body">
+          <p>Strong fighter, but 6 inventory (double most characters) means he should almost always scavenge rather than guard, to exploit that carry capacity. Emotionally fragile — misery climbs fast without rest and cigarettes.</p>
+          <p><strong>The character-defining risk:</strong> every useful memory trigger <em>raises</em> his misery, and none cost his card — so nothing stops you from overusing them except your own discipline. Two flagship triggers: +1 misery for +5 inventory (11 total carry on a single scavenge), and +1 misery for 2 bonus workshop-crafting actions beyond the normal daily cap. His power ceiling is high precisely because the downside (an accidental misery-driven death) is real and self-inflicted if it happens — build a chair early, stockpile books, and watch his fatigue independently of misery.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Cveta<span class="role">Weak scavenger, best resting</span></span></summary>
+        <div class="body">
+          <p>0 prowess, 2 inventory, no special ability, coffee addiction, and empathy high enough that misery swings on nearly every event — drawing her as a starter is effectively an added difficulty spike. Best role: whatever duty is least critical overnight, ideally resting — this can grant her 3 day-actions the next morning, which low-risk actions (heaps, poke-about) recoup better than her weak inventory would scavenging.</p>
+          <p>Memory triggers mostly redeem her: recruiting her lowers two other characters' misery, and if she's allowed to starve, she can pass quietly at night without forcing other survivors to roll misery — softening an otherwise costly death.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Emilia<span class="role">Best scavenger for morally costly runs</span></span></summary>
+        <div class="body">
+          <p>Average stats, both spirits negative (coffee addiction, cold aversion) — but her empathy is low enough that external bad events rarely spike her misery; she's emotionally armored against the story itself. Her diary ability trades Fatigue 1-for-1 to lower misery by any amount each morning — a direct, reliable release valve most characters lack.</p>
+          <p>Memory triggers escalate her into the group's most lethal asset for just 1 misery each: swindle, fight like a specialist, intimidate, or an automatic backstab kill. Because triggers are cheap and her ceiling is high, hold one in reserve for nights you suspect will be dangerous rather than spending routinely.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Emira<span class="role">Ruined City — food-neutral scavenger</span></span></summary>
+        <div class="body">
+          <p>Not a fighter, pure scavenger. Automatically finds one vegetable-tier food item every night while searching, effectively making her food-neutral at the shelter (she still needs water). Keeping her at ≥1 hunger unlocks a self-lower-hunger spirit — there's a real argument for <em>not</em> feeding her to full — but she also carries a drinking addiction, and alcohol is scarcer/pricier than cigarettes or coffee.</p>
+          <p>Memories are low-upside, high-floor: no trigger gets you ahead, but several are emergency valves (reset hunger, reset misery, a free pantry draw during a food crisis) — miracle safety nets, not routine value.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Katia<span class="role">Weak base game → arguably best with Memories</span></span></summary>
+        <div class="body">
+          <p>A reporter — keep her scavenging, never guarding (untrained for combat). Base-game Katia is underwhelming, but Memories make her arguably the best non-combat character in the game. Priority: build the radio ASAP once playing her — her trigger grants one <strong>free</strong> radio action every day for the rest of the game, permanently, without spending her card.</p>
+          <p>That compounds into full advance knowledge of airdrops, shelling, raid severity, cold snaps, and price-shift events — which she can then arbitrage via her free-trade ability. A second trigger lowers shelter-wide misery on any death, at zero card cost — not a use-it-or-lose-it resource.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Marin<span class="role">Flexible — handyman utility</span></span></summary>
+        <div class="body">
+          <p>Average across the board, flexible for guard or scavenge. His "poking around" skill is nearly as good as heap-searching but lets him choose what he finds, freeing carry capacity for other goods. Downside: covers both his spirit slots with a coffee addiction — the worst frequency of any character's addiction — so keep the pantry coffee-stocked as a baseline cost of running him.</p>
+          <p>Memory trigger: keeping one electrical + one mechanical part on hand at all times is a cheap, reusable misery-reducer for him specifically.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Marko<span class="role">Excellent generalist, hatchet-equipped</span></span></summary>
+        <div class="body">
+          <p>Respectable prowess, high inventory, flexible placement. Equip a hatchet — clears doors easily and makes him a strong melee fighter. Strong disease resistance makes him a good dump target during winter illness spikes. Sole weakness: high empathy toward hunger specifically, and enough empathy generally that he's a liability if scavenging turns violent/exploitative.</p>
+          <p>Best memory trigger: sacrifice his card to ignore all black-dot status penalties for a day when planning a critical action.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Pavle<span class="role">Solid-not-spectacular, either role</span></span></summary>
+        <div class="body">
+          <p>Capable at either role, not a specialist. His "fleet of foot" skill can save a burgled team, but isn't a substitute for avoiding overwhelming firefights — enough attackers still kills him and the team regardless. Spirits are mostly irrelevant to plan around.</p>
+          <p>One useful memory trigger: while scavenging, raise noise by 3 to draw/resolve a Furniture card at will — a reliable way to pad findings right before leaving a site.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Roman<span class="role">Top combat character — guard, don't scavenge</span></span></summary>
+        <div class="body">
+          <p>Highest prowess in the roster; his unarmed attacks hit as hard as a knife. Low carry capacity means he's best used guarding the shelter rather than scavenging. If sent out anyway, don't assume invincibility — he can drop one enemy round one while still taking heavy return damage from the rest of a group.</p>
+          <p>Weak spirits: nicotine addiction plus trauma-driven misery spikes whenever he or companions are hurt. One notable memory trade: sacrifice his card after the first night raid for a free board-up token — strong if the workshop isn't built yet.</p>
+        </div>
+      </details>
+
+      <details class="char-card">
+        <summary><span class="name-block">Zlata<span class="role">Backloaded misery-management engine</span></span></summary>
+        <div class="body">
+          <p>4 inventory is good, but she's useless in combat — scavenge only, and keep her away from distressing situations given her temperament. Her value is backloaded: get her a guitar as soon as possible (trade for a damaged one at any grey-item trading location, repair at the workshop). Once equipped, she drops shelter-wide misery so consistently that misery can stop being a shelter problem entirely — a chair is still worth keeping for emergencies but becomes largely redundant.</p>
+          <p>Memory trigger: playing guitar can drop her own misery <em>and</em> two others' simultaneously — better than her base ability.</p>
+        </div>
+      </details>
+    </div>
+
+    <h3 class="sub">Team-building takeaways</h3>
+    <div class="card-block">
+      <p><strong>Assign tasks by character strength, not habit.</strong> High-prowess/low-inventory characters (Roman) guard; high-inventory/combat-capable characters (Boris, Marko, Pavle, Emira, Arica once armed) scavenge.</p>
+      <p><strong>Route unavoidable bad states toward whoever handles them best</strong> — spirit-trigger tiers are ranked A&gt;B&gt;C across characters, so give illness to characters with strong C-tier recovery odds and avoid stacking wounds on characters with weak spirit resilience (Anton, Bruno).</p>
+      <p><strong>"Weak" characters constrain playstyle in a good way.</strong> A roster with a Cveta or Anton forces more conservative, risk-averse play — arguably a safer survival strategy than aggressively leveraging violent specialists, since it removes the temptation to gamble on combat you don't need to take.</p>
+    </div>
+  </section>
+
+  <!-- ============ THREATS & MISERY ============ -->
+  <section class="panel" id="threats">
+    <h2>Threats, Combat &amp; Misery</h2>
+    <p class="lede">Rank threats by how fast they can end the game, not by how often they come up — that ranking, more than any single tactic, is what separates deliberate play from firefighting turn to turn.</p>
+
+    <h3 class="sub">The threat-priority ranking</h3>
+    <table class="ref">
+      <tr><th>Priority</th><th>Threat</th><th>Why it ranks here</th></tr>
+      <tr><td>1</td><td>Night Raids</td><td>Starts mild but scales to devastating, and can erase turns of progress in one hit — the most "active" and least avoidable threat once it escalates.</td></tr>
+      <tr><td>2</td><td>Fatigue</td><td>An economy-wide tax — exhausted characters lose actions entirely, not just a stat penalty.</td></tr>
+      <tr><td>3</td><td>Misery</td><td>The cascade failure state: one character's despair-driven death can push a survivor's misery up, triggering theirs too. Losing two characters usually dooms the rest.</td></tr>
+      <tr><td>4</td><td>Hunger</td><td>Slower and grindier than the above — manageable with a Trap/Stove economy rather than an acute crisis.</td></tr>
+      <tr><td>5</td><td>Cold</td><td>Mostly raises Illness risk (itself random) rather than threatening directly — already partly covered by board-ups.</td></tr>
+    </table>
+
+    <h3 class="sub">Night raids — layered defense, in the order you'll get them</h3>
+    <div class="card-block">
+      <ul class="tight">
+        <li><strong>Board-ups</strong> — mitigate both raid damage and cold at once; treat 3 as close to mandatory (see Fundamentals).</li>
+        <li><strong>A high-prowess guard</strong> — matters less if board-ups are already up; becomes essential without them.</li>
+        <li><strong>Weapons</strong>, especially hatchet/shotgun — can outright negate a raid card combined with prowess. Worth pursuing specifically for home defense, separate from what you carry scavenging.</li>
+        <li><strong>Reinforced door</strong> — cheap prowess boost to the guard slot, but requires 3 board-ups first.</li>
+        <li><strong>Empty the storage before scavenging</strong> — explicitly rules-legal: take all valuables with you rather than leaving them exposed to a raid. Raid <em>damage</em> is containable with the above; token <em>loss</em> on top of damage is what actually wrecks a run, so remove what can be stolen. Best used late-game once self-sufficient enough that you're not hauling much home anyway.</li>
+        <li><strong>Narrative action cards</strong> that counter raids — save them for genuinely brutal raids that would otherwise end the campaign, not raids you'd have survived regardless.</li>
+      </ul>
+      <div class="why"><strong>Add Residents cards to the deck before Night Raid cards</strong> when given the choice — it lowers the chance of drawing one of the few genuinely dangerous Residents cards (Thugs, Deserters) and gives more control over exposure generally. Night raids target the most expensive token first, then green tokens — keep this in mind since it makes cigarettes disproportionately worth guarding even for non-smoking characters.</div>
+    </div>
+
+    <h3 class="sub">Combat — how it actually resolves</h3>
+    <div class="card-block">
+      <p>New players commonly assume combat alternates like a turn-based exchange — it doesn't. <strong>All dice for a round are rolled together</strong>, damage totaled and applied at once; a character "killed" by wound accumulation mid-round still deals their damage that round, since nothing is sequential.</p>
+      <p><strong>Exception: firearms break simultaneity</strong> — ranged attacks resolve before the simultaneous melee round. If a gun-armed combatant kills their target in this first phase, that target doesn't get to roll at all. This is why arming for home defense with a gun is disproportionately strong — it can remove an enemy's action entirely, not just trade wounds.</p>
+      <p>Wounds are a total pool for your side, distributed however you choose — same for what you inflict. Combat continues round to round until one side is destroyed or you flee (checked before dice are rolled each round) — treat every round as a fresh decision, not a fight you're locked into.</p>
+      <div class="why"><strong>If outnumbered, default to fleeing.</strong> Your survivors are civilians, not soldiers — a numbers disadvantage in a simultaneous-damage system compounds fast, since more enemy dice roll each round than you have return dice.</div>
+      <p>Priority when confronted by Thugs/Deserters specifically (the two genuinely dangerous Resident types): kill if you can do so without dying, otherwise flee, otherwise bribe if you survived by luck. Last resort: sacrifice one character to let the rest escape. Killing anyone but Thugs triggers a misery-raise Empathy check — a real cost even in a "won" fight.</p>
+    </div>
+
+    <h3 class="sub">Misery — prevention beats cure</h3>
+    <div class="card-block">
+      <p>Every reduction lever in the game is either limited-use, cost-bearing, or event-gated — none is a repeatable, no-cost engine. That reframes the real strategic emphasis: <strong>prioritize keeping needs met so misery doesn't accumulate</strong>, rather than trying to farm reduction after the fact.</p>
+      <p><strong>The standard toolkit:</strong> chair (built the moment anyone hits Misery 1 — see Fundamentals), a steady buffer of cigarettes/coffee (grab a couple opportunistically at every trading post, don't wait until you're out), moonshine as a Misery-3 emergency valve (trades Misery for Fatigue — sequence a bed use right after to clean up the Fatigue cost too), and a guitar for a "talented" character (Zlata above all — buy damaged and repair at the workshop rather than paying the intact premium).</p>
+      <div class="why"><strong>Prefer misery-fixes with a floor over symmetric-random ones.</strong> Some contested tools (a promo card rolling +1/-1 misery per character) can just as easily backfire as help. The chair's appeal is precisely that a missed roll does nothing — no downside. When evaluating any misery tool, ask whether its worst case is "no effect" or "actively worse."</div>
+      <p><strong>Empathy rolls are the underlying mechanism</strong> tying narrative choices to misery: killing anyone but Thugs, losing a group member, or failing to help someone in need triggers a negative-roll risk; assisting someone triggers a positive-roll chance. This reframes many story choices as misery-management levers, not just flavor — and it's why the game's harshness toward misery is thematically load-bearing, not an oversight (see House Rules for the community debate on this).</p>
+      <p><strong>Vet new recruits before accepting them</strong> — a fatal condition you can't currently treat doesn't stay contained to that one character; their decline drags down misery shelter-wide. Recruiting is a house-wide risk calculation, not just "more hands is always good."</p>
+    </div>
+
+    <h3 class="sub">Meds, bandages, and healing priority</h3>
+    <div class="card-block">
+      <p>Tokens are inert until a Fate card drawn at Dawn explicitly triggers them — assigning one does nothing by itself, and once assigned, tokens <strong>cannot be reassigned or taken back</strong>. Stacking multiple tokens on one character has no extra effect; a second token is simply wasted when the triggering card resolves. <strong>Never stack more than one Meds or Bandages token on a single character</strong> — a bad Fate draw (several cards require discarding all tokens of a type) wipes the whole stack at once, not just one.</p>
+      <p>Herbal Meds is a distinct category from Meds — not interchangeable when a card specifies one or the other; misreading this either wastes a token or misassigns wounds-vs-illness treatment, a common first-game mistake.</p>
+    </div>
+  </section>
+
+  <!-- ============ TRADING ============ -->
+  <section class="panel" id="trading">
+    <h2>Trading &amp; Economy</h2>
+    <p class="lede">Specialize and trade rather than chase self-sufficiency in everything — the exploration decks are fixed, with only a handful of cards producing any given resource, so hoping to scavenge your way out of a specific shortage is a bad bet. Trading isn't constrained by what you personally drew.</p>
+
+    <h3 class="sub">Trade like a specialist, not a self-sufficient hermit</h3>
+    <div class="card-block">
+      <p>Pick one resource you can produce efficiently and sell it, rather than trying to cover every need yourself. Let event cards that spike a token's value tell you what to specialize in producing — ride the market instead of fighting it.</p>
+      <p><strong>Color-coded trade offers restrict what you receive, not what you pay with.</strong> A script listing red items means that's what's in the NPC's stock to give you — you can offer <em>any</em> item you hold in payment regardless of its own color category. Worth knowing: you can deliberately trade away heavy items for something lightweight (even low-value) purely to shed encumbrance before heading home.</p>
+      <p><strong>"TRADE, TRADE, TRADE"</strong> is the single most repeated piece of advice among players who eventually won after a losing streak — surplus tools/components/junk converts reliably into whatever you're actually short on, which beats hoping the scavenging deck cooperates.</p>
+    </div>
+
+    <h3 class="sub">Commodity tiers</h3>
+    <div class="card-block">
+      <p><strong>Cigarettes/coffee first</strong> — but only matching whichever habit your specific roster actually has; ignoring habit-need causes outsized harm, since habit satisfaction functions as a hidden multiplier on a character's stability.</p>
+      <p><strong>Meds/bandages</strong> — only if wounds/illness are actually present; otherwise skip, since unused tokens can't compound in value.</p>
+      <p><strong>Raw/canned food</strong>, then anything zero-weight — weight is the true constraint on scavenging and trading value, not resource desirability in isolation.</p>
+      <p><strong>Alcohol is the weakest of the three main trade commodities</strong> (food, meds, alcohol) — it weighs too much to be efficient, and its one strong use (lowering misery) is usually covered by cheaper tools like the chair.</p>
+    </div>
+
+    <h3 class="sub">Token-supply awareness</h3>
+    <div class="card-block">
+      <p>Watch the token supply limit — don't overdraw a scarce token type if a Wait token is sitting on its source (e.g. the Rainwater Collector), since running the physical supply dry strands you even if you find more later. When a token type is fully drawn from the box, spend or trade some away to return them to the pool so you can pick more up when you find them.</p>
+    </div>
+  </section>
+
+  <!-- ============ CAMPAIGN ============ -->
+  <section class="panel" id="campaign">
+    <h2>Campaign &amp; Objectives</h2>
+    <p class="lede">Objectives should actively steer your build order, not sit as background flavor — but evaluate each one on cost vs. penalty rather than auto-pursuing every objective the moment it appears.</p>
+
+    <h3 class="sub">Evaluate, don't auto-pursue</h3>
+    <div class="card-block">
+      <p>Chapter objectives arrive with contribution requirements and stated failure penalties — the penalty often reads as scarier than it actually is relative to the resource/action cost of completing it. Explicitly compare: is the penalty actually worse than the cost of the fix? A concrete application: skip the very first objective entirely if it doesn't align with your immediate stabilization needs — use that window to secure your basic footing first.</p>
+      <p>That said, <strong>most objectives are worth pursuing</strong> once you clear that bar — failure cost is real, reward is good, and many objectives align with things you're already working toward anyway (e.g. everyone's hunger at 0). Front-load progress toward an objective rather than treating it as a final-turn sprint — a last-minute attempt leaves no recovery room if it falls short.</p>
+    </div>
+
+    <h3 class="sub">Endgame sequencing</h3>
+    <div class="card-block">
+      <p>Raw/canned food and meds/bandages retain scoring value on the final turn — some end-of-campaign scripts let you spend these tokens to reduce a character's negative states right before final scoring, so don't dump them early if a state-reduction might still be needed.</p>
+      <p>Dismantle fittings once their use is spent (e.g. the workshop after your last board-up) — late-game fittings are generally weak, and recycled wood for heating usually beats leaving a spent fitting standing.</p>
+      <p>Sequence action resolution deliberately: resolve Heap rewards before Poke-About rolls, and if you already hold all 4 mechanical parts, build a parts-consuming fitting before resolving cards that might award more parts — avoiding overflow waste.</p>
+    </div>
+
+    <h3 class="sub">The meta-heuristic</h3>
+    <div class="card-block">
+      <p>You cannot execute every priority in this guide every game — the game's pressure forces triage. The single most useful heuristic: <strong>don't let any character's state reach 3</strong> (Fatigue excepted, which is safely manageable via a bed). Staying under that threshold preserves flexibility and keeps you executing a plan rather than firefighting reactively turn to turn.</p>
+    </div>
+  </section>
+
+  <!-- ============ EXPANSIONS ============ -->
+  <section class="panel" id="expansions">
+    <h2>Expansions</h2>
+    <p class="lede">What each expansion actually changes strategically — not a shopping list of components.</p>
+
+    <details class="accordion" open>
+      <summary>Tales from the Ruined City</summary>
+      <div class="body">
+        <p>A container for five sub-modules, separately BGG-cataloged — a group can adopt just one piece (e.g. Sewers scavenging content) without the full legacy commitment.</p>
+        <ul class="tight">
+          <li><strong>Emira</strong> — a drop-in 13th character usable in any playthrough, not scenario-locked (see Characters).</li>
+          <li><strong>Desperate Measures cards</strong> — trigger/empower whenever the group loses a member, reframing character death from pure attrition into a mechanical pivot point rather than just a worsening spiral.</li>
+          <li><strong>Farmers module (Market + reputation)</strong> — adds a persistent, trackable reputation stat tied to trade/farmer relations outside the city. Extends the game's moral-choice-consequence loop beyond one-off script outcomes: short-term greedy trades can cost long-term access to this outside-city supply channel.</li>
+          <li><strong>Sewers module</strong> — a second scavenging track alongside surface locations, useful for diversifying risk (avoid whatever makes surface runs dangerous that day) or reaching loot/story content not available above ground.</li>
+          <li><strong>Five Scenarios</strong> — winning one unlocks a legacy-style reward envelope with persistent content.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Days of the Siege</summary>
+      <div class="body">
+        <p>Three mix-and-match modules: Forlorn Hope campaign, Dog companion, Orphans of War.</p>
+        <p><strong>Forlorn Hope campaign:</strong> markedly easier and more predictable than the base game's relentless event pressure — a town map layers atop the normal scavenging phase, built progressively via play rather than pre-set, giving it a sandbox feel where exploration is player-directed rather than railroaded. Uses a <strong>soft reset</strong> between chapters (resources partially, not fully, carry over) — this prevents both a bad early chapter cascading into an unwinnable campaign, and a good chapter's stockpile trivializing the next one. The unresolved tension: campaign failure is still permanent with no retry, which clashes with the soft-reset's own goal of staying playable — the practical fix reviewers converge on is <strong>being willing to bend a rule in the moment</strong> rather than accept a full campaign loss from one harsh, low-agency swing, if your goal is finishing the story rather than a hardcore pass/fail run.</p>
+        <p>A deliberately amoral playthrough of Forlorn Hope revealed useful design facts: reckless looting is largely self-funding (loot income outpaces the misery cost of taking it, as long as some surplus buys comfort items), the campaign doesn't force engagement with the wider city narrative (ignoring it is mechanically viable), and letting two NPC factions fight each other via snitching/betrayal then looting the aftermath is a legitimate emergent tactic. Character role specialization (dedicated scavenger, trader, morale-support, home-front) emerged naturally as a steady-state engine independent of narrative alignment.</p>
+        <p><strong>Dog companion:</strong> start with the dog (costs 2 less starting food) or have it join later via script — a resource-vs-story-timing tradeoff, not a pure difficulty add. Can be eaten as an emergency food source.</p>
+        <p><strong>Orphans of War:</strong> child NPCs who must be fed but can't scavenge — pure extra burden with no offsetting benefit, tightening the existing food-math squeeze rather than adding a new subsystem.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Incidents module (5 new Scenarios)</summary>
+      <div class="body">
+        <p>Each Scenario brings its own dedicated cards/tokens/subsystems rather than just reskinning the base win condition, built around a distinct emotional hook:</p>
+        <p><strong>Epidemic:</strong> layers a disease-management subsystem on top of the normal survival loop — a dedicated Epidemic card deck, a medical-services station for vaccines, and a recurring Epidemic token creating explicit time pressure distinct from Misery/hunger. Splits scarce resources three ways (survival needs, disease prevention, treating the sick) instead of the base game's two.</p>
+        <p><strong>Side by Side:</strong> reframes the win condition around maintaining relationships with 4 neighboring NPCs rather than pure resource survival — an explicit altruism-vs-self-preservation choice per neighbor, with compounding downside (losing neighbors makes keeping the rest alive harder). Requires only 2 of 4 to survive, so full altruism isn't required, but total neglect is a guaranteed loss.</p>
+        <p>Each Scenario has a matching sealed reward envelope, folded permanently into future campaigns on success — a legacy-style incentive to clear multiple Scenarios rather than treat each as standalone.</p>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>Second Edition — what actually changed</summary>
+      <div class="body">
+        <p>Treat it as a components/UX and consolidation upgrade rather than a wholesale rules rewrite: a better box insert, dual-layer player boards, improved miniatures, a revised rulebook consolidating base game + expansion rules into one document, a bundled new expansion, new scenario content, and an unspecified "mechanics tweaks" bucket. The community's hoped-for (not confirmed) fix was addressing the campaign expansion's lack of a "fail forward" mechanism — the 1st edition's campaign material had no designed path to continue after failing a scenario.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ HOUSE RULES ============ -->
+  <section class="panel" id="houserules">
+    <h2>House Rules — Dial In The Difficulty</h2>
+    <p class="lede">This War of Mine is deliberately, unapologetically harsh — several of its own community's most-argued threads conclude that a proposed "fix" would undermine the point. Read the debate before you houserule: some randomness here is thematic pressure, not a bug. The rules below are grouped by how safe they are to adopt without changing what the game is about.</p>
+
+    <h3 class="sub">Fixes for pure feel-bad randomness (adopt freely)</h3>
+    <div class="card-block">
+      <h4>Pull Rat Infestation out of the turn-1 draw pool</h4>
+      <p>Rat Infestation as the very first event can destroy all starting food before you've taken a single action — an unavoidable, unwinnable-by-play insta-loss that teaches a new player nothing. <strong>House rule:</strong> before setting up the Events deck, pull Rat Infestation out, deal the first event from the remainder, then shuffle it back in for every subsequent day. This preserves its full punishing effect for every later day (when you have agency to have hedged against it) while removing the one draw that's pure bad-luck onboarding.</p>
+      <div class="why"><strong>Framing:</strong> a difficulty dial for newer players, not a nerf — leave it in (or even deliberately seed it) as an extreme-challenge option once your group is experienced.</div>
+    </div>
+    <div class="card-block">
+      <h4>Legitimate RAW insurance: eat immediately, before the first event resolves</h4>
+      <p>The "eat any time" advanced rule has no stated Day-1 exception — eating isn't an action, so nothing blocks doing it before the very first event is even revealed. Eating 2-3 characters' food immediately removes those tokens from the game before an event like Rat Infestation can steal them, at the cost of hunger creeping back to its normal level by evening anyway (you're trading a slightly worse night state for guaranteed food-loss protection and an extra action now).</p>
+      <div class="why">Some tables will consider this "gaming" a script-like moment rather than genuine RAW support — treat it as optional insurance with a real tradeoff, not a required opener, and agree on it with your group before relying on it.</div>
+    </div>
+
+    <h3 class="sub">Debated fixes — know the counter-argument before adopting</h3>
+    <div class="card-block">
+      <h4>Reject: an "effort token" bonus for repeated failed dice checks</h4>
+      <p>Actions like relaxing in a chair, radio, lockpicking, or Bruno's garden can fail the same roll many times with no compounding benefit from trying. A proposed fix tracks accumulating "effort" per character for a flat bonus on the next attempt.</p>
+      <div class="why"><strong>Why the community pushes back:</strong> this only helps if the goal is to make the game more <em>fair</em> — and fairness isn't what This War of Mine is going for. The repeated, memoryless failure on these checks simulates how war strips away reliability from mundane tasks that would be trivial in normal life; smoothing the odds undermines that on purpose. Practical guide takeaway: don't treat failure streaks on relax/radio/lockpick checks as something to counteract — factor the unreliability into planning instead (don't rely on "chillin'" to reliably lower misery on demand; lean on it opportunistically, not routinely).</div>
+    </div>
+    <div class="card-block">
+      <h4>Reject (usually): swapping the food/water penalty asymmetry</h4>
+      <p>Water deprivation is only a 50/50 hunger-or-misery hit while food deprivation is a guaranteed hunger hit — feels backwards versus real survival physiology.</p>
+      <div class="why"><strong>Why a straight swap misfires:</strong> the asymmetry is actually about recovery cost, not survival-day realism. Hunger is cheap to fix (a can of food covers ~3 days, easy to trade for); misery is expensive and unreliable to fix. Swapping the penalties pushes players into the harder-to-recover resource track more often — the opposite of "easing" anything. If the realism complaint still bothers you, reframe it narratively instead of changing numbers: characters aren't drinking zero water when the token isn't spent, just not enough for full comfort (melted snow, unclean sources) — spending the token represents the marginal "enough and clean" water.</div>
+    </div>
+
+    <h3 class="sub">Flavor-preserving patches (low-impact, adopt if the theme bothers you)</h3>
+    <div class="card-block">
+      <h4>Junk books as single-use heater fuel</h4>
+      <p>Only 3 "good" book tokens exist; if an event grants a book but all 3 are already out, RAW gives you nothing — but a besieged city should still have countless worthless books lying around. <strong>House rule:</strong> in that specific case, take 1 Wood instead, usable only in a heater action (not for morale/reading effects). Reported to trigger rarely (twice in 3-4 games) and is more a thematic patch than a real mechanical fix — some tables find it redundant since you can already grab unlimited wood at the end of a scavenge anyway. A simpler non-rule alternative: just never let your book stock sit at all 3 — burn down to 1 or 2 in storage so a future find always has room to land as a real token.</p>
+    </div>
+    <div class="card-block">
+      <h4>Burn the guitar as an absolute last resort</h4>
+      <p>Treat a guitar (or broken guitar) as equivalent to a Wood or Book token when fed to the heater — thematically consistent, since the game already lets you spend Wood to repair a broken one. If Zlata is present, roll against her Empathy when it burns; failing raises her misery by 1, tying the cost to her specific character mechanic rather than inventing a new system.</p>
+      <div class="why">Framed explicitly as an emergency valve for a hard freeze-to-death scenario with no wood/books left, not a routine fuel source — the guitar's normal morale value outweighs one unit of fuel in nearly every other situation. One community debate point: consider valuing it at 2 books' worth of fuel rather than 1, since it's a denser object than a single token.</div>
+    </div>
+
+    <h3 class="sub">For replayability — New Game+</h3>
+    <div class="card-block">
+      <p>Standard play resets everything each game, so a winning player never gets to use the fittings they didn't have time to build. This variant carries a won game's shelter forward into a second war, inverting the arc from scarcity-throughout to comfort-then-front-loaded-danger:</p>
+      <ul class="tight">
+        <li>Shelter/fittings/storage carry over as-is; the Locals &amp; Night Raid decks do <strong>not</strong> reshuffle — they remain exactly as depleted at ceasefire, meaning easier cards (already discarded from your win) are gone and the dangerous cards are disproportionately front-loaded. This is the central risk/reward trade of the whole variant.</li>
+        <li>Retroactive rule for game 1: instant-heal items (bandages, meds) must be used when available, not hoarded — closes the exploit of stockpiling heal items through a win just to bank them for the sequel.</li>
+        <li>The balancing lever: roll a d10 per fitting before starting; the first two that roll ≤4 are discarded (destroying any built upgrade too) — you're guaranteed to lose some of what you built, and it's a rolled cascade rather than a choice, so you can't cushion the loss by picking safe fittings to sacrifice.</li>
+        <li>Events deck fully reshuffles (fresh variety); objectives draw fresh replacements; hard-excludes legacy-assuming content like Farmers or Scenarios, which assume their own fresh-state premises.</li>
+      </ul>
+      <div class="why"><strong>Tuning knobs</strong> if it feels too easy: fold board-ups into the fitting-loss roll-off and remove the first 3 hits instead of 2, or start with only 2 characters instead of 3.</div>
+    </div>
+
+    <h3 class="sub">On house-ruling this game generally</h3>
+    <div class="card-block">
+      <p>A recurring, useful lens from the community's own "is this too random / too hard" debates: before concluding an outcome was pure bad luck, check whether there was an unused systemic lever available — a guard you didn't post, a fortification you skipped, a trade you didn't seek out, a known character trait (a coffee addiction, low empathy) you didn't plan around. A large fraction of what feels like "the dice decided everything" is actually an underused risk-reduction system the game already gives you (see Fundamentals and Threats sections). House-rule the moments that are pure, unpreventable bad-luck-at-zero-agency (like a turn-1 insta-death event) — but be honest with yourself about which losses were actually that, versus a skipped mitigation lever wearing a luck costume.</p>
+    </div>
+  </section>
+</main>
+
+<footer>This War of Mine: The Board Game — a fan strategy guide. Not affiliated with Awaken Realms, Galakta Games, or 11 Bit Studios.</footer>
+
+<script>
+(function(){
+  var buttons = document.querySelectorAll('nav.tabs button');
+  var panels = document.querySelectorAll('section.panel');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'instant'});
+    });
+  });
+})();
+</script>
+</body>
+</html>

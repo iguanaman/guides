@@ -80,16 +80,24 @@
   /* ---------- tabs ---------- */
   nav.tabs{
     position:sticky;top:0;z-index:40;
-    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
+    display:flex;flex-wrap:nowrap;gap:2px;justify-content:flex-start;
     padding:10px 12px;margin:8px auto 0;
     background:linear-gradient(180deg,rgba(8,21,26,.96),rgba(8,21,26,.86));
     backdrop-filter:blur(6px);
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:rgba(180,190,190,.25) transparent;
   }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:rgba(180,190,190,.25);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:rgba(180,190,190,.4)}
   .tab-btn{
     appearance:none;border:0;background:transparent;cursor:pointer;
-    color:var(--ink-dim);
+    color:var(--ink-dim);flex:0 0 auto;white-space:nowrap;
     font-family:"Optima","Gill Sans","Segoe UI",sans-serif;
     text-transform:uppercase;letter-spacing:.18em;font-size:.76rem;font-weight:600;
     padding:11px 20px;position:relative;transition:color .2s;

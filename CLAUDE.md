@@ -23,6 +23,7 @@ Each guide's design/layout/structure is independent — fit it to that guide's t
 - `ark-nova/` — Ark Nova strategy guide (zoo layout, card engine, appeal/conservation balance, action strategy)
 - `fields-of-arle/` — Fields of Arle strategy guide (worker placement, land reclamation, building engine, seasonal planning)
 - `balatro/` — Balatro strategy guide (joker synergies, deckbuilding, scoring math, run planning across stakes)
+- `this-war-of-mine/` — This War of Mine: The Board Game survival guide (scavenging, shelter management, moral choices, house rules)
 
 ## Git
 
@@ -30,10 +31,20 @@ Never use branches — commit directly to `master`.
 Only commit when explicitly asked.
 Commit requested → also push.
 
+## Board Game Preferences
+
+- Solo main mode: heavier the better, no ceiling.
+- Prefer puzzly, low-randomness solo modes (Uwe Rosenberg style) — game as solvable system. Dislike bot/AI-opponent solo modes (David Turczi style).
+- Strategy over tactics: prefer full info upfront (plan whole game) over state shifting round-to-round forcing re-assessment.
+- Will house-rule out randomness in solo play — want to replay & track score improvement; randomness muddies skill vs luck.
+- House-rule philosophy: stay close to original rules, break only when it helps & doesn't break the game. Patterns: draw-then-choose (draw several pick one, or pick freely from all for static retry setup); reveal hidden info (flip decks face-up, open offer of N instead of blind draw); average-out dice (replace roll with expected value, e.g. best-of-3-lowest on d8 ≈ 3).
+- Prefer self-blocking (Feast for Odin: block own board) over randomized blocking (automa/die/card draw).
+
 ## Conventions
 
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
 Every guide sets `html{font-size:18px}` — root font-size is 18px, not the browser-default 16px, so `1rem`=18px.
+Top-level tab nav: `flex-wrap:nowrap` + `overflow-x:auto` + `scroll-behavior:smooth` — never `flex-wrap:wrap` (stacks tabs vertically and they stay on-screen permanently on narrow viewports, worst with `position:sticky`). Buttons get `flex:0 0 auto;white-space:nowrap`. Center tabs only above the width they start overflowing (e.g. `@media(min-width:900px){justify-content:center}`), `flex-start` below it. Style scrollbar to blend in: transparent track, low-opacity thumb near the guide's dim/muted color, `scrollbar-width:thin` + `scrollbar-color` (Firefox) and `::-webkit-scrollbar*` (Chrome/Safari) both set.
 New guide → new subfolder, own `index.html` or descriptively-named `.html` file.
 New guide → add a card linking to it in root `index.html`.
 New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` (writes `{guide}/.research/_sources.md`) then runs `guide-research-distiller` sequentially per row (`.claude/agents/`) for sourcing.
