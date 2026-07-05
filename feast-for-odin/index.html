@@ -6,21 +6,68 @@
 <title>A Feast for Odin — Strategy Guide</title>
 <meta name="description" content="A strategy guide for A Feast for Odin (with Norwegians expansion) — occupations, strategy, scoring, and tableau optimization.">
 <style>
+  /* Lantern palette — dark is home; light = celadon daylight */
   :root{
-    --void:#0b1216;
-    --panel:#132029;
-    --panel-raised:#1a2c37;
-    --ink:#e8ddc8;
-    --ink-dim:#a9a08c;
-    --oxide:#a8422f;
-    --oxide-bright:#c85a3f;
-    --bronze:#b8873f;
-    --bronze-bright:#d9ab5f;
-    --fjord:#3d6b6a;
-    --fjord-bright:#5a938f;
-    --line:#263944;
-    --line-bright:#3a5560;
-    --shadow:rgba(0,0,0,.6);
+    color-scheme:dark;
+    --void:#0c181d;
+    --panel:#12262f;
+    --panel-raised:#17313c;
+    --ink:#ecdfc5;
+    --ink-dim:#b4ac92;
+    --oxide:#b35538;
+    --oxide-bright:#d4714b;
+    --bronze:#d99b3c;
+    --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86;
+    --fjord-bright:#82b8af;
+    --line:#1f3d44;
+    --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      color-scheme:light;
+      --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+      --ink:#2b2a20; --ink-dim:#65644f;
+      --oxide:#9c4326; --oxide-bright:#b0522f;
+      --bronze:#8f6212; --bronze-bright:#6f4c0e;
+      --fjord:#2e5f58; --fjord-bright:#356e66;
+      --line:#d2ceb8; --line-bright:#a9a488;
+      --shadow:rgba(60,60,30,.14);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+      --nav-bg:rgba(236,234,223,.92);
+      --overlay:rgba(50,48,30,.5);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
   }
   *{box-sizing:border-box}
   html{
@@ -29,34 +76,76 @@
   body{
     margin:0;
     min-height:100vh;
-    background:
-      radial-gradient(120% 80% at 50% -10%, #1a2f36 0%, var(--void) 55%, #060a0d 100%) fixed,
-      var(--void);
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
     color:var(--ink);
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-    line-height:1.6;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
     -webkit-font-smoothing:antialiased;
   }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
   h1,h2,h3{
-    font-family:"Optima","Iowan Old Style",Georgia,serif;
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
     color:var(--bronze-bright);
-    letter-spacing:.02em;
+    letter-spacing:.03em;
   }
 
   header.site{
-    padding:2.5rem 1.5rem 1.5rem;
+    position:relative;
+    padding:2.4rem 3.6rem 1.3rem;
     text-align:center;
-    border-bottom:1px solid var(--line);
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin:0 0 .55rem;
+    max-width:none;
   }
   header.site h1{
-    margin:0 0 .3rem;
-    font-size:2.2rem;
+    margin:0 0 .45rem;
+    font-size:2.3rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+    text-wrap:balance;
   }
   header.site p{
-    margin:0;
+    margin:0 auto;
     color:var(--ink-dim);
     font-size:.95rem;
+    max-width:52ch;
+    line-height:1.55;
   }
+  .theme-toggle{
+    position:absolute;
+    top:1.4rem;
+    right:1.2rem;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line-bright);
+    background:var(--panel);
+    color:var(--bronze);
+    cursor:pointer;
+    font-size:1rem;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☀︎"}
+  @media (prefers-color-scheme: light){ .theme-toggle::before{content:"☾"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
 
   nav.tabs{
     position:sticky;
@@ -65,41 +154,41 @@
     display:flex;
     flex-wrap:nowrap;
     justify-content:flex-start;
-    gap:.4rem;
-    padding:.75rem 1rem;
-    background:rgba(11,18,22,.92);
+    gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);
     backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--line-bright);
     overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
     -webkit-overflow-scrolling:touch;scrollbar-width:thin;
-    scrollbar-color:rgba(180,190,190,.25) transparent;
+    scrollbar-color:var(--line-bright) transparent;
   }
   @media(min-width:900px){nav.tabs{justify-content:center}}
   nav.tabs::-webkit-scrollbar{height:4px}
   nav.tabs::-webkit-scrollbar-track{background:transparent}
-  nav.tabs::-webkit-scrollbar-thumb{background:rgba(180,190,190,.25);border-radius:2px}
-  nav.tabs::-webkit-scrollbar-thumb:hover{background:rgba(180,190,190,.4)}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
   nav.tabs button{
-    font-family:inherit;
-    font-size:.95rem;
+    font-family:var(--f-label);
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.05em;
     color:var(--ink-dim);
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:.4rem;
-    padding:.5rem 1rem;
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:.7rem 1rem;
     cursor:pointer;
-    transition:color .15s, border-color .15s, background .15s;
+    transition:color .15s;
     flex:0 0 auto;white-space:nowrap;
   }
   nav.tabs button:hover{
     color:var(--ink);
-    border-color:var(--line-bright);
   }
+  nav.tabs button:focus-visible{outline-offset:-2px}
   nav.tabs button.active{
-    color:var(--void);
-    background:var(--bronze-bright);
-    border-color:var(--bronze-bright);
-    font-weight:600;
+    color:var(--bronze-bright);
+    border-bottom-color:var(--bronze);
   }
 
   main{
@@ -237,13 +326,18 @@
     text-align:left;
   }
   table.sortable th{
-    color:var(--bronze-bright);
+    font-family:var(--f-label);
+    font-size:.72rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    border-bottom:2px solid var(--line-bright);
     cursor:pointer;
     user-select:none;
     white-space:nowrap;
   }
   table.sortable th:hover{
-    color:var(--bronze);
+    color:var(--ink);
   }
   table.sortable tbody tr.card{
     cursor:pointer;
@@ -287,10 +381,11 @@
   .board-col-header{
     text-align:center;
     color:var(--ink-dim);
-    font-size:.8rem;
+    font-family:var(--f-label);
+    font-size:.72rem;
     padding:.4rem;
     text-transform:uppercase;
-    letter-spacing:.05em;
+    letter-spacing:.1em;
   }
   .board-cell{
     display:flex;
@@ -360,7 +455,7 @@
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(6,10,13,.8);
+    background:var(--overlay);
     z-index:100;
     align-items:center;
     justify-content:center;
@@ -376,14 +471,27 @@
     max-width:720px;
     width:100%;
     height:92vh;
-    overflow-y:auto;
-    padding:3.5rem 4rem;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
     box-shadow:0 20px 60px var(--shadow);
     position:relative;
   }
+  #modal-body{
+    flex:1;
+    overflow-y:auto;
+    padding:0 2.75rem 2.5rem;
+  }
+  #modal-body > :first-child:not(h3){margin-top:2rem}
   .modal h3{
-    margin-top:0;
+    position:sticky;
+    top:0;
+    z-index:1;
+    margin:0 0 .6rem;
+    padding:2rem 3rem .8rem 0;
     font-size:1.6rem;
+    background:var(--panel-raised);
+    border-bottom:1px solid var(--line);
   }
   .modal p{
     margin:0 0 1.1rem;
@@ -395,6 +503,7 @@
     position:absolute;
     top:1.25rem;
     right:1.5rem;
+    z-index:2;
     background:none;
     border:none;
     color:var(--ink-dim);
@@ -405,12 +514,40 @@
   .modal-close:hover{
     color:var(--ink);
   }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    section.tab-panel.wide{padding-left:1rem;padding-right:1rem}
+    section.tab-panel h2{font-size:1.35rem}
+    .modal-overlay{padding:0}
+    .modal{max-width:none;height:100vh;height:100dvh;border:none;border-radius:0}
+    #modal-body{padding:0 1.1rem 1.6rem}
+    .modal h3{padding:1.4rem 2.6rem .7rem 0;font-size:1.35rem}
+    .modal-close{top:.9rem;right:.8rem}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,.card,.action-card,.tip-chevron,nav.tabs button{transition:none}
+    .theme-toggle:hover{transform:none}
+    .card:hover,.action-card:hover{transform:none}
+  }
 </style>
 </head>
 <body>
 <header class="site">
+  <p class="kicker">Strategy Guide</p>
   <h1>A Feast for Odin</h1>
-  <p>Strategy guide — base game + Norwegians expansion</p>
+  <p>Occupations, tableau optimization &amp; scoring — base game and Norwegians.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
 </header>
 
 <nav class="tabs">
@@ -1098,6 +1235,22 @@ This applies to both the first-column and last-column space for collecting a Wha
 </div>
 
 <script>
+  // Light/dark toggle (persisted; defaults to OS preference)
+  (function(){
+    const root = document.documentElement;
+    const saved = localStorage.getItem('guides-theme');
+    if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+    function currentTheme(){
+      return root.dataset.theme ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    }
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('guides-theme', next);
+    });
+  })();
+
   // Tab switching (persisted across reloads via localStorage)
   function activateTab(tabId){
     const btn = document.querySelector(`nav.tabs button[data-tab="${tabId}"]`);

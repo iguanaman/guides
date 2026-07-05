@@ -24,6 +24,7 @@ Each guide's design/layout/structure is independent — fit it to that guide's t
 - `fields-of-arle/` — Fields of Arle strategy guide (worker placement, land reclamation, building engine, seasonal planning)
 - `balatro/` — Balatro strategy guide (joker synergies, deckbuilding, scoring math, run planning across stakes)
 - `this-war-of-mine/` — This War of Mine: The Board Game survival guide (scavenging, shelter management, moral choices, house rules)
+- `nusfjord/` — Nusfjord strategy guide (fishing company management, worker placement, building engine, share strategy)
 
 ## Git
 
