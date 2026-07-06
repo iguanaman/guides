@@ -14,6 +14,6 @@ Images come from the Sunless Sea Gamepedia CDN via `img("hash/filename.png")` e.
 
 - Zee toggle: ports/bestiary entries can have `zee:"under"` to show only when the underzee filter is active
 - Active tab persisted in URL as `?tab=lore`
-- CSS uses custom properties (`--panel`, `--ink`, `--foam`, `--brass`) for theming
+- CSS uses the shared Lantern token set (`--panel`, `--ink`, `--fjord`, `--bronze`, etc — see `.claude/lantern-theme.md`) plus a guide-local `--rust`/`--rust-bright` accent for bestiary "boss" tags
 - Lore tab has a live search bar and 3-column layout, groups hardcoded into columns by entry count
 - No build step — edit the file directly and reload in browser to test

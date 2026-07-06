@@ -6,32 +6,92 @@
 <title>Nusfjord Strategy Guide</title>
 <meta name="description" content="A strategy guide for Nusfjord — fishing company management, worker placement, building engine, and share strategy.">
 <style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
   :root{
-    --fjord-deep:#0c1a22;
-    --fjord-mid:#142a34;
-    --panel:#122530;
-    --ink:#dce7e6;
-    --ink-dim:#9fb2b3;
-    --timber:#b97a4a;
-    --timber-bright:#d99a63;
-    --moss:#5c8a6e;
-    --line:#26424e;
-    --line-bright:#375d6a;
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
     --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
   }
   *{box-sizing:border-box}
   html{font-size:18px}
   body{
     margin:0;
     min-height:100vh;
-    background:
-      radial-gradient(120% 80% at 50% -10%, #1a323e 0%, var(--fjord-deep) 55%, #060d11 100%) fixed,
-      var(--fjord-deep);
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
     color:var(--ink);
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
     font-size:18px;
-    line-height:1.6;
+    line-height:1.66;
     -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
   }
 </style>
 </head>

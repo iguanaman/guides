@@ -9,15 +9,14 @@ Run steps 1-4 in order. Stop after step 4 for user input — do not write guide 
 
 ## 1. Design
 
-If {topic}'s visual identity isn't obvious, do a quick web search (box art, official branding, fan-art mood) to ground the palette/mood before picking — don't invent a theme from nothing when reference material exists.
-
-Auto-pick a color theme/aesthetic fitting {topic} on its own merits (palette, font pairing, mood) — do not look at other guides in this repo for style cues; each guide's design should fit its own subject, not match siblings. Use `:root` CSS vars for theming (`--panel`, `--ink`, accent colors, etc). No need to confirm with user — just pick and proceed; it can be revised later.
+Use the shared Lantern theme — read `.claude/lantern-theme.md` and apply its token block, type, header/toggle, nav, and modal CSS verbatim. Every guide shares one visual identity; do not invent a per-topic palette.
 
 ## 2. Scaffold
 
 - New subfolder: `{topic-slug}/`
-- Base `index.html` inside it: doctype, head, the chosen `:root` vars, minimal empty-shell layout (no content yet)
-- Add a card to root `index.html` linking to it (match existing card markup/style)
+- Base `index.html` inside it: doctype, head, Lantern `<style>` block (tokens, globals, header/toggle, nav, modal, responsive) per `.claude/lantern-theme.md`, minimal empty-shell layout (no content yet)
+- Add the toggle JS block and header markup (kicker + h1 + subtitle + `.theme-toggle` button)
+- Add a card to root `index.html` linking to it (match existing card markup/style), keep the grid alphabetical by guide title
 - New subfolder gets its own `CLAUDE.md` (empty/minimal placeholder — filled in once guide structure is known)
 - Add the new guide to the `## Guides` list in root `CLAUDE.md`
 

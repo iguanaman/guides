@@ -13,7 +13,7 @@ Depth over brevity — go deep on strategy and edge cases; surface-level summari
 Each guide lives in its own subfolder (e.g. `sunless-sea/`) — one self-contained `.html` file per guide.
 No build system — HTML, CSS, JS, and data all live in that single file.
 Each guide subfolder has its own `CLAUDE.md` for guide-specific details (see `sunless-sea/CLAUDE.md`).
-Each guide's design/layout/structure is independent — fit it to that guide's topic, not to other guides in this repo. When working on a guide, don't open, check, or reference another guide's subfolder.
+Every guide shares one visual design — the Lantern theme, see `.claude/lantern-theme.md` — light/dark toggle, same palette/type/nav/modal. Content structure (tabs, sections, layout of strategy content) stays independent per guide, fit to that topic.
 
 ## Guides
 
@@ -45,7 +45,7 @@ Commit requested → also push.
 
 No external dependencies/frameworks beyond CDN-hosted assets (e.g. images) — keep each guide deployable by opening the HTML file directly or via GitHub Pages.
 Every guide sets `html{font-size:18px}` — root font-size is 18px, not the browser-default 16px, so `1rem`=18px.
-Top-level tab nav: `flex-wrap:nowrap` + `overflow-x:auto` + `scroll-behavior:smooth` — never `flex-wrap:wrap` (stacks tabs vertically and they stay on-screen permanently on narrow viewports, worst with `position:sticky`). Buttons get `flex:0 0 auto;white-space:nowrap`. Center tabs only above the width they start overflowing (e.g. `@media(min-width:900px){justify-content:center}`), `flex-start` below it. Style scrollbar to blend in: transparent track, low-opacity thumb near the guide's dim/muted color, `scrollbar-width:thin` + `scrollbar-color` (Firefox) and `::-webkit-scrollbar*` (Chrome/Safari) both set.
+Top-level tab nav follows `.claude/lantern-theme.md`'s nav spec: `flex-wrap:nowrap` + `overflow-x:auto` + `scroll-behavior:smooth` — never `flex-wrap:wrap` (stacks tabs vertically and they stay on-screen permanently on narrow viewports, worst with `position:sticky`). Buttons get `flex:0 0 auto;white-space:nowrap`. Center tabs only above the width they start overflowing (`@media(min-width:900px){justify-content:center}`), `flex-start` below it.
 New guide → new subfolder, own `index.html` or descriptively-named `.html` file.
 New guide → add a card linking to it in root `index.html`.
 New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` (writes `{guide}/.research/_sources.md`) then runs `guide-research-distiller` sequentially per row (`.claude/agents/`) for sourcing.
