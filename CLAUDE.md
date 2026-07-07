@@ -3,10 +3,7 @@ Public repo of single-file HTML reference guides/apps, hosted via GitHub Pages.
 ## Purpose
 
 Each guide is a mega-guide for its topic — consolidates strategy/insight scattered across wikis/forums/blogs into one place, so the reader never needs to look elsewhere.
-Not a reference/rulebook mirror — skip stats, card text, mechanics-as-written, or anything findable in-game or in the manual. Cover oft-repeated community strategy/advice AND notable insight from individual sources (with attribution where it adds credibility) AND general tips/tricks (secondary focus).
-When writing guide content, teach transferable insight, not formulas — WHY a play/build/approach is strong, WHEN it applies, the tradeoffs and situational exceptions. Reader should come away able to reason about novel situations, not just follow a script.
-Don't reproduce step-by-step walkthroughs (turn-by-turn openers, exact build orders, "do A then B then C"); teach the principle behind them — why this opener, what conditions favor it, how to adapt when conditions differ.
-Depth over brevity — go deep on strategy and edge cases; surface-level summaries defeat the purpose. Prefer thorough over concise for guide content itself (this rule doesn't apply to CLAUDE.md/skill files).
+Writing or editing any guide's HTML content → use the `write-guide-content` skill (`.claude/skills/write-guide-content/`) first.
 
 ## Structure
 
@@ -36,10 +33,14 @@ Commit requested → also push.
 
 - Solo main mode: heavier the better, no ceiling.
 - Prefer puzzly, low-randomness solo modes (Uwe Rosenberg style) — game as solvable system. Dislike bot/AI-opponent solo modes (David Turczi style).
-- Strategy over tactics: prefer full info upfront (plan whole game) over state shifting round-to-round forcing re-assessment.
-- Will house-rule out randomness in solo play — want to replay & track score improvement; randomness muddies skill vs luck.
-- House-rule philosophy: stay close to original rules, break only when it helps & doesn't break the game. Patterns: draw-then-choose (draw several pick one, or pick freely from all for static retry setup); reveal hidden info (flip decks face-up, open offer of N instead of blind draw); average-out dice (replace roll with expected value, e.g. best-of-3-lowest on d8 ≈ 3).
+- Strategy over tactics: full info upfront, plan whole game, no round-to-round re-assessment.
+- Tolerate randomness more in casual multiplayer — house-rule scope below is solo-only.
+- House-rule solo play to remove randomness — score reflects skill not luck, for replayability & tracking improvement across attempts.
+- House-rule philosophy: stay close to original rules, break only when it helps & doesn't break the game.
 - Prefer self-blocking (Feast for Odin: block own board) over randomized blocking (automa/die/card draw).
+- House-rule toolbox: reveal hidden info (face-up decks, sequences shown upfront); draw-then-choose (draw N, pick 1; or pick freely for static setup) — never when cards drive an opponent (weakens it / collapses to solitaire); average-out dice (replace roll with expected value); fix orders/lock setups for comparable replays.
+- Choice quantification for draw-then-choose: E[best of N+1] ≈ (N+1)/(N+2), sharp diminishing returns — default N=3 (3 laid out + face-up deck top = 4 choices); N=1-2 for flexible needs, N=3-4 when hunting a specific card; N = cards laid out, not total choices.
+- Per-game house-rule configs (Static = deterministic full-info puzzle, reveal-only = lighter fresher-but-less-comparable variant) tracked outside this repo, one doc per game — ask if relevant one isn't visible.
 
 ## Conventions
 
@@ -51,3 +52,4 @@ New guide → add a card linking to it in root `index.html`.
 New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`); it dispatches `guide-research-finder` (writes `{guide}/.research/_sources.md`) then runs `guide-research-distiller` sequentially per row (`.claude/agents/`) for sourcing.
 `{guide}/.research/_sources.md` = finder's source table (`slug | title | url | note`); slug is category-prefixed kebab-case (`spirit-…`, `mechanic-…`) and is the distiller's output filename + diff key.
 `{guide}/.research/*.md` are gitignored scratch from guide research — not committed, not a source of truth once stale.
+Reading `.research/*.pdf`: use `pdftotext` (via Bash), not the Read tool's page-range rendering — `pdftoppm`/poppler isn't installed in this environment.

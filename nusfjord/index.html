@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nusfjord Strategy Guide</title>
-<meta name="description" content="A strategy guide for Nusfjord — fishing company management, worker placement, building engine, and share strategy.">
+<meta name="description" content="A solo strategy guide for Nusfjord — fishing company management, worker placement, building engine, and share strategy.">
 <style>
   /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
   :root{
@@ -80,7 +80,6 @@
     background-repeat:no-repeat;
     color:var(--ink);
     font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
-    font-size:18px;
     line-height:1.66;
     -webkit-font-smoothing:antialiased;
   }
@@ -93,8 +92,456 @@
     color:var(--bronze-bright);
     letter-spacing:.03em;
   }
+
+  header.site{
+    position:relative;
+    padding:2.4rem 3.6rem 1.3rem;
+    text-align:center;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin:0 0 .55rem;
+    max-width:none;
+  }
+  header.site h1{
+    margin:0 0 .45rem;
+    font-size:2.3rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+    text-wrap:balance;
+  }
+  header.site p{
+    margin:0 auto;
+    color:var(--ink-dim);
+    font-size:.95rem;
+    max-width:52ch;
+    line-height:1.55;
+  }
+  .theme-toggle{
+    position:absolute;
+    top:1.4rem;
+    right:1.2rem;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line-bright);
+    background:var(--panel);
+    color:var(--bronze);
+    cursor:pointer;
+    font-size:1rem;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:10;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.05em;
+    color:var(--ink-dim);
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:.7rem 1rem;
+    cursor:pointer;
+    transition:color .15s;
+    flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{
+    color:var(--bronze-bright);
+    border-bottom-color:var(--bronze);
+  }
+
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:2rem 1.5rem 5rem;
+  }
+
+  section.tab-panel{display:none}
+  section.tab-panel.active{display:block}
+  section.tab-panel h2{
+    font-size:1.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.5rem;
+    margin-top:0;
+  }
+  section.tab-panel h3{font-size:1.15rem;margin:1.6rem 0 .5rem}
+  section.tab-panel p{margin:0 0 .9rem}
+  section.tab-panel ul{margin:0 0 .9rem;padding-left:1.3em}
+  section.tab-panel li{margin-bottom:.55rem}
+  section.tab-panel li:last-child{margin-bottom:0}
+  section.tab-panel strong{color:var(--bronze-bright)}
+
+  .placeholder-note{color:var(--ink-dim);font-size:1rem}
+
+  .callout{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--fjord);
+    border-radius:.4rem;
+    padding:.9rem 1.1rem;
+    margin:0 0 1.2rem;
+  }
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{border-left-color:var(--oxide)}
+
+  .tips-grid{display:flex;flex-direction:column;gap:.6rem;margin-top:1.2rem}
+  .tip-section{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    overflow:hidden;
+    transition:border-color .15s;
+  }
+  .tip-section[open]{border-color:var(--line-bright)}
+  .tip-summary{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
+    padding:.9rem 1.1rem;
+    cursor:pointer;
+    list-style:none;
+    user-select:none;
+  }
+  .tip-summary::-webkit-details-marker{display:none}
+  .tip-summary:hover{background:var(--panel-raised)}
+  .tip-summary h3{margin:0;font-size:1.1rem}
+  .tip-chevron{
+    flex:0 0 auto;
+    color:var(--ink-dim);
+    font-size:.85rem;
+    transition:transform .15s;
+  }
+  .tip-section[open] .tip-chevron{transform:rotate(180deg)}
+  .tip-body{padding:0 1.1rem 1.2rem;border-top:1px solid var(--line);padding-top:1rem}
+  .tip-body p{margin:0 0 .8rem}
+  .tip-body ul{margin:0;padding-left:1.3em}
+  .tip-body li{margin-bottom:.6rem}
+  .tip-body li:last-child{margin-bottom:0}
+  .tip-body strong{color:var(--bronze-bright)}
+
+  .deck-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:1rem;
+    margin:1.2rem 0;
+  }
+  .deck-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    padding:1rem 1.1rem;
+  }
+  .deck-card h3{margin:0 0 .5rem;font-size:1.05rem}
+  .deck-card p{margin:0;font-size:.92rem;color:var(--ink-dim)}
+  .deck-card p strong{color:var(--bronze-bright)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    section.tab-panel h2{font-size:1.35rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,.tip-chevron,nav.tabs button{transition:none}
+    .theme-toggle:hover{transform:none}
+  }
 </style>
 </head>
 <body>
+<header class="site">
+  <p class="kicker">Solo Strategy Guide</p>
+  <h1>Nusfjord</h1>
+  <p>Fishing-company economy, the elder/share puzzle, building-engine sequencing, and campaign strategy — for solo play.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="economy">Core Economy</button>
+  <button data-tab="sharesandelders">Shares &amp; Elders</button>
+  <button data-tab="buildings">Building Market</button>
+  <button data-tab="opening">Opening Strategy</button>
+  <button data-tab="solo">Solo &amp; Campaign</button>
+  <button data-tab="houserules">House Rules</button>
+  <button data-tab="decks">Deck Guide</button>
+</nav>
+
+<main>
+
+  <section id="overview" class="tab-panel active">
+    <h2>Overview</h2>
+    <p class="placeholder-note">Why this is a good puzzly solo game, and how to read the rest of this guide.</p>
+
+    <p>Nusfjord strips Uwe Rosenberg's usual formula (animal breeding, farming, polyomino tile-laying, a punishing feed-your-people penalty) down to four resources — fish, wood, gold, points — and 21 total actions across 7 rounds (3 workers &times; 7 rounds). The cut isn't a lesser design, it's a concentration: with so few pieces, almost every action is a multi-resource tradeoff rather than a simple "spend X, get Y," and there's no slack anywhere in the system. Being one fish or one wood short can derail a whole round's plan, and there's no "close enough" conversion built into the base rules — if you want to convert one resource into another, you need a building that explicitly does it.</p>
+
+    <p>Solo play replaces an opponent with a self-blocking mechanism: you alternate control between two worker colors round to round (basic mode), or three (advanced), and whichever color you didn't use last round stays on the board occupying spaces. The "opponent" is your own past placements. This converts worker placement into a pure optimization problem — losses trace to your own planning, not to variance or someone else's interference, which is exactly the kind of full-information, solvable puzzle this repo's house-rule philosophy favors.</p>
+
+    <div class="callout">
+      <p><strong>How the game unlocks over time.</strong> A- and B-tier buildings are visible from the start (a full early-game planning puzzle with no hidden information). C-tier buildings — the highest-value cards — are dealt in two waves, usually around rounds 4 and 6. This is the only real randomness in the game once a deck is chosen: everything else is open information you can plan around from turn one.</p>
+    </div>
+
+    <p>The sections that follow go roughly in the order you'll use them: the resource engine underneath the theme, the two most misunderstood systems (shares and elders), the building market and its tiered reveal, opening lines, then solo- and campaign-specific strategy, a house-rules tab for optional variants, and a light deck-by-deck reference.</p>
+  </section>
+
+  <section id="economy" class="tab-panel">
+    <h2>Core Economy</h2>
+    <p class="placeholder-note">Fish, wood, and gold aren't separate tracks — they're one interlocking system, and most of the game's puzzle is in the conversions between them.</p>
+
+    <h3>The Fishing Phase bottleneck</h3>
+    <p>Every round's fish haul pays out in strict priority order: elders first, then dividends to any issued shares, then your personal reserve — capped at 8, with anything over that lost outright. Reserve fish are inert until you spend an action moving them into usable supply. The number you haul in overstates what you can actually use that round once elder upkeep and share dividends are subtracted, and it shrinks further the moment you hit the reserve cap.</p>
+    <p>This makes fish the "operating currency" the whole engine burns each round, and it's why over-investing in fish production without a matching plan to spend it down is a real trap: pushing boat/haul size up without matching storage or spending capacity just means more of your production evaporates at the cap. Size your fish income to roughly match your near-term spending needs rather than maximizing haul for its own sake.</p>
+
+    <h3>Wood and the reforestation tension</h3>
+    <p>Wood is a pure building input gated by forest tiles, but forests occupy board space — clearing a forest for wood trades away future building footprint on that space. "Double space" (the reforestation requirement) just means any two empty, horizontally-adjacent spaces on the board, not specifically where a forest originally stood — don't self-restrict to the tile's original position, scan the whole board for open adjacent pairs. Where a stacked double-forest exists, wood-per-forest and points-per-forest effects pay out per physical tile, not per space — a double-stack yields double the normal amount from a single action.</p>
+
+    <h3>Gold — the only resource that's both currency and score</h3>
+    <p>Gold spends on builds, scores directly at game end, and buys share issues that generate more fish. Because it's simultaneously a currency and a victory-point store, late-game gold-hoarding and share-buying are strong closing moves once your engine is otherwise built out — evaluate a gold-generating action not just on its immediate yield, but on which of these three loops (build, score, or share) it advances.</p>
+
+    <div class="callout">
+      <p><strong>Evaluate every action by which loop it feeds, not its face value.</strong> Fish buys share-generating capacity; gold buys fish-generating capacity (via shares); wood and board space trade off against each other. A building or action that looks weak in isolation can be strong because of which loop it unlocks or accelerates.</p>
+    </div>
+  </section>
+
+  <section id="sharesandelders" class="tab-panel">
+    <h2>Shares &amp; Elders</h2>
+    <p class="placeholder-note">The two systems most likely to be misread as "just bonus actions" — both are a disguised fish market, and both reward understanding the underlying mechanism rather than just the surface text.</p>
+
+    <h3>Shares: tempo now vs. safety later</h3>
+    <p>You start with 5 shares of your own company: some issued (already paying dividends), the rest unissued. Issuing an unissued share converts it into gold immediately — but every issued share then owes a dividend (a fish) every round for the rest of the game, paid to whoever holds it. In solo play there's no opponent to buy your shares, so the practical tradeoff is purely against your own future fish income: issue for gold now and accept an ongoing fish cost to yourself, or hold and eat a fixed victory-point penalty for any share still unissued at game end.</p>
+    <p>There's no ruin condition attached to this decision — the downside is always bounded (a fixed end-game point loss, or a fish-per-round cost), which is what keeps the choice tense without being punishing. Because the penalty only applies to shares still unissued at the very end, the decision to hold can be deferred, but issuing late reduces how many rounds you'll pay dividends on that share versus issuing early (which gets gold into play sooner, at the cost of more cumulative dividend rounds).</p>
+
+    <h3>The elder/banquet-table system, decoded</h3>
+    <p>Taking an elder claims a personal, exclusive action space — no contest, since it's yours alone once acquired. But using an elder each round requires feeding it a fish from a shared banquet table. If that table runs dry, no elder can be used until someone refills it via "Serve Fish" — and refilling isn't charity, the server is paid gold on a schedule that gets less generous as the table fills (plate 1 costs 1 fish, plates 2 roughly doubles, and so on up to a cap). Strip away the theme and this is a straightforward supply-and-demand market: cheap to "buy" fish (feed elders) when the table is full, expensive or impossible when it's empty.</p>
+    <p>Because elder actions compound over the rounds remaining, they're most valuable acquired early — but each elder recruited is also a recurring fish tax on every future Fishing Phase, so weigh a new elder against that ongoing cost, not just its one-time ability.</p>
+
+    <div class="callout warn">
+      <p><strong>Solo-specific: elders are often not worth rushing.</strong> Multiple solo sources report using elders less than expected, since in solo play there's no opponent contesting the extra action space an elder provides — the marginal benefit of "one more action lane" is smaller when nothing is blocking your normal actions anyway, and elders still cost fish on top. Treat an elder pickup as justified by its specific ability and fish-economy fit, not as an automatic value-add just because it's an extra action space.</p>
+    </div>
+
+    <h3>Elder tiers: why the standard set beats "all elders"</h3>
+    <p>The base 6 standard elders are individually well-tuned — none warps the game around itself. A second tier of elders are lateral swaps, no better or worse. A third tier (sponsor, fish deliverer, ship owner) are each individually powerful, but each one <em>collapses</em> a subsystem: the sponsor removes share-timing decisions, the ship owner flattens ship-type balance, the fish deliverer removes the need to build ships for fish at all. Direct testing found that unlocking all elders makes a strong line obvious and reachable almost immediately (high score, low search); restricting to the standard 6 forces much more search, yields a lower top score, and produces genuinely harder, more interesting decisions. The standard elder set isn't a difficulty setting — it's the version of the game with more decisions still worth making.</p>
+  </section>
+
+  <section id="buildings" class="tab-panel">
+    <h2>Building Market</h2>
+    <p class="placeholder-note">A/B/C tiers control what you know and when — building toward flexibility beats building toward one fixed combo.</p>
+
+    <h3>Why the C-tier reveal is a feature, not a flaw</h3>
+    <p>A- and B-tier buildings are all visible from the start, so the opening rounds are a pure, fully-informed optimization puzzle. C-tier buildings — highest value, biggest scoring swings — are withheld and revealed in waves (commonly 4 cards around round 4, 3 more around round 6). It's tempting to read this as a design flaw (you commit to an A/B economy without knowing what your late-game specialty will be), but the intent is the opposite: C cards represent a disruption the village has to adapt to, and the correct response is building a flexible, efficient general economy in the early rounds rather than one narrow combo. An efficient early economy can usually make several of the newly-revealed C cards work; a hyper-specialized one might find none of them fit.</p>
+
+    <h3>Deck identity: "album, not song"</h3>
+    <p>Each deck (Herring, Mackerel, and further expansion decks) leans toward certain themes — ships, forests, elders, resource-collection — but none of them lock you into a single winning line. Counterintuitively, the first (Herring) deck is actually the most single-theme-concentrated of the sets; later decks are progressively <em>less</em> concentrated, not more. Think of each deck as a different album rather than a different song: the differences are textural and structural across many cards, not "this deck only rewards ships." A resource that looks like it has nowhere to go (e.g. wood without an obvious wood-to-points card) is often still viable — buildings themselves are usually the real sink, and pairing a generation card with a card that removes that resource's usual inefficiency (e.g. a reforest-more-per-action combo) is generally how "dead" resources get made efficient.</p>
+
+    <h3>Scouting for amplifier pairs</h3>
+    <p>Some buildings and elders exist purely to amplify another building's output — wharf-plus-harbor-master boosting haul size is a commonly cited example. Rather than evaluating a building purely on its own printed bonus, scan for cards whose sole function is multiplying something you already have running. These compounding pairs are usually where a strong scoring engine actually comes from, more than any single high-value card in isolation.</p>
+
+    <div class="callout">
+      <p><strong>Cheap, zero-point buildings still pull weight.</strong> A cheap A-tier building worth 0 printed victory points can still meaningfully raise your final score — its value is in the action or resource ability it grants, which often enables the rest of your engine, not in the number printed on the card.</p>
+    </div>
+  </section>
+
+  <section id="opening" class="tab-panel">
+    <h2>Opening Strategy</h2>
+    <p class="placeholder-note">The "obvious" best opening is usually a rut from repeated play against the same setup, not a solved line — Nusfjord's market varies enough that a genuinely correct opening should shift with what's on offer.</p>
+
+    <h3>Don't let solo replay converge you onto one line</h3>
+    <p>If your "best opening" never changes across many solo plays, that's a signal you're stuck in a local optimum, not proof you've solved the game — the building/ship market varies by deck and setup, so a truly correct opening should shift along with it. Deliberately test sub-optimal-looking first moves every few games (stockpile elders early instead of maxing a resource; take a tempo building instead of a pure resource-max action) — a wasted experimental game costs little in a ~30-45 minute session, and it's the only way to find out whether your default opening is actually best or just familiar.</p>
+
+    <h3>Why gold/wood-max openings look dominant early</h3>
+    <p>Gold is the tightest resource in the opening rows — almost nothing generates it early, so any gold-producing action is disproportionately valuable turn 1-2 simply because there's no other route to it yet. A wood bonus similarly front-loads a resource you'll keep needing and can unlock a mid-tier ship purchase a turn sooner. This is why these openings dominate naive comparisons: they solve the two tightest early constraints fastest. But "fastest resource accumulation" isn't the same as "best long-run engine" — it's just the easiest opening to evaluate greedily.</p>
+
+    <h3>Named alternative lines</h3>
+    <ul>
+      <li><strong>Reforest &rarr; Thin Out:</strong> a large immediate wood spike, enough to reach a mid-tier ship a turn earlier than the standard line, at the cost of touching gold at all turn one — a bet that wood/ship tempo beats gold tempo in that game's specific market.</li>
+      <li><strong>Elder-rush:</strong> going for an elder early instead of maxing a resource. The power isn't just in acquiring the elder — timing when you actually start using it against your engine's needs is the subtler, more important decision; a good elder pickup timed wrong forfeits the tempo advantage that justified skipping the resource-max move.</li>
+      <li><strong>Engine-first:</strong> accept a merely-adequate early resource base and spend early actions on buildings/ships that compound, rather than optimizing the pure resource race. The resource-max opening's payoff is front-loaded and flattens quickly; engine pieces bought early keep compounding for the rest of the game.</li>
+    </ul>
+    <p>Because the building/ship market varies game to game, treat any single "best opening" claim — including the ones above — as conditional on that game's specific card availability, not a universal rule.</p>
+
+    <div class="callout">
+      <p><strong>Tavern's 3-column bonus.</strong> The Tavern building rewards returning a worker from each of the Action board's three fixed columns in a round. The Imitation/Copy-an-Action tile and Elder Council actions sit outside the Action board entirely and do <em>not</em> count toward this — a round using Copy-Action plus two board columns still fails to trigger the bonus. If you're building around Tavern, make sure all three workers that round are genuine board-column actions.</p>
+    </div>
+  </section>
+
+  <section id="solo" class="tab-panel">
+    <h2>Solo &amp; Campaign</h2>
+    <p class="placeholder-note">Action scarcity, not option scarcity, is the core solo puzzle — and the campaign structure is where the deepest strategy lives.</p>
+
+    <h3>The real bottleneck is actions, not choices</h3>
+    <p>Nusfjord rarely starves you for options — it starves you for actions. With 3 workers &times; 7 rounds = 21 total actions, the constraint is never "what can I do," it's "what can I afford to not do." Every worker placed is a worker withheld from something else; evaluate each placement as an opportunity-cost decision first, value-capture second. Because building availability unlocks progressively (the A/B/C tiers), you can't precompute one optimal line from turn one — build resilience into your plan, not just efficiency, and expect to adapt as the offer changes.</p>
+    <p>Two tensions recur constantly: <strong>immediate benefit vs. investment for later payoff</strong> (a line that only pays off ~2 rounds out vs. tempo now), and <strong>wanting a building vs. affording it</strong> (is it worth burning a placement just to gather the resource that unlocks a building, or should you take a lower-value option that preserves your action economy). Neither has a universal answer — it depends on what's on offer and how many rounds are left to amortize an investment.</p>
+
+    <div class="callout warn">
+      <p><strong>Common failure mode: production without a spend plan.</strong> Over-investing in fish production (boats) without matching storage or a plan to spend the surplus down means the excess is simply lost at the reserve cap. This isn't a resource shortage, it's an infrastructure-and-action shortage — pair any production push with either the storage to hold it or a concrete plan to convert it before the cap bites.</p>
+    </div>
+
+    <h3>Self-blocking as the "opponent"</h3>
+    <p>Solo play alternates control between two worker colors round to round; whichever color you didn't use last round stays on the board, occupying spaces as a blocker against your own next turn. This means every placement decision has two live questions: how to extract maximum value this round, and which placement order least cripples your own next-round options. A harder 3-color variant compounds the same self-blocking texture rather than introducing a fundamentally different puzzle.</p>
+
+    <h3>Campaign mode: what carries over (and what doesn't)</h3>
+    <p>A campaign is 3 linked games on one deck. Nothing carries between the games except which buildings remain available — ships, resources, shares, and constructed buildings all reset to a fresh starting state each game. This is deliberate: if resources or score-engines carried over, a strong first game would compound into an even more dominant second game. The changing building pool is the only thread connecting the three games, and it's also the source of the campaign's real strategic depth: cards you skip early remain available later, so you can deliberately bank a card whose combo pieces haven't shown up yet for the game where the full combo becomes available, rather than always taking the best immediate option.</p>
+    <p>The last game of a campaign is often where you're stuck buying second-choice buildings — the strong synergy pieces were already spent in games 1-2. Treat this as its own distinct puzzle (build well with a worse hand) rather than a downgrade from games 1-2.</p>
+
+    <h3>Scoring benchmarks</h3>
+    <p>Single game: 30+ points is a solid win, 40+ is exceptional. Campaign: 100+ cumulative across all 3 games is the commonly cited target. Useful as a calibration reference, though one open question in the community is whether a flat ~30-33/game across all three campaign games is actually strong, or whether scores are expected to escalate as you exploit the changing building pool — there's no settled answer, so don't over-index on a rigid escalation curve.</p>
+
+    <h3>The optimization pattern, in practice</h3>
+    <p>The recurring shape of solo optimization: build an engine, hit a resource-timing snag near the endgame (commonly a late fish shortfall blocking a plate-fill or elder use), then search for a single building or action insertion earlier in the sequence that resolves it — rather than replanning the whole line from scratch. This incremental-patch approach is how most reported high scores were actually reached, not a single from-scratch "solved" opening.</p>
+  </section>
+
+  <section id="houserules" class="tab-panel">
+    <h2>House Rules</h2>
+    <p class="placeholder-note">Optional variants, not official rules — everything here changes the base game in some way. Click a section to expand it.</p>
+
+    <div class="tips-grid">
+
+    <details class="tip-section" open>
+      <summary class="tip-summary">
+        <h3>Staggered C-Building Reveal</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+        <p>Replaces the two lump-sum C-building reveals (a batch around round 4, another around round 6) with one C-building dealt per round starting round 1 — by round 4 you'll have accumulated the same 4 cards you'd have seen at once under the base rules, but one at a time.</p>
+        <ul>
+          <li><strong>Why:</strong> improves forward planning by letting each C card be woven into your strategy as it arrives, rather than all landing at once mid-game with little runway left to react. Preserves the "surprise" element round to round instead of removing it — this isn't full-information dealing, just smoother pacing of the one randomness pocket the game has.</li>
+          <li><strong>Tradeoff:</strong> narrows the strategic breadth of the early rounds slightly, since you're weaving in new information every round instead of having a clean "planning phase" followed by an "adaptation phase." If you'd rather keep those phases distinct, skip this rule.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>Randomized Elder Order</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+        <p>Replaces the fixed order in which elders become available with a shuffled order, re-rolled per game (or per campaign).</p>
+        <ul>
+          <li><strong>Why:</strong> at low player counts (solo included), the elder track is always drawn/available in the same fixed sequence, which the community flags as the game's weakest replayability link at 1-3 players — you see the same elders in the same order every time. Randomizing the order is a tested, informally-circulated fix with no reported broken outcomes.</li>
+          <li><strong>When to apply:</strong> best introduced once you're comfortable with the base rules and know what each elder does — randomizing before you've learned the standard set just adds confusion without adding puzzle value.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="tip-section">
+      <summary class="tip-summary">
+        <h3>Pooled A/B/C Decks (aggressive, optional)</h3>
+        <span class="tip-chevron">▾</span>
+      </summary>
+      <div class="tip-body">
+        <p>Instead of drawing one lettered deck (Herring, Mackerel, etc.) wholesale, shuffle all decks' A-tier cards together into one pool, all B-tier together, all C-tier together — retiring used cards to a per-letter discard pile until that letter's pool is exhausted.</p>
+        <ul>
+          <li><strong>Why:</strong> maximizes per-game card variety and breaks a single deck's dominant-strategy lean (e.g. a ship-heavy deck funneling every game toward ships) — one community report describes "dozens" of games with no observed stalls or balance breaks.</li>
+          <li><strong>Tradeoff:</strong> trades away each deck's designed identity (the "album, not song" texture — see Building Market tab) for maximum variety. This is a bigger departure from RAW than the other two house rules here and hasn't been stress-tested as thoroughly — treat as an experimental option for players who've exhausted standard deck variety, not a default.</li>
+        </ul>
+      </div>
+    </details>
+
+    </div>
+  </section>
+
+  <section id="decks" class="tab-panel">
+    <h2>Deck Guide</h2>
+    <p class="placeholder-note">Light strategic flavor per deck — not a card list. Each deck leans toward certain themes without locking you into one strategy.</p>
+
+    <div class="deck-grid">
+      <div class="deck-card">
+        <h3>Herring (100s)</h3>
+        <p>The most single-theme-concentrated of the base decks — ships dominate numerically across all three tiers, but roughly two-thirds of cards in each tier are non-ship, so a ship-only read overstates how locked-in this deck actually is. <strong>Good first deck</strong> to learn the base rules on.</p>
+      </div>
+      <div class="deck-card">
+        <h3>Mackerel (200s)</h3>
+        <p>No single dominant theme — forests strong early, elders strong early-to-mid, haul-size strong mid-to-late. The throughline is resource-generation cards feeding into end-game resource-collection scoring. More combinatorial and less "solved" than Herring.</p>
+      </div>
+      <div class="deck-card">
+        <h3>Codfish / further expansion decks</h3>
+        <p>Progressively less concentrated than Herring, with more cards that reward <em>neglecting</em> part of the game (anti-building or anti-elder style effects) rather than a single clean category focus. Reported as higher-middle/upper tier for depth once you've learned the base game.</p>
+      </div>
+      <div class="deck-card">
+        <h3>Besøkende (Guest deck, Big Box)</h3>
+        <p>Adds a "guests" mechanic layering extra planning load on top of the base game — consistently cited as the crunchiest, most mechanically distinct deck available. Best saved until after you're comfortable with a base deck; it has a steeper difficulty curve than the others.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Sequencing decks.</strong> Start with Herring or Mackerel to learn the base rules and get a feel for a "vanilla" campaign, then move to a further expansion deck or Besøkende once the core loop (fishing phase, shares, elders, building tiers) is second nature — the crunchier decks add real strategic depth but assume that foundation is already solid.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const saved = localStorage.getItem('guides-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  function currentTheme(){
+    return root.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('guides-theme', next);
+  });
+})();
+
+function activateTab(tabId){
+  const btn = document.querySelector(`nav.tabs button[data-tab="${tabId}"]`);
+  if(!btn) return;
+  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('section.tab-panel').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+});
+</script>
 </body>
 </html>
