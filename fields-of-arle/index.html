@@ -431,7 +431,14 @@
     flex:1;
     overflow-y:auto;
     padding:0 2.75rem 2.5rem;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) var(--panel-raised);
   }
+  #modal-body::-webkit-scrollbar{width:8px}
+  #modal-body::-webkit-scrollbar-track{background:var(--panel-raised)}
+  #modal-body::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:4px}
+  #modal-body::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  #modal-body::-webkit-scrollbar-button{display:block;width:0;height:0}
   #modal-body > :first-child:not(h3){margin-top:2rem}
   .modal h3{
     position:sticky;
@@ -860,6 +867,7 @@
   const modalBody = document.getElementById('modal-body');
   function openModal(html){
     modalBody.innerHTML = html;
+    modalBody.scrollTop = 0;
     overlay.classList.add('active');
   }
   document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('active'));

@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaia Project — Strategy Guide</title>
+<meta name="description" content="A Gaia Project strategy guide: faction strategy, terraforming efficiency, tech track routes, and scoring optimization for solo play.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+  }
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+  h4{color:var(--bronze-bright);font-size:1.02rem;margin:1.3rem 0 .4rem}
+  p{margin:.5rem 0}
+  ul,ol{margin:.5rem 0;padding-left:1.3rem}
+  li{margin-bottom:.35rem}
+  strong{color:var(--ink)}
+
+  header.site{
+    position:relative;
+    padding:2.6rem 4.5rem 1.6rem 2rem;
+    max-width:1100px;margin:0 auto;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);font-size:.72rem;font-weight:700;
+    letter-spacing:.28em;text-transform:uppercase;color:var(--fjord-bright);
+    margin-bottom:.5rem;
+  }
+  header.site h1{font-size:2.2rem;margin:0 0 .5rem;text-shadow:0 2px 0 var(--shadow)}
+  header.site p{margin:0;color:var(--ink-dim);max-width:56ch}
+
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  nav.tabs{
+    position:sticky;top:0;z-index:10;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);font-size:.84rem;font-weight:700;letter-spacing:.05em;
+    color:var(--ink-dim);background:none;border:none;
+    border-bottom:2px solid transparent;padding:.7rem 1rem;
+    cursor:pointer;transition:color .15s;flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{color:var(--bronze-bright);border-bottom-color:var(--bronze)}
+
+  main{max-width:1100px;margin:0 auto;padding:2rem 2rem 5rem}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+  .tab-panel > .intro{color:var(--ink-dim);max-width:68ch;margin:0 0 1.8rem;font-size:1.02rem}
+
+  section.block{margin:0 0 2.6rem}
+  section.block > h2{font-size:1.3rem;margin:0 0 .3rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)}
+  section.block > .lede{color:var(--ink-dim);margin:.3rem 0 1.1rem;max-width:68ch}
+
+  .card-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;
+  }
+  .fac-card{
+    text-align:left;cursor:pointer;color:inherit;font:inherit;
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1rem 1.1rem;box-shadow:0 2px 8px var(--shadow);
+    transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+  }
+  .fac-card:hover{transform:translateY(-3px);border-color:var(--bronze);box-shadow:0 8px 20px var(--shadow)}
+  .fac-card:focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  .fac-card .fac-name{font-variant:small-caps;font-weight:700;color:var(--bronze-bright);font-size:1.08rem;letter-spacing:.02em}
+  .fac-card .fac-tag{display:block;margin-top:.3rem;font-family:var(--f-label);font-size:.72rem;letter-spacing:.04em;color:var(--fjord-bright);text-transform:uppercase}
+  .fac-card .fac-blurb{margin:.55rem 0 0;font-size:.86rem;color:var(--ink-dim)}
+
+  .card-plain{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1rem 1.2rem;margin-bottom:1rem;box-shadow:0 2px 8px var(--shadow);
+  }
+  .card-plain h3{margin:0 0 .4rem;font-size:1.05rem}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+  table.ref{width:100%;border-collapse:collapse;margin:.6rem 0 1.2rem;font-size:.92rem}
+  table.ref th,table.ref td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--line)}
+  table.ref th{font-family:var(--f-label);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;color:var(--fjord-bright)}
+  table.ref tr:last-child td{border-bottom:none}
+  .table-wrap{overflow-x:auto}
+
+  .recap{
+    margin-top:.8rem;padding:.75rem 1rem;border-left:3px solid var(--bronze);
+    background:var(--panel-raised);border-radius:0 .4rem .4rem 0;font-size:.92rem;color:var(--ink-dim);
+  }
+  .recap strong{color:var(--bronze-bright)}
+
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:var(--overlay);
+    z-index:100;align-items:center;justify-content:center;padding:2rem;
+  }
+  .modal-overlay.active{display:flex}
+  .modal{
+    background:var(--panel-raised);border:1px solid var(--line-bright);border-radius:.6rem;
+    max-width:720px;width:100%;height:92vh;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 20px 60px var(--shadow);position:relative;
+  }
+  #modal-body{flex:1;overflow-y:auto;padding:0 2.75rem 2.5rem}
+  #modal-body > :first-child:not(h3){margin-top:2rem}
+  .modal h3{
+    position:sticky;top:0;z-index:1;margin:0 0 .6rem;
+    padding:2rem 3rem .8rem 0;font-size:1.6rem;
+    background:var(--panel-raised);border-bottom:1px solid var(--line);
+  }
+  .modal-close{
+    position:absolute;top:1.25rem;right:1.5rem;z-index:2;
+    background:none;border:none;color:var(--ink-dim);
+    font-size:1.4rem;cursor:pointer;line-height:1;
+  }
+  .modal-close:hover{color:var(--ink)}
+
+  footer.site-footer{margin-top:2.5rem;padding-top:1.2rem;text-align:center;color:var(--ink-dim);font-size:.82rem;font-style:italic;border-top:1px solid var(--line)}
+
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    .modal-overlay{padding:0}
+    .modal{max-width:none;height:100vh;height:100dvh;border:none;border-radius:0}
+    #modal-body{padding:0 1.1rem 1.6rem}
+    .modal h3{padding:1.4rem 2.6rem .7rem 0;font-size:1.35rem}
+    .modal-close{top:.9rem;right:.8rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,nav.tabs button,.fac-card{transition:none}
+    .theme-toggle:hover,.fac-card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="kicker">Board Game Guide — Solo Play</div>
+  <h1>Gaia Project</h1>
+  <p>Faction strategy, terraforming efficiency, tech track routes, and scoring optimization — everything you need for solving Gaia Project as a solo puzzle.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-target="tab-factions">Factions</button>
+  <button class="tab-btn" data-target="tab-openings">Openings &amp; Economy</button>
+  <button class="tab-btn" data-target="tab-federations">Federations &amp; Terraforming</button>
+  <button class="tab-btn" data-target="tab-scoring">Scoring &amp; Endgame</button>
+  <button class="tab-btn" data-target="tab-tips">Tips</button>
+  <button class="tab-btn" data-target="tab-house-rules">House Rules</button>
+</nav>
+
+<main id="main">
+
+<section class="tab-panel active" id="tab-factions">
+  <p class="intro">Every faction in Gaia Project is a different lens on the same puzzle: turn a fixed set of planets, tracks, and tiles into the highest score the map will support. Faction choice should follow a setup read, not precede it — look at where the good tech tiles sit, what the round and final scoring reward, and how your home planets connect to the rest of the map before locking in. The notes below tell you what each faction is built to do, which openings actually work, and what tends to go wrong. Mastery of any of them takes dozens of games — treat early attempts as calibration, not a verdict on the faction.</p>
+  <div class="card-grid" id="faction-grid"></div>
+</section>
+
+<section class="tab-panel" id="tab-openings">
+  <p class="intro">The first round of Gaia Project decides more of the game than any other single round — a strong round-1 shape sets up everything that follows, and a weak one means playing catch-up for the rest of the game. This section covers the standard openings by name, the economy-track logic behind them, and the power-charging discipline that keeps your engine running once the openings are behind you.</p>
+
+  <section class="block">
+    <h2>Reading an opening as an end-of-round-1 state</h2>
+    <p class="lede">An "opening" isn't a fixed sequence of moves — it's the resource and building shape you want to reach by the end of round one, using whatever order of actions gets you there. Naming openings by their end state, not their move order, is what lets the same opening work across different starting positions and boosters.</p>
+    <div class="card-plain">
+      <h3>Research Lab + Trade Station + 2 Mines</h3>
+      <p>The most broadly available opening — nearly every faction can run it. Needs one or two home-planet-type planets within range 3 of your start (reachable via QIC and/or one or two adjacent planets needing a single terraform step), or navigation level 2. Costs 9 ore total, meaning you need to find 2 ore beyond your starting stock — a power action for ore, terraforming level 1, or the ore/QIC tech tile all work, and each of those routes can often be paired with a temporary navigation or free-terraform round bonus tile too.</p>
+    </div>
+    <div class="card-plain">
+      <h3>Academy (with or without an extra mine)</h3>
+      <p>Costs 11 ore, so you need 2 more than you start with — terraforming level 1, the 2-ore power action, or the ore/QIC tech tile all cover the gap, though you'll usually still convert your starting QIC into ore even after taking one of those routes. This opening builds economy without needing terraforming or QIC-navigation spend, but it costs tempo: you give up building a stronghold round 2-3 and fall behind on board spread against anyone who ends round one with a PI or several mines out. The early tech tiles and research steps this opening buys need to pay off and let you catch back up by round three at the latest, or the tempo cost wasn't worth it.</p>
+      <p>Three factions ease into this opening more naturally thanks to above-average starting ore: Ambas (extra ore income from round one), Geodens (extra ore from their first terraforming step), and Itars (start with one more ore than standard).</p>
+    </div>
+    <div class="card-plain">
+      <h3>Research Lab + 4 or more Mines</h3>
+      <p>Almost always requires navigation level 2. Spend your starting QIC plus the QIC granted by navigation level 1 to settle two gaia planets, provided a home-type world sits within navigation 2 of one of them. Only costs 8 ore total, easily covered by converting a QIC or taking an ore round booster.</p>
+    </div>
+    <div class="card-plain">
+      <h3>Planetary Institute + Trade Station + 2 Mines</h3>
+      <p>Same reach requirement as the Research-Lab-plus-Trade-Station line above. Costs 10 ore, so you need 3 extra — usually terraforming level 1 or the 2-ore power action. Strongest when the resulting planet structure can also form a federation on its own, turning the opening directly into board control rather than just economy.</p>
+    </div>
+    <div class="card-plain">
+      <h3>Planetary Institute + Research Lab</h3>
+      <p>Costs 11 ore — needs the 2-ore power action, terraforming level 1, or the ore/QIC tech tile to afford. A strong combo when it lands, but demanding to pull off against a competent opponent contesting the same actions and planets; it plays best sequenced later in turn order, since starting planets can then build cheap trade stations off the back of it.</p>
+    </div>
+    <div class="recap"><strong>In short:</strong> pick the opening by its end-of-round-1 shape, not a fixed move order — check reachability (range 3 or navigation 2) and where the 2-3 extra ore is coming from before committing, and remember every opening is a guideline a good player deviates from when the specific game calls for it.</div>
+  </section>
+
+  <section class="block">
+    <h2>Economy-track priority</h2>
+    <p class="lede">Across almost every faction and setup, the economy track is worth climbing early. The Lost Fleet expansion added an extra tile specifically to power down the economy track — a strong signal the base-game version was considered too strong relative to the alternatives. A few factions genuinely need a different track advanced first (Nevlas often prefer knowledge; Bal T'aks and Geodens are built around gaiaforming or terraforming from the start), but the default assumption should be economy first unless a faction-specific reason says otherwise.</p>
+    <p>Track your next round's income before acting, every round — it's easy to make a move that looks fine in isolation but leaves you resource-starved the following turn once you actually total up what's coming in.</p>
+    <div class="recap"><strong>In short:</strong> economy track first unless your faction has a specific reason to deviate, and always check next round's income before committing a turn's resources.</div>
+  </section>
+
+  <section class="block">
+    <h2>Power-charging discipline</h2>
+    <p class="lede">"Always Be Charging" is the single most repeated piece of advice across every faction's strategy discussion, and for good reason — power is the resource that turns into everything else (ore, credits, knowledge, QIC), and passing up a charge opportunity is passing up flexibility you can't easily recover.</p>
+    <p>Place starting mines and early structures within range of planets likely to be developed later — having neighbors to trigger charge is a resource in itself, not just a side effect of expansion. Prioritize contested actions early: power and QIC actions, key planets, advanced tech, level-5 track spots, and passing for a good booster are all scarce and first-come — don't leave them for later in the round if they're available now.</p>
+    <p>Don't spend resources just because you have them. Passing while still holding resources can be the stronger play if it sets up better timing against next round's scoring tile, and passing early in a round can be powerful if it secures a good booster and lets you claim a power action first thing the following round.</p>
+    <div class="recap"><strong>In short:</strong> charge whenever you can, contest scarce actions before building comfort actions, and don't spend resources reflexively — sometimes holding them into the next round's scoring window is worth more.</div>
+  </section>
+</section>
+
+<section class="tab-panel" id="tab-federations">
+  <p class="intro">Federations and terraforming are the two systems that convert raw expansion into lasting value — federations lock in tech-tile access and track position, gaiaforming turns spare power into new colonizable planets. Both reward efficiency: the fewest satellites for the federation you need, the fewest gaiaformers for the planets that actually matter to your plan.</p>
+
+  <section class="block">
+    <h2>How federation formation actually works</h2>
+    <p class="lede">Federation formation runs on three rules, applied in strict order every time: choose the planets, link them with the fewest possible satellites, then validate that the result couldn't be made smaller. Understanding the order — and that the rules don't get to second-guess each other — avoids most of the confusion new players hit.</p>
+    <p><strong>Choose:</strong> pick any planets you like to join into the federation, as long as their combined power value totals at least 7 (6 if playing the Xenos PI). There's no upper cap on that total, and you don't have to pick the closest planets available — any selection works, provided it can be linked without breaking the validation rule.</p>
+    <p><strong>Link:</strong> place satellites — usually by discarding power tokens — to connect the chosen planets, using the fewest satellites the geometry allows. This step can override your planet preferences: if the shortest path happens to pass through a cluster you didn't want in the federation, you have to include it anyway, and if a shorter path is achievable by hopping through an unwanted cluster, you must take that shorter path rather than avoid the hop.</p>
+    <p><strong>Validate:</strong> check whether the federation would still clear the 7-power threshold with one fewer planet cluster <em>and</em> one fewer satellite. If it would, the federation as built is invalid — restart from Choose with a different planet selection or a different linking path. This exists specifically to reward efficient federations (fewest satellites, fewest planets) and to close a loophole where a bigger, sloppier federation could otherwise stand unchallenged.</p>
+    <p>Once a federation is formed, it can never be lost — even if a later tech tile or building change drops its effective value below 7. Build efficient the first time; there's no way to accidentally under-build and fix it later without reforming from scratch.</p>
+    <div class="recap"><strong>In short:</strong> federations get built as tight as the map geometry allows, not as loose as you'd prefer — the linking step can force you through planets you didn't want, and the validation step punishes any federation that could've been smaller.</div>
+  </section>
+
+  <section class="block">
+    <h2>Building federations efficiently</h2>
+    <p class="lede">Because Choose has no upper cap but Validate punishes waste, the sweet spot is landing as close to exactly 7 power as the map allows — comfortably above the threshold if satellites are cheap to place, but not so far above it that you're bleeding structures a smaller federation could've captured just as well.</p>
+    <p>Your first federation should include at least a stronghold-tier building (PI or Academy) and a Trade Station or Research Lab — a first federation made mostly of mines wastes the federation's real value, since bigger buildings contribute more power per structure toward the threshold. Aim for three federations across a full game as a baseline target, with one or two advanced techs and a track-top or two layered on as the game allows; a fourth federation is a bonus worth chasing only if it doesn't cost meaningful tempo elsewhere.</p>
+    <p>Don't upgrade a building that's already inside a federation unless the upgrade is to a Research Lab — a Research Lab upgrade is worth it even mid-federation since it still generates a fresh tech tile, but other upgrades inside an already-formed federation are largely wasted resource spend.</p>
+    <div class="recap"><strong>In short:</strong> land federations right around the 7-power threshold, front-load a stronghold-tier building into the first one, and don't spend resources upgrading buildings that are already locked into a federation unless it's specifically a Research Lab.</div>
+  </section>
+
+  <section class="block">
+    <h2>Terraforming and gaiaforming — spend deliberately, not reflexively</h2>
+    <p class="lede">The game is titled Gaia Project, but in the base game, starting an actual gaia project is usually the last thing you want to do early. Gaiaforming is slow and resource-intensive, and easier ways exist to get onto new planets in most cases — treat it as a tool for specific payoffs, not a default expansion method.</p>
+    <p>Never pay a terraforming cost of 2 or 3 ore just to place an early mine — it's resource-inefficient this early in the game, when every ore is doing double duty funding your economic engine. Gaiaforming specifically is worth doing only when it scores heavily (a round or final scoring tile tied to gaia planets) or synergizes directly with your faction's ability (Terrans' cheap gaia-planet access, Bal T'aks' gaiaformer-to-QIC conversion) — outside those cases, the QIC and power spent gaiaforming usually returns more value spent elsewhere.</p>
+    <p>Because gaia planets are heavily contested early — fast-expanding factions like Ambas and Gleens chase them from round one — doing well with gaia-planet scoring in the mid-to-late game usually comes down to mastery of transdimensional planets specifically, not racing for the scarce, already-contested gaia planets that exist early. Plan gaia-planet scoring around rounds 4-6 and the final-scoring tile, not an early rush.</p>
+    <div class="recap"><strong>In short:</strong> don't gaiaform without a specific scoring or faction-synergy reason, don't pay steep terraform costs for early mines, and if gaia-planet scoring matters to your plan, expect to capture it through transdimensional-planet mastery mid-to-late game rather than an early rush.</div>
+  </section>
+</section>
+
+<section class="tab-panel" id="tab-scoring">
+  <p class="intro">Gaia Project's scoring is wide open by design — round tiles, final scoring tiles, tech-track position, and advanced tech all pay out independently, and a well-built scoring plan can be worth ignoring round bonuses almost entirely. This section covers how to read a scoring setup and convert your engine into points across the back half of the game.</p>
+
+  <section class="block">
+    <h2>Read the scoring setup before committing to a plan</h2>
+    <p class="lede">Every game varies which advanced tech tiles are available and where they sit, which tracks hold the best early-game economic tiles, and what the final scoring rewards — so working out <em>what you're even aiming for</em> has to come before working out the logistics of getting there. Check, in order: which advanced tech tiles are in play and on which tracks (this governs your entire mid-to-late game scoring), which tech tracks hold the strongest early economic tiles (this governs your opening), and what the planet distribution implies for a viable round-1 opening. Later rounds offer more flexibility to recover from a mediocre setup read; round one does not — a single planet's placement can swing a final score by 10-20 points.</p>
+    <div class="recap"><strong>In short:</strong> read tech-tile placement and final scoring before picking an opening, not after — round one has the least room to recover from a bad read.</div>
+  </section>
+
+  <section class="block">
+    <h2>Round scoring vs. built scoring</h2>
+    <p class="lede">Round-scoring tiles matter far less than they first appear to. Any single round-scoring tile only applies once across the whole game, so a faction with no natural affinity for it can simply score points elsewhere that round and ignore it entirely — it only becomes something you have to actively compete for if it's also the final-scoring category. A genuinely well-built scoring engine, running off the right advanced tech tiles and scoring action spaces, can be lucrative enough that it's correct to neglect round bonuses almost entirely in favor of it.</p>
+    <p>Don't prioritize round scoring in rounds 1-3 specifically — building the underlying economy nets more points long-term in the early game than chasing an early round bonus does. Shift toward round-scoring awareness once the engine is running, roughly rounds 4-6, and favor income-generating boosters in rounds 1-3, point-generating boosters in rounds 4-6 — income compounds when you take it early, points compound when there's an engine already in place to feed them.</p>
+    <div class="recap"><strong>In short:</strong> build economy first, chase round scoring second — and remember a single round tile is rarely worth restructuring your whole plan around unless it's also the final-scoring category.</div>
+  </section>
+
+  <section class="block">
+    <h2>Advanced tech and tech-track position</h2>
+    <p class="lede">Advanced tech tiles are usually the largest single point source in a well-played game, and which ones are available (and where they sit on the tech board) should shape your entire mid-game plan, not just be grabbed opportunistically as they come up.</p>
+    <p>Focus on one or two tech tracks early rather than spreading evenly — getting ahead on a single track secures either the advanced tech sitting atop it or the level-5 spot, both of which are scarce and contested. Spreading thin across four tracks usually means arriving second to all of them instead of first to one or two.</p>
+    <div class="recap"><strong>In short:</strong> concentrate on one or two tracks early to actually win the race for their advanced tech or level-5 spot, rather than spreading evenly and losing every race by a turn.</div>
+  </section>
+
+  <section class="block">
+    <h2>Final scoring — plan for it, don't chase all of it</h2>
+    <p class="lede">Final-scoring tiles are the one category where a single round-scoring-style tile actually matters continuously, since it pays out at game end based on your position across the whole game, not a single round's action. Not every faction can compete for every final-scoring category — some (satellites, sectors, for certain factions) are legitimate write-offs worth ignoring in favor of the categories your faction is actually built to compete in, rather than spreading effort thin trying to place in all of them.</p>
+    <div class="recap"><strong>In short:</strong> identify which one or two final-scoring categories your faction can realistically compete for, and don't waste turns chasing categories that are a structural mismatch for your engine.</div>
+  </section>
+</section>
+
+<section class="tab-panel" id="tab-tips">
+  <p class="intro">A scannable set of cross-faction fundamentals — the mistakes that cost new players the most, and the habits that separate a good game from a great one, independent of which faction you're piloting.</p>
+
+  <section class="block">
+    <h2>Early game</h2>
+    <ul>
+      <li><strong>Never pay a steep terraforming cost for an early mine.</strong> Placing a mine for 2 or 3 ore of terraforming cost this early is resource-inefficient — that ore is worth more staying in your engine than buying one extra planet before round 3.</li>
+      <li><strong>Don't run ore-poor.</strong> Ore is the tightest resource in the game for most factions — check your ore position before committing to a build, not after.</li>
+      <li><strong>Don't open with your stronghold</strong> (Planetary Institute or Academy) unless your faction specifically wants to — Terrans, Firaks, and situationally Lantids are the exceptions. For everyone else, a round-1 stronghold looks efficient on paper but doesn't generate enough economic return that early to justify the resource investment; build economy first and place the stronghold round 3-4 once there's income to actually convert. This is especially true for factions whose stronghold converts existing resources (Hadsch Hallas, Nevlas) — there's nothing to convert yet on turn one.</li>
+      <li><strong>Place starting mines within neighbor range.</strong> Having neighbors is a resource in itself — it's your access to leech, which several factions depend on entirely.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Every round</h2>
+    <ul>
+      <li><strong>Always Be Charging.</strong> Take every power-charge opportunity available — it's the resource that converts into everything else, and passing on it is passing on flexibility you can't recover later.</li>
+      <li><strong>Prioritize contested actions first.</strong> Power and QIC actions, key planets, advanced tech, level-5 track spots, and passing for a strong booster are all scarce and first-come — resolve these before spending a turn on something uncontested that'll still be available later.</li>
+      <li><strong>Track next round's income before acting.</strong> A move that looks fine in isolation can leave you starved the following turn if you haven't actually totaled up what's coming in.</li>
+      <li><strong>Rarely spend QIC as an ore substitute early game.</strong> QIC is usually worth more boosting range or funding a QIC action later than it is as an emergency ore stand-in.</li>
+      <li><strong>Try to claim the 2-ore or 7-credit power action first</strong> if you have 4 power in bowl 3 — sometimes worth burning power just to clear the threshold and grab it before an opponent does.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Mid-to-late game</h2>
+    <ul>
+      <li><strong>Don't upgrade a building already inside a federation</strong> unless it's an upgrade to a Research Lab — that one still generates a fresh tech tile and is worth the spend; any other mid-federation upgrade mostly wastes resources.</li>
+      <li><strong>Your first federation should include a stronghold-tier building</strong> (PI or Academy) plus a Trade Station or Research Lab — a federation built mostly from mines wastes the federation's real value.</li>
+      <li><strong>Don't spend resources just because you have them.</strong> Passing while holding resources can be the stronger play if it sets up better timing against next round's scoring, or lets you grab a good booster and claim a power action first thing next round.</li>
+      <li><strong>Favor income boosters rounds 1-3, point boosters rounds 4-6.</strong> Income compounds when taken early; points compound once the engine built from that income is actually running.</li>
+      <li><strong>Aim for three federations, one or two advanced techs, and the top of one or two tech tracks</strong> as a baseline target for a solid game — treat a fourth federation as a bonus, not a requirement, unless your faction is specifically built to chain them (Ivits, Bescods).</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>General discipline</h2>
+    <ul>
+      <li><strong>Gaia Project rewards repetition.</strong> It's unforgiving of bad early decisions in any single game, but the setup varies enough (map, tech-tile placement, scoring tiles) that mastery genuinely takes 50-plus games — treat a rough game as calibration data, not a verdict on a faction or approach.</li>
+      <li><strong>Conserve your green research-track advances.</strong> Track-tops and advanced tech tiles are powerful and worth planning several turns ahead for, not spending reflexively the moment you have the resources.</li>
+    </ul>
+  </section>
+</section>
+
+<section class="tab-panel" id="tab-house-rules">
+  <p class="intro">Gaia Project already plays as a near-solvable puzzle once the setup is fixed — full information, no dice, no hands, no bluffing. Almost everything that happens after setup is a deliberate, visible choice. That means the house-rule surface here is small: the goal isn't to strip randomness out of turn-to-turn play (there's barely any to strip), it's to make the <em>setup itself</em> reproducible and comparable across attempts, so score improvements reflect better play rather than a luckier tile draw.</p>
+
+  <section class="block">
+    <h2>What's already deterministic</h2>
+    <p class="lede">Once a game starts, every action is a visible choice against fixed rules — no die rolls, no card draws mid-turn, no hidden opponent hands to plan around in a solo game. The entire skill test is planning against a fully known board. This is why Gaia Project suits static, comparable solo attempts better than most games in this collection: there's very little left to house-rule once setup is fixed.</p>
+  </section>
+
+  <section class="block">
+    <h2>Fix the setup for comparable replays</h2>
+    <p class="lede">The randomness worth addressing is entirely in setup: which map tiles get used and how they're arranged/rotated, which tech tiles land on which tracks, which round-scoring and final-scoring tiles are drawn, and which round boosters are available. Left random, two solo attempts aren't really the same puzzle — a fixed setup is what makes score comparisons across attempts meaningful.</p>
+    <p><strong>Static setup (recommended default):</strong> pick one map assembly, one tech-tile-to-track distribution, one set of round-scoring tiles (in a fixed round order), and one final-scoring pair — then play that exact configuration every attempt. This turns the game into a fully solvable puzzle: full information from turn one, plan the whole game up front, no round-to-round re-assessment of what the setup even is. Matches this collection's general preference for heavier, puzzly solo play over reactive, re-rolled setups.</p>
+    <p><strong>Reveal-only (lighter, fresher variant):</strong> randomize the setup as the rules describe, but do the full reveal — map, tech tracks, scoring tiles, boosters — before any placement or action happens, exactly as a real multiplayer game would. This keeps a new puzzle every attempt at the cost of attempt-to-attempt comparability; use it when the goal is variety rather than tracking improvement on a fixed benchmark.</p>
+    <div class="recap"><strong>In short:</strong> for tracking skill improvement across attempts, fix the setup once and replay it; for variety, keep the setup random but resolve the full reveal before your first move, same as the base rules already do.</div>
+  </section>
+
+  <section class="block">
+    <h2>What not to change</h2>
+    <p class="lede">Federation formation, the power-charging cycle, tech-track costs, and scoring math are the actual puzzle — none of it benefits from a house rule, and simplifying any of it would remove the game's real skill test rather than remove randomness. The three-rule federation-formation sequence in particular is precise by design (see Federations &amp; Terraforming) and isn't a source of luck to begin with — it's a deterministic geometry problem, exactly the kind of thing this collection's solo preferences favor keeping intact.</p>
+  </section>
+
+  <section class="block">
+    <h2>Faction selection</h2>
+    <p class="lede">In multiplayer, faction choice runs through a simultaneous secret-bid auction — irrelevant in solo, where there's no competing bidder to out-value. Just pick the faction directly for the attempt you're planning. If comparing scores across multiple solo playthroughs of the same fixed setup, keep the faction fixed too (change one variable at a time), and only swap factions once you're deliberately starting a new benchmark.</p>
+  </section>
+</section>
+
+</main>
+
+<footer class="site-footer">Compiled from community strategy across BoardGameGeek, Steam Community guides, and independent strategy write-ups. Not affiliated with Feuerland Spiele.</footer>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const root = document.documentElement;
+    const saved = localStorage.getItem('guides-theme');
+    if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+    function currentTheme(){
+      return root.dataset.theme ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('guides-theme', next);
+    });
+  })();
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+
+  const FACTIONS = [];
+
+  FACTIONS.push({
+    name: "Terrans",
+    tag: "Beginner · Gaia-planet specialist",
+    blurb: "Reach transdimensional planets directly through blue-green-purple color proximity, then convert that reach into gaia-planet scoring.",
+    body: `
+      <p>Terrans sit one color step from purple: blue and green planets border transdimensional (gaia) planets on the color wheel, so a Terran with modest navigation range can settle gaia planets other factions have to gaiaform to reach. That's the whole identity — a gaiaforming faction that mostly doesn't need to gaiaform.</p>
+      <h4>What to build toward</h4>
+      <p>Want in the setup: the 3VP-per-gaia-planet tech tile (their signature scorer — every gaia planet you were going to settle anyway becomes points too), the 4-power-charge tech tile (lets you self-charge instead of depending on neighbors triggering your bowl-2 tokens), and an ore-plus-power-tokens round booster if it's available round 1 to jumpstart the economy. Because you can subsist on blue, green, and purple planets alone, blue or green neighbors don't threaten your expansion the way they threaten other factions.</p>
+      <h4>Opening lines</h4>
+      <p>The core tension across every Terran opening is ore-and-credit tightness — a Planetary Institute plus Research Lab plus two gaiaformers looks efficient on paper (starting ore plus a booster plus a power action for ore covers the Research Lab and PI, and the PI's own income compounds fast enough to fund a Research Lab the following round without touching power reserved for other things), but the credit side is easy to undercount: building a gaia mine round 2 costs ore <em>and</em> a real credit outlay, not just the ore. Treat this line as an opportunistic pivot once your economy is already swinging favorably, not a fixed script to force from turn one — and only worth pursuing if something valuable sits atop the economy track.</p>
+      <p>The alternative is a navigation-rush: open at navigation level 2 and delay the PI. Where navigation is normally a drag on other factions' economy, it accelerates a Terran's — every step of navigation range converts directly into more gaia planets reachable, and gaiaforming becomes something that pays for itself rather than costing tempo. This line spams mines and trade stations early, delays big buildings to mid-game, and on a map that supports it can put out more total structures than any PI-first line manages. It only works if the map actually supports pulling three or four mines out round one — check reachability before committing to it, not after.</p>
+      <p>A heavier tech-only line (no PI at all) is viable when transdimensional-planet competition is fierce enough that racing for gaia planets isn't worth it — treat the passive power gain from gaiaforming as strong enough on its own, and play as a generic tech faction with a gaiaforming bonus layered on top, similar in spirit to how Hadsch Hallas can skip their own stronghold.</p>
+      <h4>What derails a Terran game</h4>
+      <p>Other gaiaforming factions in the setup are the single biggest threat — Itars, Bal T'aks, and Ivits all compete directly for the same purple planets, and any final or late-round scoring tied to gaia planets pulls every other faction into teching toward gaiaforming too, crowding out the niche that makes Terrans strong in the first place. Losing a homeworld barely matters to a Terran plan; losing access to transdimensional planets guts it, since that's where the actual scoring lives.</p>
+      <div class="recap"><strong>In short:</strong> Terrans convert cheap gaia-planet access into points. They want the 3VP/gaia tile and self-sufficient power charging, they're strongest when no other gaiaforming faction is competing for the same purple planets, and navigation — normally a tax — is actually an accelerant for them.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Lantids",
+    tag: "Advanced · Occupied-planet parasite",
+    blurb: "Builds unupgradable mines directly on planets other factions already hold, converting that intrusion into knowledge income.",
+    body: `
+      <p>Lantids' entire identity is one ability: they can place a mine on any planet another faction already occupies, regardless of who's building there. Those parasite mines can't be upgraded and are resource-limited, so the payoff caps out — but every one you place is knowledge income you wouldn't otherwise have access to.</p>
+      <h4>The core plan: PI first, then parasite</h4>
+      <p>The proven approach is building your Planetary Institute by round 3, then using that same round to start placing mines on already-occupied planets — timing matters here specifically because you need the PI up before the parasite mines start paying off in knowledge, not after. Pair this with whichever tech tile boosts PI or Academy power value, since it accelerates the whole sequence. Done well, this nets three federations, real tech-track progress, and strong scores off the final-scoring objectives, purely by turning other players' expansion into your knowledge engine.</p>
+      <h4>The untested alternative</h4>
+      <p>On a map with a lot of early neighbors — planets already reachable and occupied near your start — spamming mines in rounds 1-2 instead (with a couple of Trading Stations for coin income) can produce a large worker income for the rest of the game, potentially making the PI-focused plan unnecessary. The tradeoff is real: mine-spam generates resources all game but starves your knowledge track, which hurts your ability to climb tech. Since Lantids have no extra starting navigation, whichever line you pick, plan on investing in income-generation tech early rather than expecting free reach.</p>
+      <div class="recap"><strong>In short:</strong> Lantids turn other players' buildings into your knowledge income, but only once your PI is up. Time the PI before the parasite-mine spree, and weigh whether a neighbor-dense map makes an ore-and-credit mine-spam opening better than the knowledge-focused standard line.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Xenos",
+    tag: "Beginner-intermediate · Federation-efficient teching",
+    blurb: "An extra starting mine and a knack for the AI track make Xenos the most flexible opener in the game — strong on almost any tech path.",
+    body: `
+      <p>Xenos start with a third mine most factions don't get, which unlocks openings that would be awkward or impossible for anyone else — a double Research Lab opening, or Research Lab plus Trade Station plus two mines, both come in cheaper than the equivalent line for other factions. That flexibility compounds: Xenos can profitably rush the AI track (QIC) when most factions avoid it early for fear of losing federation-tile value, and they function best as a teching faction that builds up rather than out — reaching four federations off as few as nine buildings.</p>
+      <h4>Openings</h4>
+      <p>The default line opens AI to level 3: it unlocks the 4-QIC action, adds three power cycles, and leaves a spare QIC on top of what's needed for expansion — which synergizes directly with the extra starting mine. From there, Research Lab plus Trade Station plus two mines (only 8 ore with the extra mine) gives an additional power charge and more flexibility in who you charge; a double Research Lab opening is underrated and segues cleanly into a QIC academy when you're not committing to navigation, letting two labs compensate for otherwise-low knowledge income. A slower alternative — AI level 2 (or navigation 1), then a QIC booster or the ore/QIC tech tile to fund the 4-QIC action — frees up a tech bump elsewhere (economy, science, or gaiaforming) before returning to AI 3 later.</p>
+      <p>Xenos can also lean into gaiaforming when tile 6 makes it attractive: open with a QIC/credit booster, take the ore/QIC tech tile, move to AI 2, take terraforming level 1, then push to gaiaforming 2 — this sets up three extra mines in round 2 including an accessible transdimensional planet, and works especially well with an ore/points booster that funds continued gaiaforming without losing power charge.</p>
+      <h4>Where the points come from</h4>
+      <p>Final scoring is a genuine weak point for Xenos — planet-type scoring is the one exception, reachable via a terraforming rush off the AI-3 opening. Otherwise, points come from federations (four federations in a typical game nets a solid baseline on their own) and from the top of the AI track, which Xenos can consistently claim by round 3 or 4 with decent positioning. If a strong tile sits atop AI — an income tile, points per mine or trade station, points per planet type, points per federation, or a tech-track bump — that single tile becomes a major scorer for a faction that otherwise struggles to find points elsewhere.</p>
+      <p>The one recurring tension across a Xenos game is QIC: heavy early spending fuels a strong opening, but you'll also need QIC late to keep contesting actions and colonizing further. Developing the PI or the QIC academy reasonably early is usually what resolves this — without one of the two, QIC scarcity catches up in the mid-game.</p>
+      <div class="recap"><strong>In short:</strong> Xenos is the most forgiving faction to open with — the extra mine buys flexibility across almost every tech track. Lean into AI and federation count rather than final scoring, and get a QIC source online before the early-game QIC spending catches up with you.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Gleens",
+    tag: "Advanced · Conditional, needs a specific setup",
+    blurb: "Fast early gaia-planet expansion undercut by a structural flaw: no way to boost navigation once opponents cut off their reach.",
+    body: `
+      <p>Gleens have a real design tension at their core: their 8-ore start looks generous, but it's really just the resource shape of having navigation level 1 already — once you account for the QIC they lose relative to other factions, they're actually an ore down. They score well early via a round-1 gaia-planet mine spree and again mid-game if gaiaforming to level 3+ goes uncontested, and they expand fast thanks to easy access to printed gaia planets as free navigation "hops."</p>
+      <h4>The fatal weakness</h4>
+      <p>Unlike every other faction, Gleens have no built-in way to boost navigation. A strong opponent who cuts off their expansion early doesn't just slow them down — it stops the whole plan, because the entire faction is built around chaining gaia-planet hops that navigation range would otherwise extend. Games where this happens tend to end well under 100 points. Poor tech rates are a secondary issue shared with other expansive factions, but for Gleens it compounds instead of being offset, because their actual expansion (not just their teching) is what's vulnerable.</p>
+      <h4>When to pick them</h4>
+      <p>In base form, treat Gleens as unplayable unless a range-boosting round booster is available <em>and</em> Ambas isn't in the setup (Ambas competes for the same expansion niche and consistently wins it). Even then, another faction is often still the better choice. What you actually want in a setup, roughly in priority order: no Ambas; a range booster genuinely accessible (not likely to be sniped early); a navigation-2 board layout with five or more mines reachable; gaia scoring available round 1; the 4-coin and 3VP-per-gaia tiles sitting under navigation or a wildcard track; and a strong advanced tech atop gaiaforming with zero competing gaia scoring elsewhere and the 3VP/gaia tile specifically under navigation rather than gaiaforming (this keeps Bal T'aks out of the same race).</p>
+      <p>Their federation via the PI is useful specifically on federation-scoring rounds, and doubly so if the top-of-navigation advanced tech is strong. Outside navigation, Gleens have no ability that lets them take multiple tech steps quickly, so don't expect tempo on any other track.</p>
+      <h4>Opening-build implication</h4>
+      <p>Because Gleens already start with navigation 1, the QIC academy — whose whole purpose elsewhere is offsetting the "navigation tax" for factions that don't sit on it naturally — is a weak early build for them; they've already paid half that tax just by their starting position. A round-1 gaia-planet mine spree, played straight, tends to roughly cover the value lost from skipping QIC actions altogether.</p>
+      <div class="recap"><strong>In short:</strong> Gleens are a conditional pick, not a default one — they need a favorable setup (range booster present, no Ambas) to function at all, because they have no way to recover from an early navigation block.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Taklons",
+    tag: "Intermediate · Power-cycling engine",
+    blurb: "The Brainstone occupies one power slot but spends as three — Taklons win by cycling it as often as possible, not by hoarding power.",
+    body: `
+      <p>Taklons' whole ability is about how many times you cycle the Brainstone, not raw power volume — since there's only one, more than two power tokens isn't needed just to shove it to bowl III. The mantra is "always keep it moving": many small power bumps beat one large income. With the Brainstone in play, free actions stop being inefficient — spending it twice as a free action for one ore each is roughly as good as spending it alongside a normal token for the two-ore power action, and never leaving it parked in bowl III (burn it down first, take the free conversion) is the single most important habit to build.</p>
+      <h4>Play principles</h4>
+      <p>Burn power tokens aggressively to push the Brainstone toward bowl III — using Gaia Projects to remove bowl-I tokens instead of your own preserves your pool while still cycling it. Maximize how often you get power income at all: at least one power-income source (economy level 1, or the ore-plus-power tech tile) matters because it keeps the Brainstone ready from round one, and the "action: 4 power" tech tile is close to mandatory. Two applications of the 3-power-to-1-ore action usually beat one application of the single 4-power-to-2-ore action — and the same logic favors splitting most power-to-resource conversions rather than taking the biggest single action available.</p>
+      <p>Taklons want to colonize planets three range away, not two — building two spaces from another player means <em>you'd</em> be the one paying out charge when they upgrade, which is backwards from the entire plan. Start and expand where you have many neighbors likely to build; isolation means no leech, and no leech means the engine never starts.</p>
+      <h4>Planetary Institute: contested, situationally either way</h4>
+      <p>Whether to build the PI at all divides even strong players. The case for it: it fuels burning huge amounts of power to shove the Brainstone from bowl II to III, and a Research Lab into Academy into round-2 PI sequence (taking the 4-power tech tile, then a power/ore cycle tech tile) can be stronger than rushing PI turn one. The case against: if you avoid parking other power tokens in bowl I, leech alone cycles the Brainstone fast enough that PI isn't necessary — get the 4-power tech tile, maybe one or two economy steps for power income plus an ore/power income tile, and prioritize early navigation for board position instead, since good leech setup (trade stations and labs sited where opponents will build next) can hit four-plus Brainstone uses a round without ever building a PI. If satellites are a final-scoring condition, or you're pursuing gaiaforming, the PI becomes an easy way to gain the power tokens both of those need regardless of the general debate.</p>
+      <h4>Gaiaforming: usually someone else's job</h4>
+      <p>Most experienced Taklons play prefer opponents advance gaiaforming, not you — it ties up their power tokens in the Gaia bowl (less competition for power actions), lets you invest that time in navigation and economy instead, and telegraphs where they'll build next, which eases your leech planning. Gaiaforming with the Brainstone in play does create real friction: your starting power distribution doesn't naturally suit it, and each Gaiaformer typically needs two actions a round (mine plus Gaiaformer placement) to return enough tokens to the Gaia bowl. An early PI resolves that friction and is the main condition under which heavy Taklons gaiaforming makes sense — otherwise it's a trap unless the setup specifically rewards it.</p>
+      <h4>Converting the engine into points</h4>
+      <p>Good economy doesn't automatically win with Taklons — the harder half of the faction is having an actual plan for converting resources into victory points, whether that's tech-track scoring, QIC-action points, or aligning with round-scoring boosters (Taklons rely less on resource-boosters than most factions, since their engine runs on leech). Aim for three federations minimum given the volume of buildings a good Taklons game produces; a fourth is a bonus, not a target.</p>
+      <div class="recap"><strong>In short:</strong> Taklons win by cycling the Brainstone constantly, not by hoarding charge. Build near neighbors, never park the Brainstone in bowl III, let opponents gaiaform instead of you, and have a concrete plan for turning the resulting economy into points before the game's back half arrives.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Ambas",
+    tag: "Intermediate · Fast expansion, federation rush",
+    blurb: "Easy navigation-2 access plus extra ore lets Ambas terraform and federate faster than almost anyone — at the cost of tech-track tempo.",
+    body: `
+      <p>Ambas sit one tech step from navigation 2 and produce extra ore each round, which together let them start digging as early as round two — turning what's normally an early-game trap (terraforming without the range or income to support it) into a strength. Fast terraforming means more power on the board, which means faster federations: under ideal conditions Ambas can reach four natural federations and even flirt with a fifth via level-5 terraforming, though four is the more typical, achievable target since chasing a fifth usually costs tech-track tempo they can't spare.</p>
+      <h4>The core strength: two fast federations</h4>
+      <p>An underrated Ambas strength is the ability to form two federations quickly, often in the same round the PI comes out — well before most factions manage even one. This gives outsized control over whichever research tracks you've committed to (typically terraforming and navigation) even with a modest total tech-step count by game end, since Ambas have no tech-step-gaining advantage and typically finish with only 20-36 tech-step points.</p>
+      <h4>Openings</h4>
+      <p>An academy opening is viable thanks to the extra ore and two starting QIC (useful for reaching new tiles, or take a round booster with extra range instead depending on tech-tile placement). An economy-first opening, saving navigation and terraforming for later, is appealing specifically if the 4-money tech tile sits on one of those tracks. A terraforming-first opening synergizes most naturally with the navigation-1 start and ore bonus — and directly fixes Ambas' structural weakness of having planets that mostly aren't on tile edges, meaning navigation 2 alone often isn't enough to expand without separately investing in QIC or terraforming.</p>
+      <h4>Weaknesses to plan around</h4>
+      <p>Ambas usually need an early credit source, which opponents can exploit by taking the 7-credit power action away from them — especially damaging if the 4-credit tech tile doesn't land on a track they're already climbing, since it can badly slow expansion. They also struggle to generate QIC later in the game, since early QIC gets consumed colonizing gaia planets and expanding, and combined with the tech-track limitation this makes it hard to contest QIC actions in the late game the way other factions can.</p>
+      <p>Weigh the navigation advanced tech heavily when picking Ambas — it's the track where they can most reliably claim top spots and advanced techs; outside navigation, expect to get squeezed by faster-teching opponents.</p>
+      <div class="recap"><strong>In short:</strong> Ambas trade tech-track tempo for expansion and federation speed. Lean into terraforming and navigation, grab federations early while the window is open, and watch your credit reserves — a coin-poor Ambas is an easy target.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Hadsch Hallas",
+    tag: "Beginner-intermediate · Generalist, no fixed plan",
+    blurb: "No built-in restriction or gimmick — Hadsch Hallas reads each game's setup and takes whatever scoring path it rewards.",
+    body: `
+      <p>Hadsch Hallas is effectively a faction without a special ability shaping its plan — a strong coin economy and a PI that converts resources you already have into other resources, rather than a gimmick to build around. That makes them robust across almost any setup, but it also means there's no predetermined path: you have to read each game and pick the correct approach yourself, rather than following a script.</p>
+      <h4>Delay the stronghold</h4>
+      <p>Avoid building the Planetary Institute round one. Build it mid-game, sometimes even later, once you've generated the coin income that actually makes it worth having — Hadsch Hallas' PI converts credits into resource-generating actions, and that conversion is only valuable once there's a real credit stockpile to convert. Committing to the economy track early, with a strong second track (terraforming is usually best, navigation only if the map demands it), sets up that stockpile.</p>
+      <h4>Play opportunistically, not economically</h4>
+      <p>Because there's no built-in restriction to route around, the right approach is grabbing whichever path gives points directly rather than building economy first to enable a VP engine — take boosters that grant VP rather than ones that boost economy (this also denies useful economy boosters to opponents). Watch specifically for round-scoring tiles and advanced tech that reward building trading posts, or reward passing while holding labs — these synergize with Hadsch Hallas' naturally strong trading-post economy, since you'll usually upgrade those posts to labs later anyway.</p>
+      <p>QIC actions are a genuine strength: the PI's credit-to-QIC conversion lets Hadsch Hallas largely ignore navigation, since QIC is otherwise hard for them to generate. A federation-scoring tech tile that costs a modest credit outlay for a large VP return is excellent value once the PI is online.</p>
+      <h4>Endgame scoring</h4>
+      <p>Expect to compete for first place whenever final scoring rewards buildings on the board — most buildings, most buildings in federations, and (slightly less reliably) most sectors. Most-buildings in particular should be a near-automatic win whenever it's in play. Structure count isn't mandatory, though — with only nine buildings it's possible to reach three federations, so if the setup doesn't reward wide building, focus on the scoring synergies (round scoring, QIC actions, coin-to-VP conversion) Hadsch Hallas is naturally good at instead of forcing width.</p>
+      <div class="recap"><strong>In short:</strong> Hadsch Hallas has no fixed identity — read the setup, build the stronghold mid-game once coin income is flowing, and take whatever scoring path (building count, trading-post synergy, or QIC actions) the tiles in play actually reward.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Ivits",
+    tag: "Advanced · One growing federation",
+    blurb: "Space stations skip navigation range entirely. One single federation grows with every new connected planet, rewarding building up over spreading out.",
+    body: `
+      <p>Ivits' space stations bypass navigation range-steps outright, making expansion cheap in a way no other faction matches — and because they form one single, ever-growing federation rather than several separate ones, the incentive flips: build up (tech, upgrades) rather than out (spreading wide). New players sometimes find this disorienting since there's no juggling of multiple federation plans — just build and upgrade, and the federation grows itself as your connected cluster crosses power thresholds.</p>
+      <h4>Opening</h4>
+      <p>Ivits start with a PI instead of the usual two mines, which makes them ore-poor early — lean on the dig or 2-ore power action to help fund a Research Lab out. The most common and reliable opening is PI plus Space Station plus Trading Station plus Mine, which is enough combined influence to form a federation off just three planets — sector 7 (two gaia planets near a red planet) is the most cited map location to run this, since it reliably supports the whole line in one move. Once the federation token is in hand, upgrading the Trading Station to a Research Lab is standard; which tech track to climb first (economy, terraforming, gaiaforming, science) stays flexible.</p>
+      <p>Central, clumped planet positions — red, orange, blue, and gaia close together — make Ivits considerably stronger, since their single-federation growth benefits from density more than spread. In a four-player game this clumping can also mean getting crowded out, so a backup home planet within reach of your primary cluster is worth securing in case a rival (commonly Ambas) contests your first choice.</p>
+      <h4>Scoring priority by round</h4>
+      <p>Round one is the best window to grab federation-scoring objectives, since Ivits form federations more easily than anyone else that early. Round two suits PI/Academy scoring, since most factions either rush their stronghold round one or wait until round three — Ivits building an Academy round two lands in an uncontested gap. Round three shifts to mines, terraforming, or mining onto gaia planets to set up ore income for the back half. From round four on, adapt to whatever the opening set up and whatever scoring tiles remain live.</p>
+      <p>The 3VP-per-federation advanced tech (on economy, science, or any non-navigation track) is the single strongest enabler available to Ivits — most winning Ivits games feature it. Because Ivits get a federation early, advanced techs that are normally low-impact for other factions become strong here, since they can be grabbed as early as round two: points per advancement, per mine placed, per trade station placed, all become live options much sooner than usual.</p>
+      <h4>The real weakness: getting starved of charge</h4>
+      <p>Ivits' single, central starting location means other players can often expand elsewhere without ever triggering a leech to them — a real economic vulnerability, since the only way to force leech is spending QIC or navigation range to insert themselves near other players, which works against the "build one big federation" plan. Performing well on minimal charge is possible, but total isolation isn't — cheap trading stations still require some proximity to others.</p>
+      <p>Mobility concerns (being "boxed in") are often overstated: free QIC lets Ivits dodge encirclement when needed, and a sound pattern is federating turn one, then placing space stations aggressively away from the current cluster from turn two onward, reconnecting later as needed — just don't overextend across the map wasting QIC purely on reconnection.</p>
+      <div class="recap"><strong>In short:</strong> Ivits build one growing federation instead of several — lean into central positioning, grab federation-scoring rounds early since you're uncontested there, and watch for charge starvation, which is the one weakness that actually cripples an Ivits game.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Geodens",
+    tag: "Intermediate · The other side of the Bal T'aks board",
+    blurb: "Shares a board with Bal T'aks but plays the opposite side — generally weaker, and needs a specific setup to justify picking over its sibling.",
+    body: `
+      <p>Geodens and Bal T'aks share a faction board with opposite abilities, and Geodens is generally the weaker half — hard to justify over Bal T'aks without a setup that specifically favors it. Their PI opening is demanding: it forces a combined push up navigation and terraforming simultaneously, relying on power economy while needing to control two popular tracks at once, which only works if you go largely uncontested on both.</p>
+      <h4>When the PI opening is actually worth it</h4>
+      <p>Geodens benefit more than most factions from the lost (transdimensional) planet, and their terraforming power actions are genuinely stronger than the equivalent for other factions — so the PI opening is worth considering when most of the following line up: a planet-type final-scoring tile is in play; another final-scoring category the lost planet helps with (structure count, sector count) is active; orange planets sit within navigation range 2-4 in a way that favors Geodens' reach profile over Bal T'aks'; strong round scoring ties to navigation or terraforming actions; the ability to form two federations reasonably fast (one by round two, another before round five); little or no competition on navigation or terraforming from other players; and good positioning for the 1-knowledge-per-planet-type tech tile. Without hitting nearly all of these, the PI opening is a tough sell.</p>
+      <h4>Academy alternative</h4>
+      <p>Geodens' innate terraforming-cost reduction gives more flexibility from an academy start than most factions get. The most common line opens economy 2, navigation 1, then pushes navigation to 2 in round two before climbing terraforming, aiming for the PI by round three and then digging toward gaiaforming or the AI track for more knowledge — this costs tempo on research tracks compared to a PI-first line but keeps the economy-track option open longer. An alternate line skips navigation investment entirely: QIC academy into science 3, then terraforming, aiming to hit terraforming level 5 by round three or early round four with the PI following round three.</p>
+      <div class="recap"><strong>In short:</strong> Geodens need a setup that specifically favors their reach profile and lets them go uncontested on navigation and terraforming simultaneously — absent that, Bal T'aks is usually the stronger pick on the same board.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Bal T'aks",
+    tag: "Intermediate · QIC engine via gaiaforming",
+    blurb: "Rated among the strongest factions despite having the weakest Planetary Institute in the game — gaiaforming here is a means to QIC income, not an end.",
+    body: `
+      <p>Bal T'aks have the worst Planetary Institute in the game by a wide margin — nerfed to little more than a potential building plus tech tile — and are still one of the strongest, most versatile factions available. The key to understanding them is that gaiaforming isn't their goal, it's their fuel: they convert gaiaformers to QIC as a free action, so their whole engine is built around climbing the gaiaforming track for the steady QIC income it produces, not for the gaia planets themselves. Treating them as a pure gaiaforming faction — settling nearby transdimensional planets, then switching to terraforming clusters — makes them play like a weaker version of Ivits and misses the point.</p>
+      <h4>What the map needs to offer</h4>
+      <p>Look for an orange planet within range 3 (enables a Research Lab plus two-mine opening), tile 8 centrally located (natural orange/transdimensional adjacency), any adjacency between orange planets and transdimensional ones, clumps of transdimensional planets adjacent to each other, adjacency of their single-dig home-color planets to transdimensional ones, and a strong early tech tile atop gaiaforming. The clearest deterrent is the 3VP-per-gaia-mine tech tile sitting under the navigation track rather than under something Bal T'aks can use — that sends 12-18 points to whoever wins navigation instead (usually Geodens), and if it's there, Geodens becomes the better pick unless a strong alternate route like terraforming is also available.</p>
+      <h4>Standard opening and federation timing</h4>
+      <p>The typical pattern: Research Lab or Academy round one, race to the top of gaiaforming as fast as possible, take the 4-QIC action in round one or two, then form a federation by round three to grab the gaiaforming advanced tech and unlock the 3-QIC action as an ongoing points-conversion tool. Federation timing is the single most common failure point — the first federation needs to be positioned by round four to secure that advanced tech, and a second by round five to avoid getting locked out of another advanced tech or level-5 track. Underperforming Bal T'aks games trace almost universally to a slow second federation, usually because an early double 4-QIC action ate too far into the expansion capacity needed to reach federation range. Don't take a second 4-QIC action early — it's tempting but cuts into expansion more than it's worth; save QIC to contest the 2-QIC and 3-QIC actions in later rounds instead.</p>
+      <h4>Should you actually gaiaform much?</h4>
+      <p>Opinion genuinely splits here, and both halves are correct under different conditions. Each gaiaform effectively costs one QIC action's worth of opportunity — so many experienced players gaiaform only opportunistically: when already adjacent to a transdimensional planet, when it opens adjacency to something else wanted, or when round scoring rewards gaia planets directly, averaging perhaps three gaiaforms across a whole game. A heavier gaiaforming line is a trap in general but conditionally strong: with little competition for transdimensional planets and a good advanced tech on gaiaforming or AI, going hard on gaia planets — eight or nine of them — can net 30-plus points at game end if paired with gaiaforming-track top and the matching advanced tech. Pick the heavier line only when both conditions (low competition, right tech placement) are actually true; otherwise the opportunistic approach captures more value per QIC spent.</p>
+      <h4>Second track after gaiaforming</h4>
+      <p>The AI track is the most consistent choice — it keeps gaiaforming funded (colonization) while banking QIC for actions. Terraforming is worth adding regardless of gaiaforming competition, since it adds flexibility so you're not purely transdimensional-dependent, especially valuable when planets cluster on the map, and it benefits from late dig-round bonuses while saving QIC. Economy or science are more situational — best when chasing one specific high-scoring advanced tech, since pure economy investment has diminishing returns you can usually match just by building more.</p>
+      <h4>Endgame expectations</h4>
+      <p>Don't expect to win any final-scoring category outright — best case is usually two second places, and some categories (satellites almost always, sectors usually) are a total write-off worth ignoring entirely rather than chasing.</p>
+      <div class="recap"><strong>In short:</strong> Bal T'aks gaiaform for QIC, not for gaia planets — over-investing in the planets themselves is the trap. Race to the top of gaiaforming, get two federations out on time (this is the failure point that sinks most Bal T'aks games), and pick a second track (usually AI) that keeps the QIC engine funded.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Firaks",
+    tag: "Intermediate-advanced · Narrow but precise",
+    blurb: "Downgrading a Research Lab both advances a tech track and refunds a new tile — a strong econ engine that needs very specific conditions to convert into a win.",
+    body: `
+      <p>Firaks race economy efficiently — good charge management gets them to economy level 4 by round two — but that efficiency alone doesn't win games; they fall behind because they can't simultaneously tech, expand, and federate the way stronger factions can, and tend to end up well behind by game end unless several specific conditions line up. Their ability (downgrading a built Research Lab both advances a tech track and nets a fresh tech tile at a steep discount versus building one normally) is genuinely strong, but it comes with hidden costs: poor performance in most final-scoring categories, weak round-booster scoring, a second (sometimes third) federation that arrives later than other factions manage, and — the biggest hidden cost — the repeated upgrade/downgrade cycle hands opponents a lot of power charge, resources you'd rather they not have.</p>
+      <h4>Openings — pick one, or don't play Firaks</h4>
+      <p>All three viable openings aim for economy 4 by the end of round two: Planetary Institute plus Research Lab (the well-known standard); Research Lab plus two mines round one into PI round two, downgrading the Trade Station and rebuilding a Research Lab funded by a terraforming step and power action; or Research Lab plus two mines into PI plus Trade Station plus two mines round two. If none of these three is actually achievable on the map you're dealt, don't pick Firaks that game — there's no fallback line that salvages a bad position.</p>
+      <h4>What conditions make Firaks strong</h4>
+      <p>Firaks need a lot lined up to actually pay off: the 1-credit/1-knowledge tech tile on economy or in the bottom-three slots (whichever track you climb first); the 1-ore/1-QIC tile on science or bottom-three; a home planet reachable round one (range 4 with a range booster, range 3 with a QIC, or a 1-dig planet at range 1 with a dig booster); a colonizable planet reachable by round three to found a federation and claim an advanced tile; and a 2VP-per-tech-step or 3VP-per-trade-station advanced tile sitting on economy — these two round-scoring shapes (trade-station building rounds 2-5, tech-step bumps rounds 4-6) are exactly the ones Firaks hit consistently that other factions can't, since Firaks bump tech up to four times a round from round four onward.</p>
+      <p>Positioning matters as much as tile placement: PI and Research Lab need to sit near each other for an early federation, since Firaks can't afford to be boxed in off to one side. Avoid Taklons as a neighbor specifically — the downgrade/upgrade cycle Firaks run camps perfectly for Taklons to feast on, and they'll also contest the precious dig/knowledge power actions Firaks depend on.</p>
+      <h4>Tech path after economy</h4>
+      <p>Science to level 4 by round three is the most commonly endorsed follow-up — it's usually uncontested, secures the top spot plus advanced tech, and gives an extra flexible tech bump each round into whichever track needs it. It isn't universal, though: any track that "pays for itself" long-term can make sense round three depending on setup, and if a strong advanced tech sits atop terraforming with the right support, Firaks' PI tempo can beat even Ambas to the top of that track instead. Gaiaforming with Firaks is a real disagreement among strong players — their passive power-charge income (8 per round from PI, higher than other gaiaforming-capable factions) means every gaiaformer placed costs a power action they'd rather spend elsewhere, so it only pays off with a strong gaia-mine round scoring specifically, not as a default plan.</p>
+      <h4>Federation count: stop at two</h4>
+      <p>A third federation is very hard to form and rarely worth restructuring the opening sequence to chase — the consistent advice across experienced Firaks players is not to alter the first three turns just to make room for it. Where the real decision lies is in how many track-tops and advanced techs are actually good for a given game: trade-station scoring is easy once a federation already exists but hard before one does, so weigh "points now" (a fast third structure) against "points later" (a stronger, better-timed second federation).</p>
+      <div class="recap"><strong>In short:</strong> Firaks are precise, not flexible — they need specific tile placement and positioning to work at all, and when those conditions aren't met, no amount of skillful play recovers the game. When they do line up, economy-to-4 by round two plus science-to-4 by round three is the reliable shape; stop chasing federations after two.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Bescods",
+    tag: "Advanced · Inverted buildings, patient scoring",
+    blurb: "Academy and Planetary Institute produce swapped resources from normal — a slow-starting faction that rewards going largely uncontested.",
+    body: `
+      <p>Bescods have their Academy and PI income positions swapped relative to every other faction, and their special action advances whichever tech track is currently your lowest, for free — which sounds restrictive but functions in practice like a guaranteed 2-4 knowledge income once you learn to keep re-evaluating which track counts as "lowest" each round. They want all six grey/titanium home-compatible planets on the map, more than the four a typical two-planet-type faction has access to, and they can most easily rush their Academies of any faction in the game — a round-one QIC academy is worth six QIC, a knowledge academy worth ten knowledge, both achievable early.</p>
+      <h4>Core plan: rush academies, chain federations late</h4>
+      <p>Combine the academy rush with the tech tile that gives power value to PI/Academy structures — with both buildings on a home planet, that combo is worth five power on its own, enough to complete a federation alongside just one Trade Station or Research Lab. In principle just six buildings can fund three federations, with remaining structures forming a fourth and even fifth. The tradeoff is time: Bescods most naturally found their first federation very late if home-planet placement supports it, needing four-plus grey planets settled first — a round-five PI build paired with PI/Academy round scoring, and a round-six federation-scoring push, is a strong late-game combination specifically because Bescods are built to peak late, not early.</p>
+      <h4>Alternative: science-track rush via temples</h4>
+      <p>An early-game line uses the faction's free-advance ability on terraforming round one, builds two temples, and uses both to push the science track — this is genuinely powerful (guaranteeing at least two science-track advances every round can be worth 30-plus points from science-track scoring alone across a full game) but it's ore-hungry and risks leaving no range at all, potentially locking you out of a second mine in round two. If the tile draw cooperates (a credit/science tile rather than a flat credit tile round one, and an economy push for ore in round two), this becomes a strong line; if it doesn't, expect an ore shortage and slow, leech-exposed expansion.</p>
+      <h4>Pick/avoid signals</h4>
+      <p>Take Bescods when two home planets sit within range 3 of each other (efficient use of your own expansion range) — especially strong if the top of navigation or science offers a federation-passing or tech-bump bonus. Avoid them when several late round-scoring bonuses reward terraforming steps you won't have made by then, given how slowly Bescods develop. Ambas as a neighbor is bad — Ambas race for the same grey-adjacent territory and consistently win those early contests against Bescods' slow start. Itars as a neighbor is good — also slow and engine-focused, non-competitive for the same early territory, which lets Bescods safely claim five or six of the black/grey-favorable planets. As a rule of thumb, if you can't secure at least five of the six grey planets, consider avoiding Bescods that game.</p>
+      <p>Because federations naturally arrive late, don't feel pressure to grab a federation-passing or tech-bump advanced tech early — taking one as late as round six, if it's stayed uncontested, still yields strong absolute points, and taking it late frees you from needing filler techs to cover an income-tile slot in the meantime.</p>
+      <h4>When to skip the strongholds entirely</h4>
+      <p>A "small ball" alternative exists for setups that don't reward big structures at all: build neither PI nor Academy, or delay either until the final round, and spend the tempo on extra Trade Stations or Research Labs instead. This works specifically when the setup excludes PI/Academy round scoring, base-order objective tiles, and advanced tech rewarding one-time or passing bonuses — when none of those are present, lean into structure count rather than the stronghold-chaining plan.</p>
+      <div class="recap"><strong>In short:</strong> Bescods are a patient faction — the academy rush and inverted buildings pay off late via federation chaining, and forcing an early tempo (fighting Ambas for territory, chasing an early advanced tech) undercuts the whole plan. Let the game come to you.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Nevlas",
+    tag: "Intermediate · Tall, not wide power economy",
+    blurb: "Convert power directly into knowledge without building labs — an efficient, low-leech-dependent economy that goes tall rather than spreading wide.",
+    body: `
+      <p>Nevlas run what amounts to an invisible economy: power capability as devastating as Taklons', but far less dependent on leech to fuel it. Where Taklons spread wide to maximize leech opportunities, Nevlas go tall — build centrally, and let their innate power-to-knowledge conversion do the work a Research Lab would do for anyone else. That conversion changes how every power action should be valued: the 2-ore power action barely matters to them (once the PI is up, it only saves one power from bowl 3), while the 2-knowledge action is genuinely valuable, since two power from bowl 3 (four power of value) converts directly to one ore and one credit for free. A Research Lab's 2-power income is actually worse for Nevlas than for other factions — it's equivalent to just two credits in their accounting, a downgrade versus a Trade Station — since they can already convert power to knowledge directly and don't need labs to get there.</p>
+      <h4>Openings</h4>
+      <p>A PI-first opening is strong, especially paired with the 2-ore power action afterward if opponents let you take it (good opponents usually block this). A more standard, stable line is PI plus two mines plus economy 2 — rushing all the way to economy 3 round one is rare and situational, worth it only if achievable without wasting power, since the third mine itself generates no income and going to economy 3 too early wastes potential once most power actions for the round are already spoken for. An academy-opening alternative — four knowledge into economy, Research Lab taking the ore/QIC tile into economy, Academy taking the 4-power tech tile into economy — nets a strong round-2 income shape and often outperforms a PI opening specifically when you aren't receiving heavy charge from neighbors, since it doesn't need the leech a PI line implicitly assumes. Whichever line you run, never spend QIC as an ore substitute — Nevlas are the second-easiest faction (after Ivits) to land an early 4-QIC action, and that's excellent value worth preserving QIC for.</p>
+      <h4>Tech tile priorities</h4>
+      <p>The 3VP-per-mine advanced tech is the strongest tile available to Nevlas — their natural economic development races to economy 4 via the PI, making this tile easy to claim and strong wherever it sits (economy or science both work well; gaiaforming or AI are worse fits, since those tracks pull Nevlas into contesting the 4-QIC action against factions like Bal T'aks or Xenos that expand more aggressively and can box them in). The 2VP-per-tech-step tile is the next strongest, particularly atop economy where it avoids wasting value on science steps that don't otherwise pay off.</p>
+      <h4>Matchups and positioning</h4>
+      <p>Nevlas do best in big clusters — good for both neighbor leech and double-dig targets. Lantids are an especially good neighbor: a Lantid PI-plus-four-mines opening on a shared cluster creates a mutual power party where both factions benefit from each other's expansion. What hurts them: no range-1 or range-3 planets that are less than a triple-dig nearby, since Nevlas ideally avoid navigation entirely; being encircled by a wide, fast-expanding ring of opponents that leaves nothing to expand into and no charge either; and brown, orange, or either yellow faction sharing the game, since those factions take the one- and two-dig planets Nevlas want and then expand outward, leaving Nevlas' homeworlds stranded multiple QIC away from anything useful.</p>
+      <h4>The overcharging trap</h4>
+      <p>Nevlas are unusually prone to "charging themselves into a hole" — every unit of charge accepted costs points, and past a certain point (roughly once three federations and a key scoring advanced tech are secured) the marginal value of more charge shrinks sharply, yet it's easy to keep accepting it out of habit since Nevlas tend to get picked specifically in setups where heavy early charge is expected. Watch for this inflection point rather than assuming more charge is always good.</p>
+      <div class="recap"><strong>In short:</strong> Nevlas convert power to knowledge directly and don't need labs or heavy navigation to function — build centrally, prioritize the 2-knowledge action over the 2-ore action, and stop accepting charge once your federations and key tech are already secured.</div>
+    `
+  });
+
+  FACTIONS.push({
+    name: "Itars",
+    tag: "Advanced · Widely rated the strongest faction",
+    blurb: "So many independent scoring avenues — PI value, gaiaforming synergy, science, economy, late-round and final scoring — that shutting down any one still leaves them dangerous.",
+    body: `
+      <p>Itars are consistently rated the strongest faction in the game, and more so at low player counts — a well-positioned Itars in a two-player game is close to unbeatable outright. What makes them so hard to contain isn't one overpowered mechanic, it's breadth: their PI alone is worth an estimated 30-40 points, it synergizes directly with gaiaforming, their science scoring is strong on top of that, and their economy — extra starting ore, the strongest Academy in the game, the strongest PI in the game — supports heavy late-round and final scoring simultaneously. Most factions have one or two exploitable weaknesses; shutting down any single one of an Itars' scoring avenues still leaves several others intact, which forces opponents into a bind: deny something that would win Itars the game, at real cost to their own position, or don't and lose anyway.</p>
+      <h4>Containing them, if picked</h4>
+      <p>The most reliable counter is pre-emptive — set the board up so white's home-planet position is bad enough that no one takes Itars in the first place. If they are picked and start from decent positioning, containing them needs most or all of: denying power charge to starve the engine, surrounding them on the planet and round-scoring wheel to limit expansion options, ensuring at least two other gaiaforming factions compete for the same gaia planets they rely on, and denying them the most lucrative advanced tech tiles. Even stripped of early charge, Itars stay effective as long as they have any neighbors at all, since the neighbor power-passing mechanic keeps feeding them regardless.</p>
+      <h4>Opening plan and when to deviate</h4>
+      <p>The baseline plan is Academy round one into PI plus gaiaforming level 1 round two. Deviate from it when both wheel-color neighbors are hostile or contested (secure important planets early instead of teching straight to PI), when transdimensional-planet competition is heavy nearby, when a neighboring expansion-focused faction (Ambas, Bescods) has designs on the same white or grey planets, or when the expected charge from neighbors isn't materializing. Alternative openings that have worked well: PI round one combined with gaiaforming level 1 or stockpiled power in the gaia bowl, paired with more expansion-oriented and earlier science investment to compensate for skipping the Academy-first line; or PI as late as round three, following a knowledge-focused Academy round one, when an earlier PI isn't feasible or protecting key planets takes priority. Even PI later than round three is recoverable — leaning heavily into Academies and Labs plus the 2VP-per-tech-step advanced tech can still win purely on scoring breadth, even if beaten to every track-top and economy lead.</p>
+      <h4>Harder to pilot than the reputation suggests</h4>
+      <p>Despite the power level, Itars are genuinely demanding to play well — described by strong players as the most "stressful" faction because of constant multi-variable coordination: timing tech-tile choices against track advancement (it's common to get stuck unable to climb a track because no tile is available), tracking whether you're burning power correctly without overcharging or accidentally killing your own gaiaforming tokens, and deciding whether to grab free-standing tech tiles now or save them for later. Reliable power-token income matters more for Itars than almost any other faction — the 2-token/1-ore round booster or regular use of the 3-power-to-2-token action are important support pieces, not optional extras. Itars are relatively slow starters and need big buildings out early to have real impact; they'll struggle specifically in a setup that heavily rewards early expansion and heavy gaiaforming, since that leaves less time to ramp their engine before the game moves past them.</p>
+      <h4>When Itars actually lose</h4>
+      <p>The losing pattern is consistent: repeatedly denied the 2-ore power action early, combined with the high-value advanced techs sitting atop tracks other factions have a natural fast opening on (AI for Xenos, economy for Hadsch Hallas, gaiaforming for Bal T'aks) — those factions can rush to level 4 round one and lock the tile before Itars' slower, burst-based climb catches up. Itars' opening style intentionally sits at low levels across many tracks, then bursts to level 4 via a gaia-phase power spike to grab an advanced tech or track-top — this works fine against opponents doing the same thing, but loses outright to a faction that commits fully to securing one track's advanced tech turn one and can re-grab it before Itars manages a second burst. Tech-tile scarcity in the lategame also hurts them more than most, since the advanced techs they rely on to keep climbing once basic track-advance options run out are exactly the resource other factions are racing them for.</p>
+      <div class="recap"><strong>In short:</strong> Itars are strong because they have too many independent scoring paths to shut down at once — but the standard Academy-into-PI line is genuinely hard to execute well, and they lose specifically to opponents who commit hard to one track early rather than trying to match Itars' burst-based, multi-track approach.</div>
+    `
+  });
+
+
+  const grid = document.getElementById('faction-grid');
+  FACTIONS.forEach(f => {
+    const card = document.createElement('button');
+    card.className = 'fac-card';
+    card.innerHTML = `<span class="fac-name">${f.name}</span><span class="fac-tag">${f.tag}</span><p class="fac-blurb">${f.blurb}</p>`;
+    card.addEventListener('click', () => openModal(f.name, f.body));
+    grid.appendChild(card);
+  });
+
+  const modalOverlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  function openModal(title, html){
+    modalTitle.textContent = title;
+    modalBody.innerHTML = html;
+    modalBody.scrollTop = 0;
+    modalOverlay.classList.add('active');
+  }
+  document.getElementById('modal-close').addEventListener('click', () => modalOverlay.classList.remove('active'));
+  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.classList.remove('active'); });
+</script>
+</body>
+</html>

@@ -248,6 +248,12 @@ Title (`h3`) + close button stay fixed; only `#modal-body` scrolls. On mobile th
 
 Merge into each guide's existing responsive block rather than duplicating — adapt selectors to that guide's actual class names for cards/tips/etc.
 
+## Card art (SVG icons on `.card`)
+
+Root `index.html`'s game cards and `feast-for-odin/index.html`'s Strategy Path/Artisan Shed cards use a `.card-art` div (72-88px tall, border-bottom) before `.card-title`/`.card-body`, holding a self-contained flat-vector `<svg viewBox="0 0 400 120">` (or narrower, e.g. `200 72`) — inline gradients/shapes, no external assets, not theme-token-driven (fixed hex fills, doesn't react to light/dark toggle).
+Two-sided items (e.g. artisan shed tiles) → `.card-art.card-art-split` (flex, two `viewBox="0 0 100 72"` SVGs at 50% width each) instead of one wide SVG.
+New guide adding icon cards → follow this pattern for consistency; write new SVGs per icon, don't reuse another guide's.
+
 ## Porting an existing guide
 
 1. Replace `:root` token block with the one above verbatim.

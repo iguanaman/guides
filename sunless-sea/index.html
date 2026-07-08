@@ -377,7 +377,14 @@
     column-gap:28px;
     overflow-y:auto;
     flex:1 1 auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
   }
+  .modal-body::-webkit-scrollbar{width:8px}
+  .modal-body::-webkit-scrollbar-track{background:transparent}
+  .modal-body::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:4px}
+  .modal-body::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  .modal-body::-webkit-scrollbar-button{display:block;width:0;height:0}
   @media(max-width:700px){
     .modal-body{column-count:1}
   }
@@ -2493,6 +2500,7 @@ function openModal(tabId,gi,ei){
   const e=getEntry(tabId,gi,ei);
   modal.innerHTML=modalContent(tabId,e);
   modal.classList.toggle("modal--lore",tabId==="lore");
+  modal.querySelector(".modal-body").scrollTop=0;
   scrim.classList.add("open");
   document.body.style.overflow="hidden";
   lastFocus=document.activeElement;

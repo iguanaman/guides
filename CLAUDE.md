@@ -22,6 +22,7 @@ Every guide shares one visual design — the Lantern theme, see `.claude/lantern
 - `balatro/` — Balatro strategy guide (joker synergies, deckbuilding, scoring math, run planning across stakes)
 - `this-war-of-mine/` — This War of Mine: The Board Game survival guide (scavenging, shelter management, moral choices, house rules)
 - `nusfjord/` — Nusfjord strategy guide (fishing company management, worker placement, building engine, share strategy)
+- `gaia-project/` — Gaia Project strategy guide (faction strategy, terraforming efficiency, tech track routes, scoring optimization)
 
 ## Git
 
@@ -53,3 +54,4 @@ New guide on a topic → use the `new-guide` skill (`.claude/skills/new-guide/`)
 `{guide}/.research/_sources.md` = finder's source table (`slug | title | url | note`); slug is category-prefixed kebab-case (`spirit-…`, `mechanic-…`) and is the distiller's output filename + diff key.
 `{guide}/.research/*.md` are gitignored scratch from guide research — not committed, not a source of truth once stale.
 Reading `.research/*.pdf`: use `pdftotext` (via Bash), not the Read tool's page-range rendering — `pdftoppm`/poppler isn't installed in this environment.
+Checking whether a guide's `.research/*.md` insights all made it into its HTML → use the `audit-research` skill (`.claude/skills/audit-research/`).
