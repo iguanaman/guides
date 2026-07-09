@@ -1,6 +1,6 @@
 A Feast for Odin strategy guide — single-file `index.html`. Covers base game + Norwegians expansion; don't scope content to base game only.
 
-Only modify the action board layout when specifically told to.  It's locked in.
+Action board (`#actionboard`) layout is locked in — only modify when specifically told to. Modal/detail content behind action-board spaces is normal guide content, not covered by this lock.
 
 ## Solo house rules (my personal play, not guide content)
 
