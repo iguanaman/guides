@@ -23,6 +23,7 @@ Every guide shares one visual design — the Lantern theme, see `.claude/lantern
 - `this-war-of-mine/` — This War of Mine: The Board Game survival guide (scavenging, shelter management, moral choices, house rules)
 - `nusfjord/` — Nusfjord strategy guide (fishing company management, worker placement, building engine, share strategy)
 - `gaia-project/` — Gaia Project strategy guide (faction strategy, terraforming efficiency, tech track routes, scoring optimization)
+- `agricola/` — Agricola (Revised Edition) solo strategy guide (occupation/minor engine building, action efficiency, family growth planning)
 
 ## Git
 

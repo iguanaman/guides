@@ -1,0 +1,1 @@
+Agricola (Revised Edition) solo strategy guide — single-file `index.html`. Solo-only content throughout — no multiplayer content (card drafting vs opponents, occupation-denial tactics, seating/turn-order tactics).

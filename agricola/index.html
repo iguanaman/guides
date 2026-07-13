@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agricola Solo Strategy Guide</title>
+<meta name="description" content="A solo strategy guide for Agricola (Revised Edition) — occupation/minor engine building, action efficiency, and family growth planning.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+  }
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;
+    min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+
+  header.site{
+    position:relative;
+    padding:2.4rem 3.6rem 1.3rem;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:var(--panel-raised);
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin:0 0 .55rem;
+    max-width:none;
+  }
+  header.site h1{
+    margin:0 0 .3rem;
+    font-size:2.2rem;
+    text-shadow:0 2px 0 var(--shadow);
+  }
+  header.site p{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:.95rem;
+    max-width:52ch;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:10;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.05em;
+    color:var(--ink-dim);
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:.7rem 1rem;
+    cursor:pointer;
+    transition:color .15s;
+    flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{
+    color:var(--ink);
+  }
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{
+    color:var(--bronze-bright);
+    border-bottom-color:var(--bronze);
+  }
+
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:2rem 1.5rem 5rem;
+  }
+
+  section.tab-panel{
+    display:none;
+  }
+  section.tab-panel.wide{
+    max-width:none;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+  }
+  section.tab-panel.active{
+    display:block;
+  }
+
+  section.tab-panel h2{
+    font-size:1.6rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.5rem;
+    margin-top:0;
+  }
+
+  section.tab-panel h3{
+    font-size:1.15rem;
+    margin:1.6rem 0 .5rem;
+  }
+  section.tab-panel h4{
+    font-family:inherit;
+    font-size:1rem;
+    color:var(--bronze-bright);
+    margin:1.3rem 0 .4rem;
+  }
+  section.tab-panel p{margin:0 0 1rem}
+  section.tab-panel ul,section.tab-panel ol{margin:0 0 1rem;padding-left:1.3em}
+  section.tab-panel li{margin-bottom:.5rem}
+
+  .lede{
+    color:var(--ink-dim);
+    font-size:1.05rem;
+  }
+
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:.8rem;
+    margin:1.3rem 0;
+  }
+  .stat-tile{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    padding:.8rem 1rem;
+    text-align:center;
+  }
+  .stat-tile .num{
+    display:block;
+    font-family:var(--f-label);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--bronze-bright);
+  }
+  .stat-tile .label{
+    display:block;
+    font-size:.78rem;
+    color:var(--ink-dim);
+    letter-spacing:.03em;
+    margin-top:.2rem;
+  }
+
+  .plan-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1rem;
+    margin:1.3rem 0;
+  }
+  .plan-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    padding:1rem 1.1rem;
+  }
+  .plan-card h4{margin-top:0}
+  .plan-card p{margin-bottom:.6rem;font-size:.95rem}
+  .plan-card p:last-child{margin-bottom:0}
+
+  table.ref-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1.3rem 0;
+    font-size:.92rem;
+  }
+  table.ref-table caption{
+    caption-side:top;
+    text-align:left;
+    color:var(--ink-dim);
+    font-size:.85rem;
+    margin-bottom:.4rem;
+  }
+  table.ref-table th,table.ref-table td{
+    border:1px solid var(--line);
+    padding:.5rem .7rem;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.ref-table th{
+    background:var(--panel-raised);
+    color:var(--bronze-bright);
+    font-family:var(--f-label);
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  table.ref-table tbody tr:nth-child(even){background:var(--panel)}
+
+  .tips-grid{
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    margin:1.3rem 0;
+  }
+  .tip-section{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    overflow:hidden;
+    transition:border-color .15s;
+  }
+  .tip-section[open]{border-color:var(--line-bright)}
+  .tip-summary{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
+    padding:.9rem 1.1rem;
+    cursor:pointer;
+    list-style:none;
+    user-select:none;
+  }
+  .tip-summary::-webkit-details-marker{display:none}
+  .tip-summary:hover{background:var(--panel-raised)}
+  .tip-summary h4{margin:0;font-size:1.05rem}
+  .tip-chevron{
+    flex:0 0 auto;
+    color:var(--ink-dim);
+    font-size:.85rem;
+    transition:transform .15s;
+  }
+  .tip-section[open] .tip-chevron{transform:rotate(180deg)}
+  .tip-body{
+    padding:0 1.1rem 1.1rem;
+    border-top:1px solid var(--line);
+    padding-top:.9rem;
+  }
+  .tip-body p{margin:0 0 .7rem}
+  .tip-body p:last-child{margin-bottom:0}
+  .tip-body ul{margin:0;padding-left:1.2em}
+
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    table.ref-table{font-size:.82rem}
+    table.ref-table th,table.ref-table td{padding:.4rem .5rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,nav.tabs button{transition:none}
+    .theme-toggle:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <p class="kicker">Solo Strategy Guide</p>
+  <h1>Agricola</h1>
+  <p>Revised Edition — solo play. Occupation/minor engine building, action efficiency, and family growth planning.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="layout">The Golden Layout</button>
+  <button data-tab="opening">Opening Plans</button>
+  <button data-tab="food">Food Engine</button>
+  <button data-tab="familyfields">Family &amp; Fields</button>
+  <button data-tab="fencing">Fencing &amp; Livestock</button>
+  <button data-tab="cards">Card Engine</button>
+  <button data-tab="midlate">Mid &amp; Late Game</button>
+  <button data-tab="scoring">Scoring Reference</button>
+  <button data-tab="campaign">Campaign &amp; Variants</button>
+</nav>
+
+<main>
+
+<section id="overview" class="tab-panel active">
+  <h2>Overview</h2>
+  <p class="lede">Solo Agricola isn't a smaller version of the multiplayer game — it's a different kind of challenge. There's no one to race for a space, no one to deny a card to, no one to out-tempo. What's left is a pure optimization puzzle: the same farm, the same fourteen rounds, but every ounce of pressure has to come from the clock and from your own planning discipline, because nothing else is going to stop you.</p>
+
+  <h3>Why solo plays so differently from a table of opponents</h3>
+  <p>In a multiplayer game, action spaces get contested — someone beats you to the sheep space, someone else snaps up the last fencing round before you're ready, and those collisions force you to adapt on the fly. Solo removes every one of those collisions. Every accumulation space (sheep, vegetables, wood, reed) just keeps piling up resources round after round, uncontested, for as long as you're willing to leave it alone. There is no opportunity cost to waiting, and no one is going to take the plow space before you get to it.</p>
+  <p>That sounds like it should make the game easier, and in a narrow sense it does — you'll rarely go hungry by accident once you understand the food math. But it also removes the natural signal that tells multiplayer players when to act. Without that pressure, the real skill of solo Agricola is knowing when a resource has piled up enough to be worth collecting, and resisting the urge to grab everything the moment it's available. Every section in this guide is really an answer to some version of "how long should I let this wait."</p>
+  <p>The single rules delta from multiplayer reinforces this: you start with no food, and each worker costs 3 food at harvest instead of 2. That's a real, if modest, early bite — it's the one piece of built-in pressure the solo game gives you, and it's specifically there to force a decision about your food engine in the first few rounds, before the rest of the game opens up into unconstrained optimization.</p>
+
+  <h3>What "solved" means here, and why it's not a bad thing</h3>
+  <p>Solo Agricola has a reputation, deserved, for being a puzzle you can eventually solve — find a strong opening pattern, and it'll keep working game after game, because nothing about the board is fighting back. Compared to Uwe Rosenberg's later solo-friendly designs (Feast for Odin, Fields of Arle, Nusfjord), which build in self-blocking mechanisms so you can't just repeat the same action every round, Agricola's solo mode leans much harder on card variety to keep games feeling distinct. Different occupation and minor improvement draws really do produce different games — a strong Day Labourer stack or a Seasonal Worker/Loom combo can single-handedly define an opening — but the underlying farm-building shape repeats.</p>
+  <p>Treat that as what it is: a strategy game whose puzzle rewards being solved, not a flaw to fight. Once you've internalized the priority order this guide teaches, your job each game becomes reading whatever cards you drew and figuring out how they bend that shape, rather than reinventing the wheel from scratch. If you want more externally-imposed tension once the base puzzle stops surprising you, the house-rule variants and the official solo campaign (both covered later) are the tools for that — not a sign you're doing base solo play wrong.</p>
+
+  <h3>Score benchmarks</h3>
+  <p>Scores climb fast with experience, and prior experience with other Rosenberg worker-placement games (Feast for Odin, Caverna) transfers heavily — pattern recognition from those games maps directly onto Agricola's action-chaining logic.</p>
+  <div class="stat-row">
+    <div class="stat-tile"><span class="num">15–30</span><span class="label">first few games, still learning the food math</span></div>
+    <div class="stat-tile"><span class="num">50–60</span><span class="label">solid, comfortable solo game</span></div>
+    <div class="stat-tile"><span class="num">60–80</span><span class="label">experienced player, good card synergy</span></div>
+    <div class="stat-tile"><span class="num">80–90+</span><span class="label">tightly optimized, strong card draw</span></div>
+  </div>
+  <p>Be skeptical of anything claiming triple digits. Old forum threads floating theoretical maximums in the 180–300 range don't survive a rules check: animal accumulation caps out well under 20 head by the final harvest, and the sowing rules cap how many fields can hold 2 grain at game end to around six, with a further nine holding one grain — a hard ceiling nowhere near those numbers. A careful, fully-optimized two-worker grain-focused run lands around 78 points before any card bonuses; base-game ceilings with excellent card support run into the high 80s to low 90s. Treat huge reported numbers as either a rules misunderstanding or a description of a very different game mode (a multi-game campaign with carried-over bonuses, covered later) rather than a single-game target to chase.</p>
+
+  <h3>How this guide is organized</h3>
+  <p>The chapters that follow build in the order a game actually unfolds: a target end-state to aim for, the opening decisions that set your trajectory, the food engine that keeps you alive, the family-growth and field timing that determines your action economy, the fencing and livestock system, how to read your occupation and improvement cards, and the mid-to-late-game pivot from building an engine to spending it down for points. A dedicated scoring-math chapter and a look at the official solo campaign plus house-rule variants close things out.</p>
+</section>
+
+<section id="layout" class="tab-panel">
+  <h2>The Golden Layout</h2>
+  <p class="lede">Your farm board has exactly 15 spaces. Every one of them costs a point at game end if it's still empty — no room, no field, no fenced pasture square. That single fact is the spine of solo strategy: the whole game is really the process of turning 15 blank spaces into 15 scoring spaces on a schedule that never leaves you short on food or action economy along the way.</p>
+
+  <h3>The target shape</h3>
+  <p>The most commonly reached, reliable split is <strong>4 rooms, 5 fields, and 6 pasture squares</strong> — filling all 15 spaces with zero left empty. It works because 6 pasture squares is the smallest area that can hold all three livestock types (sheep, boar, cattle) in separate enclosures, which keeps your wood spend on fencing as low as possible while still covering every livestock scoring category.</p>
+  <p>A more ambitious version pushes to 5 family members and stretches toward 5 rooms, 5 fields, and whatever pasture space is left — but this isn't really a different target, just a later stopping point on the same track. The board provides a way to grow your family a final time late in the game without building a matching room, so a 5-member family doesn't have to mean 5 rooms; plenty of strong games top out at 4 rooms and use that last growth action instead of a fifth room. Treat "4 rooms" as the default and only push toward a 5th if your cards make it cheap or your pasture plan can absorb the loss of a square.</p>
+  <p>If you're leaning hard into a stone-house, high-category-max build — every category maxed out rather than just covered — the ceiling shape looks more like 4 stone rooms, 4 pastures split across those same 6 squares (two small, two larger, each with its own stable), and 5 fields, which works out to roughly a 55-point baseline before any card bonuses. That's a stretch target for a game where your cards are genuinely supporting it, not a baseline to expect every time.</p>
+
+  <h3>Build in stages, not all at once</h3>
+  <p>The order you fill those 15 spaces in matters as much as the final shape:</p>
+  <ul>
+    <li><strong>Early game (roughly the first third of the game):</strong> spend on house expansions and family growth only. Don't touch fields or fences yet. Falling behind on family size early compounds — every round you're at 2 workers instead of 3 or 4 is a round where everyone else's plan (including your own future rounds) moves faster than yours. Getting expansions and growth locked in first is what makes everything after it easier instead of reactive.</li>
+    <li><strong>Fields, starting roughly a third of the way through:</strong> once family growth has stabilized, start plowing gradually and get your grain cycle running (a sown field keeps yielding at every subsequent harvest for no further action cost, so the earlier it starts, the more harvests it pays out over). Don't rush this before your family is settled — but don't leave all 5 fields for the very end either, or you'll be fighting everyone (in multiplayer) or your own action budget (solo) for the plow and sow spaces exactly when they're busiest.</li>
+    <li><strong>Pastures, starting around the midpoint and finished in one late push:</strong> hold off on fencing until you've banked enough wood to build most or all of your pasture divisions in a single pass, ideally timed so livestock have already been accumulating on their action spaces and are ready to move in immediately. Fencing piecemeal early wastes actions that should be going to expansions and fields, and animals fenced too early just sit there without the numbers to justify the wood spent.</li>
+  </ul>
+
+  <h3>Late game: prevent loss before you chase gains</h3>
+  <p>Once you're deep enough into the game that every action is precious, use a simple two-question filter before committing a turn: does this action stop a point loss (filling an empty field, an empty room, or covering a livestock type you have zero of), or does it add a positive point (a renovation, a new livestock type, an extra field)? Preventing a loss is worth checking first — an empty space or a missing category is a flat penalty regardless of how well everything else on your board is doing, so closing those gaps usually beats squeezing one more point out of a category you've already covered. When in doubt, scan your farm for whichever scoring category currently sits at zero or empty, and go fix that one before adding to a category that's already contributing.</p>
+  <p>The reverse-engineering habit is worth building deliberately: once you know your target shape, work backward from it each round — given how many turns are left, what's the fastest legal path from where you are now to that finished board — rather than deciding turn-by-turn what feels efficient in isolation. That's the difference between a game that feels like it's racing you and one that unfolds exactly on schedule.</p>
+</section>
+
+<section id="opening" class="tab-panel">
+  <h2>Opening Plans</h2>
+  <p class="lede">The first eight turns — the two rounds' worth of actions before your family growth engine really gets moving — decide more of the game than any other stretch. Whatever you do here chains into everything after it, so the goal isn't to grab whatever looks shiniest each turn; it's to commit to one of a handful of coherent shapes and chain every action toward it.</p>
+
+  <h3>Four opening shapes</h3>
+  <p>Which one fits depends entirely on what your occupations and minor improvements actually support — read your hand before committing, not after.</p>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <h4>Balanced Expansion &amp; Food Security</h4>
+      <p>Aim for one room expansion while prioritizing a fireplace, cooking hearth, or a strong food-generating occupation — build the food foundation alongside the growth, not after it.</p>
+      <p><strong>Good when:</strong> your hand doesn't scream a specific combo. This is the default, and the safest one to fall back on.</p>
+      <p><strong>Tradeoff:</strong> reaching 4 family members takes slightly longer than the all-in route, in exchange for a much more stable mid-game.</p>
+    </div>
+    <div class="plan-card">
+      <h4>All-In Expansion &amp; Growth</h4>
+      <p>Secure only the bare minimum food and pour everything into two room expansions as early as possible.</p>
+      <p><strong>Good when:</strong> you're confident you can build a food engine fast once the extra workers are online — this only pays off if you can back-fill food before the growth catches up with you.</p>
+      <p><strong>Tradeoff:</strong> from the midgame on, every spare action has to go toward feeding a bigger family or you'll starve straight into begging markers.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Slow Two-Room Build</h4>
+      <p>Take your time — target two room expansions and a family growth by around the game's first third, rather than rushing.</p>
+      <p><strong>Good when:</strong> the fastest expansion route isn't actually open to you (weak wood/clay draw), or you'd rather bank resource piles that nobody else is touching while you wait.</p>
+      <p><strong>Tradeoff:</strong> if it slips further than planned, family growth gets pushed into the midgame and every later stage compresses.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Crouching (Wait-and-See)</h4>
+      <p>Deliberately skip collecting expansion materials early to set up a specific payoff instead — banking early bonus points off two fields and a plow, or using a minor improvement to reach a major improvement without expanding first.</p>
+      <p><strong>Good when:</strong> a specific card or combo in your hand is strong enough to be worth the delay on its own.</p>
+      <p><strong>Tradeoff:</strong> resources you pass up stay on the board unclaimed rather than banked for later — fine solo, since nothing is lost to a rival, but it does mean you're leaving value on the table if the combo underperforms.</p>
+    </div>
+  </div>
+
+  <h3>What to hold constant regardless of which plan you pick</h3>
+  <ul>
+    <li><strong>Food should be a side effect, not a dedicated turn.</strong> If a card gives you food as a bonus for doing something else, that's free — spend a dedicated turn on food only when nothing else is covering it, and treat every dedicated food turn as a small failure of planning rather than routine upkeep.</li>
+    <li><strong>Front-load occupations and improvements that scale with time held.</strong> A card that gives a small bonus every time you take a certain action is worth dramatically more played on turn 1 than turn 8, purely because it has more turns left to pay off. Even if playing it costs two or three turns you'd rather spend elsewhere, that's often the right trade.</li>
+    <li><strong>Collect expansion materials steadily rather than in one grab.</strong> Reliable wood and reed income across several early turns is the direct path to your first room and first family growth — don't wait for a single big pile that may or may not arrive.</li>
+  </ul>
+
+  <h3>Chain actions instead of taking them in isolation</h3>
+  <p>The single biggest lever beyond "more workers means more actions" is squeezing extra value out of each individual action by lining up its prerequisites first. Before you renovate, make sure you already have the resources for the major improvement you actually want to build next. Before you buy a cooking upgrade, have a grain or an animal ready to convert immediately — an oven bought with nothing to cook is a wasted trigger. Before you sow, check whether you can sow more than one field at once, or combine sowing with baking in the same action.</p>
+  <p>The same logic applies to card-driven turns generally: never spend the action to acquire an occupation or improvement without already knowing what your very next move does to activate it. A card that sits in hand unplayed, or gets played with no follow-through, was a wasted action disguised as progress.</p>
+
+  <h3>Reading resource piles</h3>
+  <p>Because nothing is contested solo, the question is never "will someone else take this" — it's "is this pile worth an action right now, or will it be worth more later." As a rough calibration for whether a pile is worth collecting on its own merits: a single wood or a single clay is rarely worth a dedicated action, two is passable, three or more is a genuinely good grab. Reed is usable from a single unit since so little is needed per project. Stone is valuable even at two, and excellent at three given how few uses it has and how much each use costs. A single sheep is a weak return; three or more sheep, or two or more boar or cattle, are worth planning a turn around. Use this as a floor, not a ceiling — a pile below these thresholds can still be correct to take if you're specifically converting a leftover action into anything productive, but it shouldn't be the plan you built the turn around.</p>
+</section>
+
+<section id="food" class="tab-panel">
+  <h2>Food Engine</h2>
+  <p class="lede">Missing a feeding is a flat, harsh penalty at every harvest, and scrambling for food ad hoc burns actions that should be going toward your farm. The fastest route out of that trap isn't more food actions — it's building one real engine early and stopping there.</p>
+
+  <h3>Two routes, pick one</h3>
+  <p>There are two reliable ways to graduate from turn-by-turn scavenging (Day Labourer, odd fishing trips) into a real food engine, and which one fits is a question your occupation and minor improvement cards should answer, not a coin flip.</p>
+  <p><strong>Livestock and a cooking device</strong> is the simpler, more immediate route: get clay flowing, take a Fireplace or Cooking Hearth, and start converting accumulated sheep and boar directly into food. It's fast, it saves the turns you'd otherwise spend plowing and sowing, and it does double duty — the livestock you're eating from is the same livestock that scores points at game end. Its weak point is late game: a bare Fireplace's conversion rate is thin once your family is large, so plan to either upgrade to a Cooking Hearth or lean on a second source by the midgame.</p>
+  <p><strong>Fields and sowing</strong> is the slower, more self-sustaining route: plow, get grain or vegetable seed, sow it, and convert the harvest with a Clay or Stone Oven. It takes real setup — plowing, seeding, and sowing are three separate actions before the field pays off at all, so you need patience (and a Day Labourer fallback) to survive until that first harvest lands. Once running, though, it's the most stable food source in the late game, since a sown field keeps paying out at every subsequent harvest without spending another action on it.</p>
+  <p>Don't run both at once as your primary plan. Splitting attention between an animal engine and a grain engine means neither gets the fields or pasture space it needs, and you'll spend the midgame patching two half-built systems instead of drawing steady surplus from one finished one. Pick whichever your hand supports more strongly — livestock-and-cooking is the safer default when nothing in your hand points elsewhere — and treat the other as a source of secondary points once your primary engine is actually running.</p>
+
+  <h3>Sow before you build the thing that eats what you sow</h3>
+  <p>It's tempting to treat getting an oven online as the goal, but the oven is only as good as the grain feeding it — and a common mistake is baking away your first grain before you've sown any fields at all, converting your entire future grain supply into one meal. Sowing is the actual priority: two sown grain fields, kept running, are usually enough to feed comfortably and max out your grain scoring category without further fuss, and a plain Cooking Hearth already bakes them well enough that a dedicated oven purchase isn't always necessary on top. Get the fields sown first, then decide whether the extra conversion efficiency of a dedicated oven is worth the resources, rather than rushing the building and hoping the grain follows.</p>
+
+  <h3>Let piles grow before you sweep them</h3>
+  <p>Because nothing forces you to collect a resource the moment it appears, one of the most efficient plays in the entire game is patience: once you have the cooking device to use them, let sheep or boar accumulate on their action space for several rounds instead of skimming them off two at a time, then take the whole pile in a single action right before you need the food. One action converting eight animals into a food windfall is far better than four actions converting two each — the resource was going to be there either way, so the only cost of waiting is the discipline not to grab it early out of habit. The same logic applies to wood, clay, and reed piles earmarked for a specific build: let them stack, then spend one action instead of three.</p>
+
+  <h3>Bridging the gap before the engine is running</h3>
+  <p>Whichever route you pick, there's a window before it pays off where you need a stopgap. Fishing is the standard bridge — it's a one-time windfall each time you take it, not a repeatable source, but it buys a harvest's worth of breathing room while the real engine gets built. Accumulated sheep, cooked via even a bare Fireplace, serve the same bridging role. When you eat animals for this bridge, eat sheep first, then boar, and hold cattle back — cattle are the hardest livestock to accumulate and the most valuable to keep alive for endgame scoring, so they should be the last resort, not the first.</p>
+  <p>Don't feel obligated to build a single big dedicated engine if your hand doesn't support one cleanly — pulling small, steady amounts from several sources (a Well's food-over-several-rounds payout, a minor improvement that hands you food on an unrelated action, the occasional fishing trip) can cover a family's needs with almost no actions spent purely on feeding. Which approach is better is entirely a function of what your cards support; neither is intrinsically correct.</p>
+
+  <h3>Passive food from major improvements</h3>
+  <p>A Well is close to an auto-include whenever you can afford it — it pays out food over several subsequent rounds and its value is highest the earlier you get it, since every round of ownership is another round of payout. Once clay or reed have stopped being useful for anything else (your rooms and renovations are done), Pottery and Basketmaker's Workshop turn that otherwise-dead resource into ongoing food and points — worth grabbing specifically once you've noticed clay or reed piling up with nowhere else to go. Joinery is the weaker pick of the resource-conversion majors, since wood stays useful for fencing all the way to the final round and rarely becomes truly dead weight the way clay or reed can.</p>
+</section>
+
+<section id="familyfields" class="tab-panel">
+  <h2>Family &amp; Field Economy</h2>
+  <p class="lede">Two engines determine how much game you get to play: how many workers you have, and how self-sufficient your fields are. Both reward patience in a way that's easy to override with impatience — grow too cautiously and you lose actions you'll never get back; plow too early and you're wasting turns that should've gone to expansion.</p>
+
+  <h3>Family growth is close to a fundamental rule, not a strategy</h3>
+  <p>The math is blunt: family members are actions per round. Going from two workers to three is a 50% increase in everything you can do each round for the rest of the game; going to four workers doubles your original output. Because that compounds over every remaining round, growing early is worth dramatically more than growing late — an extra worker gained in round 3 pays for itself many times over compared to the same worker gained in round 9. Even a new family member with nothing better to do than repeatedly take the basic resource-for-food action is a net gain.</p>
+  <p>The practical route is a two-step chain: bank roughly 5 wood and 2 reed toward your third room in the opening rounds, then move onto the family growth action as early into the game's second stage as it becomes available. Don't hesitate out of fear that feeding will be hard — food is almost always findable, and the extra action from growing sooner is worth more than the food anxiety it causes. The one real check to make before pulling the trigger is arithmetic, not nerve: confirm you can feed the new headcount at the very next harvest before you commit, because growing straight into a missed feeding (and the score penalty that comes with it) defeats the entire purpose. If that check fails, it's fine to grow anyway and eat the one-time penalty in exchange for the extra action for the rest of the game — just don't do it blind.</p>
+  <p>The only real exception to "grow as fast as possible" is a hand built around a genuinely unusual combo that scores well without ever growing much — very rare, entirely card-dependent, and not something to plan around unless your specific hand is screaming for it.</p>
+
+  <h3>Rooms: batch when the materials are already there, don't wait for the batch</h3>
+  <p>Building two rooms in a single action is more efficient than building one room twice whenever you already have both rooms' worth of wood and reed sitting in hand — it saves a full action. But don't invert that logic and deliberately delay your first room while you accumulate enough for a double-build: the extra collection turns you'd spend waiting for that pile usually cost you more in delayed family growth than the single saved action is worth. Take the room the moment you can afford it; only combine two into one action if the second one was going to be affordable anyway.</p>
+  <p>Wood behaves as a continuous resource — more is basically always useful, since fencing alone can absorb a huge pile late game. Clay and reed behave more like discrete costs: what matters isn't the raw amount sitting in your stockpile, it's how many collection actions you actually need to cover a known total requirement (a renovation, a cooking device, a couple of minor improvements). Figure out your real clay and reed needs for the plan you're running, then size your collection actions to hit that total in as few trips as possible rather than grabbing reflexively whenever a pile looks decent.</p>
+
+  <h3>Fields: patience, then a grain cycle that runs itself</h3>
+  <p>Fields do two jobs: they're a stable, self-renewing food source, and an empty field is a flat negative at game end the same way any other empty space is. That second point is why fields matter even if you're running a livestock-based food engine — every field you never plow is a guaranteed point you're leaving on the table.</p>
+  <p>Three things consistently separate a smooth field economy from a strained one:</p>
+  <ul>
+    <li><strong>Don't touch fields early.</strong> Spending early actions on plowing competes directly with family growth for the same scarce turns, and family growth is the higher-value use of those turns. Let your family size stabilize first, then start plowing from the midgame on.</li>
+    <li><strong>Grain before vegetables.</strong> A sown grain field yields at every subsequent harvest and leaves seed behind for the next cycle — genuinely self-sustaining once running — whereas vegetables don't replenish the same way. Grain does need a cooking device (a Fireplace, Cooking Hearth, or oven) to actually turn into food, so it's not entirely free, but it still out-produces vegetables over the length of a game.</li>
+    <li><strong>Plow right before you sow, not rounds ahead of it.</strong> A plowed-but-unsown field is a wasted harvest cycle sitting there doing nothing. Time your plow-and-sow combo so the field is ready to pay off at the very next harvest rather than sitting idle.</li>
+  </ul>
+  <p>The "grain cycle" is worth understanding explicitly: a sown field yields crops at harvest and simultaneously reseeds itself, so one sowing action keeps paying out at every future harvest for zero additional action cost. That's what makes an established grain economy so much more action-efficient late game than an animal economy — one sow action can seed every field you own at once, where accumulating an equivalent amount of food value from livestock means repeated one-at-a-time pickups plus the fencing action to house them.</p>
+  <p>The often-cited "sown field problem" — plowing two fields, gathering two grain, and sowing costs five actions for a harvest that only returns two grain — isn't a design flaw, it's the field paying for itself three times over: the grain itself, the permanent field (which counts toward your target of five and can double as pasture space if you never plant it again), and the head start on next harvest's yield. If it feels too expensive early, that's a signal to delay the play until the action economy loosens up mid-game, or to wait for a card that discounts plowing or sowing — not a reason to skip fields altogether.</p>
+  <p>Resist the assumption that a livestock-heavy build is automatically the stronger path just because it's the one you see recommended most often — that reputation partly reflects how uncontested and immediate animal accumulation feels, not an inherent superiority over a well-run grain economy. Which one actually scores better in a given game is a function of your cards, not a fixed hierarchy.</p>
+
+  <h3>Renovation is a sequence, not a race</h3>
+  <p>House upgrades move in one direction — wood to clay, then clay to stone — and only one stage per Renovate action; you can't fund both steps at once even holding all the resources for it. A reasonable standing target is one wood room converted to clay and stopping there unless you specifically need stone-tier bonuses or a card that rewards a full stone house — renovation is fundamentally a resource-to-points conversion, not a race to finish, so there's little reason to push further than what your scoring plan actually needs. (The one exception worth knowing: a specific occupation card lets you skip the clay stage and renovate straight from wood to stone in one action — a nice action-saver if you happen to draw it, but not something to plan around otherwise.)</p>
+</section>
+
+<section id="fencing" class="tab-panel">
+  <h2>Fencing &amp; Livestock</h2>
+  <p class="lede">Fences do more work than just holding animals — they're the main tool for erasing the empty-space penalty across the back half of your farm, and how you divide them determines how much livestock scoring you can actually reach.</p>
+
+  <h3>Build fences in one late push, not piecemeal</h3>
+  <p>Fencing is available from round one, but there's rarely a good reason to touch it before the second half of the game — early wood is better spent on rooms and the food engine, and fencing a pasture with no animals ready to fill it just wastes the wood's timing. The efficient approach is to bank wood specifically for fencing, hold off spending any of it on fences until you've got a large stockpile, and then enclose your entire remaining farm footprint in one or two actions late game, timed so livestock are already accumulated and ready to move in immediately. Building a fence or two at a time throughout the game technically works but wastes actions that a single late consolidated push would have covered for the same wood.</p>
+
+  <h3>Divide into several small pastures, not one big one</h3>
+  <p>Only one livestock type can occupy a given pasture, so a single large enclosure locks you into a single animal type no matter how big it is. Splitting your pasture space into several smaller enclosures — two 2-square pastures rather than one 4-square pasture, for instance — lets you house sheep, boar, and cattle simultaneously, and each pasture scores its own point at the end regardless of size. More, smaller pastures beats fewer, larger ones essentially every time animal variety matters, which is almost always given how scoring categories work.</p>
+
+  <h3>Stables: cheap insurance against the empty-space penalty</h3>
+  <p>Any farm space left completely unbuilt costs a point at game's end, and a stable is the cheapest way to convert a space out of that penalty — it works whether or not the space is inside a fenced pasture at all. Building a stable inside a pasture goes further, adding its own small bonus on top of just clearing the penalty. Treat these as two separate goals in priority order: first make sure nothing on your board is sitting fully empty (any stable placement fixes that), and only after that's handled, look for stables you can specifically place inside pastures for the extra bonus.</p>
+
+  <h3>Breeding: get to two, then protect the pair</h3>
+  <p>Livestock breeds automatically at the end of every harvest if you're holding two or more of the same type, with no action spent — a free newborn added straight to your stock. That output only continues if there's spare pasture capacity to receive the newborn; a pasture already at capacity simply loses the baby, so leave room rather than packing every enclosure to the brim the moment you fence it. It's also not a linear payoff — a huge single stack of one animal type doesn't breed proportionally more than a modest pair does, so there's little value in over-concentrating on one type once you've secured the breeding pair itself.</p>
+  <p>Once you have a breeding pair established, protecting it is usually worth more than it looks in the moment. Taking a mediocre food action specifically to avoid eating into your breeding stock, rather than reflexively converting an available animal into a quick meal, routinely pays back many times its apparent cost once the pair has had a few harvests to multiply — a small short-term sacrifice for a compounding long-term source of both food and endgame points. Weigh which individual animals you're willing to eat with that in mind: it's fine to eat down a species you already have plenty of, but eating your only pair of a type you haven't secured a fenced spot for yet trades away future breeding output for one meal's worth of food.</p>
+  <p>A useful early pattern, resource-tight but flexible: get a room built alongside a pair of stables rather than delaying stables until fencing is ready. Two stables can hold a breeding pair directly without needing a fenced pasture at all, which gets a breeding cycle started earlier than waiting for the full late-game fencing push, and immediately gives you a foothold in whichever livestock type you've stabled — useful insurance even if your fencing plans get squeezed for wood later.</p>
+</section>
+
+<section id="cards" class="tab-panel">
+  <h2>Card Engine</h2>
+  <p class="lede">Your occupations and minor improvements are what actually differentiate one game from the next — the farm shape stays similar, but which cards you drew determines how fast you get there and what you can afford to specialize in. Reading a hand well matters as much as any of the timing advice elsewhere in this guide.</p>
+
+  <h3>Evaluating what you're holding</h3>
+  <p>Treat every card as an investment: before you spend the action to acquire or play one, know exactly what you'll do with it and whether the payoff justifies the action spent getting there. Cards fall roughly into two shapes — some pay off the instant they're played with no further work, others need a specific follow-up action to activate their benefit. For the second kind, always know your very next move before committing the action to acquire the card; a strong occupation played with no plan to trigger it was a wasted turn wearing a costume.</p>
+  <p>When ranking candidates in a hand, resources that stay useful the entire game — wood in particular, since fencing alone can absorb huge amounts of it late — are worth more than they first look. Cards that generate or discount food are close behind, since a secure food supply is what buys you the freedom to spend every other action on scoring instead of scrambling. After that, look for whatever's most likely to bottleneck your specific plan (clay or stone if you're leaning into a stone house and cooking devices, reed if you're renovating or building repeatedly).</p>
+  <p>Resist the urge to force every card in your hand into play. A handful of genuinely strong, complementary cards beats playing everything you were dealt — weak cards played just because they're available cost actions that could've gone toward the farm directly, and an elaborate combo that needs three or four cards and several setup actions to pay off needs to actually earn that investment back, ideally by more than a small margin, since the setup itself wasn't advancing your farm in the meantime. Prefer a couple of cards that reinforce the same plan over one big monolithic combo — if the monolith doesn't come together the way you hoped, you're stuck with nothing to fall back on.</p>
+  <p>Don't lock yourself into one farm shape before you've seen how your hand actually supports it. Reading your dealt cards as a system — what they collectively make cheap, what they collectively make possible — should shape your target end-state, not the other way around. It's fine to hold two plausible directions in mind early and commit to whichever one your actual draws end up supporting.</p>
+
+  <h3>Occupations worth prioritizing</h3>
+  <p>No tier list survives contact with an unfamiliar hand, but a few patterns show up reliably as strong solo picks, roughly in order of how universally useful they are:</p>
+  <table class="ref-table">
+    <caption>Illustrative occupation strength patterns for solo play — not exhaustive, and always secondary to what your actual hand supports.</caption>
+    <thead><tr><th>Pattern</th><th>Why it's strong solo</th></tr></thead>
+    <tbody>
+      <tr><td>Cards that add a small bonus resource (often wood) onto an action you're already taking</td><td>Free value stacked on existing plans compounds every time you take that action — strongest when it lines up with an action you were going to take anyway rather than one you'd need to add.</td></tr>
+      <tr><td>Cards that discount or subsidize fencing</td><td>Fencing wood is usually the single largest late-game expense; anything that reduces it frees wood for an extra room, stable, or major improvement instead.</td></tr>
+      <tr><td>Cards that convert an otherwise-idle stockpile into something usable on demand (a "spend a good for food/points anytime" style effect)</td><td>Turns whatever surplus you're already sitting on into flexibility precisely when you need it — the value scales with how much of that stockpile you're actually accumulating.</td></tr>
+      <tr><td>Cards that pay out steadily once a house upgrade or specific milestone is reached</td><td>No benefit before the milestone, but a strong mid-to-late-game injection once it lands — worth holding onto even if it looks dead early.</td></tr>
+      <tr><td>Cards that reward a very narrow, specific combo you haven't actually built toward</td><td>Usually the weakest picks unless the rest of your hand happens to line up with the exact prerequisite — don't chase these speculatively.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Turn the weakest action space into an engine</h3>
+  <p>The bare Day Labourer action (a small guaranteed food payout, normally a last resort when nothing else is worth taking) can become one of the strongest turns in the game if you're holding the right combination of occupations. A small cluster of cards that each add a bonus effect specifically when Day Labourer is played — plowing a field, granting a build or renovate action, or handing over a chunk of clay — can turn a single Day Labourer play into food plus construction plus field work all in one action. That's worth actively drafting toward if you see the pieces early: it lets you largely ignore food pressure for a long stretch of the game and repurposes your weakest space into one of your strongest.</p>
+  <p>The general principle behind this generalizes past that one specific combo: an anytime-use effect (something not tied to its own action space, usable whenever) can always be spliced into the middle of a chained turn like this — a resource-conversion card, for instance, can transform a batch of clay collected mid-chain into the stone you need to finish a renovation in the same action. Look for these splice points whenever you're chaining several card effects together; they're free extra reach on a turn you were already taking.</p>
+
+  <h3>Reading power level from what gets restricted elsewhere</h3>
+  <p>A handful of cards get informally restricted in competitive online multiplayer specifically because they're considered too strong or too disruptive once real opponents are involved — cards that let you jump the family-growth queue early, or interfere with turn order, are the usual targets. None of that competitive-balance reasoning applies solo, since there's no one to disrupt — so if one of these shows up in your hand, treat its reputation as a straightforward signal of raw power rather than something to feel guilty about using. A card being "banned" in a head-to-head ruleset is a strong hint it's simply efficient, not that it's unfair in a beat-your-own-score context.</p>
+  <p>Cards that let you convert an idle worker into flat bonus points on demand (an extra action space offering a fixed point payout instead of resources, for instance) are worth more solo than their multiplayer reputation suggests, too — a lot of their perceived weakness in competitive play comes from the opportunity cost of not using that worker to block an opponent, which simply doesn't exist when you're playing alone. If the resource conversion rate looks decent in isolation, it usually is.</p>
+</section>
+
+<section id="midlate" class="tab-panel">
+  <h2>Mid &amp; Late Game</h2>
+  <p class="lede">The pivot between these two phases is the most important mental shift in the whole game: mid-game is still about building capacity, late game is entirely about spending it. Carrying a mid-game mindset — "just in case" resource gathering, setup turns with no immediate payoff — into the final rounds is the single most common way a strong opening turns into a mediocre final score.</p>
+
+  <h3>Five mid-game directions</h3>
+  <p>Once your family has grown past its opening size, the extra action count needs a destination. Which of these fits depends on your cards and how your opening actually went, not a fixed script:</p>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <h4>Fastest Expansion</h4>
+      <p>Push toward a further room and another family growth, maximizing total action count for the rest of the game.</p>
+      <p><strong>Good when:</strong> your cards scale with action count, or your Day Labourer/fishing income is strong enough to support the extra mouths without strain.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Major Improvement</h4>
+      <p>Aim for one more family member while prioritizing a Well or one of the resource-conversion majors (Joinery, Pottery, Basketmaker's Workshop).</p>
+      <p><strong>Good when:</strong> you don't have a clear standout direction — this is the safe default, and it's proactively strong whenever your resource surplus happens to line up with what one of these majors wants.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Food Stability</h4>
+      <p>Grow to your next family size while focusing on breeding livestock and sowing fields, aiming for complete self-sufficiency.</p>
+      <p><strong>Good when:</strong> you'd rather spend zero late-game actions scrambling for food and want every remaining turn free for pure scoring instead.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Board Completion</h4>
+      <p>Cap your family where it is and pour every action into fencing and plowing instead of further growth.</p>
+      <p><strong>Good when:</strong> your cards reward filling out the board directly (a point bonus per field or per completed pasture, for instance) — for those hands, another family member is a worse use of actions than the board-filling itself.</p>
+    </div>
+    <div class="plan-card">
+      <h4>Room-Free Growth</h4>
+      <p>Grow your family through card effects while staying at your current room count, skipping the room-expansion action entirely.</p>
+      <p><strong>Good when:</strong> your hand offers a cheaper route to a new family member than the normal expand-then-grow sequence — take it opportunistically whenever the pieces line up.</p>
+    </div>
+  </div>
+  <p>Whichever direction you're in, watch for two traps that show up constantly at this stage. First, explicitly decide when to stop expanding — once the board starts offering strong scoring actions (fence runs, field completions), continuing to push for one more room is usually a worse trade than pivoting to those. Second, stop gathering resources "just in case." Every resource that doesn't eventually convert into a point was a wasted action; if you catch yourself grabbing a pile without a concrete plan for it, that action was probably better spent on food, growth, or a direct scoring move.</p>
+
+  <h3>Three rules for the final stretch</h3>
+  <p>From roughly the last quarter of the game on, the calculus changes completely:</p>
+  <ul>
+    <li><strong>Hunt down zero categories first.</strong> Every scoring category you hold nothing in — a livestock type, a crop type, fields, pastures — costs a flat penalty regardless of how well everything else is going. From here on, check every turn whether any category still sits at zero, and treat closing that gap as higher priority than adding to a category you've already covered, no matter how tempting the bigger pile looks.</li>
+    <li><strong>Cut any turn that doesn't directly score.</strong> Pure resource-gathering turns were fine at the start of the game; they're a waste now. Every remaining action should be a fence, a plowed-and-sown field, an acquired livestock type, or a scoring card played — not a setup step for something that might pay off two turns from now, when there might not be two turns left.</li>
+    <li><strong>Rush any remaining family growth immediately, don't save it for later.</strong> A late family member pays twice: it's worth points on its own, and it's an extra action for every remaining round to spend on more scoring. The earlier within this final stretch you take it, the more of that second payoff you actually get to use.</li>
+  </ul>
+  <p>Watch specifically for the handful of very late action spaces that are unusually strong and don't stick around: a room-free family growth, a combined plow-and-sow, and a combined renovate-and-fence action are all worth significantly more than an average late action, and they only appear for a turn or two before they're gone. Don't let a routine turn crowd out one of these — actively route a turn toward them when they're on the board.</p>
+
+  <h3>Plan backwards from turns remaining, not forwards from what's available</h3>
+  <p>Rather than deciding turn-by-turn what looks efficient in isolation, count your actual remaining turns (family size times rounds left) and assign each one a concrete point target before you start acting: "this turn is a fence-plus-livestock turn, worth three," "this one is a plow-and-sow, worth two," "this one plays my last bonus-point card, worth one." As a rough calibration for whether a late-game turn is pulling its weight, treat two points as the baseline for a solid action at this stage — a plowed field, a new livestock type, three units of fencing wood are all in that range. If a turn you're considering is clearly below that bar and nothing better is on offer, it's still worth taking, but it's a signal to double-check you haven't missed something stronger. Making the target explicit before you act removes the late-game hesitation that costs players their last few turns to indecision.</p>
+</section>
+
+<section id="scoring" class="tab-panel">
+  <h2>Scoring Reference</h2>
+  <p class="lede">Scoring feels opaque at first because almost everything that scores also feeds you — grain, vegetables, and every livestock type do double duty, and the point value of each sits on a non-linear step table rather than a flat rate per unit. You don't need to memorize any of this (the scoreboard is visible throughout the game), but understanding the shape of the curve changes how you plan the last few harvests.</p>
+
+  <h3>The point curve, category by category</h3>
+  <p>Every scoring category caps at 4 points, and every category floors at −1 if you hold literally none of it — there's no such thing as a neutral zero. The table below shows how many additional units you need to reach each successive point, which makes it easy to see where the big early jumps are and where you're deep into diminishing returns.</p>
+  <table class="ref-table">
+    <caption>Units needed to reach the next point, by category. Lower numbers mean cheaper points.</caption>
+    <thead><tr><th>Category</th><th>To 1st point</th><th>To 2nd</th><th>To 3rd</th><th>To 4th</th></tr></thead>
+    <tbody>
+      <tr><td>Fields</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>Pastures</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>Vegetables</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>Grain</td><td>1</td><td>3</td><td>2</td><td>2</td></tr>
+      <tr><td>Sheep</td><td>1</td><td>3</td><td>2</td><td>2</td></tr>
+      <tr><td>Boar</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+      <tr><td>Cattle</td><td>1</td><td>1</td><td>2</td><td>2</td></tr>
+    </tbody>
+  </table>
+  <p>Pastures, vegetables, and fields are the simplest — every additional unit is worth exactly one more point, no wrinkles (fields have one quirk: the very first field nets zero points, since it only cancels the empty-space penalty rather than banking a point on top — the payoff doesn't start until the second field). Grain and sheep are the most expensive to push past their first point, needing three more units for the second point before settling into a steady two-per-point rate. Boar and cattle sit in between.</p>
+  <p>A useful shortcut: for every category except fields, simply holding one unit is worth roughly two points relative to holding zero — it cancels the −1 penalty and banks the first point in the same stroke. That makes "get at least one of everything" a much higher-value action, point for point, than pushing a category you've already started further up its curve. Rooms, family members, fenced stables, and any farm space that isn't sitting empty all score in plain 1-for-1 fashion with no cap and no floor trick — there's no diminishing curve to think about there at all, just more is better.</p>
+
+  <h3>Don't chase the curve at the expense of the bigger levers</h3>
+  <p>It's easy to get pulled into optimizing exactly which threshold you're one unit away from, but the biggest swings in final score come from a small number of much bigger levers: how early you grew your family, how far you pushed your house upgrade, whether you avoided begging markers entirely, and whether you secured at least one of every scoring category. Chasing a single extra point at the top of an already-covered category is real value, but it's small compared to any of those — if you're deciding between shoring up a category you have zero in versus pushing a category you've already got partway up its curve, take the zero every time.</p>
+
+  <h3>Plan your animal surplus ahead of the final harvests</h3>
+  <p>A herd that keeps growing isn't automatically a problem, but letting it grow past the point where more of it actually helps is a real, avoidable waste. Count forward from your current stock plus however much more breeding will add before the game ends, compare that projected total against what you actually need (feeding plus your scoring target for that category), and if you're heading for a surplus, convert the extra animals to food at an earlier harvest instead of carrying them uselessly to the end. That's not falling behind — deliberately trimming a herd you don't need the full size of is proactive efficiency, not waste.</p>
+
+  <h3>An illustrative target breakdown</h3>
+  <p>There's no single correct point distribution — your cards and chosen food route will shift this — but a full stone farm with a well-rounded set of categories tends to land somewhere near this shape, useful as a sanity check against your own running total:</p>
+  <table class="ref-table">
+    <caption>One illustrative full breakdown for a strong solo game. Treat as a shape to compare against, not a target to hit exactly.</caption>
+    <thead><tr><th>Source</th><th>Typical points</th></tr></thead>
+    <tbody>
+      <tr><td>Grain, vegetables, sheep, boar, cattle (1 each minimum)</td><td>~5</td></tr>
+      <tr><td>Fields (up to 5)</td><td>~4</td></tr>
+      <tr><td>Pastures</td><td>~3</td></tr>
+      <tr><td>Fenced stables</td><td>~2</td></tr>
+      <tr><td>Stone rooms</td><td>~8</td></tr>
+      <tr><td>Family members</td><td>~15</td></tr>
+      <tr><td>Card/major improvement points</td><td>~8</td></tr>
+    </tbody>
+  </table>
+  <p>That shape adds up to roughly the mid-40s before any card-specific bonuses, which lines up with the solid-solo-game benchmark from the overview — a useful confirmation that the farm shape this guide builds toward and the scoring math actually agree with each other.</p>
+</section>
+
+<section id="campaign" class="tab-panel">
+  <h2>Campaign &amp; Variants</h2>
+  <p class="lede">Once the base puzzle stops surprising you, the official solo campaign and a handful of house-rule variants are the tools for putting tension back into the game — not a sign that base solo play was ever missing something.</p>
+
+  <h3>The official solo campaign</h3>
+  <p>Rather than a single beat-your-own-score game, the Revised Edition's Appendix supports a linked series of up to eight games. Clear a game and you keep one occupation you played that game — it's played for free at the start of round one of your next game, no action or food cost, and it stays with you for the rest of the campaign. Each successful game also raises the bar: the target score to beat climbs by roughly five points every time you clear it (a common progression looks like 50, then 55, then 60, and onward), and if you finish above that game's target, you carry forward one food for every two points you scored past it, giving your next game's opening a head start.</p>
+  <p>The shape of this is worth recognizing on its own terms: clear a threshold, keep a piece of your engine, get a resource bonus, face a harder threshold next time — the same escalating-stakes loop that shows up in plenty of other run-based games. It solves the specific frustration of engine-building games where you spend an entire session assembling something powerful only for the game to end just as it starts paying off; here, that engine explicitly carries into the next game and keeps compounding. A good early find — an occupation or improvement combo that's unusually strong — snowballs across the series as you stack another one on top each time you clear a threshold.</p>
+  <p>Treat the escalating target as a reward mechanism, not a punishment for a slow start: it scales up specifically because you're carrying real advantages forward (a free occupation, bonus food), not as a handicap layered onto a game that went poorly. If an early campaign game comes in under target, there's no need to artificially soften the next target to compensate — a target you're closer to clearing on a slower game than you were on a completely even one is usually a sign you're keeping pace with the curve, not falling behind it.</p>
+  <p>Since carried-over occupations stack game after game, which ones you choose to keep matters more than in a standalone game. Early keeps are worth prioritizing for occupations that shave actions off routine turns — anything that makes an already-common action a little more efficient pays for itself repeatedly across the rest of the series. Once you've got two or three carried occupations doing that kind of work, action economy stops being the bottleneck and every occupation kept after that should be judged purely on whether it adds resources or points outright, since you'll usually have more actions than things worth spending them on by the later games in a series. Wood-generating occupations are worth extra weight for the same reason wood matters everywhere else in this guide — it's the resource every plan eventually needs more of. By the last few games in a series, once the action economy and wood supply are both well in hand, stone tends to become the new bottleneck, so an occupation that generates stone or rewards a maxed-out stone house is a strong late-series keep.</p>
+
+  <h3>House-rule variants, for after the puzzle feels solved</h3>
+  <p>Solo Agricola's core weakness — everything accumulates uncontested, so there's no natural pressure forcing hard choices — is also exactly what a light house rule can patch, without changing the base game's shape. None of these are official, and none are necessary to enjoy the game; they're worth reaching for specifically once you've found a winning line and want the puzzle to push back again.</p>
+  <div class="tips-grid">
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Pre-set the round card order</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>Instead of leaving which round within each stage reveals which action space to random chance, choose the order yourself before the game starts. This removes luck from the equation entirely and turns the game into a pure, fully-transparent optimization puzzle — you're solving a known system rather than reacting to an unknown one. It's a strong baseline for anyone who wants every replay to be a fair, comparable attempt at the same problem rather than a different problem each time.</p></div>
+    </details>
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Alternate two worker colors</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>Play with two sets of workers and alternate which set is available each round, without retrieving the previous round's set — so you genuinely can't repeat the exact same action space two rounds running. This single change reintroduces real self-blocking pressure: it caps how much you can lean on any one accumulation space, forces broader farm development instead of one dominant repeated action, and closes off the very-late-game trick of squeezing multiple family growths back to back. When a new family member is born, add one worker of each color to keep the split even. For even more friction, a three-color version pushes closer to the blocking pressure of a multiplayer game, though it hasn't been tested as thoroughly.</p></div>
+    </details>
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Free your own blocked space</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>Pairs naturally with the alternating-color variant above: the round-order token space, normally close to useless solo since there's no turn order to fight over, can be repurposed to let you pull one of your own other-color workers off an action space to free it up again (still keeping that space's normal small bonus). The one exception worth keeping is the space that governs round order itself — leave that to clear normally rather than letting it be freed early, since bypassing it entirely starts to feel like repeating an action within the same round, which undermines the point of the color-alternating variant in the first place.</p></div>
+    </details>
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Draw cooking upgrades instead of picking</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>In practice, one specific cooking upgrade tends to dominate every game because it's simply the most efficient grain-to-food conversion available, and the game normally lets you walk straight to it. Shuffle all the cooking upgrade tiles instead, and only reveal one at a time as the option available on that upgrade's action space — buying it flips the next tile as the new option. This turns "how do I feed my family" into a genuine decision each game instead of a fixed answer, and gives the normally-skipped alternate cooking tiles a real reason to matter.</p></div>
+    </details>
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Shuffle which major improvement lands where</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>Rather than every major improvement being available from the moment its category unlocks, shuffle the pool and deal them randomly onto their round spaces — so a resource-conversion major you'd normally grab in the midgame might not show up until much later, or vice versa. The practical effect is that which resources convert into food, and when, shifts from game to game, adding real variety to the food-engine decision without touching anything else about the base game.</p></div>
+    </details>
+    <details class="tip-section">
+      <summary class="tip-summary"><h4>Add a "stakes" constraint on top of a cleared campaign</h4><span class="tip-chevron">▾</span></summary>
+      <div class="tip-body"><p>Once the base campaign feels comfortably beatable, layer an optional self-imposed constraint onto a run the way a roguelike deckbuilder escalates difficulty after a clear. A vegetarian run bans eating any animal for food and instead grants a bonus for converting grain or vegetables directly to food, forcing the crop route even if your cards would normally support ranching. A fence-building run docks points for falling short of fencing thresholds at fixed checkpoints through the game, forcing you to front-load pasture work you might otherwise leave for the very end. Both are easy to invent more of once you understand what makes the base game easy — pick whichever constraint targets the exact shortcut you've been leaning on.</p></div>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<script>
+  (function(){
+    const root = document.documentElement;
+    const saved = localStorage.getItem('guides-theme');
+    if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+    function currentTheme(){
+      return root.dataset.theme ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('guides-theme', next);
+    });
+  })();
+
+  function activateTab(tabId){
+    const btn = document.querySelector(`nav.tabs button[data-tab="${tabId}"]`);
+    const panel = document.getElementById(tabId);
+    if(!btn || !panel) return;
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.tab-panel').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    panel.classList.add('active');
+    localStorage.setItem('agricola-active-tab', tabId);
+  }
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+  });
+  activateTab(localStorage.getItem('agricola-active-tab') || 'overview');
+
+  document.querySelectorAll('.tips-grid').forEach(grid => {
+    const sections = grid.querySelectorAll('.tip-section');
+    sections.forEach(s => s.addEventListener('toggle', () => {
+      if(s.open) sections.forEach(o => { if(o !== s) o.open = false; });
+    }));
+  });
+</script>
+</body>
+</html>
