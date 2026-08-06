@@ -24,6 +24,7 @@ Every guide shares one visual design — the Lantern theme, see `.claude/lantern
 - `nusfjord/` — Nusfjord strategy guide (fishing company management, worker placement, building engine, share strategy)
 - `gaia-project/` — Gaia Project strategy guide (faction strategy, terraforming efficiency, tech track routes, scoring optimization)
 - `agricola/` — Agricola (Revised Edition) solo strategy guide (occupation/minor engine building, action efficiency, family growth planning)
+- `walk-of-life/` — Walk of Life (Steam app `1910150`) mechanics reference (stats, careers, education, events, turn structure) — how-it-works focus, not strategy
 
 ## Git
 

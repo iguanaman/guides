@@ -1,0 +1,1832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walk of Life — Mechanics Reference</title>
+<meta name="description" content="How Walk of Life actually works: turn economy, attributes, jobs, education, money, events, roles and efficiency — the systems the game never explains.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+  }
+
+  /* ---------- globals ---------- */
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3,h4{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+  a{color:var(--fjord-bright)}
+  p{margin:0 0 .8rem}
+  ul,ol{margin:0 0 .8rem;padding-left:1.3rem}
+  li{margin-bottom:.28rem}
+  strong{color:var(--ink)}
+  code{font-family:"Consolas","Menlo",monospace;font-size:.86em;background:var(--panel-raised);padding:.05em .3em;border-radius:3px}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:relative;
+    padding:2.6rem 1.5rem 1.4rem;
+    text-align:center;
+    max-width:62rem;
+    margin:0 auto;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin-bottom:.5rem;
+  }
+  header.site h1{
+    margin:0 0 .4rem;
+    font-size:2.4rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+  }
+  header.site p{
+    margin:0 auto;
+    max-width:52ch;
+    color:var(--ink-dim);
+  }
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  /* ---------- tab nav ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:10;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:1300px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);font-size:.84rem;font-weight:700;letter-spacing:.05em;
+    color:var(--ink-dim);background:none;border:none;
+    border-bottom:2px solid transparent;padding:.7rem 1rem;
+    cursor:pointer;transition:color .15s;flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{color:var(--bronze-bright);border-bottom-color:var(--bronze)}
+
+  /* ---------- layout ---------- */
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.5rem 5rem}
+  .panel{display:none}
+  .panel.active{display:block}
+  .panel > h2:first-child{margin-top:0}
+  h2{font-size:1.7rem;margin:2.6rem 0 .6rem}
+  h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+  h4{font-size:1rem;margin:1.2rem 0 .35rem;color:var(--fjord-bright);font-variant:normal;letter-spacing:.02em}
+  .lede{color:var(--ink-dim);font-size:1.05rem;max-width:62ch}
+
+  .block{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1.1rem 1.3rem;margin:0 0 1.1rem;box-shadow:0 2px 8px var(--shadow);
+  }
+  .block > :last-child{margin-bottom:0}
+  .block h3{margin-top:0}
+
+  .note,.warn,.tip{
+    border-left:3px solid var(--fjord);background:var(--panel-raised);
+    padding:.7rem 1rem;margin:0 0 1.1rem;border-radius:0 .35rem .35rem 0;
+  }
+  .warn{border-left-color:var(--oxide)}
+  .tip{border-left-color:var(--bronze)}
+  .note > :last-child,.warn > :last-child,.tip > :last-child{margin-bottom:0}
+  .note b,.warn b,.tip b{font-family:var(--f-label);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.15rem}
+  .note b{color:var(--fjord-bright)}
+  .warn b{color:var(--oxide-bright)}
+  .tip b{color:var(--bronze-bright)}
+
+  .tag{
+    display:inline-block;font-family:var(--f-label);font-size:.62rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;vertical-align:middle;
+    padding:.1rem .42rem;border-radius:.6rem;margin-left:.35rem;
+    border:1px solid var(--line-bright);color:var(--ink-dim);background:var(--panel-raised);
+  }
+  .tag.cur{color:var(--fjord-bright);border-color:var(--fjord)}
+  .tag.old{color:var(--oxide-bright);border-color:var(--oxide)}
+  .tag.pl{color:var(--bronze-bright);border-color:var(--bronze)}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 1.1rem;border:1px solid var(--line);border-radius:.5rem;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}
+  th,td{padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{
+    font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--fjord-bright);background:var(--panel-raised);position:sticky;top:0;
+  }
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* ---------- accordion ---------- */
+  details{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    margin:0 0 .6rem;overflow:hidden;
+  }
+  details[open]{box-shadow:0 2px 10px var(--shadow)}
+  summary{
+    cursor:pointer;padding:.7rem 1rem;list-style:none;
+    font-variant:small-caps;font-weight:700;letter-spacing:.03em;
+    color:var(--bronze-bright);font-size:1.06rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";color:var(--fjord);font-size:.8rem;transition:transform .15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  summary:hover{background:var(--panel-raised)}
+  summary .sub{font-variant:normal;font-weight:400;font-size:.8rem;color:var(--ink-dim);letter-spacing:0;margin-left:auto;text-align:right}
+  .det-body{padding:.2rem 1.1rem 1rem;border-top:1px solid var(--line)}
+  .det-body > :first-child{margin-top:.7rem}
+  .det-body > :last-child{margin-bottom:0}
+  .det-body .tw{border-radius:.35rem}
+
+  /* ---------- card grid ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin:0 0 1.2rem}
+  .role-card{
+    appearance:none;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:.85rem 1rem;box-shadow:0 2px 8px var(--shadow);
+    transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+  }
+  .role-card:hover{transform:translateY(-3px);border-color:var(--bronze);box-shadow:0 8px 22px var(--shadow)}
+  .role-card .rc-name{font-variant:small-caps;font-weight:700;font-size:1.1rem;color:var(--bronze-bright);letter-spacing:.02em;line-height:1.25}
+  .role-card .rc-hook{font-size:.83rem;color:var(--ink-dim);line-height:1.45;margin-top:.15rem}
+  .role-detail{display:none}
+
+  .keyval{display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;font-size:.9rem;margin:0 0 .9rem}
+  .keyval dt{font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--fjord-bright);padding-top:.28rem}
+  .keyval dd{margin:0}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:var(--overlay);
+    z-index:100;align-items:center;justify-content:center;padding:2rem;
+  }
+  .modal-overlay.active{display:flex}
+  .modal{
+    background:var(--panel-raised);border:1px solid var(--line-bright);border-radius:.6rem;
+    max-width:720px;width:100%;height:92vh;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 20px 60px var(--shadow);position:relative;
+  }
+  #modal-body{flex:1;overflow-y:auto;padding:0 2.75rem 2.5rem}
+  #modal-body > :first-child:not(h3){margin-top:2rem}
+  #modal-body .tw,#modal-body .block{background:var(--panel)}
+  .modal h3{
+    position:sticky;top:0;z-index:1;margin:0 0 .6rem;
+    padding:2rem 3rem .8rem 0;font-size:1.6rem;
+    background:var(--panel-raised);border-bottom:1px solid var(--line);
+  }
+  .modal-close{
+    position:absolute;top:1.25rem;right:1.5rem;z-index:2;
+    background:none;border:none;color:var(--ink-dim);
+    font-size:1.4rem;cursor:pointer;line-height:1;
+  }
+  .modal-close:hover{color:var(--ink)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    h2{font-size:1.45rem}
+    summary .sub{display:none}
+    .modal-overlay{padding:0}
+    .modal{max-width:none;height:100vh;height:100dvh;border:none;border-radius:0}
+    #modal-body{padding:0 1.1rem 1.6rem}
+    .modal h3{padding:1.4rem 2.6rem .7rem 0;font-size:1.35rem}
+    .modal-close{top:.9rem;right:.8rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,.role-card,nav.tabs button,summary::before{transition:none}
+    .theme-toggle:hover,.role-card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="kicker">Porcelain Fortress · Mechanics Reference</div>
+  <h1>Walk of Life</h1>
+  <p>How the game actually works — the systems it never stops to explain, written to sit open beside you while you play.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-panel="turn" class="active">Turn &amp; Time</button>
+  <button data-panel="attributes">Attributes</button>
+  <button data-panel="work">Work &amp; Education</button>
+  <button data-panel="money">Money</button>
+  <button data-panel="home">Home</button>
+  <button data-panel="locations">Locations</button>
+  <button data-panel="roles">Roles</button>
+  <button data-panel="events">Events &amp; Quests</button>
+  <button data-panel="pvp">Multiplayer &amp; PvP</button>
+  <button data-panel="efficiency">Efficiency</button>
+  <button data-panel="hidden">Undocumented</button>
+</nav>
+
+<main id="main">
+
+<!-- ==================== TURN & TIME ==================== -->
+<section class="panel active" id="panel-turn">
+  <h2>Turn &amp; Time</h2>
+  <p class="lede">Walk of Life is a board game wearing a life sim's clothes. Every round you get a budget of time, and absolutely everything — working, studying, shopping, and crucially <em>walking between buildings</em> — is paid for out of that budget. Understanding the time economy is understanding the game.</p>
+
+  <div class="note">
+    <b>Dating this guide</b>
+    <p>The game changed heavily across Early Access (Oct 2025 – Apr 2026) and has kept changing since 1.0. Claims are tagged <span class="tag cur">current</span> where they reflect the v1.3 build, <span class="tag old">older build</span> where a system has since been reworked and the detail may be stale, and <span class="tag pl">player-reported</span> where the source is community testing rather than a developer statement.</p>
+  </div>
+
+  <h3>The shape of a round</h3>
+  <p>A round is one in-game day (the game also calls them turns or weeks depending on the screen). It resolves in a fixed order:</p>
+  <ol>
+    <li><strong>Report cards</strong> — the consequences of last round land: rent notices, pet penalties, pension checks, bust checks, whatever you earned.</li>
+    <li><strong>Choice event</strong> — a life event fires, offering up to four options. You pick one for a reward or a punishment.</li>
+    <li><strong>Your turn</strong> — spend the time budget however you like.</li>
+    <li><strong>End of round</strong> — your character eats (if food is available), attributes and pet attributes are tallied for score, and stress punishment applies if it wasn't cancelled.</li>
+  </ol>
+
+  <p>Your turn ends when the clock runs out, or when you end it deliberately. Ending early wastes the remainder — there is no carry-over — so the skill of the game is spending the last scraps of a turn on something rather than nothing.</p>
+
+  <h3>Time is the real currency</h3>
+  <p>Each action advances your personal timer by a different amount. A shower is nearly free; yoga costs roughly a twelfth of your whole day; a full relax-and-sleep sequence at home costs about two time blocks. Movement is charged the same way — the map's geography is a tax, and route planning is where most of the skill lives.</p>
+
+  <p>This is why transport, teleports and the Chailand Metro matter so much: they aren't convenience features, they're direct purchases of extra actions per round. It's also why the two maps play very differently. Calicornia is compact and forgiving; Chailand is deliberately larger, splitting the apartment tiers and the mall into separate buildings scattered across town, and the Metro exists specifically to make that size survivable.</p>
+
+  <div class="warn">
+    <b>Travel is committed</b>
+    <p>Once you click a destination the path locks in. You cannot cancel or redirect mid-walk, so a misclick across the map costs you real time. Confirm before you commit. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <h3>Eating: the upkeep nobody reminds you about</h3>
+  <p>You must eat once per round. Your character eats automatically at the <em>end</em> of the turn from whatever food is available — home fridge stock, or a meal bought during the day. Miss it and you take a penalty that shrinks your next turn's time budget, which compounds: a hungry round is a shorter round is a worse round.</p>
+
+  <p>The rules around what counts as food are the single biggest source of confusion in the game:</p>
+  <ul>
+    <li><strong>Only the chicken-leg icon counts.</strong> At Clucker's, shakes, sodas and protein drinks feed your attributes but not your hunger. If the menu item doesn't carry the food icon, you haven't eaten.</li>
+    <li><strong>One "first meal" per round.</strong> Free food from a random event, an elevator gag, or a role bonus consumes the day's meal — after which a purchased meal no longer registers as eating. This quietly breaks achievement runs and secret missions that count meals.</li>
+    <li><strong>Groceries need a fridge.</strong> Food bought at Moo Moo Mart spoils by next round unless you own a fridge. Your home screen shows the food and pet-food counters; one food is consumed per day automatically.</li>
+    <li><strong>Some food skips the fridge entirely.</strong> Clucker's meals, academy coffee, arcade pizza and the Chailand Metroburger are eaten on the spot with no storage requirement.</li>
+  </ul>
+
+  <div class="warn">
+    <b>There is no "have you eaten?" indicator, and there never will be</b>
+    <p>The developers have refused this outright: forgetting to eat is treated as a core part of the game, and an indicator would reduce play to following a checklist. Track it yourself. <span class="tag cur">current</span></p>
+  </div>
+
+  <h3>Nothing can actually kill you</h3>
+  <p>There is no fail condition. You can starve for an entire game, let every attribute bottom out, and still reach the final round and be scored — there's even an achievement for starving a whole run. Difficulty in Walk of Life is expressed as score pressure, never as elimination. That reframes solo play: you aren't surviving, you're optimising against your own previous best.</p>
+
+  <h3>Game length</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Length</th><th>Status</th><th>What it changes</th></tr></thead>
+      <tbody>
+        <tr><td class="num">10 rounds</td><td>Supported</td><td>Sprint. You cannot buy everything — furniture picks become pure score-per-dollar decisions and high job tiers are usually out of reach.</td></tr>
+        <tr><td class="num">20 rounds</td><td>Tuned</td><td>One of the two lengths the game is actually balanced around.</td></tr>
+        <tr><td class="num">30 rounds</td><td>Tuned</td><td>The other. Long enough for a full career climb, all nine education levels, pets and the late furniture list.</td></tr>
+        <tr><td class="num">40 / 50 rounds</td><td>Unbalanced</td><td>Added by request for solo players and explicitly not tuned. Expect the economy to break open in your favour late.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>There is no endless or marathon mode, and the 50-round ceiling is a real limit — players report it isn't enough to see everything the game contains in one run. The Customize Game menu now estimates how long your chosen settings will take in real time. <span class="tag cur">current</span></p>
+
+  <h3>Setup options that change the rules</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Setting</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Map</td><td>Calicornia (compact, simpler) or Chailand (larger, split locations, Metro, Arcade).</td></tr>
+        <tr><td>Game difficulty</td><td>Party / normal / hard. Scales salary, rent, stress and attribute gains and losses. The in-game "nightmare" label uses the same numbers as hard.</td></tr>
+        <tr><td>Bot difficulty</td><td>Set separately from game difficulty, and in local games it can be set <em>per bot</em>.</td></tr>
+        <tr><td>Turn timer</td><td>Real-time limit per turn, including an Unlimited option.</td></tr>
+        <tr><td>Global event frequency</td><td>Ranges up to <strong>Extreme</strong>. Higher frequency makes Economic Crash likely enough that holding stocks becomes a bad idea.</td></tr>
+        <tr><td>Choice events</td><td>Can be switched off entirely, or set to reveal each option's outcome before you pick. <span class="tag cur">v1.3</span></td></tr>
+        <tr><td>Competitive / PvP</td><td>Opt-in. Off means no player can lock your buildings, force draws on you, or steal your cash.</td></tr>
+        <tr><td>Hints</td><td>On/off toggle for in-game guidance.</td></tr>
+        <tr><td>Simultaneous turns</td><td>Everyone acts at once instead of in sequence. Online, or single-player versus bots. <span class="tag cur">v1.3</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Difficulty modifiers, exactly</h3>
+  <p>The developers published the numbers. Treat them as the shape of the difficulty curve rather than eternal constants — they were flagged as subject to change.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Hard (a.k.a. nightmare)</th><th>Easy / party mode</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>+20% attribute hit from jobs<br>−10% salary<br>+10% penalty for not eating<br>+10% penalty from stress cards</td>
+          <td>−20% attribute hit from jobs<br>+10% salary<br>−20% negatives from Clucker's food<br>+25% money from quests<br>+10% relax bonus from furniture<br>−20% penalty for not eating<br>−20% penalty from stress cards<br>+20% lottery win chance</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Rent escalation is <em>not</em> a difficulty setting — it happens on every difficulty. Each time rent falls due it rises by $50, which eventually makes the middle apartment cost more than the fancy one started at. Your apartment choice is therefore a bet on game length, not a fixed cost. <span class="tag pl">player-reported, dev-confirmed</span></p>
+
+  <h3>Simultaneous turns</h3>
+  <p>Sequential play is the default and a six-player game at full length runs for hours. Simultaneous turns compresses that: report cards and choice events still resolve player-by-player in turn order, then everyone acts at the same time, and a round barrier holds the fastest players until the lobby finishes. A six-player ten-round game runs in under twenty minutes.</p>
+
+  <p>The mode changes tactics as well as pacing. Contested resources become live races rather than turn-order questions — sprinting to the pawn shop for furniture stolen in a crime wave, or beating a rival to the park to lock the building they're walking towards. A score log tracks the lobby in real time and each pawn shows its owner's remaining turn time.</p>
+
+  <h3>Pausing, saving and ending early</h3>
+  <ul>
+    <li><strong>Vote to End Game</strong> lets a lobby finish the run early; scoring resolves at that point.</li>
+    <li><strong>Bathroom Break</strong> is a pause button for online games.</li>
+    <li><strong>Saves</strong> support multiple slots, manual saving every round, local and online games, and Steam Cloud. Loading a multiplayer save opens a join screen and lets you force-start with missing players removed.</li>
+    <li><strong>The continue button hides behind "start a new game"</strong> — an unintuitive placement that convinced many players the game had no save system at all.</li>
+  </ul>
+
+  <p><strong>In short:</strong> a round is a time budget, movement spends it as freely as actions do, and eating is a mandatory tax you have to remember without any prompt. Nothing can kill you, so the entire game is a race to convert time into score before the round counter runs out — which makes route planning, transport and the 20/30-round tuned lengths the frame everything else sits inside.</p>
+</section>
+
+<!-- ==================== ATTRIBUTES ==================== -->
+<section class="panel" id="panel-attributes">
+  <h2>Attributes</h2>
+  <p class="lede">Four bars govern your character: Health, Happiness, Hygiene and Stress. Three of them you keep up; the fourth you keep down. They are not a side system — they are tallied for score at the end of every round, and letting them slide costs you points continuously rather than all at once.</p>
+
+  <h3>How attributes score</h3>
+  <p>At the end of each round the game reads your three attribute bars and your pet's bars, and awards score based on where they sit. The bars carry visible <strong>slits marking scoring thresholds</strong>: finishing a round just below a slit wastes it, finishing just above banks the higher tier. Because this happens every round rather than once at the end, a character held at a comfortable level all game outscores one that spikes to full on the last day.</p>
+
+  <p>That per-round tally is also why the classic life-sim exploit doesn't work here. In the developers' previous game you could max health and happiness early then ignore them, or bottom them out and pump them at the end — the design was deliberately changed so that maintenance, not timing, is what pays.</p>
+
+  <div class="tip">
+    <b>Practical consequence</b>
+    <p>End your round with attributes above a threshold, not merely alive. A cheap top-up action in the last scraps of a turn is often worth more than a bigger action you don't have time to finish.</p>
+  </div>
+
+  <h3>Health</h3>
+  <p>The most painful attribute to lose and the slowest to rebuild. It drains from working, from eating (most food costs a little health), from tier 3 education, and from the additional academy courses. Life events that offer health as the sacrifice should generally be refused once you're past the early game.</p>
+  <p>The efficient restore is the gym's <strong>Let It Burn</strong> at $175, which returns roughly half the bar in one action — expensive in cash but cheap in time, which is the trade that matters. Work Out at $50 returns very little and is mostly there for quests and secret missions. Long-term, health furniture (a desk chair, a fancy TV) and the home relax action are what actually keep the bar full. Buy health furniture before other attribute furniture.</p>
+
+  <h3>Happiness</h3>
+  <p>Resilient early and brutal late. It barely moves in the opening rounds, then drains fast once you're working a tier 4–6 job, and education drains it too. The cheapest large restore is <strong>feeding the crows</strong> in the park at $50; a Clucker's shake at $75 is close behind and costs almost no time. The academy staff coffee perk gives happiness plus a free meal for no money at all, which is why the academy job is so quietly strong.</p>
+  <p>Furniture covers happiness well in the late game — an overheating computer and a home library together largely solve it, which is convenient because you buy both for education anyway.</p>
+
+  <h3>Hygiene</h3>
+  <p>Drains fastest of the three early on, then slows down as the game goes; working at the academy or the bank barely touches it. It's also the cheapest to restore, which makes it the attribute you sacrifice when a life event forces a choice.</p>
+  <p>The gym shower at $30 is once per round and the workhorse of the early game — shower whenever hygiene drops below roughly half, and always top up before a long working stretch. Washing hands in any bathroom is a near-free filler action. The bank's Wash Hand job perk is strong enough that hygiene stops being a consideration at all once you work there.</p>
+
+  <div class="warn">
+    <b>Hygiene can lock you out of your own turn</b>
+    <p>You cannot sleep at zero hygiene — you're too dirty. During a heat wave this becomes a genuine trap: relaxing raises hygiene but is itself blocked at zero, which can strand a turn with no legal way to end it well. Keep a buffer.</p>
+  </div>
+
+  <h3>Stress</h3>
+  <p>Stress works backwards from the others: it climbs, and only matters once it crosses a line. At <strong>stress level 4 and above</strong> you take a punishment to happiness, health and time, and the punishment scales with how high the level has gone.</p>
+
+  <p>The critical rule the game never states plainly: <strong>any action or condition showing the green stress-reduction icon cancels that round's punishment entirely</strong>, no matter how absurd your stress level is. You do not need to bring stress down — you need to touch a stress-reducing action once per round. That single fact separates competent play from struggling play.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Stress sink</th><th>Cost</th><th>When to use it</th></tr></thead>
+      <tbody>
+        <tr><td>Sleep at home</td><td>Ends your turn; needs the travel time to get home</td><td>The default. Keep one time block spare to make it home.</td></tr>
+        <tr><td>Yoga at the gym</td><td>$100 and roughly a twelfth of your day</td><td>Only when you can't afford both relax and sleep. Otherwise wildly overpriced in time.</td></tr>
+        <tr><td>Massage chair (Chailand furniture store job perk)</td><td>1.5 time blocks, drops one full stress level</td><td>Excellent as a last action of the round.</td></tr>
+        <tr><td>Relax at home</td><td>Time, scaling with apartment tier and furniture</td><td>Pairs with sleep; also restores attributes.</td></tr>
+        <tr><td>Jacuzzi (pawn shop)</td><td>Small time at home</td><td>Bathe at home for stress relief plus happiness and hygiene, no sleep needed that round.</td></tr>
+        <tr><td>Pet, quest and life events</td><td>Free, unreliable</td><td>Opportunistic. Always take stress reduction when a choice event offers it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Stress is hardest in the early game, before you own a car, because getting home to sleep costs so much of the day. It becomes structurally unmanageable at the top of the career ladder — a tier 6 job pushes you to stress level 4 every round regardless of what you do. The answer isn't to fight it; it's to accept the level and simply sleep, which is also why buying an expensive bed at that stage is wasted money.</p>
+
+  <h3>Attributes as a resource to spend</h3>
+  <p>Because every attribute contributes score at each round's end, the park's exchange actions are worth understanding: bathing in the pond trades a little health for a larger chunk of hygiene, pushing you over more scoring thresholds than you lose. Pushing the big rock trades hygiene for health. With the Giant Stone Head from the pawn shop, all park activities are boosted by 200% and the park turns into a genuine attribute engine rather than a curiosity.</p>
+
+  <div class="warn">
+    <b>An attribute at zero interrupts action combos</b>
+    <p>Roles that build on consecutive identical actions — the Workaholic's three-in-a-row especially — have the sequence broken if an attribute bottoms out mid-combo. Top up <em>before</em> starting a long working stretch, not during it.</p>
+  </div>
+
+  <p><strong>In short:</strong> health is precious and rebuilt with money, happiness collapses late and is rebuilt in the park, hygiene is cheap and is what you sacrifice, and stress only needs one green icon per round to be neutralised. Score is read from all four every round, so the target is a comfortable steady state above the threshold slits, not a dramatic finish.</p>
+</section>
+
+<!-- ==================== WORK & EDUCATION ==================== -->
+<section class="panel" id="panel-work">
+  <h2>Work &amp; Education</h2>
+  <p class="lede">These are one system pretending to be two. Education exists mainly to unlock jobs; jobs exist mainly to fund education and furniture. The gate between them — which degree opens which tier — is the spine of a standard run, and it's the thing the game explains least.</p>
+
+  <h3>Work level versus job tier</h3>
+  <p>Two separate numbers are easy to confuse:</p>
+  <ul>
+    <li><strong>Work level</strong> is your career experience, raised by working. It rises through levels 1 to 8; there is no level 9, and at level 8 you can no longer work for further progress. Level 8 is near-impossible to reach in a normal game and doesn't award enough score to chase.</li>
+    <li><strong>Job tier</strong> is which job the office will give you, tiers 1 to 6. Tier is gated by your work level, your education level, and sometimes your clothing tier.</li>
+  </ul>
+  <p>Work level 7 is the meaningful breakpoint for score. A well-played full-career role reaches it around round 22 or later; roles with a work penalty may not get there before round 28. In competitive games it often isn't worth chasing at all — once you're at work level 6, secret missions and the arcade convert your remaining rounds into more score than another promotion would.</p>
+
+  <div class="warn">
+    <b>Absence gets you fired, not performance</b>
+    <p>Go four consecutive rounds without working and you lose your job. It's the passage of rounds that fires you, so a stretch of study or questing has a hidden clock on it. Dead-end jobs still grant 1 XP, so a token shift resets the counter.</p>
+  </div>
+
+  <h3>What working costs</h3>
+  <p>Every work action spends time and attributes, and both scale with the tier. The higher-paying jobs are not simply better — tier 4 VexCorp starts generating stress on top of everything else (roughly ten work clicks equals one stress level at that tier), so taking it before you can absorb the stress is a trap. This is the central tension of the career track: the jobs that pay for your furniture are the same jobs that destroy the attributes the furniture exists to restore.</p>
+
+  <p>Job perks are what actually differentiate workplaces. Every workplace has one, and a good perk can be worth more than the salary difference — the academy's free food and the bank's hand wash both remove an entire upkeep category from your round.</p>
+
+  <h3>Jobs on Calicornia</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Workplace</th><th>Perk</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Clucker's</td><td>Floor Fries — free food, costs health and hygiene</td><td>Heavily nerfed. Salary and XP too low to sustain a career, and the fries cost more health than they're worth.</td></tr>
+        <tr><td>Juicies Gym</td><td>Staff Shower — free shower, decent hygiene</td><td>Fine perk, unusable salary and XP. Not a career stop.</td></tr>
+        <tr><td>The Mall</td><td>Rummage Lost and Found — one random item</td><td>High work XP for a low attribute cost. Tiers 2–4 are excellent for accelerating promotion; tier 5's salary is too weak to bother with.</td></tr>
+        <tr><td>Moo Moo Mart</td><td>Complimentary Lottery Ticket — one free ticket</td><td>Usually skip: too far from food, forcing reliance on role bonuses. Becomes genuinely good at tier 2 during an Economic Crash, sitting near the park soup kitchen.</td></tr>
+        <tr><td>Academy</td><td>Teacher's Lounge Coffee — happiness plus a free meal, costs stress</td><td>The best all-round job. Lowest attribute cost in the game with good salary and XP. Awkward to reach without a bus pass. Nerfed in v1.3 but still strong.</td></tr>
+        <tr><td>VexCorp</td><td>Teleport — travel anywhere for a small health cost</td><td>Highest work XP and excellent money, and the teleport saves enormous time. But the highest attribute cost of any job — only take it if you're confident you can hold your bars.</td></tr>
+        <tr><td>Bank</td><td>Wash Hand — small happiness and health, moderate hygiene</td><td>The money job. Highest income in the game with good XP and the highest education requirement. Hygiene stops being a problem entirely.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Jobs on Chailand</h3>
+  <p>Chailand keeps the shared workplaces and replaces the Mall with four separate stores, each with its own jobs and perk, plus the Arcade.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Workplace</th><th>Perk</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Electronics Store</td><td>Rummage Lost and Found</td><td>Unusually low clothing requirements — tiers 2–4 need only tier 1 clothes, tier 5 only tier 2. Low attribute cost, decent salary, but far from home and beaten elsewhere on pay, XP and perk.</td></tr>
+        <tr><td>Furniture Store</td><td>Use Massage Chair — 1.5 time blocks, drops a full stress level</td><td>Superb utility. Tier 2 is a strong accelerator; higher tiers cost too much health for what they pay.</td></tr>
+        <tr><td>Clothing Store</td><td>Use Dry Cleaning — little time, small hygiene, fully resets clothing durability</td><td>Lowest attribute cost, high salary and XP, low education requirement, close to food. Tiers 4–5 are among the strongest jobs in the game once you own business clothes.</td></tr>
+        <tr><td>Pet Store</td><td>Listen To Wise Owl — 1 time block for triple work XP</td><td>Promotes you dangerously fast, which usually leaves you short of money. Genuinely powerful in a 10-round game where reaching work level 5 is the whole plan.</td></tr>
+        <tr><td>Arcade</td><td>Practice Gamer Skills — 1 time block for happiness and hidden gamer skill</td><td>Salary and XP too low to work here seriously. The perk now does raise gamer skill, having previously been broken. <span class="tag cur">fixed v1.1.2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Education requirements by tier</h3>
+  <p>These are the education levels needed for the standard career path on each map. They're the numbers most worth having in front of you, because the gap between "I have the work level" and "I have the degree" is where runs stall.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Job tier</th><th>Calicornia</th><th>Chailand</th></tr></thead>
+      <tbody>
+        <tr><td class="num">Tier 1</td><td>Academy — education 1</td><td>Academy — education 1</td></tr>
+        <tr><td class="num">Tier 2</td><td>Academy — education 2</td><td>Furniture Store — education 1</td></tr>
+        <tr><td class="num">Tier 3</td><td>Academy — education 3</td><td>Academy — education 3</td></tr>
+        <tr><td class="num">Tier 4</td><td>Academy — education 5</td><td>Clothing Store — education 4</td></tr>
+        <tr><td class="num">Tier 5</td><td>Academy — education 6; Bank — education 7</td><td>Clothing Store — education 5; Bank — education 7</td></tr>
+        <tr><td class="num">Tier 6</td><td>Bank or VexCorp — education 9</td><td>Bank or VexCorp — education 9</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Clothing gates run alongside these. Casual clothes are wanted around tier 3, fancy or business clothes around tier 5. Clothing tiers cost money but not education — you can buy tier 4 clothes with no degree at all, which is counterintuitive enough that the game has an achievement for it.</p>
+
+  <h3>The education ladder</h3>
+  <p>Nine education levels exist, and nine degrees are obtainable in a single long game. Studying costs time and drains happiness; tier 3 study also costs health. Two gates sit on the ladder that have nothing to do with study:</p>
+  <ul>
+    <li><strong>Education tier 2 requires a computer at home.</strong></li>
+    <li><strong>Education tier 3 requires a computer <em>and</em> a home library.</strong></li>
+  </ul>
+  <p>That makes the $300 overheating computer and the $1000 home library mandatory purchases rather than optional furniture, and it's why they're the only two pieces worth buying before your career is established. Schools are split into separate chambers, each holding a tier and its diploma courses; empty chambers now say so rather than leaving you guessing.</p>
+
+  <h3>Diplomas and traits</h3>
+  <p>Completing education tiers 3, 6 and 9 grants a <strong>diploma</strong>. A diploma buys one of two randomly offered traits, and taking the trait consumes the diploma — one diploma, one trait, no double-dipping. Eight traits exist in the pool and only <strong>six are drawn into play at the start of each game</strong>, so check on round 1 which ones are available before planning around any of them.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Trait</th><th>Effect</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Silver Tongue</td><td>+15% salary</td><td>Game-changing at every tier. Gets attribute furniture into your apartment far earlier than it should arrive.</td></tr>
+        <tr><td>Haggler</td><td>−10% mall prices</td><td>Must-have. Cuts furniture <em>and</em> clothing costs, and stacks with a Flash Sale for absurdly cheap buying.</td></tr>
+        <tr><td>Bean Counter</td><td>+4% bank interest</td><td>Weak early because you aren't depositing yet; scales enormously once you are. With the System Failure event it takes interest to 44% for a round.</td></tr>
+        <tr><td>Power Walking</td><td>−5% movement cost</td><td>Stacks with a car. Strong early, tapers off, but buys you control over the end of a turn.</td></tr>
+        <tr><td>Making a Beefcake</td><td>+35% health gains at the gym</td><td>Strong early, falls off hard once furniture replaces the gym as your health source.</td></tr>
+        <tr><td>Worker Bee</td><td>−5% attribute loss from working</td><td>Underwhelming. One work click in twenty is free — roughly two full rounds of work to refund a single top-up.</td></tr>
+        <tr><td>Animal Whispering</td><td>−30% pet activity time, +100% play happiness</td><td>Weak since the pet rework — pets need only about ten interactions in the final rounds to max out.</td></tr>
+        <tr><td>Iron of The Stomach</td><td>No health loss eating at Clucker's</td><td>Near-useless if you have any free-food source, which most builds do.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    <b>Sell the diploma instead</b>
+    <p>Rather than taking a trait you can pawn a diploma for <strong>$100 / $250 / $400</strong> by tier. Late in a game a tier 3 diploma is almost always worth more as $400 than as a trait that has three rounds to pay off. The catch: a pawned diploma sits in the shop where <em>other players</em> can buy it and take the trait themselves — so in multiplayer it's a real tradeoff, and conversely it's worth watching the pawn shop for a rival's discarded tier 1 diploma.</p>
+  </div>
+
+  <h3>Additional academy courses</h3>
+  <p>Separate from the main ladder, and mostly quest infrastructure rather than career progress. They give no job access, though they do count toward education score late.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Course</th><th>Cost</th><th>Requirement</th><th>Unlocks</th></tr></thead>
+      <tbody>
+        <tr><td>Learn Yodel</td><td class="num">$40</td><td>4 taps</td><td>The yodel hard quest.</td></tr>
+        <tr><td>Learn Telepathy</td><td class="num">$40</td><td>Education 1, 6 taps</td><td>The telepathy hard quest.</td></tr>
+        <tr><td>Learn Croaking</td><td class="num">$40</td><td>4 taps</td><td>The frog-croaking medium quest.</td></tr>
+        <tr><td>Master Fishing</td><td class="num">$200</td><td>Lost fish, ugly fish and small fish in inventory; 5 taps</td><td>The Master Fishing Rod.</td></tr>
+        <tr><td>Magnet Fishing</td><td class="num">$400</td><td>Trash bag, bottle of goo and shoe in inventory; 10 taps</td><td>The Magnet Rod.</td></tr>
+        <tr><td>Wilderness Survival</td><td class="num">$100</td><td>4 taps</td><td>Living in the park without penalty — but it gives no education score and cuts your rent score.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Each course starts with a health cost and then runs on happiness, so a course is a real attribute expense as well as a time one. The two fishing courses are gated behind fishing up specific items with the ordinary rod first — you cannot buy your way straight to the good rods.</p>
+
+  <p><strong>In short:</strong> education is the key and jobs are the door. Get education 1 immediately, buy the computer and library because the ladder demands them, and route your promotions through whichever workplace has the perk that removes an upkeep chore from your round. Work level 7 is the score breakpoint if you have the rounds for it; if you don't, stop climbing at level 6 and spend the remaining rounds on things that score faster.</p>
+</section>
+
+<!-- ==================== MONEY ==================== -->
+<section class="panel" id="panel-money">
+  <h2>Money</h2>
+  <p class="lede">Money scores almost nothing directly. It's a conversion resource: cash becomes furniture, education, clothing and pets, and those become score. Cash sitting in your pocket at the end of the game is a wasted round somewhere earlier.</p>
+
+  <h3>Rent</h3>
+  <p>Rent falls due every four rounds, at roughly <strong>$150 / $250 / $400</strong> depending on your apartment. It escalates by <strong>$50 each time it comes due</strong>, on every difficulty, which eventually makes the middle apartment cost more than the fancy one did at the start.</p>
+
+  <p>Missing it is severe and stacks: you forfeit the rent score category, and the landlady <strong>pawns your furniture</strong> the following round to collect. Persistent non-payment gets you <strong>evicted to the park</strong>, where every home-only action disappears. You must also clear any owed rent before you're allowed to swap apartments.</p>
+
+  <div class="tip">
+    <b>Keep the rent in your pocket, not the bank</b>
+    <p>Once you're banking seriously, withdraw and hold the rent amount before the due round — more on hard difficulty. Deposits and withdrawals cost no action, but the bank being closed by a Tourist Invasion on the wrong round costs you the whole category.</p>
+  </div>
+
+  <h3>The bank</h3>
+  <ul>
+    <li><strong>Base interest is 4%</strong> per round on your balance. Deposits and withdrawals are free actions, so there's no reason to carry idle cash once you're at the bank regularly anyway.</li>
+    <li><strong>Interest sources stack.</strong> The Bean Counter trait adds 4%, and a pet trait adds up to 3% more.</li>
+    <li><strong>System Failure at the Bank</strong> is a global event that lifts interest to 40% for a single round — 44% with Bean Counter. It is the single largest money swing available.</li>
+    <li>Banking protects cash from crime waves but <strong>does not protect furniture or inventory items</strong>, which is why security matters more than banking discipline.</li>
+  </ul>
+
+  <div class="warn">
+    <b>Two bank quirks worth knowing</b>
+    <p>Taking the double-interest perk <em>during</em> the bank-failure event has been reported to set interest to 8% rather than 80%, losing you the event's 40% baseline. And the quest that asks you to lend the banker money never pays it back — treat that cash as spent. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <h3>The pawn shop</h3>
+  <p>The pawn shop both sells you goods and buys yours. Its stock rotates, so what's available differs between games and visits, and a further random item was added in v1.3.</p>
+
+  <p>Selling pays roughly <strong>30% of value</strong> — cut down from around 60%, which killed the old buy-cheap-and-flip loop. That loop now loses money against simply playing normally, so pawn to raise emergency cash or to clear an unwanted diploma, not as an income engine.</p>
+
+  <p><strong>Slot economics matter for score.</strong> You can hold two $200 items, two $400 items, and two from the $600/$800 band. In the top band always take the $800 item — 240 score against 180 for the $600. The <strong>Banjo</strong> passively adds one mall-furniture slot and one pawn-item slot, taking you from one and two to two and three, which both saves money and raises your odds of seeing every item in a run.</p>
+
+  <p>The shop also carries a cheap mall-electronics slot. These are drastically underpriced and should never be skipped — the <strong>Pal1000 security system at $120 sells for $700 at the mall</strong>, which is close to free money and full security in one purchase.</p>
+
+  <h3>Functional pawn items</h3>
+  <p>Most pawn items give poor passive attributes; you buy them for what they <em>do</em>. Don't buy them before you have a high-level job and mall furniture, or you'll spend your rounds topping up attributes the furniture should be covering.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Item</th><th>Function</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>PhoneBox</td><td>Teleport from home for a small health cost</td><td>Extremely powerful. Buy on sight.</td></tr>
+        <tr><td>Pal1000 / VexCorp Security System</td><td>+1 security</td><td>Essential once you own a lot of furniture. $120 here, $700 at the mall.</td></tr>
+        <tr><td>Jacuzzi</td><td>Bathe at home</td><td>Cheap stress reduction plus happiness and hygiene — removes the need to sleep that round.</td></tr>
+        <tr><td>Treadmill</td><td>Decent health, plus free Let It Burn at home</td><td>Very useful; can also arrive free from a life event.</td></tr>
+        <tr><td>Slushy Machine</td><td>Free shake at home</td><td>Shakes are strong and near-free in time. Recommended.</td></tr>
+        <tr><td>High Tech Toaster</td><td>5% chance of $400 each day</td><td>Free money for a poor-attribute item. Worth it.</td></tr>
+        <tr><td>Banjo</td><td>+1 mall furniture and +1 pawn item slot</td><td>Pays for itself in score and stock variety.</td></tr>
+        <tr><td>Giant Stone Head</td><td>Park activities +200%</td><td>Turns the park into a real attribute engine. Situational but potent.</td></tr>
+        <tr><td>Lucky Cat Figurine</td><td>+3% lottery chance (to 6%)</td><td>Only for a committed lottery build; pairs with the cat pet for 10.5%.</td></tr>
+        <tr><td>Fish in a Barrel</td><td>+20% cash when pawning fish</td><td>Only if you actually fish.</td></tr>
+        <tr><td>Foot Spa</td><td>Hygiene action at home</td><td>Fine, but the Jacuzzi does more.</td></tr>
+        <tr><td>Creepy Doll</td><td>A little of every attribute, no function</td><td>Acceptable filler, still worse than mall furniture.</td></tr>
+        <tr><td>Magic Mirror</td><td>Shows who's leading</td><td>Information you should already have. Skip.</td></tr>
+        <tr><td>Robo Vacuum</td><td>Prevents furniture theft only</td><td>Redundant — the burglar trap covers everything.</td></tr>
+        <tr><td>Suit Armor</td><td>Prevents money theft only</td><td>Same problem. Skip.</td></tr>
+        <tr><td>Dumbbells</td><td>Work out at home</td><td>Work Out is a bad action wherever you do it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The stock market</h3>
+  <p>Stocks trade at the bank. Unlike the developers' previous game you must <strong>sell manually</strong> — holdings persist until you act, so exit timing is entirely your problem. Stock profits now contribute score as well as cash.</p>
+  <p>The mechanism that matters: <strong>the game rewards roughly 10% per round a stock is held</strong>, paid out as accumulated interest when the sell price finally exceeds what you paid. A position that's temporarily down is therefore not a loss — holding through it is the intended play. Being up is the moment to think about gambling for more.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Stock</th><th>Buy below</th><th>Guaranteed-money floor</th></tr></thead>
+      <tbody>
+        <tr><td>Porkbutt</td><td class="num">$200</td><td class="num">$40</td></tr>
+        <tr><td>Bytecoin</td><td class="num">$500</td><td class="num">$100</td></tr>
+        <tr><td>Pony Electronics</td><td class="num">$500</td><td class="num">$100</td></tr>
+        <tr><td>VexCorp Inc</td><td class="num">$1250</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Lower is always better, since the further below the reversion band you buy, the likelier the price climbs back. Pull winning positions two to five rounds before the game ends so you don't finish down. Never buy during an Economic Crash — a crash instantly wipes stock value — and if global event frequency is set to Many or Extreme, skip stocks entirely, because crash odds are high enough to make the whole track a losing proposition. Buy <em>after</em> a crash as prices revert. With Bean Counter, stacked bank interest simply outscales stocks and you can ignore them.</p>
+
+  <div class="warn">
+    <b>Stocks are stealable</b>
+    <p>A stock position occupies an inventory slot and can be taken during a crime wave or raccoon raid if your security bar isn't full.</p>
+  </div>
+
+  <h3>The lottery</h3>
+  <p>Tickets are $35 at Moo Moo Mart, one purchase available per round, and pay <strong>$950–1100</strong> on a roughly <strong>3% chance</strong>. Buying several tickets rolls 3% independently for each, but multiple hits still count as a single win — you cannot multiply the prize. If two players win in the same draw the prize splits. The jackpot was raised and the odds tightened in the same patch, so it's a bigger, rarer payout than older guides describe.</p>
+  <p>It's not a serious income line unless you're stacking the modifiers: the Lucky Cat Figurine adds 3%, a well-cared-for cat adds up to 4.5%, and the Mystic's Virgo round raises it sharply. The other reason to buy is the secret mission that scores whoever bought the most tickets — a cheap category to dominate if it's in play.</p>
+
+  <h3>Other income lines</h3>
+  <ul>
+    <li><strong>Quests</strong> pay cash and score; rewards were increased substantially in v1.3 so that taking one is a reasonable use of a round for any role, not just the Adventurer. Hard quests run around 135 score and $270.</li>
+    <li><strong>Fishing</strong> sells at the pawn shop and contributes score. Specific fish are also required to qualify for the fishing courses.</li>
+    <li><strong>The Magnet Rod</strong> dredges money bags and junk instead of fish — but money bags <strong>score nothing directly</strong>, only converting into furniture and attribute score after further setup time. <span class="tag pl">player-reported</span></li>
+    <li><strong>Pension checks</strong> arrive every two rounds for the Senior, unconditionally.</li>
+    <li><strong>Artwork</strong> is the Artist's entire income, pawned at the shop, with value scaling on experience.</li>
+    <li><strong>Artifacts</strong> are the Scavenger's, likewise pawned.</li>
+    <li><strong>Job perks</strong> that hand you items — the mall's lost and found, Moo Moo Mart's free lottery ticket — are small but free money.</li>
+  </ul>
+
+  <p><strong>In short:</strong> pay rent on time because the penalty is compound, bank everything you aren't about to spend because interest stacks, treat the pawn shop as a source of function and cheap electronics rather than a flipping engine, and hold stocks through dips but never through a crash. Cash is only ever a step on the way to furniture, degrees and pets.</p>
+</section>
+
+<!-- ==================== HOME ==================== -->
+<section class="panel" id="panel-home">
+  <h2>Home</h2>
+  <p class="lede">Your apartment is the single biggest score category in the game and simultaneously your most vulnerable asset. Furniture scores, furniture restores attributes, and furniture attracts burglars — the three pull against each other constantly.</p>
+
+  <h3>Apartment tiers</h3>
+  <p>Housing runs from a crappy basement up through a studio or adequate house to the fancy apartment. Movement is <strong>bidirectional</strong> — you can downgrade back down mid-game, though you must clear any owed rent before swapping either way.</p>
+  <p>Tier does more than change rent. The <strong>Relax at Home action scales with your apartment</strong>, so a fancy apartment gives a much larger multi-attribute restore for the same time spent. It also sets your baseline security. On Chailand the first two tiers occupy their own separate map locations with their own landladies, so climbing the housing ladder physically relocates you across town — moving up changes your commute as well as your rent.</p>
+  <p>The standard timing is to move to the fancy apartment around round 8 and pay rent from there. On hard difficulty it's often better to move to the studio at round 8 for flexibility and take the fancy apartment around round 12, once income can absorb the higher rent escalation.</p>
+
+  <h3>Furniture and score</h3>
+  <p>Furniture is where most games are won or lost. Each item's score is visible before you buy — the info box at the side of the furniture store shows a star rating, and more stars means more score. Players consistently find furniture to be the largest single differentiator on the end screen.</p>
+  <p>The buying discipline that matters: <strong>buy almost nothing before your career is established.</strong> The exceptions are the pieces the education ladder demands and the piece that protects everything else — the overheating computer at $300, the burglar trap at $300, and the home library at $1000. Everything else delays your degrees, and degrees gate the jobs that pay for the furniture.</p>
+  <p>Once you're in a high-tier job, buy cheap attribute furniture first: it's the most cost-efficient and each piece refills a chunk of a bar. Since the computer and library already cover happiness, prioritise health pieces — a desk chair gives a large health return, and a fancy TV gives a large amount of everything. Duplicate furniture arriving as a quest reward is auto-pawned rather than wasted.</p>
+
+  <h4>Score-per-cost priority, short games only</h4>
+  <p>In 10- and 20-round games you cannot buy everything, so purchases become a pure efficiency ranking. This ordering is <em>only</em> for short games — following it in a 30-round game will actively mislead you, because there you can afford the whole list and want the attribute engine instead.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>Buy</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Mall electronics found in the pawn shop</td></tr>
+        <tr><td class="num">2</td><td>$50 mall furniture</td></tr>
+        <tr><td class="num">3</td><td>$75 Filthy Mattress, $150 Prehistoric TV, $150 Crappy Media Center, $300 Overheating Computer, $300 Burglar Trap, $300 Smoke Detector</td></tr>
+        <tr><td class="num">4</td><td>$100 Inflatable Chair, $100 / $200 / $1200 mall furniture, pawn shop items</td></tr>
+        <tr><td class="num">5</td><td>$700 Pinball Machine, $700 Air Purifier, $700 Designer Knife Set</td></tr>
+        <tr><td class="num">6</td><td>$1000 Super Fridge</td></tr>
+        <tr><td class="num">7</td><td>$400 Nice TV, $400 Media Player, $400 Fire Breather</td></tr>
+        <tr><td class="num">8</td><td>$300 Deluxe Mattress</td></tr>
+        <tr><td class="num">9</td><td>$350 mall furniture, $700 Fancy TV</td></tr>
+        <tr><td class="num">10</td><td>$750 mall furniture</td></tr>
+        <tr><td class="num">11</td><td>$400 Cozy Recliner</td></tr>
+        <tr><td class="num">12</td><td>$850 Cool Fridge</td></tr>
+        <tr><td class="num">13</td><td>$700 Pal1000</td></tr>
+        <tr><td class="num">14</td><td>$550 Sad Fridge</td></tr>
+        <tr><td>—</td><td>Home Library at $1000 is not worth its score in a short game, only its education gate</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>The fridge is optional, and that surprises people</b>
+    <p>With attributes driving per-round score, attribute furniture beats a fridge outright. A fridge slows your tempo — it takes rounds to gather and stock, rounds better spent on furniture that restores bars. The skill it replaces is exploiting free food: Clucker's, academy coffee, arcade pizza, and food from life events. Buy one fridge if you genuinely keep forgetting to eat, or if you're working the bank on Calicornia.</p>
+  </div>
+
+  <h3>Security and crime</h3>
+  <p>Crime is <strong>not a random event you might dodge</strong> — the crime wave left the global event pool and became a guaranteed core system present in every game, with its frequency raised at the same time. Security is the attribute you manage against it, shown as a blue meter in your apartment.</p>
+  <p>During a crime wave your money, furniture and inventory items — including stock positions — each carry a percentage chance of being stolen unless the security bar is full. The counterintuitive part: <strong>buying gaudy, expensive furniture lowers your security</strong>, because it attracts burglars. Every non-security purchase eats into the bar, so security is a running cost of getting rich, not a one-time upgrade. The purchase UI shows whether an item raises or lowers security before you buy.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Source</th><th>Security</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Studio / adequate house</td><td class="num">+0.65</td><td>Baseline from housing tier.</td></tr>
+        <tr><td>Fancy apartment</td><td class="num">+1</td><td>Better, but not sufficient on its own.</td></tr>
+        <tr><td>Burglar Trap</td><td class="num">+0.65</td><td>$300 at the mall, $180 at the pawn shop. Covers everything — money, furniture and items alike.</td></tr>
+        <tr><td>Pal1000 security system</td><td class="num">+1</td><td>$700 at the mall, $120 at the pawn shop. Buy once furniture is piling up.</td></tr>
+        <tr><td>Robo Vacuum</td><td>partial</td><td>Furniture only. Redundant next to the burglar trap.</td></tr>
+        <tr><td>Suit Armor</td><td>partial</td><td>Money only. Same redundancy.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>A studio or fancy apartment plus a burglar trap carries you comfortably through the early and mid game — and a crime wave typically lands somewhere around rounds 8 to 12, so buy the trap before then. Late on, add the Pal1000 to offset the security your furniture collection is costing you. Banking your cash is a partial answer at best: it protects money but leaves furniture and items exposed, and costs you a trip.</p>
+
+  <h3>Pets</h3>
+  <p>Pets were reworked substantially and most older advice about them is wrong. The current rules:</p>
+  <ul>
+    <li><strong>Score comes from end-of-game state only</strong>, not per round. Every pet starts <em>neglected</em>; care raises it to <em>content</em>, then <em>pampered</em>. You can buy a pet in the final rounds and still max the pet score category.</li>
+    <li><strong>The three states are thresholds across all bars.</strong> Neglected is 0–50%, content above 50%, pampered above 75% — and <em>every</em> bar must clear the threshold. One neglected bar forfeits the whole tier, which is why skipping baths quietly costs you the category.</li>
+    <li><strong>Traits are the reason to buy early.</strong> Each pet grants a passive trait that scales with care level, strongest at pampered. An early pet is an engine; a late pet is pure points.</li>
+    <li><strong>The adoption round is mandatory upkeep.</strong> Feed, bathe and play on the round you buy, or penalties start immediately.</li>
+  </ul>
+
+  <p>Care is cheap in money and, since v1.3, half as expensive in time — playing and bathing had their time cost halved. Pet food doesn't need refrigeration; one press of basic or ultra food covers four rounds, one press of soap gives three baths. Premium food is only marginally better than basic and generally isn't worth the premium. The efficient rhythm is to push each bar comfortably above the second line, then let it drift down to that line before topping up rather than interacting every round.</p>
+
+  <p>Pet stock rotates each turn. A cat and a dog are always available; the third slot is random, so if you want a specific trait you re-roll by revisiting the store. Well-cared-for pets also hand you positive cards at the start of a round — attributes, money or stress reduction.</p>
+
+  <div class="warn">
+    <b>The early-pet complaint</b>
+    <p>Players consistently report penalties — around $100 a time — firing repeatedly in the early game, sometimes even with all meters above half and the pet attended every turn. Whether that's the intended cost of a front-loaded investment or a bug is unresolved; no developer answer exists. The practical read: unless you specifically want a trait running all game, buying a pet in the last five rounds gets you full pet score with none of the argument. <span class="tag pl">player-reported, disputed</span></p>
+  </div>
+
+  <h4>Pet traits</h4>
+  <p>Values scale across neglected / content / pampered.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Pet</th><th>Active benefit</th><th>Scaling passive</th></tr></thead>
+      <tbody>
+        <tr><td>Cat</td><td>Relax time −50%</td><td>Lottery chance +1.5 / 3 / 4.5%</td></tr>
+        <tr><td>Dog</td><td>Take a Walk +50 happiness, +150 health</td><td>Salary +5 / 10 / 15%</td></tr>
+        <tr><td>Crow-feeder pet</td><td>Feed-crows happiness +50%</td><td>Work XP +15 / 30 / 45%</td></tr>
+        <tr><td>Chicken</td><td>Free eating at home for 1 time block</td><td>Movement speed +2 / 4 / 6%</td></tr>
+        <tr><td>Pig</td><td>Fast food at minimal time cost; improves sleep</td><td>—</td></tr>
+        <tr><td>Stress pet</td><td>Reduce stress at home for time and happiness</td><td>+$20 / 40 / 60 at the start of each turn</td></tr>
+        <tr><td>Frog</td><td>Croaking time −67%, croak happiness +500%, croak hygiene +200%</td><td>Pawn shop sale value +10 / 20 / 30%</td></tr>
+        <tr><td>Rock-pusher pet</td><td>Push rock +50 happiness, time −50%, health +50%, no hygiene penalty</td><td>Quest money +15 / 30 / 45%</td></tr>
+        <tr><td>Snake</td><td>Touch grass +100 health, time −50%, happiness +100%</td><td>Mall prices −5 / 10 / 15%</td></tr>
+        <tr><td>Bank pet</td><td>Fishing time −25%</td><td>Bank interest +1 / 2 / 3%</td></tr>
+        <tr><td>Red Panda</td><td>Speeds up the education system; improves gym Yoga</td><td>— <span class="tag cur">v1.3</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Trait choice genuinely steers a build. The snake pairs devastatingly with a Flash Sale and the Haggler trait; the cat plus the Lucky Cat Figurine is the only way a lottery build becomes real; the dog's salary bonus is one of the few things that compounds across an entire run.</p>
+
+  <h3>Living in the park</h3>
+  <p>There is no voluntary option — you live in the park because you were evicted for unpaid rent. Every home-only action disappears while you're there, which catches people out in unexpected ways: you cannot assemble the dinosaur skeleton, relax at home, sleep in your own bed, or use any home furniture action. The Wilderness Survival course removes the survival penalty but gives no education score and cuts your rent score, so it's a niche choice rather than a strategy.</p>
+
+  <h3>Collections and home extras</h3>
+  <ul>
+    <li><strong>Dinosaur bones:</strong> collect five, then assemble the skeleton at your apartment. Nothing in-game tells you where to assemble it.</li>
+    <li><strong>Fire safety:</strong> a fire extinguisher and fire alarm exist as purchasable home items.</li>
+    <li><strong>Theft defence:</strong> the security system and the knife-Roomba are the dedicated pair.</li>
+    <li><strong>Filling the apartment</strong> means buying out the mall's electronics and furniture catalogues plus every pawn shop item — the check is breadth of catalogue, not owning the best pieces. Roughly $7,000 of mall stock even at heavy discount, plus about $2,400 of pawn items. <span class="tag old">older build</span></li>
+  </ul>
+
+  <p><strong>In short:</strong> furniture is your biggest score line, but buy the computer, library and burglar trap first and let everything else wait for a real salary. Security is a running cost that rises as you get richer. Pets score fully from a last-five-rounds purchase, so buy early only when you want the trait running, and remember that every bar must clear the threshold or the tier doesn't count.</p>
+</section>
+
+<!-- ==================== LOCATIONS ==================== -->
+<section class="panel" id="panel-locations">
+  <h2>Locations</h2>
+  <p class="lede">Every building holds a set of actions, and most also host a job with its own perk. Prices below are from the Calicornia layout unless noted; Chailand shares the core buildings but splits the mall and adds two of its own.</p>
+
+  <div class="note">
+    <b>Chambers</b>
+    <p>Larger locations are divided into chambers — the academy's tiers and diploma courses each sit in their own room, for instance. Empty chambers now say they're empty rather than leaving you to guess. <span class="tag cur">v1.3</span></p>
+  </div>
+
+  <details>
+    <summary>Juicies Gym <span class="sub">health, hygiene, stress</span></summary>
+    <div class="det-body">
+      <div class="tw"><table>
+        <thead><tr><th>Action</th><th>Cost</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>Shower</td><td class="num">$30</td><td>Once per round. The early-game hygiene workhorse — use it whenever hygiene drops below roughly half, and always before a long working stretch.</td></tr>
+          <tr><td>Work Out</td><td class="num">$50</td><td>Small health. Mostly a quest and secret-mission action; too little return to be a real restore.</td></tr>
+          <tr><td>Yoga</td><td class="num">$100</td><td>Stress reduction, but costs roughly a twelfth of your day. Only when you can't afford relax plus sleep. Buffed in v1.3.</td></tr>
+          <tr><td>Let It Burn</td><td class="num">$175</td><td>Restores about half your health in one action — the efficient health purchase. Requires a little hygiene to perform.</td></tr>
+          <tr><td>Protein Shake</td><td class="num">$50</td><td>Very little health. Exists for quests and the protein-shake secret mission.</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Job perk — Staff Shower:</strong> a free shower with decent hygiene. Good perk, but the salary and XP make this a job you pass through rather than settle in.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Clucker's <span class="sub">food, happiness, bathroom</span></summary>
+    <div class="det-body">
+      <div class="tw"><table>
+        <thead><tr><th>Item</th><th>Cost</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Fries / free Floor Fries</td><td class="num">$50 / free</td><td>Cost too much health, and eating them fails the "eat the fewest fries" secret mission if it's in play. Floor fries do now count toward the eating achievement. <span class="tag cur">v1.2.2</span></td></tr>
+          <tr><td>Burger</td><td class="num">$90</td><td>The reliable meal when no free food is available.</td></tr>
+          <tr><td>Bucket</td><td class="num">$130</td><td>Quest purposes.</td></tr>
+          <tr><td>Bear Combo</td><td class="num">$170</td><td>Expensive, but a genuine rescue when happiness is critically low.</td></tr>
+          <tr><td>Shake</td><td class="num">$75</td><td>Lots of happiness for almost no time. Strong, though feeding crows is cheaper.</td></tr>
+          <tr><td>Soda</td><td class="num">$50</td><td>Worse than the shake. Secret-mission fodder.</td></tr>
+          <tr><td>Metroburger <em>(Chailand)</em></td><td class="num">$75</td><td>No health cost and includes a metro ticket. An excellent fallback meal.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Remember that only the chicken-leg-icon items feed hunger — shakes and sodas feed attributes and nothing else. Clucker's also holds one of the four bathrooms, and is one of the Scavenger's two starting dig sites.</p>
+      <p><strong>Job perk — Floor Fries:</strong> free food at a health and hygiene cost. Heavily nerfed; the salary can't sustain a career.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Academy <span class="sub">education, free food, bathroom</span></summary>
+    <div class="det-body">
+      <p>The main education ladder lives here, split across chambers by tier, along with the additional courses (yodel, telepathy, croaking, master fishing, magnet fishing, wilderness survival) and the diploma courses. Diplomas from completed tiers are spent here or pawned elsewhere.</p>
+      <p><strong>Job perk — Teacher's Lounge Coffee:</strong> happiness plus a free meal at a stress cost. This is the quiet backbone of most efficient runs: when your role's free-food bonus misses, you can drop to a lower-tier academy job purely to eat for nothing, then carry on. Stress level doesn't matter as long as you sleep that round. Nerfed in v1.3, still excellent.</p>
+      <p>The academy also has a bathroom (a secret-mission raccoon spot) and can be entered while naked, which matters for a couple of achievements.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>VexCorp <span class="sub">transport, quests, teleport</span></summary>
+    <div class="det-body">
+      <div class="tw"><table>
+        <thead><tr><th>Purchase</th><th>Cost</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Bus pass</td><td class="num">$200</td><td>Buy as early as you can afford it. Makes the whole map smoother for very little money.</td></tr>
+          <tr><td>Car</td><td class="num">$1200</td><td>The real movement upgrade. Standard timing is work level 4.</td></tr>
+          <tr><td>Vex Way</td><td class="num">$500</td><td>Generally not worth it between the other two.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Quests are issued here, one of each duration class per day, and VexCorp will not repeat a quest until you've completed all of them. An <strong>Abandon Quest</strong> action lets you drop one rather than being stuck. <span class="tag cur">v1.3</span></p>
+      <p><strong>Job perk — Teleportation Chamber:</strong> travel anywhere for a small health cost. Enormously time-efficient, and the reason VexCorp is tempting despite having the highest attribute cost of any job.</p>
+      <p>The Senior can also Complain here for a permanent pension increase, and later for a piece of a car.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Mall <span class="sub">furniture, clothing, pet store, bathroom — Calicornia only</span></summary>
+    <div class="det-body">
+      <p>Furniture, clothing and the pet store all sit inside the mall on Calicornia. On Chailand the mall is dissolved into four separate buildings.</p>
+      <p>Buy no furniture before your career is running, with three exceptions: the $300 overheating computer and $1000 home library because education requires them, and the $300 burglar trap because crime does. After that, cheap attribute furniture first.</p>
+      <p>Clothing decays on a fixed round clock — tier 1 clothes fully degrade after six rounds — and clothing tier gates both job tiers and certain locations. Tier 4 clothes need no education at all, only money.</p>
+      <p><strong>Job perk — Rummage Through Lost and Found:</strong> one random item, anything from $50 furniture to fish, trash or lottery tickets. Not a reason to work here, but a fine way to spend a scrap of time you can't use otherwise. The mall job's real appeal is high work XP for a low attribute cost.</p>
+      <p>The mall holds a bathroom, and its pet store is where the tutorial sends you to return a fish — which nothing signposts.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Moo Moo Mart <span class="sub">food, lottery, fishing gear, metro tickets</span></summary>
+    <div class="det-body">
+      <div class="tw"><table>
+        <thead><tr><th>Item</th><th>Cost</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Food (1 round)</td><td class="num">$65</td><td>Spoils next round without a fridge. A super fridge stocks six at once.</td></tr>
+          <tr><td>Lottery Ticket</td><td class="num">$35</td><td>3% chance of $950–1100.</td></tr>
+          <tr><td>Fishing Pole</td><td class="num">$100</td><td>Unlocks fishing.</td></tr>
+          <tr><td>Fishing Bait</td><td class="num">$60</td><td>Three baits; each consumed on one fishing action, improving rare-fish odds.</td></tr>
+          <tr><td>Master Fishing Rod</td><td class="num">$500</td><td>Requires the Master Fishing course. Catches Fishing Frenzy fish at any time.</td></tr>
+          <tr><td>Magnet Rod</td><td class="num">$750</td><td>Requires the Magnet Fishing course. Catches no fish — dredges metals and junk.</td></tr>
+          <tr><td>1 Metro Ticket <em>(Chailand)</em></td><td class="num">$25</td><td>Never buy singles; bulk is cheaper.</td></tr>
+          <tr><td>5 Metro Tickets <em>(Chailand)</em></td><td class="num">$100</td><td>The round-1 purchase.</td></tr>
+          <tr><td>10 Metro Tickets <em>(Chailand)</em></td><td class="num">$175</td><td>The restock purchase, around round 6.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="warn"><b>Metro tickets expire</b><p>Tickets are consumed every round whether you ride or not. Never run out — an opponent can lock the metro and strand you on the wrong side of the map.</p></div>
+      <p><strong>Job perk — Complimentary Lottery Ticket:</strong> one free ticket per round. Moo Moo Mart is also a Scavenger dig site yielding CVs, which convert to work XP at the job office.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Bank <span class="sub">money, stocks, bathroom, Golden Throne</span></summary>
+    <div class="det-body">
+      <p>Deposits and withdrawals cost no action, base interest is 4%, and interest sources stack. The stock market trades here, with manual selling.</p>
+      <p><strong>Job perk — Wash Hand:</strong> small happiness, small health and moderate hygiene — a stronger wash than the ordinary bathroom versions and enough to make hygiene a non-issue. The bank pays the highest salary in the game with good XP, at the highest education requirement.</p>
+      <p>The bank holds a standard bathroom and the <strong>Golden Throne</strong>, a gated fifth bathroom requiring education level 2 and tier 2 clothing. You can only reach the bank bathroom at all if you work at the bank, which matters for secret-mission hunting.</p>
+      <p>The bank is also one of the two sides you can back during a Kaiju Battle.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Hamilton Park <span class="sub">attributes, PvP, soup kitchen, eviction housing</span></summary>
+    <div class="det-body">
+      <div class="tw"><table>
+        <thead><tr><th>Action</th><th>Cost</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>Feed the Crows</td><td class="num">$50</td><td>Large happiness for a small action. Free if the Crows candidate is mayor — but forgetting to feed them then carries a hygiene penalty.</td></tr>
+          <tr><td>Touch Grass</td><td>free</td><td>Once per round. Tiny time, tiny happiness — the ideal filler for the last scrap of a turn.</td></tr>
+          <tr><td>Bathe in the Pond</td><td>free</td><td>Trades a little health for a lot of hygiene. Massively buffed during a heat wave, where it's the strongest cooling and cleaning action available.</td></tr>
+          <tr><td>Push the Big Rock</td><td>free</td><td>Trades hygiene for health. Costs more time than it's usually worth without the Giant Stone Head.</td></tr>
+          <tr><td>Take a Walk</td><td>free</td><td>Costs nearly a twelfth of the day plus hygiene. Buffed in v1.3, still rarely the best use of time.</td></tr>
+        </tbody>
+      </table></div>
+      <p>The Giant Stone Head from the pawn shop boosts all park activities by 200%, which converts this list from marginal to genuinely strong. The park is also the Scavenger's other starting dig site, hosts the soup kitchen during an Economic Crash, is where you live after eviction, and is where the PvP raccoons sit.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Job Office <span class="sub">employment, voting</span></summary>
+    <div class="det-body">
+      <p>Where you take and change jobs. It also hosts <strong>mayoral election voting</strong> — a detail worth remembering, because during that global event you must physically come here to vote, and rivals will otherwise pick the mayor who hurts you most.</p>
+      <p>The Drifter tracks completed jobs here via checkmarks, and the Senior's Complain action here permanently increases pension payouts. Scavenger CVs are handed in here for work XP.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Pawn Shop <span class="sub">buying, selling, diplomas</span></summary>
+    <div class="det-body">
+      <p>Rotating stock, roughly 30% payout on sales, slot limits that shape your score, and the cheap electronics slot that's close to free money. Full detail is on the Money tab.</p>
+      <p>It's also the marketplace for <strong>diplomas</strong> — yours sold for cash, or a rival's bought for their trait — and the monetisation channel for the Artist's artwork, the Scavenger's artifacts and anyone's fish.</p>
+      <p><em>Chailand only:</em> Used Metro Tickets can be gambled on here for one to five random tickets.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Arcade <span class="sub">Chailand only — contested score, food</span></summary>
+    <div class="det-body">
+      <p>Buy a token for $25, then play one of three machines. Whoever holds the <strong>high score on a machine at the end of the final round</strong> converts it into real score — three separate leaderboards, three separate prizes, and any of them can be stolen right up until the game ends. It's designed as an arms race of stubbornness rather than a one-time purchase.</p>
+      <p>Your average score rises the more you play, via a hidden gamer skill stat. Since v1.3 the arcade chambers show your exact Gamer Score, so the previously invisible progression is now readable.</p>
+      <p>Each play costs nearly a full time block, so it's easy to burn a round here without noticing. Sloppy Pizza at $100 gives moderate happiness for a small health and hygiene cost and almost no time — an excellent meal when you're working nearby.</p>
+      <p><strong>Job perk — Practice Gamer Skills:</strong> a time block for happiness and hidden gamer skill.</p>
+      <p>The Senior can Complain here for arcade tokens.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Chailand's split stores &amp; the Metro <span class="sub">what changes on map 2</span></summary>
+    <div class="det-body">
+      <p>Chailand is deliberately larger than Calicornia. The mall becomes four buildings — <strong>Electronics Store, Furniture Store, Clothing Store and Pet Store</strong> — each with its own jobs and perks. The first two apartment tiers become separate locations with their own landladies, so moving up the housing ladder relocates you across town.</p>
+      <p>The <strong>Metro</strong> exists to make that size survivable: two stations connecting opposite ends of the map, requiring passes bought at Moo Moo Mart or picked up around town. Tickets are consumed every round regardless of use.</p>
+      <p>The bathroom set differs too — on Chailand the secret-mission raccoon spawns at Clucker's, the Arcade, the Academy or the Bank.</p>
+    </div>
+  </details>
+
+  <h3>Bathrooms</h3>
+  <p>Bathrooms matter more than they look. There are four standard ones plus the gated Golden Throne, and each round a secret-mission raccoon hides in one of them at random — finding it reveals the game's hidden mission list, which stays redacted for everyone who hasn't looked.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Map</th><th>Bathrooms</th></tr></thead>
+      <tbody>
+        <tr><td>Calicornia</td><td>Clucker's, The Mall, Academy, Bank — plus the Bank's Golden Throne (education 2 + tier 2 clothes)</td></tr>
+        <tr><td>Chailand</td><td>Clucker's, Arcade, Academy, Bank</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Hand washing is tracked per bathroom and is one of the best filler actions in the game — near-free time for a little hygiene. You can only use the bank's bathroom if you work at the bank, which meaningfully narrows raccoon-hunting for everyone else.</p>
+
+  <p><strong>In short:</strong> pick jobs for their perk as much as their pay, treat the academy and bank perks as upkeep removal rather than bonuses, and learn which cheap actions sit near your route — the gym shower, a bathroom hand wash, touching grass — because those are what fill the gaps at the end of a turn.</p>
+</section>
+
+<!-- ==================== ROLES ==================== -->
+<section class="panel" id="panel-roles">
+  <h2>Roles</h2>
+  <p class="lede">Roles exist to stop the game being solved. Each one reroutes some part of the standard education-job-furniture climb, and a few abandon it entirely. Tap any role for its full mechanics.</p>
+
+  <div class="note">
+    <b>Balance is a moving target</b>
+    <p>The developers have run repeated tuning passes and say more are coming. As of the current build the community reads Artist and Workaholic as the top of the spread and Hacker as the bottom, with the Artist confirmed by a developer as due for a nerf. Take role power rankings as a snapshot, not a rule. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <div class="cards">
+    <button class="role-card" data-role="workaholic"><div class="rc-name">The Workaholic</div><div class="rc-hook">Career specialist. Three work actions in a row trigger a random bonus.</div></button>
+    <button class="role-card" data-role="shopaholic"><div class="rc-name">The Shopaholic</div><div class="rc-hook">The accessible buying role, with coupon cards and pawn-shop tricks.</div></button>
+    <button class="role-card" data-role="adventurer"><div class="rc-name">The Adventurer</div><div class="rc-hook">Quests grant XP and levels; levels grant traits the game never lists.</div></button>
+    <button class="role-card" data-role="senior"><div class="rc-name">The Senior</div><div class="rc-hook">Slow and bad at work, but paid a pension every two rounds regardless.</div></button>
+    <button class="role-card" data-role="drifter"><div class="rc-name">The Drifter</div><div class="rc-hook">Never repeats a job. Old job perks linger, so they stack.</div></button>
+    <button class="role-card" data-role="scavenger"><div class="rc-name">The Scavenger</div><div class="rc-hook">Digs for artifacts instead of working; each find unlocks a new dig site.</div></button>
+    <button class="role-card" data-role="mystic"><div class="rc-name">The Mystic</div><div class="rc-hook">A new zodiac sign every round, each granting different abilities.</div></button>
+    <button class="role-card" data-role="hacker"><div class="rc-name">The Hacker</div><div class="rc-hook">Hacks locations for stacking bonuses, at rising risk of losing them all.</div></button>
+    <button class="role-card" data-role="artist"><div class="rc-name">The Artist</div><div class="rc-hook">Cannot take a job at all. Makes art wherever inspiration is highest.</div></button>
+  </div>
+
+  <h3>How roles score</h3>
+  <p>Each role carries its own <strong>role quests</strong> — a private scoring track alongside the shared one. These were standardised to five per role (the Adventurer excepted), and their score now <strong>ramps</strong>, so higher-tier role quests are worth substantially more than low ones. Farming the easy end of your role's chain is worse than pushing deeper into it.</p>
+  <p>Role-related score is shown in its own category on the end screen, and hovering any score there breaks it down per category.</p>
+
+  <h3>Roles that were cut</h3>
+  <p>Two designs reached development and were dropped, and knowing why explains some odd corners of the current game:</p>
+  <ul>
+    <li><strong>The Angler</strong> reached internal testing before Early Access. It was cut because balancing fishing to stay viable for one specialised role made it worthless for everyone else, and because the loop touched too few locations. Its features were broken out and given to all roles instead — the master rod, the magnet rod, gated fishing education and fishing score all exist because the Angler didn't.</li>
+    <li><strong>The Trader</strong> would have learned one random stock's direction each round plus a government bailout recouping losses, letting it bait rivals into a stock about to crash. Cut partly for being one-dimensional and partly because secret information works online but breaks in local play — the same limitation that already constrains secret missions.</li>
+  </ul>
+  <p>Both may return eventually. A community vote decides which new roles ship first; that's how the Hacker beat the Artist to release.</p>
+
+  <p><strong>In short:</strong> the vanilla roles reward knowing the standard route cold, the disruptive roles replace part of it with a private economy, and every role has its own five-quest scoring chain that pays more the deeper you push. Pick a role whose economy you can actually run, because most of the weak results come from playing a specialist role as though it were a Workaholic.</p>
+
+  <!-- role detail bodies (hidden; injected into modal) -->
+  <div class="role-detail" id="role-workaholic" data-title="The Workaholic">
+    <p>The most conventional role and, by the developers' own admission, the one most players underestimate. It plays the standard career climb better than anyone, and it remains near the top of the balance spread.</p>
+    <h4>All Work, No Play</h4>
+    <p>Work <strong>three times in a row with no other action interrupting</strong> and you receive one random buff:</p>
+    <ul>
+      <li><strong>Coffeebreaker</strong> — you eat automatically, spending no action on food that round.</li>
+      <li><strong>+15 happiness</strong> (roughly 1.5% of the full bar).</li>
+      <li><strong>Double work XP.</strong></li>
+      <li><strong>Double money.</strong></li>
+    </ul>
+    <p>Any non-work button mid-sequence cancels it, and so does an attribute hitting zero — which is why you top up <em>before</em> a working stretch rather than during. Count your clicks: Coffeebreaker can fire unnoticed, and eating again manually afterwards wastes health and money.</p>
+    <p>A rare mega-combo, <strong>"Moolah!"</strong>, rolls all four bonuses at once — cash, work XP, happiness and food together. <span class="tag cur">v1.2</span></p>
+    <h4>Playing it</h4>
+    <p>The role does nothing without triplets, so the whole round is built around protecting them. When there isn't time left for a full three, spend the remainder on upkeep, a job perk, or sleep if stress is at level 4 — never on a partial combo, unless you're one click from a promotion.</p>
+    <p>The academy route is the reliable line on both maps: its free coffee covers the rounds Coffeebreaker misses, and its low attribute cost lets the triplets keep running. Push to the bank when education allows, because the bank's income funds the attribute furniture the role burns through.</p>
+    <h4>Weaknesses</h4>
+    <p>Constant working makes happiness and health genuinely hard to hold. An Economic Crash hurts the role more than most, cutting both salary and progression. And a Communist mayor blocks the Workaholic from hoarding or depositing money — in a multiplayer game rivals will vote for exactly that, so voting yourself (at the job office) is not optional.</p>
+  </div>
+
+  <div class="role-detail" id="role-shopaholic" data-title="The Shopaholic">
+    <p>The other vanilla role, and the standard recommendation for a first game. It buys well, carries a coupon card that stamps purchases, and has a deeper layer of pawn-shop and fishing tricks for experienced players.</p>
+    <p>The coupon card doubles as an accidental meal log — the stamps tell you which rounds you already ate, which is genuinely useful in a game that refuses to give you an eating indicator.</p>
+    <p>A <strong>gym coupon card</strong> was added so the role can work out for free occasionally; the developers were explicit that it isn't meant to be meta-defining, just a nudge toward the gym. <span class="tag cur">v1.2</span></p>
+    <div class="warn"><b>Name confusion</b><p>Early Access material — including older achievement guides — calls the buying role the <strong>Hoarder</strong>, describing discounts and a meal-stamping coupon card. The shipped role with the coupon card is the Shopaholic. They are almost certainly the same role renamed, but treat any Hoarder-specific numbers as belonging to an older build. <span class="tag old">older build</span></p></div>
+    <p>One historical quirk worth knowing: a bug once granted sleep bonuses on purchase as well as relax bonuses, making a buy-and-sell-beds loop the optimal line. That was removed — if you read old advice recommending it, it no longer works.</p>
+  </div>
+
+  <div class="role-detail" id="role-adventurer" data-title="The Adventurer">
+    <p>Quest specialist. Completing quests fills an XP bar which grants levels, and levels grant traits. Higher Adventurer level also means you're offered <strong>higher-tier quests</strong>, which is the role's real continuous benefit and isn't tied to any visible level-up popup.</p>
+    <h4>The level table the game never shows you</h4>
+    <p>Nothing in-game tells you what a level will give before you earn it — traits are only described after the fact. One player mapped a full run:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Level</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr><td class="num">2</td><td>Faster travel (Wanderlust)</td></tr>
+        <tr><td class="num">3</td><td>No buff</td></tr>
+        <tr><td class="num">4</td><td>Bard — unlocks Performing for Animals in the park</td></tr>
+        <tr><td class="num">5</td><td>No buff</td></tr>
+        <tr><td class="num">6</td><td>Faster travel (Wanderlust, second instance)</td></tr>
+        <tr><td class="num">7</td><td>Minor happiness upgrade to Bard</td></tr>
+        <tr><td class="num">8</td><td>No buff</td></tr>
+        <tr><td class="num">9</td><td>No buff</td></tr>
+      </tbody>
+    </table></div>
+    <p><span class="tag pl">player-reported, single run</span> Four of the eight observed levels are dead, and movespeed arrives in two discrete jumps. Plan around levels 2, 4 and 6 rather than expecting steady growth.</p>
+    <h4>Context</h4>
+    <p>The Adventurer shipped in Early Access as an experimental role — the developers describe the original version as held together with "duct tape and corn starch" — and was promoted to the standard roster once quest XP and levelling were added. Dead-end jobs give 1 XP specifically so low-tier work retains some value for this track.</p>
+    <p>Quest score has been reduced twice in balance passes, which hits the Adventurer hardest. Quest <em>cash</em> rewards were later raised, but that change was aimed at making quests worthwhile for every role, not at buffing this one. The Adventurer is also the one role exempt from the five-role-quests standardisation.</p>
+  </div>
+
+  <div class="role-detail" id="role-senior" data-title="The Senior">
+    <p>The first role given a real downside, and the game's designated new-player role. It trades time efficiency for money efficiency: other roles convert time into money by working, the Senior receives money for free and must spend its scarce time on everything else.</p>
+    <h4>Pension</h4>
+    <p>A pension check arrives <strong>every two rounds</strong>, unconditionally and with no job required. It's large enough to fund education, pets, stocks and furniture on its own.</p>
+    <h4>Complain</h4>
+    <p>A Senior-exclusive action whose effect depends on where you use it. It can be used <strong>once per round</strong>, and <strong>not in the same location two rounds running</strong> — which forces a rotation and makes the movement penalty bite.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Location</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Landlady</td><td>Reduces your next rent payment (one-off).</td></tr>
+        <tr><td>Job Office</td><td><em>Permanently</em> increases pension payouts — so the earlier you start, the more total value.</td></tr>
+        <tr><td>Clucker's</td><td>High chance of a free meal.</td></tr>
+        <tr><td>VexCorp</td><td>A piece of a car. <span class="tag cur">v1.2</span></td></tr>
+        <tr><td>Arcade</td><td>Tokens toward an arcade high score. <span class="tag cur">v1.2</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>Complain also costs less time than it originally did. <span class="tag cur">v1.1</span></p>
+    <h4>Penalties</h4>
+    <p>Working costs the Senior around <strong>30% more attributes</strong> than other roles — originally this was a time penalty, changed so that a Senior who wants to work can. Movement is much slower, and critically <strong>the movement penalty still applies while driving a car</strong>: it's a role-level multiplier, not a walking effect. The Senior does get an exclusive free metro pass, which no other role has.</p>
+    <h4>The balance argument</h4>
+    <p>The Senior has a reputation as overpowered, and among newer players that reputation is earned — pension income every two rounds forgives an enormous number of mistakes, where other roles punish inexperience immediately. Experienced players read it the opposite way: mobility and the work penalty are structural, they cost you the work level 7 breakpoint by around six rounds, and losing that costs you the secret missions and arcade contests that decide close games. Both readings are true at their own skill level, and the role is probably designed to stay that way.</p>
+  </div>
+
+  <div class="role-detail" id="role-drifter" data-title="The Drifter">
+    <p>Inverts the entire career premise. The Drifter is rewarded for working short spurts and quitting, because <strong>a job's perks linger after you leave it</strong> — chain jobs fast enough and you hold several perks at once.</p>
+    <p>The constraint is that the Drifter <strong>must not repeat a job</strong>. Tracking which you've done used to be pure memory; the job office now shows completed-job checkmarks. <span class="tag cur">v1.3</span> A counter at the bottom of the job office tracks progress through the current job's required shifts.</p>
+    <h4>Playing it</h4>
+    <p>Education is the top priority above everything else — it's what keeps opening the next unrepeated job. Clothing matters for the same reason, since clothing tier gates job access and the Drifter needs access to more jobs than anyone. The strongest target is the VexCorp job, whose teleport perk lingers and effectively hands the role free movement.</p>
+    <p>The real failure mode isn't strategic, it's cognitive: at tiers 3 and 4 the memory load of tracking jobs and lingering perks makes players forget basics like eating, and that cascades.</p>
+    <p>The Drifter's cash and work XP bonuses were over-nerfed at one point and the cash nerf was rolled back. Competitive players rate it the strongest role at high skill. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <div class="role-detail" id="role-scavenger" data-title="The Scavenger">
+    <p>Skips the corporate ladder entirely, digging through the map's dirtier corners for valuables.</p>
+    <h4>The unlock loop</h4>
+    <p>You start with <strong>two dig sites: the Park and Clucker's</strong>. Scavenging repeatedly eventually turns up an <strong>artifact</strong>, and each artifact found <strong>unlocks a new scavengeable location</strong>. The loop compounds — more artifacts means more sites means more and better loot.</p>
+    <p>Artifacts pawn for serious money, which is the role's income. But each location also has its own non-cash loot table, and that's what shapes your build:</p>
+    <ul>
+      <li><strong>Clucker's</strong> — a gift card for a free meal, offsetting upkeep.</li>
+      <li><strong>Moo Moo Mart</strong> — CVs, handed in at the job office for work XP, giving career progress without working.</li>
+    </ul>
+    <p>Some finds are pieces of a set rather than standalone items — the dinosaur bones being the visible example. Collect five and assemble the skeleton at your apartment; nothing in-game tells you where.</p>
+    <p>The role felt weak at release partly because one planned scavengeable item never shipped; it was slated to return as an item speeding the Scavenger through school for education score. Community reads rate the Scavenger strongest at intermediate skill levels. <span class="tag pl">player-reported</span></p>
+    <p>Note that the Magnet Rod lets <em>any</em> role dredge metals and junk, functioning as a pseudo-Scavenger — the role's niche is not as exclusive as it looks.</p>
+  </div>
+
+  <div class="role-detail" id="role-mystic" data-title="The Mystic">
+    <p>Where every other role has one fixed ability set, the Mystic gets a <strong>new zodiac sign every round</strong>, each granting different abilities for that round only. Twelve signs rotate, and the order is deliberately <em>not</em> the real astrological sequence — you cannot plan around real-world zodiac knowledge.</p>
+    <p>Known signs and effects:</p>
+    <ul>
+      <li><strong>Aquarius</strong> — gain happiness from hygiene activities: washing hands, showering at the gym, bathing in the pond.</li>
+      <li><strong>Virgo</strong> — greatly increased lottery win chance.</li>
+      <li><strong>Taurus</strong> — improves stress-reduction activities, and now also grants a health bonus. The health addition was added because Taurus drawn early, before stress accumulates, was dead weight. <span class="tag cur">v1.2</span></li>
+    </ul>
+    <p>The role plays as opportunism: read the round's sign, then shape the round around it rather than committing to a long-term specialty. The Mystic's cards <em>are</em> documented in the in-game notebook, which makes it the one role whose progression you can actually read ahead of time.</p>
+    <p>A wider range of actions now count toward Mystic quests, and quest status updates immediately. The zodiac is single-player-scoped by design — if you see another player's turn showing the zodiac, that's a bug, not a feature. <span class="tag cur">v1.0.3</span></p>
+  </div>
+
+  <div class="role-detail" id="role-hacker" data-title="The Hacker">
+    <p>Wins by cheating the game rather than playing it. The <strong>hack action</strong> targets a location and grants a bonus no other player can get, and hacking the same location repeatedly <strong>stacks</strong> the bonus.</p>
+    <ul>
+      <li><strong>Job Office</strong> hacked — raises your salary.</li>
+      <li><strong>Clucker's</strong> hacked — lowers menu prices.</li>
+      <li>Other reported targets include lottery odds and even downloading a car.</li>
+    </ul>
+    <h4>Heat and the bust</h4>
+    <p>Every hack raises <strong>heat</strong>. Getting busted costs you <em>all</em> accumulated hacking bonuses, not just recent ones — so the more you've stacked, the more a bust destroys. The rule as clarified by the developers:</p>
+    <div class="tip"><b>How the bust check actually works</b><p>At the <strong>end of your round</strong> a small red arrow resolves against your heat bar. If the arrow lands on <em>any</em> filled amount of heat, you're busted; if it misses, you're safe. It is not a threshold you stay under — low heat can still bust you, which is why players kept getting caught at heat levels that looked harmless. The widget was reworked to make this legible. <span class="tag cur">v1.3</span></p></div>
+    <p>Heat decays by laying low: a full round without hacking lowers it, and enough clean rounds drive it to zero. There is <strong>no active heat sink</strong> — nothing you can buy or do to force it down, which is the role's most-criticised feature. Players have asked for purchasable options such as a VPN or a house move; none exist.</p>
+    <p>Getting busted now plays a siren the entire lobby hears, and the chance of being caught hacking the Job Office specifically was reduced. <span class="tag cur">v1.3</span></p>
+    <p>Community consensus places the Hacker at the weak end of the roster — the payoff is real but the risk isn't controllable enough to plan around. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <div class="role-detail" id="role-artist" data-title="The Artist">
+    <p>The first role that <strong>cannot take a job at all</strong>. The job office is simply closed to it, so the entire wage economy is off the table and the role survives by making and selling art.</p>
+    <h4>Inspiration</h4>
+    <p>Entering any location pops a widget — the Artist's equivalent of the work button. Each location holds a quantity of <strong>inspiration</strong>:</p>
+    <ul>
+      <li>Higher inspiration means <strong>faster art progress</strong>, so location choice is a rate multiplier rather than flavour.</li>
+      <li>Making art <strong>drains that location's inspiration</strong>, which is the built-in anti-camping mechanism — you have to keep moving.</li>
+      <li>Inspiration <strong>refills slowly between rounds, faster the more education you have</strong>. Education is what makes previously-used locations reusable sooner.</li>
+    </ul>
+    <h4>Payout</h4>
+    <p>Finished artwork is pawned at the pawn shop. Value scales with the Artist's <strong>experience</strong> — so there are two scaling stats doing different jobs: education drives throughput, experience drives price per piece.</p>
+    <p>Because the role is already crossing the map constantly, picking up VexCorp quests to complete en route is close to free score.</p>
+    <h4>Current power level</h4>
+    <p>The Artist is widely considered overtuned, and a developer has confirmed it's being adjusted. A benchmark solo run on normal difficulty reported a car before round 10, the fancy apartment before round 15, the entire electronics and furniture catalogues before round 30, and work experience level 6 by round 30. Two structural advantages drive it: art income scales sharply once a car removes the travel bottleneck, and the role <strong>earns money and work experience from the same action</strong>, so there's no tradeoff between income and career progress. A narrower diagnosis from players is that the real outlier is simply that the Artist <strong>never needs to buy clothes</strong>, removing an upkeep cost every other role pays. <span class="tag pl">player-reported, dev-confirmed nerf pending</span></p>
+  </div>
+</section>
+
+<!-- ==================== EVENTS & QUESTS ==================== -->
+<section class="panel" id="panel-events">
+  <h2>Events &amp; Quests</h2>
+  <p class="lede">Three separate randomisers run alongside your plan: global events that reshape the whole board, choice events that fire at the start of your round, and quests that hand you optional score. They exist specifically so the game can't be solved with one memorised line.</p>
+
+  <h3>Global events</h3>
+  <p>Global events are world-wide modifiers, not per-player ones, and each has a visual presence on the map — blimps, tourists, meters — so you can read the current state off the board rather than a menu. Active events are viewable any time via the <strong>Newspaper button</strong> in the HUD.</p>
+  <p>Frequency is a setup option running up to <strong>Extreme</strong>, and events occur more randomly than they once did. Global events begin from <strong>round 3</strong>. <span class="tag old">older build</span> — in earlier versions, if nothing fired on round 3 then round 4 was a guaranteed crime wave; crime has since left the event pool and become a permanent core system, so that specific fallback may no longer apply.</p>
+
+  <details>
+    <summary>Heat Wave <span class="sub">reworked — movement pressure</span></summary>
+    <div class="det-body">
+      <p><strong>Current version <span class="tag cur">v1.3</span>:</strong> a <strong>fever meter</strong> appears at the top of your screen and fills as you <em>move around the map</em>. Fill it completely and you pass out from heat stroke — <strong>your round ends immediately</strong>, which is among the worst things that can happen to you in this game. Heat is now a tax on traversal, so a heat wave round is a round of short routes and detours.</p>
+      <p>Counterplay is cooling actions: a shake at Clucker's, bathing in the pond, and a new action standing in front of the freezer at Moo Moo Mart.</p>
+      <p><strong>Previous version <span class="tag old">pre-v1.3</span>:</strong> every action and every movement cost extra hygiene, including actions with no normal hygiene cost. It was scrapped for being one-dimensional and for generating bugs — notably breaking bots, which couldn't parse why actions had become impossible. Older guides describing heat wave as "a hygiene tax" are describing this version.</p>
+      <p>Under the old version the park's Bathe in the Pond was massively buffed during the event and was the strongest answer available; hand washing worked as a small last-action top-up, and the bank's Wash Hand perk covered it comfortably.</p>
+      <div class="warn"><b>The zero-hygiene trap</b><p>You cannot sleep at zero hygiene, and relaxing — which would raise hygiene — is also blocked there. During a heat wave it's possible to strand a turn with no good way to end it. Keep a hygiene buffer before the event bites.</p></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Economic Crash <span class="sub">4 rounds — the biggest disruption</span></summary>
+    <div class="det-body">
+      <p>Four things happen at once:</p>
+      <ol>
+        <li><strong>Every player loses their job.</strong> No exceptions.</li>
+        <li><strong>The job office offers only tier 1 and 2 jobs.</strong> This is the actual cost — re-employment is normally trivial, so the tier cap is what hurts. A tier 6 career drops to burger flipping until it lifts.</li>
+        <li><strong>Prices rise</strong> at Clucker's, the gym and the mall, and <strong>stocks crash</strong>.</li>
+        <li><strong>A soup kitchen opens in the park</strong> — free food, but the queue is long, so you pay in time instead of money.</li>
+      </ol>
+      <p>It lasts roughly four rounds, the longest of any event. Priorities while it runs, in order: quests first (score plus decent money, and completely unaffected), then education (also unaffected), then working only if you have actions left or badly need cash, then attribute maintenance.</p>
+      <p>Job choice during a crash matters more than usual. With stress under level 4, tier 2 VexCorp is the best available — good money, good XP, and the teleport lets you work to the last scrap of time then jump to the park for soup, which you take as your final action because the queue is so slow. With stress at level 4 or above, take tier 2 academy instead and simply sleep to neutralise the penalty. Tier 2 Moo Moo Mart is a reasonable gamble thanks to the free lottery ticket and its proximity to the park.</p>
+      <p>Keep money in the bank — interest is unaffected. Never buy stock during a crash, and if event frequency is high, don't hold stock at all. Buy afterwards as prices revert.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Tourist Invasion <span class="sub">2 rounds — rotating location lockout</span></summary>
+    <div class="det-body">
+      <p>A cruise ship arrives and tourists occupy <strong>one location per round, locking it</strong>, then move to a different location the next round. Two rounds, two locations. It's the most frustrating event in the game because sometimes there simply is no counterplay — it can close the job office right after you're fired, or the bank on the round you needed cash for rent.</p>
+      <p>The answer is redundancy rather than reaction: don't build a plan that depends on one specific building being open on one specific round.</p>
+      <h4>Work alternatives when your workplace is blocked</h4>
+      <div class="tw"><table>
+        <thead><tr><th>Level</th><th>Calicornia</th><th>Chailand</th></tr></thead>
+        <tbody>
+          <tr><td class="num">2</td><td>Academy blocked → tier 2 Mall</td><td>Furniture Store blocked → tier 2 Academy</td></tr>
+          <tr><td class="num">3</td><td>Academy blocked → tier 3 Mall</td><td>Academy blocked → tier 3 Moo Moo Mart</td></tr>
+          <tr><td class="num">4</td><td>Academy blocked → tier 4 Mall</td><td>Clothing Store blocked → tier 4 Academy</td></tr>
+          <tr><td class="num">5</td><td>Academy blocked → tier 5 Mall without education 7; with education 7 but no business clothes → VexCorp, and if VexCorp is blocked → Academy</td><td>Clothing Store blocked → tier 5 Academy</td></tr>
+          <tr><td class="num">6</td><td colspan="2">Bank blocked → VexCorp; VexCorp blocked → Bank</td></tr>
+        </tbody>
+      </table></div>
+      <p>For food: Clucker's blocked means gambling on your role's free-food bonus, then dropping to a lower academy tier for free coffee if it misses. Academy blocked means Clucker's, or arcade pizza on Chailand. For attributes: gym blocked leaves the park, which is thin without the Giant Stone Head.</p>
+      <div class="tip"><b>Defensive lockdown</b><p>The tourist cannot target a location that's already locked. If PvP is on, spend a goose to lock your own critical building once you've finished with it for the round — rivals can break the lock, but the tourist can't route around it. Also: replace clothes due to break during the event's second round <em>in the first round</em>, in case the clothing store closes; and don't bank everything, in case the bank is next.</p></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Mayoral Vote <span class="sub">candidate policies reshape the round</span></summary>
+    <div class="det-body">
+      <p>Four candidates stand, and the winner's policy applies for as long as they hold office. <strong>You vote at the job office</strong> — not from a menu — so voting costs a trip, and skipping it means letting rivals pick the mayor who hurts you most.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Candidate</th><th>Policy</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Crows</td><td>Feeding the crows becomes free</td><td>The best candidate overall when you're short of happiness — free happiness every round. But forgetting to feed them then carries a hygiene penalty, so kick the candidate out once your bar is full.</td></tr>
+          <tr><td>Gym</td><td>Gym-favouring policy</td><td>Good if you have another free food source (academy coffee or a fridge); otherwise the price shifts bite.</td></tr>
+          <tr><td>Communist</td><td>Blocks hoarding and depositing money</td><td>Catastrophic for money-focused builds, especially the Workaholic. Rivals will vote for this deliberately.</td></tr>
+          <tr><td>Barry</td><td>Advertised as harmless</td><td>The safe pick — but see the warning below.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Removing a sitting mayor takes votes equal to the player count if nobody else contributes — four votes in a four-player game, six in a six-player game.</p>
+      <div class="warn"><b>Barry is not harmless</b><p>Barry's description claims no effect, but players have repeatedly documented player and bot happiness being <strong>reset to zero every round</strong> from roughly round 16 onward, with the effect stopping the moment he resigns. It was verified by deliberately re-electing him. The original happiness drain was officially "lessened" in a patch, but the undocumented late-game wipe has never been acknowledged. <span class="tag pl">player-reported</span></p></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Kaiju Battle <span class="sub">two-faction tug of war</span></summary>
+    <div class="det-body">
+      <p>Giant avatars of the <strong>stock market</strong> and the <strong>fast food industry</strong> fight, with a meter showing who's winning. Pick a side by visiting the <strong>Bank</strong> or <strong>Clucker's</strong>. Allegiance is measured relatively — rewards go to whoever aided one side <em>more</em> than the other, so contributing to both is possible and net contribution is what counts.</p>
+      <p>Two contribution channels:</p>
+      <ul>
+        <li><strong>Propaganda posters</strong>, collected at Clucker's or the stock market and hung around town. <strong>Only one poster per location</strong>, so the two sides overwrite each other constantly. It's contested tempo, not a stockpile — late placement likely beats early.</li>
+        <li><strong>Repeatable side-specific quests</strong>, which are uncapped and grindable.</li>
+      </ul>
+      <p>Outcomes reshape the economy for the rest of the game rather than just paying out. Clucker's winning crashes the stock market and hands its supporters gift cards; the stock market winning sends stocks soaring, makes Clucker's more expensive for several rounds, and hands its supporters treasure.</p>
+      <div class="tip"><b>Position, then contribute</b><p>The developers explicitly invite manipulating the market ahead of the result. The real play is backing the side you can profit from, not the side you prefer — but rewards require having aided the <em>winner</em>, so your holdings and your contributions need to point at the same outcome.</p></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Big Game <span class="sub">3 rounds — cooperative, with a losing penalty</span></summary>
+    <div class="det-body">
+      <p>Everyone contributes toward their map's team — Calicornia on map one, Chailand on map two. A well-supported team receives large money rewards, happiness and stress reduction. If contributions fall short the team loses, and <strong>three locations on Calicornia or five on Chailand are blocked the following round</strong>.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Contribution</th><th>Cost</th><th>Points</th></tr></thead>
+        <tbody>
+          <tr><td>Ticket (Moo Moo Mart)</td><td class="num">$50</td><td class="num">5</td></tr>
+          <tr><td>Shirt (mall / clothing store)</td><td class="num">$150</td><td class="num">15</td></tr>
+          <tr><td>Team shake (Clucker's)</td><td class="num">$75</td><td class="num">2</td></tr>
+          <tr><td>Cheering in the park</td><td>time</td><td class="num">1</td></tr>
+        </tbody>
+      </table></div>
+      <p>The shirt also guarantees a $500 signed shirt if your team wins, and the highest personal contribution wins an $800 soccer ball. The efficient line is to buy the ticket and shirt, take the personal lead, and stop — a full meter can still lose, so spending beyond that risks money on an outcome you don't control. Lock your most important location defensively on the third round in case the riot follows.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Smaller events <span class="sub">flash sale, fishing frenzy, system failure, crime wave</span></summary>
+    <div class="det-body">
+      <h4>Flash Sale</h4>
+      <p>20% off all mall furniture — and the discount was later increased. This is when you buy the overheating computer, burglar trap and home library. It stacks with the Haggler education trait and the snake pet's mall discount for up to roughly 45% off. It does <strong>not</strong> affect pawn shop items.</p>
+      <h4>Fishing Frenzy</h4>
+      <p>Special fish become catchable, including the octopus, which is only available during this event unless you own the Master Rod. It's a genuine goldmine for a fishing build stacking the Fish Barrel and Frog sale multipliers, and a distraction for anyone else — it breaks your working pace and burns hygiene for a gamble.</p>
+      <h4>System Failure at the Bank</h4>
+      <p>Bank interest jumps from 4% to <strong>40% for one round</strong>, or 44% with Bean Counter. The single biggest money swing in the game if your balance is sitting there when it fires.</p>
+      <h4>Crime Wave</h4>
+      <p>No longer a random event — it's a guaranteed core system in every game, with frequency deliberately raised. Money, furniture and inventory items each carry a theft chance unless your security bar is full. See the Home tab for the security numbers.</p>
+    </div>
+  </details>
+
+  <h3>Choice events</h3>
+  <p>A choice event fires at the <strong>start of each round</strong>, offering up to four options, each a reward or a punishment. They're written for comedy, but they're a real decision layer — dozens were added in v1.3, including role-specific events for every role that previously lacked them.</p>
+  <p>Two setup toggles now exist: <strong>show each option's outcome before you pick</strong>, and <strong>turn choice events off entirely</strong>. The first turns the system from memorisation into genuine strategy — you choose what fits your current state rather than what you happen to remember. If you dislike randomness, both are worth setting.</p>
+
+  <h4>What to take and what to give up</h4>
+  <p>Choice events almost always trade one resource for another, so the useful skill is knowing your standing exchange rate. It shifts across the game:</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Phase</th><th>Want, in order</th><th>Sacrifice, in order</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Early</strong><br>work level 1–3</td>
+          <td>Stress decrease · free food · money · health · happiness · hygiene · work XP</td>
+          <td>Stress increase · action decrease · hygiene · happiness · health · money · free food · work XP</td>
+        </tr>
+        <tr>
+          <td><strong>Mid</strong><br>work level 4–5</td>
+          <td>Stress decrease · free food · money · happiness and health · hygiene · work XP</td>
+          <td>Stress increase · action decrease · hygiene · happiness and health · money · free food · work XP</td>
+        </tr>
+        <tr>
+          <td><strong>Late</strong><br>work level 6+</td>
+          <td>Stress decrease · money · health · happiness · hygiene · work XP · free food</td>
+          <td>Stress increase · free food · hygiene · action decrease · happiness · health · money · work XP</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Two principles hold throughout. <strong>Stress increase is almost always the right thing to give up</strong>, because you can neutralise a round's punishment with any single green-icon action regardless of level. And <strong>work XP decrease is the most dangerous sacrifice</strong> — it can drop you back a work level, undoing several rounds. Adapt to your actual state rather than following the list blindly: a happiness gain is worthless at full happiness.</p>
+
+  <h3>Quests</h3>
+  <p>Quests are issued at <strong>VexCorp</strong> and were introduced specifically to stop the game being solvable — they're randomised per run, so some align with what you were already doing and some force a detour. Each is one or more objectives inside a time limit, paying score and cash.</p>
+  <ul>
+    <li><strong>One quest of each duration class per day</strong> — short, medium and long.</li>
+    <li><strong>No repeats</strong> until you've completed VexCorp's whole list, at which point they start coming round again.</li>
+    <li><strong>Hard quests generally carry a three-round gate</strong>, so accepting one late strands you. Working backwards from a 30-round game, accept by round 25 and round 28 to finish in time. They pay roughly 135 score and $270.</li>
+    <li><strong>Abandon Quest</strong> lets you drop one rather than being locked in. <span class="tag cur">v1.3</span></li>
+    <li><strong>Cash rewards were raised substantially</strong> so that taking a quest is a reasonable use of a round for any role, not just the Adventurer. Quest <em>score</em>, by contrast, has been reduced twice.</li>
+    <li>Chailand-specific quests and Chailand variants of existing quests were added, because quests tuned for Calicornia landed as either trivial or brutal on the larger map.</li>
+  </ul>
+
+  <div class="tip">
+    <b>Quest shuffle</b>
+    <p>Because hard quests carry three-round gates, accepting one immediately can strand you for two rounds doing nothing else. Squeezing an easy quest in first buys you flexibility. There's a second use: the game avoids re-offering a hard quest you just finished, but completing an easy one in between can bring it back into the pool. It's a gamble — better score, or a repeat that wastes a round — and it's mainly worth it in late-game solo play or during an Economic Crash. Against other players, secret missions are the better use of the time.</p>
+  </div>
+
+  <div class="warn">
+    <b>Quest counters don't reset</b>
+    <p>Completing a quest does not reset per-round action counters. A newly drawn quest requiring an action you've already used that round — anything once-per-round, like listening to an NPC or a specific park activity — is simply unfinishable until next round. On a final turn, that can make a drawn quest impossible. It's a known rough edge rather than a bug the game acknowledges. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <h3>Secret missions</h3>
+  <p>Three secret missions are chosen at the start of every game and revealed at the end. Each is a hidden competition, and <strong>only the player who best met the objective is rewarded</strong> — winner takes all, no shared or threshold payout. You can fulfil one accidentally and still be paid.</p>
+  <p>To find out what they are, hunt the <strong>raccoon that hides in a random bathroom each round</strong>. Finding it opens the dossier; players who haven't looked see it redacted, and there's no way to share what you've learned. Because the raccoon relocates every round, the hunt repeats rather than being a one-time unlock.</p>
+  <p>Missions are decided by raw action count — the player who fires the most qualifying actions wins. That means mobility converts directly into secret-mission win rate, since time spent travelling is time not spent spamming.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Mission</th><th>Contest value</th></tr></thead>
+      <tbody>
+        <tr><td>End with the most money in the bank</td><td>Very high — a money-focused role wins this almost by default.</td></tr>
+        <tr><td>Buy the most lottery tickets</td><td>Very high — cheap to spam.</td></tr>
+        <tr><td>Eat the fewest fries (floor fries included)</td><td>Very high — free if you were avoiding fries anyway.</td></tr>
+        <tr><td>Bathe in the pond the most</td><td>Very high — cheap, but watch the health drain.</td></tr>
+        <tr><td>Drink the most protein shakes</td><td>High</td></tr>
+        <tr><td>Drink the most soda</td><td>High</td></tr>
+        <tr><td>Travel the furthest distance</td><td>High — cross the map repeatedly.</td></tr>
+        <tr><td>Touch grass the most</td><td>High on Calicornia, medium on Chailand — once per round, and Chailand's park is badly placed.</td></tr>
+        <tr><td>Best educated / earliest to the top</td><td>Medium — you must at least match rivals' study pace round by round.</td></tr>
+        <tr><td>Sell the most junk</td><td>Medium and luck-dependent. Don't contest a Scavenger or a fishing build.</td></tr>
+        <tr><td>Do the most yoga</td><td>Medium — high action and money cost.</td></tr>
+        <tr><td>Eat the most bear combos</td><td>Low — very expensive.</td></tr>
+        <tr><td>Let it burn the most</td><td>Very low — huge action and money cost.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>You don't need all three. In a one-on-one game, commit to two; with three or more players, commit to at least one. Prioritising the cheap ones matters far more than the specific choice, and mind games shift the picture every game — treat the ordering as a starting read, not a script.</p>
+
+  <p><strong>In short:</strong> global events change the board for everyone and reward whoever adapts first — quests and education during a crash, cooling detours during a heat wave, redundancy against tourists. Choice events are a resource exchange where stress is the cheapest thing to sell and work XP the most expensive. Quests pay cash reliably and score less than they used to; secret missions are decided by cheap repeated actions, so pick the ones that fit the route you were walking anyway.</p>
+</section>
+
+<!-- ==================== MULTIPLAYER & PVP ==================== -->
+<section class="panel" id="panel-pvp">
+  <h2>Multiplayer &amp; PvP</h2>
+  <p class="lede">The base ruleset is entirely non-interactive — nobody can lock your buildings, force draws on you, or steal your cash. All of that arrives only if competitive mode is switched on at setup, which makes PvP a separate game rather than a layer on top.</p>
+
+  <h3>Modes and player counts</h3>
+  <ul>
+    <li><strong>Up to 6 players.</strong> Local play is turn-based on one screen rather than split screen despite what the store page implies — each player takes their turn with the full display, and <strong>one controller passed around is enough</strong>.</li>
+    <li><strong>Online play</strong> supports regions for Asia Pacific, Europe, North America and South America, with Steam invites and a server browser showing map and game mode.</li>
+    <li><strong>Local co-op cannot be taken online.</strong> Remote Play Together works, but only for bringing in people who don't own the game.</li>
+    <li><strong>Solo</strong> works either against bots or with no opponents at all.</li>
+    <li>There is no character customisation beyond avatar selection — the roster is fixed.</li>
+  </ul>
+
+  <div class="warn">
+    <b>Matchmaking is effectively empty</b>
+    <p>Players consistently report zero public games available. Online play in practice means friends or the official Discord, which is also where people organise the achievement that requires playing against someone who already has it. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <h3>Bots</h3>
+  <p>Bot history matters because advice about them ages badly. They launched close to useless, were retrained into something that trounced newcomers, and now have <strong>three difficulty levels</strong> — set separately from game difficulty, and in local games settable <em>per bot</em>, so you can mix them. Bots work online as well as locally, participate in PvP, and understand the difficulty settings.</p>
+  <p>Their known limitations, which are genuinely exploitable:</p>
+  <ul>
+    <li>Bots <strong>only ever pick the Workaholic</strong>. Teaching them other roles is planned but not shipped.</li>
+    <li>Bots <strong>don't attempt hard quests</strong> — they'll take easy and medium ones.</li>
+    <li>They handle the larger Chailand map poorly, and have historically done things like buying a metro pass and never using it.</li>
+    <li>A developer has confirmed they're "a little dumb" and being improved, and a new mode is in development specifically to add challenge to single-player.</li>
+  </ul>
+  <div class="tip">
+    <b>Bots as a mechanical switch in solo</b>
+    <p>Some effects need an opponent to target. Turning a single bot on — even one you have no intention of competing with — is what makes PvP-tagged cards and effects fire at all. If you're playing solo and want the full ruleset active, add a bot. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <h3>PvP sausages and the raccoons</h3>
+  <p>With competitive mode on, players accrue <strong>PvP Sausages</strong> passively over time — they aren't purchased. They're spent at the <strong>raccoons in the park</strong>, which is the only place any PvP action can be taken, so every act of aggression costs you a trip across the map.</p>
+  <div class="warn">
+    <b>There is no "PvP button"</b>
+    <p>Two of the most common questions in the community are variations of "where is PvP?". It is not a mode toggle you press mid-game — go to the park, open the raccoon tab, choose attack.</p>
+  </div>
+
+  <h4>The four actions</h4>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Action</th><th>Cost</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Send Goose</td><td class="num">3</td><td>Locks a chosen location. It stays locked until the start of your next turn, and a location that's been locked can't be locked again for three rounds. Another player spending sausages on the same place unlocks it immediately.</td></tr>
+        <tr><td>Racoon Tarot Reading</td><td class="num">5</td><td>Every player <em>including you</em> draws a random card at the start of their next turn. Multiple readings stack.</td></tr>
+        <tr><td>Start Racoon Raid</td><td class="num">6</td><td>Runs for three rounds from the round after activation. Functions exactly like a crime wave, stealing furniture, money and inventory from anyone — including you — whose security bar isn't full. The initiator takes a cut of what's stolen from others.</td></tr>
+        <tr><td>Impose Curfew</td><td class="num">7</td><td>Runs for three rounds from the next round. Everyone, you included, must end their turn asleep or be fined $200. The initiator takes a cut of the fines. Even a player holding no cash still loses a portion.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Goose and Tarot are pure disruption; Raid and Curfew are <strong>profitable</strong> to the caster, which is what makes them worth the sausage cost rather than merely annoying. Curfew is at its best when your own stress means you were going to sleep for the next three rounds anyway — you're forcing a cost on rivals you were already paying.</p>
+
+  <p>The counterplay logic is worth internalising. A goose sent at a sausage-rich opponent just funds their counter-move; the right moment is when the target has spent down. By the same token, never let your own reserve drop below three, or you become a free target with no ability to unlock. Above nine sausages a raid becomes safe to launch; above ten, a curfew.</p>
+
+  <div class="tip">
+    <b>Defensive lockdown</b>
+    <p>Locking your <em>own</em> building at the end of a round protects it from the Tourist Invasion and from the Big Game's losing riot, neither of which can target an already-locked location. Another player can break the lock, which is unavoidable, but the events cannot.</p>
+  </div>
+
+  <h4>Tarot cards</h4>
+  <p>Everyone draws, including you, which makes this a catch-up tool rather than an attack. Firing it while leading gives away expected value; firing it while behind, or on the final round when you're safely ahead and can't be hurt, is where it belongs.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Card</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Sun</td><td>+200 all attributes</td></tr>
+        <tr><td>Wheel of Fortune</td><td>+$300</td></tr>
+        <tr><td>Justice</td><td>+2 sausages</td></tr>
+        <tr><td>World</td><td>−100 all attributes</td></tr>
+        <tr><td>Devil</td><td>−200 happiness</td></tr>
+        <tr><td>Chariot</td><td>−200 health</td></tr>
+        <tr><td>Magician</td><td>−200 hygiene</td></tr>
+        <tr><td>Death</td><td>+20 stress (two levels)</td></tr>
+        <tr><td>Emperor</td><td>−$200</td></tr>
+        <tr><td>Empress</td><td>−$100</td></tr>
+        <tr><td>Hermit</td><td>Takes your clothes</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Three good outcomes against eight bad ones — the odds are why this is a variance tool, not a plan. Card probabilities have been adjusted at least once since release.</p>
+
+  <h3>The mayoral vote as a weapon</h3>
+  <p>The election is the least obvious PvP lever, because it looks like a global event. Vote the candidate that hurts your rival's role, and remember it happens at the job office.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Target role</th><th>Communist</th><th>Crows</th><th>Gym</th><th>Barry</th></tr></thead>
+      <tbody>
+        <tr><td>Workaholic</td><td>Bad for them</td><td>Good (Cali) / OK (Chai)</td><td>Good</td><td>OK</td></tr>
+        <tr><td>Shopaholic</td><td>OK</td><td>Good (Cali) / OK (Chai)</td><td>Good</td><td>Good</td></tr>
+        <tr><td>Adventurer</td><td>Good</td><td>Good (Cali) / Bad (Chai)</td><td>Bad (Cali) / OK (Chai)</td><td>Good</td></tr>
+        <tr><td>Senior</td><td>Bad</td><td>Bad</td><td>OK</td><td>Best</td></tr>
+        <tr><td>Drifter</td><td>Bad</td><td>OK</td><td>Good</td><td>OK</td></tr>
+        <tr><td>Scavenger</td><td>OK</td><td>Good (Cali) / OK (Chai)</td><td>OK (Cali) / Good (Chai)</td><td>OK</td></tr>
+        <tr><td>Mystic</td><td>Bad</td><td>OK</td><td>OK (Cali) / Good (Chai)</td><td>Good</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Read "Good" as a candidate worth voting for from that role's perspective and "Bad" as one to avoid — so to attack a Workaholic, you vote Communist. Barry is everyone's safe abstention, with the caveat about his undocumented late-game happiness wipe on the Undocumented tab.</p>
+
+  <h3>The arcade contest</h3>
+  <p>On Chailand the arcade is a three-way leaderboard fight. Only the player holding a machine's high score <em>at the end of the final round</em> converts it into score, so positions can be stolen right up to the end and defending is open-ended by design.</p>
+  <p>The mechanic most players miss is the hidden gamer skill stat, which rises every time you play and every time you use the arcade job perk. The tactic that falls out of it: commit to one machine and spam it to build skill, then near the end play the other two machines once each — your inflated skill posts scores on them that opponents who spread their plays can't match.</p>
+
+  <h3>Simultaneous turns</h3>
+  <p>Available online and, since v1.3, in single-player against bots. Report cards and choice events resolve player-by-player in turn order, then everyone acts at once, with a round barrier holding the finished players until the lobby catches up. A six-player ten-round game runs under twenty minutes against several hours sequentially.</p>
+  <p>The tactical shift is that contested resources become genuine races: getting to the pawn shop first for furniture stolen in a crime wave, or reaching the park to lock a building before the person walking toward it arrives. A score log tracks the lobby live and each pawn shows its owner's remaining time.</p>
+
+  <h3>Saving, rejoining and pausing</h3>
+  <ul>
+    <li><strong>Manual saves every round</strong>, multiple slots, local and online, plus Steam Cloud.</li>
+    <li>Loading a multiplayer save opens a join screen, and you can <strong>force start</strong> with missing players removed.</li>
+    <li><strong>Bathroom Break</strong> pauses an online game; <strong>Vote to End Game</strong> finishes a run early with scoring resolved at that point.</li>
+    <li>Disconnected players show as a robot head inviting them to rejoin from the online menus.</li>
+    <li>Saves live at <code>C:\Users\USERNAME\AppData\LocalLow\Porcelain Fortress</code> — copying that folder is how players run parallel sessions. <span class="tag pl">player-reported</span></li>
+  </ul>
+
+  <p><strong>In short:</strong> PvP is opt-in, lives entirely at the park raccoons, and runs on a sausage economy where the profitable actions are curfew and raid rather than the disruptive ones. Keep three sausages in reserve so you can always break a goose, use lockdown defensively against events rather than players, and remember that the mayoral vote and the arcade leaderboard are attacks that don't look like attacks.</p>
+</section>
+
+<!-- ==================== EFFICIENCY ==================== -->
+<section class="panel" id="panel-efficiency">
+  <h2>Efficiency</h2>
+  <p class="lede">What is $50 actually worth? What does a point of happiness cost? This tab collects the exchange rates the game never states, so you can judge whether an action is worth taking rather than guessing.</p>
+
+  <div class="note">
+    <b>How to read this tab</b>
+    <p>The game does not publish conversion rates — there is no stated "1 happiness = $X". Everything here is derived from listed prices, stated effects and community testing, and rankings are more reliable than absolute figures. Where a number is an inference rather than something the game or its developers stated, it says so.</p>
+  </div>
+
+  <h3>The core insight: time is scarcer than money</h3>
+  <p>Money becomes abundant once your career is running; time never does. A round is a fixed budget and every action, including walking, spends it. That single asymmetry decides almost every efficiency question in the game:</p>
+  <ul>
+    <li>An expensive action that costs little time usually beats a cheap action that costs a lot of it.</li>
+    <li>Anything that reduces travel — a bus pass, a car, a teleport, metro tickets — is buying <em>actions</em>, which is why transport pays back faster than almost any furniture.</li>
+    <li>Attributes that score at the end of every round mean a small cheap top-up now is worth more than a large one three rounds later.</li>
+  </ul>
+
+  <h3>Attribute restore per dollar</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Action</th><th>Cost</th><th>Return</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Let It Burn (gym)</td><td class="num">$175</td><td>~50% of the health bar</td><td><strong>Best health buy.</strong> Roughly $3.50 per percent of bar, in one action. The price scares people off; the time saving is what you're paying for.</td></tr>
+        <tr><td>Work Out (gym)</td><td class="num">$50</td><td>Small health</td><td>Poor. Exists for quests and secret missions.</td></tr>
+        <tr><td>Protein Shake (gym)</td><td class="num">$50</td><td>Very little health</td><td>Poor. Quest and mission fodder only.</td></tr>
+        <tr><td>Feed the Crows (park)</td><td class="num">$50</td><td>Large happiness, small action</td><td><strong>Best happiness buy.</strong> Free entirely under a Crows mayor.</td></tr>
+        <tr><td>Shake (Clucker's)</td><td class="num">$75</td><td>Large happiness, almost no time</td><td>Close second, and better when you're nowhere near the park.</td></tr>
+        <tr><td>Soda (Clucker's)</td><td class="num">$50</td><td>Less happiness than the shake</td><td>Strictly worse per dollar. Skip unless a mission counts it.</td></tr>
+        <tr><td>Bear Combo (Clucker's)</td><td class="num">$170</td><td>Large happiness</td><td>Bad rate, but it's the emergency button when happiness is critical.</td></tr>
+        <tr><td>Academy Coffee (job perk)</td><td>free</td><td>Happiness + a free meal, costs stress</td><td><strong>Best rate in the game</strong> — it's free, and stress is the cheapest thing to spend. Nerfed in v1.3, still unmatched.</td></tr>
+        <tr><td>Shower (gym)</td><td class="num">$30</td><td>Large hygiene, once per round</td><td>The cheapest meaningful restore of any kind.</td></tr>
+        <tr><td>Wash Hands (any bathroom)</td><td>free</td><td>Small hygiene</td><td>Free, near-zero time. The default filler.</td></tr>
+        <tr><td>Bathe in the Pond (park)</td><td>free</td><td>Health traded for larger hygiene</td><td>Free, and a net score gain because hygiene crosses more thresholds than the health lost. Enormous during a heat wave.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The pattern: <strong>hygiene is cheap, happiness is mid-priced, health is expensive.</strong> That ranking is why hygiene is the attribute you offer up in choice events and health is the one you defend.</p>
+
+  <h3>Attribute restore per time block</h3>
+  <p>Money rates mislead if you ignore the clock. Ranked by time cost rather than price:</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Action</th><th>Time</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Wash hands, touch grass</td><td>Negligible</td><td>Free score from time that would otherwise be wasted.</td></tr>
+        <tr><td>Shake, shower, academy coffee</td><td>Very small</td><td>The efficient core of a busy round.</td></tr>
+        <tr><td>Let It Burn</td><td>Small</td><td>Large return for the time spent — the reason it beats repeated Work Outs.</td></tr>
+        <tr><td>Relax at home</td><td>Moderate, scales with apartment</td><td>Multi-attribute, and pairs with sleep. Better the fancier your apartment and furniture.</td></tr>
+        <tr><td>Relax + sleep together</td><td>~2 time blocks</td><td>The standard end-of-round sequence once you own attribute furniture.</td></tr>
+        <tr><td>Take a Walk (park)</td><td>~1/12 of the day</td><td>Rarely justifies its cost even after being buffed.</td></tr>
+        <tr><td>Yoga (gym)</td><td>~1/12 of the day, $100</td><td>Expensive in both currencies. Only when you can't fit relax and sleep.</td></tr>
+        <tr><td>Arcade machine play</td><td>~1 full time block</td><td>Easy to burn a whole round here without noticing.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip">
+    <b>The Jacuzzi trick</b>
+    <p>The relax-and-sleep pairing costs about two time blocks, which is a large slice of a round. A Jacuzzi from the pawn shop lets you bathe at home for little time, giving stress relief plus happiness and hygiene — so you don't need to sleep that round at all. Buying it back-converts roughly a time block per round for the rest of the game, which is why it outperforms items with better raw stats.</p>
+  </div>
+
+  <h3>Score per dollar</h3>
+  <p>Furniture is the one place the game shows you the rate directly: the info box in the furniture store displays a star rating per item. Use it. Beyond that, two hard numbers are worth memorising:</p>
+  <ul>
+    <li><strong>Pawn shop top slot:</strong> an $800 item scores 240; a $600 item scores 180. Both occupy the same slot, so always take the $800. That's 0.30 score per dollar against 0.30 — identical rates, but the bigger item wins because the slot, not the money, is the limiting resource.</li>
+    <li><strong>Cheap electronics at the pawn shop</strong> are the outright best score-per-dollar in the game and shouldn't be skipped on sight. The Pal1000 at $120 that sells for $700 at the mall is close to free money <em>and</em> full security.</li>
+  </ul>
+  <p>In short games the ranked buy list on the Home tab <em>is</em> a score-per-cost ordering — that's exactly what it was built as. Do not use it in a 30-round game, where you can afford everything and want the attribute engine instead.</p>
+
+  <h3>Movement: when transport pays back</h3>
+  <p>Transport is the highest-value purchase category in the game because it buys back actions every single round for the rest of the run.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Purchase</th><th>Cost</th><th>When it pays</th></tr></thead>
+      <tbody>
+        <tr><td>Bus pass</td><td class="num">$200</td><td><strong>As soon as you can afford it</strong>, usually early in your first job. The cheapest meaningful action-economy upgrade in the game — it's what makes an out-of-the-way workplace like the academy viable.</td></tr>
+        <tr><td>Car</td><td class="num">$1200</td><td>Around work level 4. The big jump: it makes returning home to sleep cheap, which is what solves stress management without buying a bed.</td></tr>
+        <tr><td>Vex Way</td><td class="num">$500</td><td>Generally skipped — it sits awkwardly between the bus pass and the car.</td></tr>
+        <tr><td>5 metro tickets <em>(Chailand)</em></td><td class="num">$100</td><td>Round 1, immediately. Chailand is built assuming you have them.</td></tr>
+        <tr><td>10 metro tickets <em>(Chailand)</em></td><td class="num">$175</td><td>The restock, around round 6. Never buy singles at $25 — bulk is roughly 30% cheaper per ride.</td></tr>
+        <tr><td>VexCorp teleport (job perk)</td><td>a job slot</td><td>Free travel anywhere for a small health cost. Often worth more than the salary difference against a cheaper job.</td></tr>
+        <tr><td>PhoneBox (pawn shop)</td><td>a pawn slot</td><td>Teleport from home. Buy on sight — it's the single best functional pawn item.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The Power Walking education trait (−5% movement) stacks with a car, and one pet trait grants up to +6% movement speed. Neither is a reason to build around movement, but both are worth taking when offered.</p>
+
+  <h3>Buy order</h3>
+  <p>The most common way a run goes wrong is spending early money on things that feel like progress. The efficient ordering, and why:</p>
+  <ol>
+    <li><strong>Bus pass ($200).</strong> Buys actions every round from here on.</li>
+    <li><strong>Overheating Computer ($300).</strong> Not optional — education tier 2 requires it, and education gates your entire job ladder.</li>
+    <li><strong>Burglar Trap ($300).</strong> Buy before roughly round 8, because that's when crime waves start landing. Losing furniture and cash costs more than the trap does.</li>
+    <li><strong>Clothing as job tiers demand it</strong> — casual around tier 3, fancy or business around tier 5. Clothes decay on a round clock, so a clothing store job's dry-cleaning perk removes this cost entirely on Chailand.</li>
+    <li><strong>Car ($1200)</strong> at around work level 4.</li>
+    <li><strong>Home Library ($1000).</strong> Required for education tier 3, which is what unlocks the bank.</li>
+    <li><strong>Attribute furniture</strong>, health pieces first, once a high-tier salary is running.</li>
+    <li><strong>Pal1000 ($700, or $120 at the pawn shop)</strong> once your furniture collection has eaten your security bar.</li>
+    <li><strong>Fridge — optional and late</strong>, or never. Attribute furniture outscores it, and it slows your tempo.</li>
+    <li><strong>Pet in the final five rounds</strong>, unless you specifically want its trait running all game.</li>
+  </ol>
+
+  <div class="tip">
+    <b>Fridge or Segway? Neither, first</b>
+    <p>When a purchase competes with a purchase, ask which one <em>keeps paying</em>. Transport and the education-gate furniture pay every round for the rest of the game. A fridge pays once per meal and costs you the rounds spent stocking it. Attribute furniture pays every round-end tally. Pure score items pay once, at the end — which is why they're last unless the game is nearly over.</p>
+  </div>
+
+  <h3>Rent: is paying immediately most efficient?</h3>
+  <p>Yes, and it isn't close. Missing rent doesn't merely delay a payment — you <strong>forfeit the rent score category</strong> and the landlady <strong>pawns your furniture</strong> the following round to collect, which converts your biggest score line into cash at the pawn shop's terrible 30% rate. Persistent non-payment evicts you to the park, which removes every home action.</p>
+  <p>So the efficient behaviour is to hold the cash rather than to earn it later: keep $150 / $250 / $400 depending on your apartment on hand the round before it falls due, more on hard difficulty, and bank the rest. Because rent escalates $50 every due date, budget upward as the game goes rather than assuming a flat figure. Note also that you must clear owed rent before swapping apartments, so a missed payment blocks your housing upgrade too.</p>
+
+  <h3>Getting value from the last scraps of a round</h3>
+  <p>Turn remainders are where good players quietly out-score everyone. With less than about a twelfth of a day left, don't wander — take a filler:</p>
+  <ol>
+    <li><strong>Wash Hands</strong> at Clucker's, the mall or the academy — some hygiene, essentially free.</li>
+    <li><strong>Touch Grass</strong> in the park — a little happiness, once per round.</li>
+    <li><strong>A job perk</strong> if you're standing in your workplace anyway.</li>
+    <li><strong>Sleep</strong> if stress is at level 4 — cancelling the punishment is worth more than any small gain.</li>
+  </ol>
+  <p>Two related techniques. <strong>Attribute exchange</strong>: with a scrap of time and nothing to do, park actions trade one attribute for another, and bathing in the pond nets more scoring thresholds than it costs. <strong>Academy free food</strong>: when a whole round goes to studying and your free-food bonus can't fire, temporarily switch to a lower-tier academy job purely to eat for nothing — even at high stress you only need to sleep to dodge the punishment.</p>
+
+  <h3>Things that look efficient and aren't</h3>
+  <ul>
+    <li><strong>Pawn shop flipping.</strong> Payout was cut from around 60% to 30% of value; the buy-cheap-and-resell loop now loses hundreds per cycle against just playing.</li>
+    <li><strong>The lottery as income.</strong> $35 for a 3% shot at ~$1000 is roughly break-even before you account for the action, and multiple tickets can't multiply a win.</li>
+    <li><strong>Magnet fishing money bags.</strong> They score nothing directly and only convert into furniture and attribute score after further setup time.</li>
+    <li><strong>Chasing work level 8.</strong> It's near-impossible to reach and doesn't award enough score to justify the rounds.</li>
+    <li><strong>Buying an expensive bed at tier 6.</strong> A tier 6 job pins you at stress level 4 regardless — sleeping cancels the punishment for free, so the bed buys nothing.</li>
+    <li><strong>Premium pet food.</strong> Marginally better than basic for a real price premium.</li>
+    <li><strong>Stocks under high event frequency.</strong> Crash odds turn the whole track negative.</li>
+  </ul>
+
+  <p><strong>In short:</strong> spend money to save time, not the reverse. Buy transport and the education-gate furniture before anything that merely looks like progress, defend health because it's the expensive bar and spend hygiene because it's the cheap one, pay rent the moment it's due because the penalty compounds through your furniture, and fill every turn remainder with a free action rather than a walk.</p>
+</section>
+
+<!-- ==================== UNDOCUMENTED ==================== -->
+<section class="panel" id="panel-hidden">
+  <h2>Undocumented</h2>
+  <p class="lede">Rules the game hides, actively refuses to explain, or explains wrongly. Several of these are the difference between a run going strangely and a run going wrong.</p>
+
+  <h3>Traps that will catch you once</h3>
+
+  <div class="block">
+    <h3>Playing with matches can burn down a shop</h3>
+    <p>The quest that asks you to play with matches in a toilet carries a <strong>50/50 chance of closing the building you did it in</strong> — it catches fire. It was implemented as a joke, then forgotten, and it's still live with no signposting whatsoever. Do it inside Clucker's and you can lock yourself out of food for the round. A developer confirmed the mechanic and admitted the game should probably show flames on the building so people can connect the two. <span class="tag cur">dev-confirmed</span></p>
+  </div>
+
+  <div class="block">
+    <h3>Barry zeroes your happiness</h3>
+    <p>Mayor Barry's description says he does nothing. Players have documented player and bot happiness being <strong>reset to zero every round</strong> from roughly round 16 of a 20-round game, verified by deliberately re-electing him, with the effect stopping when he resigns. An official patch "lessened" Barry's happiness drain, but the late-game wipe has never been acknowledged or documented. <span class="tag pl">player-reported</span></p>
+  </div>
+
+  <div class="block">
+    <h3>The "did I eat?" problem is deliberate</h3>
+    <p>There is no eating indicator and there will never be one — the developers have said so directly, on the grounds that forgetting to eat is a core part of the game and an indicator would reduce play to following a checklist. Compounding it: <strong>only the first meal of a round registers</strong>, so free food from a random event, an elevator gag or a role bonus consumes your day's meal and makes a purchased meal not count. This silently breaks achievement runs and any secret mission that counts meals.</p>
+    <p>The Shopaholic's coupon card stamps each purchase, which makes it an accidental meal log — the closest thing to a tracker the game offers.</p>
+  </div>
+
+  <div class="block">
+    <h3>The banker never pays you back</h3>
+    <p>The quest where you lend the banker money is not a loan. Players have chased it for twenty turns and always get "maybe next week"; a developer confirmed he's never repaid anyone either. Treat the cash as spent the moment you hand it over. <span class="tag cur">dev-confirmed</span></p>
+  </div>
+
+  <div class="block">
+    <h3>Hacker busts aren't a threshold</h3>
+    <p>Players kept getting busted at heat levels that looked safe, because it isn't a threshold system. At the end of your round a red arrow resolves against your heat bar; if it lands on <em>any</em> filled heat you're busted, if it misses you're safe. Low heat can still bust you — you're reducing the odds, never eliminating them until heat is zero. There is also no active way to reduce heat: passive decay from a clean round is the only sink that exists.</p>
+  </div>
+
+  <div class="block">
+    <h3>Living in the park removes home actions</h3>
+    <p>Eviction is the only way to end up in the park, and while you're there every home-only action disappears. The way most players discover this is failing to find the option to assemble the dinosaur skeleton — which can only be done at your apartment.</p>
+  </div>
+
+  <div class="block">
+    <h3>Heat wave can strand your turn</h3>
+    <p>You cannot sleep at zero hygiene. Relaxing raises hygiene — but relaxing is also blocked at zero. During a heat wave that combination can leave a turn with no good ending.</p>
+  </div>
+
+  <h3>Systems the game simply doesn't tell you about</h3>
+  <ul>
+    <li><strong>The Golden Throne</strong> — a fifth, gated bathroom inside the bank, requiring education level 2 and tier 2 clothing. It's the clearest proof that clothing tier gates <em>rooms</em>, not just jobs.</li>
+    <li><strong>Adventurer levels</strong> are never described before you earn them; traits are only explained after the fact. The Mystic's zodiac cards, by contrast, <em>are</em> documented in the in-game notebook — the inconsistency is a known community complaint.</li>
+    <li><strong>The Drifter has no job history UI</strong> beyond the job office checkmarks. The character sheet shows currently held traits, not which jobs you've already burned.</li>
+    <li><strong>Secret missions are won on raw action count</strong>, so mobility converts directly into mission wins — time spent travelling is time not spent spamming.</li>
+    <li><strong>Attribute bars have scoring threshold slits.</strong> Ending a round just below one wastes the round's tally.</li>
+    <li><strong>Furniture score is visible before purchase</strong> as a star rating in the store info box — most players never notice it.</li>
+    <li><strong>Arcade gamer skill</strong> is a hidden stat that rises with every play and every use of the arcade job perk. Since v1.3 the chambers show your exact Gamer Score.</li>
+    <li><strong>The Senior's movement penalty applies while driving.</strong> It's a role-level multiplier, not a walking effect, so a car doesn't fix it. <span class="tag pl">player-reported</span></li>
+    <li><strong>Money bags from magnet fishing score nothing directly</strong> — they only become score by converting into furniture and attributes.</li>
+    <li><strong>Interest sources stack</strong> rather than overriding each other.</li>
+    <li><strong>Metro tickets are consumed every round</strong> whether you ride or not.</li>
+    <li><strong>The tutorial sends you to return a fish to the pet store</strong>, which is inside the mall on Calicornia. Nothing says so.</li>
+    <li><strong>Language is changed in-game</strong>, under Settings → General settings, not through Steam.</li>
+    <li><strong>Your save is hidden behind "start a new game."</strong> Enough players missed it that many concluded the game had no save system.</li>
+  </ul>
+
+  <h3>Achievements that don't mean what they say</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Achievement</th><th>What it actually needs</th></tr></thead>
+      <tbody>
+        <tr><td>Want fries with that</td><td>Nothing to do with buying fries. There are <strong>10 fries hidden on the menu screens</strong> — 2 on the main menu, 2 in Start New Game, 6 in Settings — and you click them. Players have spent thousands of in-game dollars on fries getting nowhere.</td></tr>
+        <tr><td>Maximalist</td><td>Furniture from <strong>all three sources</strong>: the mall, the electronics stock, and the pawn shop.</td></tr>
+        <tr><td>Valued Customer</td><td>You must <strong>actually eat</strong> the Clucker's meals, not just buy them — a sound cue confirms it. Any random event that hands you food first consumes the day's meal and can spoil the run. A 20-round game is the usual recommendation. Floor fries now count. Has been patched repeatedly.</td></tr>
+        <tr><td>Six degrees from Porcelain</td><td>Pops at the start of an online game if <em>any</em> participant already has it — it spreads player to player. With matchmaking empty, the official Discord is where people pair up.</td></tr>
+        <tr><td>Throne of Baal</td><td>Unsolved by the community as of the latest reports. Feeding crows every turn for a full run doesn't do it; theories involve doing it as a specific role or in a specific round count. <span class="tag pl">unresolved</span></td></tr>
+        <tr><td>Undecided Voter</td><td>Needs a vote for every candidate. Rather than grinding elections across games, vote for one, return to the main menu, use Continue Game, and vote for the next — all candidates from a single election.</td></tr>
+        <tr><td>Taskmaster</td><td>One easy, one medium and one hard task in a game. Has been reported broken more than once and acknowledged as such.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Known rough edges</h3>
+  <ul>
+    <li><strong>Quest counters don't reset</strong> when a new quest is drawn, so a quest asking for a once-per-round action you've already used is unfinishable that round. Drawing "do all five park activities in one round" on a final turn is the classic case.</li>
+    <li><strong>Pet penalties in the early game</strong> fire repeatedly for some players even with all meters above half and the pet attended each turn. Whether that's the intended cost of investment or a bug remains unresolved with no developer answer.</li>
+    <li><strong>The double-interest perk during the bank failure event</strong> has been reported as setting interest to 8% rather than 80%, losing the event's own 40%.</li>
+    <li><strong>Economic Crash has overrun its duration</strong> in at least one build, staying active far beyond its usual four rounds.</li>
+    <li><strong>The game doesn't know it's a solo session.</strong> Competitive scoring tasks still evaluate as if contested — "touch grass the most" remains a task you have to perform even when nobody could possibly beat you.</li>
+    <li><strong>Travel cannot be cancelled</strong> once you click a destination.</li>
+    <li><strong>Bathroom hand washing was reported incomplete on Chailand</strong> in an older build; the achievement tied to it was later fixed. <span class="tag old">older build</span></li>
+    <li><strong>The 50-round ceiling</strong> is a real content limit — players report it isn't enough to see everything, and there's no endless or marathon mode.</li>
+  </ul>
+
+  <h3>What's likely to change</h3>
+  <p>Worth knowing which parts of this guide have the shortest shelf life. The developers have publicly committed to: further <strong>role balance passes</strong> (with the Artist explicitly named), <strong>more roles</strong> chosen by community vote, <strong>more pets</strong> including some with entirely new traits, <strong>more choice events and global events</strong>, <strong>new game modes</strong> including faster games and co-operative play, <strong>an additional map</strong>, and <strong>mod support</strong>, which slipped before 1.0 and has no date. Bot behaviour is improved in most major patches.</p>
+  <p>Two cut roles — the Angler and the Trader — may eventually return, but sit behind ideas the team prefers.</p>
+
+  <p><strong>In short:</strong> the game withholds information on purpose in places and by accident in others. The costly ones are the matches quest burning a building, Barry's silent happiness wipe, the first-meal-only eating rule, and the hacker bust being a dice roll rather than a threshold. Everything else on this page is the sort of thing you'd otherwise learn by losing a round to it.</p>
+</section>
+
+</main>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const saved = localStorage.getItem('guides-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  function currentTheme(){
+    return root.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('guides-theme', next);
+  });
+
+  // tabs
+  const tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-panel]');
+    if(!btn) return;
+    tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'panel-' + btn.dataset.panel));
+    btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo({top:0});
+  });
+
+  // role modal
+  const overlay = document.getElementById('modal-overlay');
+  const body = document.getElementById('modal-body');
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.role-card');
+    if(!card) return;
+    const src = document.getElementById('role-' + card.dataset.role);
+    if(!src) return;
+    body.innerHTML = '<h3>' + src.dataset.title + '</h3>' + src.innerHTML;
+    body.scrollTop = 0;
+    overlay.classList.add('active');
+  });
+  function close(){ overlay.classList.remove('active'); }
+  document.getElementById('modal-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>
