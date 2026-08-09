@@ -585,6 +585,153 @@
   <p>Power and liquids are local; ammunition and resources are global; liquids alone cross maps, through compressors. Open with wind and storage, step up through geothermal to gas, and treat fusion as mandatory for plasma rather than optional for energy. Design gas around pump capacity, budget storage as part of solar's cost, and pick generation to match the biome rather than habit. Build energy storage as a defensive structure, keep cables redundant, and reserve headroom for research labs before they arrive.</p>
 </section>
 
+<!-- ==================== ECONOMY ==================== -->
+<section class="panel" id="panel-economy">
+  <h2>Economy</h2>
+  <p class="lede">Running out of ore is not a balance problem, it is a diagnosis. Mining is the bridge, not the engine — every long run eventually converts to cultivated and synthesised income, and the players who never make that transition are the ones who conclude the map is exhausted and the game is unwinnable.</p>
+
+  <h3>Mining is temporary by design</h3>
+
+  <p>Deposits are small relative to consumption, deliberately so. That makes renewable income matter far more here than in comparable base-builders, and it means the correct response to a depleting map is to tech toward infinite sources rather than to hunt richer patches.</p>
+
+  <p>Two of those sources exist. Plant cultivation, unlocked through alien research, converts water and power into any resource you have a matching scanned species for — and produces biomass on the side, which burns for power. Carbon and iron synthesizers convert power directly into the two basic materials, no deposit required. Between them, a mature run mines almost nothing: it is entirely possible to finish a campaign having barely touched the main map's ore.</p>
+
+  <p>Until then, upgrade miners before expanding to marginal patches. Higher tiers drain a deposit at the same rate but return more ore per drain, so the same node yields more from a better extractor — a top-tier miner pays its own upkeep in the resource it mines several times over. Note that extraction rates were reduced in a later patch, so older figures overstate what a mine returns; the ranking between tiers is unchanged but the absolute numbers are lower, which pushes the transition to cultivation earlier than it used to be.</p>
+
+  <p>Use the geoscanner constantly, not occasionally. It reveals additional deposits including rare ones, and one material has no deposits at all, so scanning is its only discovery route. Scan whenever the cooldown is up, even mid-crisis.</p>
+
+  <div class="warn">
+    <b>The turtle trap</b>
+    <p>The classic failure is staying on the main map, walling in tighter, and treating mining as the economy. It produces exactly the symptoms players describe as imbalance: depleted nodes, edge-of-map patches that cost more to hold than they yield, and defences that consume more than the mines return. The fix is to leave. Outpost maps exist to be the answer to an exhausted home map, and a run that never establishes them will stall regardless of how well the walls are built.</p>
+  </div>
+
+  <h3>Reading a cultivation plant</h3>
+
+  <p>Every cultivable plant is described by a total average yield and a percentage split across the resources it produces. Both numbers matter, and neither alone tells you which plant to farm — a high rare percentage on a low-yield plant frequently loses to a lower percentage on a high-yield one. Multiply the two and rank plants by absolute output of the resource you actually want.</p>
+
+  <p>Genus is a fast heuristic once you know it. Crystalline plants never produce biomass and split their output between the two basic metals and a rare, sitting in the middle of the range. Fungus plants carry the highest rare shares, including the handful of outliers approaching half their output. The bulbous family is biomass-heavy and, importantly, contains most of the plants that carry two rares at once. The bushy family is ironium filler with a token rare percentage — those entries sit in the single digits and are effectively basic-resource farms wearing a rare's colour.</p>
+
+  <p>Naming follows resource colour, which is useful but only signals a plant's headline rare. Watch for name collisions across genera: the same species name can appear as a high-value fungus and a near-worthless bush, distinguished only by the small genus label. Several families are exact statistical clones of each other, differing only in which biomes they grow in or which secondary rare they carry — pick within a family on availability, not output.</p>
+
+  <p>Two structural facts shape planning. First, biome locks: cobalt plants are jungle-only, palladium is overwhelmingly an acidic crop, titanium is a volcanic one, uranium grows only in desert and acidic maps, while a few materials spread widely. Plan plantations per biome rather than per resource. Second, the rare is always the minority of any plant's output — every plantation is also a basic-resource farm, which is why cultivation solves your carbonium and ironium problem at the same time as your rare-metal one.</p>
+
+  <p>Dual-rare plants deserve deliberate use. Several species carry a second rare at around a tenth to a quarter of their output, which turns one plantation into two supply lines — worth taking even at a small loss on the primary when the secondary is something you would otherwise need a whole outpost for.</p>
+
+  <h3>Farm layout that does not need optimising</h3>
+
+  <p>Cultivators need less room than people expect, and their planting areas overlap, so packing them tight eventually costs output. A little overlap is fine and not worth avoiding. Harvester placement barely matters at all: close to the cultivator, spread out, straddling two cultivators, or eating into planting space all wash out in practice. Plan on three to four harvesters per cultivator and stop thinking about it.</p>
+
+  <p>The reason not to optimise is that one extra cultivator more than compensates for any layout inefficiency, and once you are hitting your production target being slightly over-built is irrelevant. Spend the attention on water instead: a dedicated farm map wants pumps on every available water source, pipes running between rows, and cultivators lined along both sides of each pipe with enough gap for planting. Two dozen cultivators spread across the resources you care about is income you never think about again.</p>
+
+  <p>Water availability is therefore the real siting criterion for a farm. Jungle is the standard pick — open space, accessible mud, and pumps that serve cultivation alone rather than competing with gas production. Acidic maps have abundant water and sludge but the pump sites are contested between cultivators and gas plants, so choose them when you want the gas. Volcanic maps look waterless but geothermal vents there produce doubled power and mud, and a couple of vents comfortably run eight cultivators — the real constraint is fitting the layout around magma pools and cooling stations. Because maps are procedurally generated, check the actual roll before committing to a biome's reputation.</p>
+
+  <p>Keep some cultivation at the headquarters even after a dedicated farm exists. When you are suddenly short of one specific material, changing a plant type at home is far quicker than a trip.</p>
+
+  <h3>Storage is a strategic building</h3>
+
+  <p>Research now consumes resources per item, which changed the economy's shape: the constraint late in a campaign is not income but the ability to hold enough at once to pay for what you want. Endgame research and construction can demand six figures of a basic material, so storage targets escalate steeply through a run — a few thousand early to survive mid-battle rebuilds, tens of thousands before each headquarters tier, and hundreds of thousands before the largest projects.</p>
+
+  <p>Solid material storage needs no power, which makes it the one structure you can carpet across an empty safe map at no infrastructure cost — an open desert map with floors researched becomes a storage park. Keeping a healthy buffer also has a tactical function: mid-battle repairs and rebuilds are only possible if the materials are already banked, and selling structures returns full value, so anything about to be overrun should be sold rather than defended.</p>
+
+  <div class="tip">
+    <b>Free money you are probably leaving on the table</b>
+    <p>Creatures drop resources, and the volume scales with wave size — at high multipliers the drops alone fund a research queue, and once all resource types are unlocked through missions the drop rate climbs sharply. Mods that increase drops turn wave defence into farming. One quirk worth knowing: the marker for a map's sole deposit of a given material can vanish from the minimap once you already hold enough of that material, so over-collecting from drops before you have located the node can hide it.</p>
+  </div>
+
+  <h3>Survival economics are different</h3>
+
+  <p>Cultivation is effectively unavailable in survival. Species familiarity accrues but the encyclopedia lists everything as unknown, so no species can be selected in a cultivator — which removes the entire renewable rare-resource engine that campaign runs on.</p>
+
+  <p>What remains is detector sweeps to surface deposits, enemy drops, occasional hive yields, and synthesizers powered hard from the opening — spending the early minutes on power production so synthesizers can run is the closest survival gets to an infinite economy. Accept that you will not build everything: scrape together enough rare material for a few superior weapons, prioritise which upgrades matter, and settle for whatever type you actually find. With enough carbonium you can also sustain defences by repairing them indefinitely rather than out-teching the wave.</p>
+
+  <h3>Recovery when the economy breaks</h3>
+
+  <p>If carbonium and ironium have bottomed out and the main map cannot fund a recovery, the move is to relocate the problem. Go to a low-threat map — an early desert or recon area — and carpet it with solar panels and synthesizers. It is cheap, it is safe, and it rebuilds a basic-materials income without fighting anything, which is precisely what a broke run needs.</p>
+
+  <p>Balance your defensive mix while you do it. An all-ammunition turret line is the fastest way to drain a fragile economy; energy towers cost you a one-off build and then run on the grid. And use the closest-target rule deliberately: let part of an outpost stick out as bait, then run power lines to miners placed further from the map edge, so the economy sits behind the aggro magnet rather than inside the blast radius.</p>
+
+  <h3>The endgame project</h3>
+
+  <p>The mega structures are less a build than a logistics campaign, and they are worth preparing for long before you can research them. Their research alone can cost six figures of a basic material with construction on top, which is the real reason to be running two hundred thousand or more in storage rather than the tens of thousands that carried you through the mid game.</p>
+
+  <p>The chain starts with a laboratory structure that unlocks research on the rest, then three structures that must each reach their top tier: one that grants free AI cores on every map, one that accelerates plant growth on its own map to the point where harvesters can work wild plants without cultivators at all, and one that reveals hidden underground caches. That last one is the weakest of the three by a distance — its upkeep demands a bank of refineries consuming rare metal every second — so research and build it last and switch it on only when an objective actually needs it. A cryogenic base exporting coolant makes it far more affordable. A final workshop structure gates the last build and requires everything else maxed.</p>
+
+  <p>The single most important planning decision: give the final structure its own map. Activating it summons the strongest raid in the game, and no map is exempt — including the raid-free ones. If your other mega structures are sitting on that map, they are all in the blast radius. Build it somewhere with mud or sludge for local power, bring its enormous liquid upkeep in through decompressors rather than producing it locally, and have defences finished before you activate. If it runs short of any input you start the process over.</p>
+
+  <h3>Recap</h3>
+
+  <p>Treat mining as the opening bridge and convert to cultivation and synthesizers as fast as alien research allows. Rank plants by yield multiplied by rare percentage, plan plantations around biome locks, and take dual-rare species where they fit. Do not optimise farm layout — add a cultivator instead. Scale storage aggressively because research and endgame construction are paid in banked resources, sell anything about to be lost, and keep an energy-based share of your turret line so defence does not eat the economy. In survival, cultivation is off the table, so power and synthesizers carry the run.</p>
+</section>
+
+<!-- ==================== OUTPOSTS ==================== -->
+<section class="panel" id="panel-outposts">
+  <h2>Outposts</h2>
+  <p class="lede">Outposts are the campaign's real strategic layer. They are where your economy lives, where your waves get split, and — because maps you are not standing on are never attacked — where risk stops applying. Deciding which maps to keep is a bigger decision than any tower choice.</p>
+
+  <h3>The rules that constrain everything</h3>
+
+  <p>You may hold eight remote outposts at once. Leaving a mission map without establishing one means you cannot go back — with the exception that a map still carrying an incomplete mission remains reachable. Since several maps are only worth keeping for one specific resource, and since some are worth keeping forever, the eight slots are a real budget to plan rather than a limit you bump into by accident.</p>
+
+  <p>The other structural fact is that no base is attacked while you are absent, and production, research and mining all continue regardless. Outposts therefore carry no real risk once established, only the invisible cost that their mines quietly run dry — depletion is not shown on the teleport screen, so a farm you left running may have been idle for an hour before you notice.</p>
+
+  <p>The developers did not anticipate outposts being used this safely and have discussed making them riskier, so treat the more extreme applications as strategies that may not survive a patch. And be aware that different players draw the line differently: some use undefended off-map mining freely as the intended reward for expanding, others consider anything beyond a map's specific rare resource to be cheating themselves out of the game. Both positions are common and the game does not adjudicate.</p>
+
+  <h3>Choosing maps by threat</h3>
+
+  <p>Threat rating, visible on the orbital panel, is the single most useful number when picking an outpost site because it sets wave size. The difference between a full-threat map and a three-quarter-threat one is enormous; a full-threat map produces waves comparable to attacks on your main base, which on Brutal means top-tier walls and turrets before the site is viable at all. Most half-threat maps carry no real danger, and even near-zero threat still produces constant small attacks rather than silence.</p>
+
+  <p>At the bottom of the scale sit the reconnaissance and low-threat exploratory maps, several of which never generate waves at all. These are the best sites in the game for anything that does not need to be near your defences: mass gas generation, synthesizer banks, storage parks, cultivator farms, research buildings. One acidic recon map converted into a power-and-production hub will carry an entire campaign.</p>
+
+  <p>Resource-concentration maps are the other standout. On several of them attacks come from a single direction in small groups, so a farm behind one chokepoint needs almost no defence and the rest of the map is yours. Be aware that procedural maps sometimes misreport their threat between generation and the orbital panel, so verify before committing a large build.</p>
+
+  <div class="note">
+    <b>Wave composition follows your outposts</b>
+    <p>An outpost's waves draw units from its own biome, but your main base's waves draw from every biome you hold an outpost in. Settling a hostile biome therefore makes your headquarters attacks more varied and harder to counter, not just that outpost. Outpost waves also grow over time toward a maximum that can exceed your main base's — so a farm left running for hours is not permanently safe, it is safe until you visit it again.</p>
+  </div>
+
+  <h3>What each biome is for</h3>
+
+  <ul>
+    <li><strong>Volcanic</strong> — free energy. Geothermal output is boosted here, roughly three cultivators fit per vent area, and the power surplus makes it the natural home for the highest-draw buildings: synthesizers and global ammunition production. Costs are cramped layouts around magma pools and mandatory cooling.</li>
+    <li><strong>Desert</strong> — space. Once floor technology is researched, empty desert becomes a storage park, since solid storage needs no power at all. Also the uranium biome for cultivation, and a solar site.</li>
+    <li><strong>Acidic</strong> — sludge, and therefore gas, in effectively unlimited quantity. The best home for mass power, synthesizers and palladium cultivation, and the earliest large economic boost once the second tier of liquid handling is available.</li>
+    <li><strong>Jungle</strong> — water and open ground, which makes it the default farm biome, plus the cobalt crops.</li>
+    <li><strong>Marsh</strong> — a decent farm biome, usually made redundant by a volcanic farm.</li>
+    <li><strong>Cobalt zone</strong> — low threat, so it doubles as cultivation space; cobalt is consumed heavily by upgrades and repair infrastructure, so it is worth mining actively rather than trickling.</li>
+    <li><strong>Metallic valley and expansion biomes</strong> — morphium, morphium towers and their liquid, but leave them until last.</li>
+  </ul>
+
+  <h3>How many, and mine or cultivate</h3>
+
+  <p>Strictly, zero outposts are required, and one is enough to produce every ore type via cultivators. In practice most runs settle around four dedicated to the endgame resources, established as research reveals each area, plus two or three more for equipment materials. A farm-everything approach with three well-chosen farm maps also works and never mines outside the starting area.</p>
+
+  <p>The mine-versus-cultivate decision comes down to consumption volume. Mining is faster, so materials you burn in bulk — the ones feeding power plant upgrades and mass construction — are worth extracting in their home biome. Materials used only for high-tier weapons and reforging are better handled by a few cultivators trickling into storage on a safe map, because you simply do not need much unless you reroll equipment constantly.</p>
+
+  <p>A common progression takes titanium first, since it upgrades geothermal, then palladium, which upgrades gas — the two power lines that decide your mid game. Uranium's main use is nuclear power, and by the time you reach it you usually have what you need for fusion, so it can be deferred or skipped. An equally defensible ordering chases whatever upgrade you need soonest: cobalt early because repair facilities and railguns consume it in bulk, then titanium, then palladium. Leave expansion biomes until last, and note that completing the final per-element outpost missions is not required to finish the campaign — once the handling technology is unlocked, everything is obtainable through cultivation.</p>
+
+  <h3>What lives where</h3>
+
+  <p>The division is dictated by what travels between maps. Ammunition and ordinary resources are global; power, AI cores and locally consumed fluids are not; liquids move only through compressors.</p>
+
+  <p>So move to a safe outpost: communications hubs, ammunition factories, ammunition and material storage, cultivators, research buildings and the armoury. Keep at the headquarters: power generation, AI cores, plasma and other fluids consumed on site, and rift infrastructure. The payoff is not just safety — it is space. The headquarters map takes the worst waves in the game, so every sitting-duck structure removed from it is another layer of defensive depth that fits around it.</p>
+
+  <p>Cross-map liquid logistics is what makes the whole arrangement work. Compress gas or magma at the outposts that have them and decompress at the headquarters to run upgraded power plants for map-locked buildings like AI cores and rare-ore miners. Compress water at a wet map and ship it to a desert or cavern outpost so cultivators and fusion can run there. Both directions are used constantly in mature runs, and liquid teleporters remove most of the pipe-laying that used to be involved.</p>
+
+  <h3>Defending an outpost — or not</h3>
+
+  <p>The minimum viable outpost is enough power to run the mine, a portal, and simple walls. If it is lost, rebuild it; the cost is trivial compared to the effort of making it genuinely safe. For a mine just outside the main base, run an unprotected power line and accept that you will occasionally replace it.</p>
+
+  <p>Early on that means wind turbines, the mine, a portal and a radar, with you personally handling anything that shows up. Later it means a wall or double wall with repair coverage — and crucially, holding off on turrets until an attack actually looks likely, since idle turrets cost power and AI cores permanently for occasional use. Because attacks target the closest base to the spawn rather than your headquarters, outposts absorb aggro whether or not you meant them to, which is an argument for treating them as expendable rather than fortifying them all.</p>
+
+  <p>Contested permanent mining outposts are a legitimate choice, but choose them for the challenge rather than the efficiency: they split your attention and your resources away from the headquarters, and a low-threat site produces the same materials for free.</p>
+
+  <p>Two habits pay off while you are away. Watch your basic materials and teleport home the moment a headquarters upgrade becomes affordable, since banked resources do nothing. And upgrade power before adding or upgrading research labs, because lab draw roughly doubles with each tier and a lab that browns out your grid stops the research it was built for.</p>
+
+  <h3>Recap</h3>
+
+  <p>Eight outpost slots, no return without one, and no attacks while you are away — those three rules define the layer. Pick sites by threat rating, favour recon and low-threat maps for production, and let each biome do the job it is good at: volcanic for power, acidic for gas, desert for storage, jungle for farms. Move everything that travels between maps off your headquarters and keep only what must be local. Defend outposts minimally, treat them as expendable aggro sponges, and remember that the biomes you settle feed back into what attacks your main base.</p>
+</section>
+
 <!-- ==================== DEFENCE ==================== -->
 <section class="panel" id="panel-defence">
   <h2>Defence</h2>
@@ -799,6 +946,406 @@
   <h3>Recap</h3>
 
   <p>Mix damage types rather than hunting for a best tower, and size your ammunition industry before you place ammunition-hungry towers. Build depth — several spaced rows, each a solid backbone with a second type seasoned through it — rather than one thick wall, and put long-range and anti-ranged elements at the back. Cover everything with repair towers and radar, use shields as a stackable depth layer once plasma allows, and keep firebases small, tight and closer to the map edge than anything you care about. Solve logistics first: ammunition travels between maps, power and AI cores do not.</p>
+</section>
+
+<!-- ==================== RESEARCH ==================== -->
+<section class="panel" id="panel-research">
+  <h2>Research</h2>
+  <p class="lede">Research is not a clock you wait out — it is a resource you produce, in two separate pipelines, at a rate you decide by how much you build. Getting that wrong is why players find themselves fifteen hours in with a tech tree that has barely moved.</p>
+
+  <h3>Two pipelines, two buildings</h3>
+
+  <p>Communications hubs feed the first two research tabs; the laboratory feeds the alien research tab. They are entirely separate pipelines. Stacking and upgrading hubs does nothing whatsoever for alien technology, and a run that stalls on alien tech while the base bristles with hubs is the classic version of this mistake. Match the building to the tab you are actually researching.</p>
+
+  <p>Both scale on count and level, and here the arithmetic matters. Each level roughly doubles the energy draw for one additional research point — the first upgrade is nearly free value, the second is reasonable, and beyond that you are paying double for a small increment. A top-tier laboratory alone can consume as much energy as a small base. The efficient shape is therefore wide rather than deep: raise the headquarters to unlock more building slots, then run several structures at a middle tier rather than a couple at maximum.</p>
+
+  <div class="tip">
+    <b>Switch off the pipeline you are not using</b>
+    <p>At any given moment you are researching from one tree or the other, never both. The idle building type is drawing full power for nothing, so turning it off while you work the other tree frees a large slice of grid — often enough to run a defensive line you could not otherwise afford. Just be aware that a laboratory you have already upgraded is an expensive thing to have switched off, which is another argument against over-upgrading them.</p>
+  </div>
+
+  <h3>Research costs resources now</h3>
+
+  <p>In campaign, every research item carries a one-time resource price paid when you queue it, and those prices climb the deeper into the tree you go. This is the single largest change to how research plays: the old approach of queueing the entire tier and waiting is gone, and ordering is now a genuine decision between what you need this hour and what might be useful later.</p>
+
+  <p>The knock-on effect is that your economy has to stay healthy for the whole campaign rather than just the opening, and rare materials that used to have a single niche now have a permanent sink. Survival is unchanged — costs there work as they always did.</p>
+
+  <p>Several interface features exist to support this and are worth using. The research screen shows your stored resources so affordability is visible at a glance, hovering an item reveals its cost, unaffordable items are flagged with an icon of the missing resource directly on the tree, and the search function matches both research names and the buildings or weapons they grant — so searching for a pipe finds the technology that unlocks pipes. The search persists as you move between branches.</p>
+
+  <h3>What to research, and in what order</h3>
+
+  <p>There is no canonical order and looking for one is a trap. What exists is a set of priorities most experienced players converge on.</p>
+
+  <p><strong>Economy before weapons.</strong> Power, mining and logistics gate everything downstream; a small set of turrets carries your defence for a surprisingly long time. Early is power and basic production, mid is weapons and towers, late is fusion and alien technology.</p>
+
+  <p><strong>Rare-resource handling goes straight to the top of the queue, always.</strong> You cannot meaningfully collect or farm a resource before its handling technology is researched — and that includes cultivation, so a plant that lists a resource yields none of it until the handling tech is in. This is the most common way to waste a farm.</p>
+
+  <p><strong>Check whether an upgrade is usable before you queue it.</strong> Several obvious-looking researches are dead weight for hours because their payoff is gated behind a material you cannot yet obtain. Higher artillery tiers need uranium, which arrives late and only doubles damage without adding range. Upper-tier gas plants need palladium, and upper-tier geothermal needs titanium — though that same geothermal technology also covers the solar and wind upgrades, which need only basic materials, so it pays for itself anyway. Top-tier energy storage costs an order of magnitude more cobalt than the tier below it.</p>
+
+  <p><strong>Mech technology comes last, with exceptions.</strong> Grab the cheap ones opportunistically, and take exploration-flavoured upgrades — health, scan cooldown, building speed — early, because they compound over the whole run.</p>
+
+  <p><strong>Do not over-plan.</strong> Time spent reading every node is time not spent playing while golems dismantle your base. Queue broadly, promote a specific item when you hit something that needs it, and accept that you will never finish the tree in one playthrough. Which technologies matter is learned by playing, and a wave you barely survive is the clearest possible signal about what to research next. One interface quirk: newly queued research lands at the <em>back</em> of the queue and must be moved up manually.</p>
+
+  <p>Two shapes of opening are worth understanding rather than copying. A defensive opening raises the headquarters tier early to unlock everything else, takes the two highest-value tower types before any breadth of weapons, then immediately funds them with resource production and ammunition handling, then upgrades the towers already in use rather than adding new types. A combat-led opening instead takes mech weapons first and expects you to meet waves personally in the field, which lets you defer walls and turrets but demands you actually go out and fight. Pick one deliberately: the failure case is taking half of each and having neither a working wall nor a weapon that clears a wave.</p>
+
+  <p>On Brutal specifically, explosives deserve to be first or second after you survive the opening wave, because basic turrets simply do not handle the large rock creatures and you will be resource-starved for long enough that a personal answer matters more than a built one.</p>
+
+  <h3>Why nodes stay locked</h3>
+
+  <p>Locked entries come from four different gates, which is why "just research it" is not one path. Some need a prerequisite research. Three unlock only by completing the titanium, palladium and uranium mining outpost missions. Many unlock through species familiarity — scanning a specific creature or plant, often several times. And some require owning and progressing an expansion, with a few requiring you to <em>finish</em> it, which means a base-game tree permanently displays entries you can never unlock.</p>
+
+  <p>Rather than guessing, hover the locked node. The tooltip states whether it unlocks from a mission or from scanning, and if scanning, names exactly what to scan. That single habit resolves nearly every "why can't I research this" question.</p>
+
+  <p>The scan-gated group is worth knowing about in advance because it changes where you point your bioscanner: alien camouflage, combat drones, time warp, gravity grenades and the hazenite line all come from scanning specific species in specific biomes. Scan everything you walk past — many species look nearly identical, the rarer groups sit at map edges, and the scanner now remembers accumulated progress so you can break off and resume. Scanning turrets contribute too, and beyond unlocking research, familiarity raises the yield you get from plants and grants damage bonuses against creatures you have studied.</p>
+
+  <h3>Keeping research moving</h3>
+
+  <p>Never let research idle — continuous uptime is one of the habits that separates comfortable Brutal runs from desperate ones. That means keeping the queue full, keeping the pipeline buildings powered, and treating a browned-out laboratory as an emergency.</p>
+
+  <p>It also means understanding where research time actually comes from. Exploring and travelling between maps eats enormous amounts of real time, during which everything keeps researching, so a run that pushes outward finishes far more of the tree than one that turtles. Fusion in particular is gated less by its research than by the field trips needed to gather what its farms and cultivation demand — which is worsened, not helped, by insisting on mining out each map before moving on.</p>
+
+  <h3>Recap</h3>
+
+  <p>Build communications hubs for the first two trees and laboratories for the third, go wide at middle tiers rather than deep at top tier, and switch off whichever pipeline is idle. Take economy and logistics before weapons, promote rare-resource handling the moment it appears, and check what a technology is gated behind before paying for it. Queue broadly and reprioritise on demand rather than planning the tree, use the hover tooltip to diagnose locked nodes, and scan everything you pass.</p>
+</section>
+
+<!-- ==================== MR. RIGGS ==================== -->
+<section class="panel" id="panel-mech">
+  <h2>Mr. Riggs</h2>
+  <p class="lede">You are the strongest weapon on the map. Towers hold ground; the mech decides fights. Everything about loadout, mods and movement skills follows from that — an outpost only has to survive long enough for you to arrive, and a wave you meet in the field is a wave that never touches your walls.</p>
+
+  <h3>The two rules of loadout</h3>
+
+  <p>Everything else is preference, but these two hold across every difficulty and every biome.</p>
+
+  <p><strong>Two damage types, two ammunition pools.</strong> Carrying two weapons that share an ammunition pool halves your sustain for no coverage gain, and carrying two weapons of the same damage type means one resistant species shuts you down completely. Bullets plus explosives is the classic pairing precisely because nothing resists both.</p>
+
+  <p><strong>One hand for rate of fire, one for damage.</strong> Mixed waves contain a mass of small creatures and a few large ones, and a single weapon rarely answers both. A fast-firing hand keeps the swarm off you while a heavy hand deletes priority targets. It is easier to name the pairs that fail than the ones that work: rocket with nuke, flamer with cryogenic, and anything paired with the blaster all leave you with one job covered twice.</p>
+
+  <p>The mechanical details matter here. Equipping a melee arm disables the other arm entirely, so melee is a commitment; two ranged weapons fire simultaneously. Matching melee pairs — two swords, two spears, two hammers — swing together for double damage and a wider arc, while matching power fists alternate instead. Mixed melee pairs cannot swing together at all, though some post-expansion pairings deliberately combine a physical and an energy variant to get two damage types out of one melee commitment. Bind slow-charging weapons to the right button and fast-firing ones to the left, and remember a third slot on a different ammunition type as the fallback when your mains run dry.</p>
+
+  <h3>Weapons by role</h3>
+
+  <p>The community's honest conclusion after hundreds of loadout arguments is that there is no dominant meta — an enormous range of pairings clear the game, and preference is a legitimate selection criterion. What follows is what each weapon is actually good at.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Weapon</th><th>Damage</th><th>What it is for</th></tr></thead>
+      <tbody>
+        <tr><td>Sword</td><td>Physical</td><td>Starting melee. Wide arc, harvests plants while you walk, and does not slow you</td></tr>
+        <tr><td>Spear</td><td>Cryo</td><td>Reach. Pierces several creatures, hits through objects, slows, and lets you pop exploding plants from outside the blast</td></tr>
+        <tr><td>Hammer / pickaxe</td><td>Explosive</td><td>Splash on every swing, but slow and it slows you</td></tr>
+        <tr><td>Power fist</td><td>Energy</td><td>Fast hits with health-on-hit; punctures the rocky bracket that shrugs off physical</td></tr>
+        <tr><td>Laser sword</td><td>Energy</td><td>Reach plus a forward lunge per swing, so it doubles as movement. The melee answer to rock and crystal creatures</td></tr>
+        <tr><td>Small machinegun</td><td>Physical</td><td>Large ammunition pool, high rate of fire, no movement penalty. The sustainable swarm answer</td></tr>
+        <tr><td>Minigun</td><td>Physical</td><td>Highest kinetic damage, but slows you badly while firing and drains ammunition fast</td></tr>
+        <tr><td>Shotgun</td><td>Physical</td><td>Stopping power — interrupts ranged enemies while you fire, chargeable, excellent for exploration with cluster and pierce</td></tr>
+        <tr><td>Burst rifle</td><td>Physical</td><td>High-calibre pierce and damage on a separate pool from the minigun; the standard backup</td></tr>
+        <tr><td>Sniper rifle</td><td>Physical</td><td>Accuracy and penetration, painfully slow. Needs burst-projectile mods to earn a slot</td></tr>
+        <tr><td>Blaster</td><td>Energy</td><td>Infinite ammunition with splash. Weak, but it is what you fire when everything else is dry</td></tr>
+        <tr><td>Plasma rifle</td><td>Energy</td><td>Fast, pierces and splashes natively, accepts stun. Wide spread is its flaw</td></tr>
+        <tr><td>Laser</td><td>Energy</td><td>Held beam that pierces packs and scales up against large targets. Transformed by camera zoom</td></tr>
+        <tr><td>Railgun</td><td>Energy</td><td>Charge and pierce down a line — devastating against waves that run at you in single file</td></tr>
+        <tr><td>Lightning gun</td><td>Energy</td><td>Homes automatically, sweeps damage-over-time across a crowd. Do not hold it like a beam, sweep it</td></tr>
+        <tr><td>Flamethrower</td><td>Fire</td><td>Melts the organic bracket, slows you, and is useless where fire is resisted</td></tr>
+        <tr><td>Cryo atomizer</td><td>Cryo</td><td>The flamethrower for things that cannot burn; the slow matters more than the damage</td></tr>
+        <tr><td>Grenade launcher</td><td>Explosive</td><td>Arcs over trash to reach the back line, fires over walls and rocks, safe at point blank, cannot hurt you</td></tr>
+        <tr><td>Rocket launcher</td><td>Explosive</td><td>Chargeable multi-shot against big single targets; nearly immobilises you</td></tr>
+        <tr><td>Mine launcher</td><td>Explosive</td><td>Trap-laying at the highest explosive rate of fire, at a heavy ammunition cost</td></tr>
+        <tr><td>Swarm missile</td><td>Explosive</td><td>Fastest-firing explosive, lowest damage — and it eats the grenade pool</td></tr>
+        <tr><td>Nuke launcher</td><td>Explosive</td><td>Charge and delete. With extra damage types it one-shots almost anything, and it fells trees for building room</td></tr>
+        <tr><td>Shard gun</td><td>Cryo</td><td>Cryo slow with a choice between a piercing or a critical build — piercing for hordes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>A few of these deserve emphasis because they are consistently underrated. The grenade launcher solves most of the game simply because the game is horde-shaped, and its ability to fire over a bare wall means the mech can defend a wall that has no towers on it at all. The shotgun and small machinegun are the ammunition-sustainable pair — neither slows you, both conserve, and running dry stops being a thing that happens. And the blaster's zero ammunition cost makes it the correct third slot for exploration regardless of how weak it looks.</p>
+
+  <p>Melee deserves a warning at high difficulty. Creatures that repel melee are mixed into groups specifically to break your rhythm: your swing connects with one, the life-per-hit stream stops, the stagger pauses you, and you are surrounded. Players who drop melee for ranged loadouts routinely survive fights they previously lost. Melee still earns a slot for plant harvesting and as an ammunition-free fallback.</p>
+
+  <h3>Mods are most of the weapon</h3>
+
+  <p>Rarity determines only the size of the numeric roll, so redder is better all else equal. Grey weapons take no mods at all; blue and above take them but also consume more ammunition, which is why ammunition-conservation mods so often earn their slot — they are offsetting a cost the upgrade itself introduced.</p>
+
+  <p>The mods that change what a weapon <em>does</em>, rather than how much it does, are the ones worth hunting:</p>
+
+  <ul>
+    <li><strong>A damage type different from the weapon's own</strong>, applied as a damage-over-time rider. This is the trick that lets one weapon hurt things immune to its primary type, and stacking it across both hands means dealing three or four damage types at once. Note the arithmetic: a bonus damage mod only applies a target's vulnerability multiplier to the <em>added</em> portion, not the weapon's whole output.</li>
+    <li><strong>Splash</strong>, which is quietly enormous on any fast-firing weapon and is the reason the in-menu damage readout misleads — splash appears not to be counted, so explosives read worse than they play.</li>
+    <li><strong>Homing</strong>, which lets you fire while strafing and around corners, and corrects onto new targets. Splash is the alternative if you would rather aim.</li>
+    <li><strong>Piercing</strong>, valuable because your effective sight range is short and packs are dense — but wasted on rockets and similar.</li>
+    <li><strong>Cluster</strong>, which produces secondary explosions from every hit, including hits on terrain, so misses still break into fragments that find targets.</li>
+    <li><strong>Stun</strong>, which enables genuine lockdown. Note that the plasma rifle accepts it and the minigun does not.</li>
+    <li><strong>Cryo</strong>, taken on almost anything purely for the slow. Very little resists cold, which makes it the safest universal rider.</li>
+    <li><strong>Projectiles per shot</strong>, which frequently doubles output outright and largely obsoletes the burst-projectile version.</li>
+  </ul>
+
+  <p>Skip spread mods — they usually make spread worse — and treat health-on-hit as a nice rider rather than a survival plan, since the heal is too small to tank on. On a nuke launcher, reduced ammunition cost is the only mod really worth chasing; homing is unreliable because the projectile is so slow. And do not chase perfect rolls: settling a few percent below optimum costs a fraction of the attempts.</p>
+
+  <h3>Armour modules and the two loadouts</h3>
+
+  <p>Four armour slots, all stackable — four copies of the same upgrade is legal and often correct. Each upgrade carries two or three guaranteed mods plus additional rolled ones by tier, drawn from a pool specific to that upgrade rather than from everything. The interface only shows three stats on hover, so click through to the full list; a great deal of the system is invisible if you never do.</p>
+
+  <p>Three effects are worth more than the rest. <strong>Reduced building cost</strong> scales with the entire game — a full set takes construction to roughly a third of list price, which is transformative when you are building fusion plants, top-tier laboratories and the rift itself. <strong>Movement speed</strong> is the best single combat and non-combat stat in the game and saves enormous amounts of real time. <strong>Reduced skill cooldown</strong> turns your quickbar into spam: grenades, healing, mines, area scans and your movement skill all come back faster, which is the default pick when nothing else is obvious. Health and health regeneration are a tier below but you will roll them constantly anyway, and unlike shields they benefit from resistances.</p>
+
+  <p>Which leads to the things to avoid. Shield stats are a trap: shields do not benefit from damage reductions, the recharge delay is long enough not to matter in a real fight, and the regeneration mod is close to inert. Reduced building <em>time</em> is redundant since defences already build in seconds. Bonus resource drops and damage reflection are not worth a slot. Several stats have been reported as simply non-functional, notably blanket resist-all, acid resistance and radar range — treat any of them appearing on a roll as filler rather than value.</p>
+
+  <p>Among the upgrades themselves, the titanium machinery line is the standout: three guaranteed mods including the two best ones, and it can roll cost reduction on top. Maintenance tools are the cheap early source of guaranteed cost reduction, and the fusion core line does the same job strictly worse — skip it. Attack gear is the mod-farming pick thanks to guaranteed drop rate plus cooldown. Defence gear is the honest combat option; offensive equipment wastes a guaranteed slot on reflection, so take defence gear instead. Repair tools have the highest theoretical ceiling and are effectively impossible to roll well. Before committing to a line, check which rare materials it consumes — some lines are gated behind exactly the materials you have been deferring.</p>
+
+  <div class="tip">
+    <b>Keep two loadouts and swap</b>
+    <p>Before a building session, swap to cost-reduction modules; before heading out, swap back to combat. The saving on a fusion buildout or a research-building upgrade dwarfs the inconvenience. Two cautions: the same percentage also reduces what you receive when selling, so building cheap and selling dear is not a real exploit; and since crafted modules were weakened, the best ones now come from world drops — explore, fight and open caches rather than grinding the crafting bench.</p>
+  </div>
+
+  <h3>Quickbar items are free damage</h3>
+
+  <p>Quickbar items recharge on their own, so holding them in reserve is pure waste — use them constantly. Restocking most of them does consume resources, which is worth knowing before a long exploration trip, though the emergency detonation and radar pulse appear to be free. More armouries, at higher tiers, recharge them dramatically faster.</p>
+
+  <p>Grenades never become obsolete — they out-damage a grenade launcher per hit for most of the game and cost you nothing. Mines are effectively unlimited and are the best trap tool you have, with nuclear variants for genuinely dangerous packs; plant the whole set spaced out rather than stacking them, and remember both types have a brief arming delay, so a mine dropped on a creature's face gets eaten. The portable turret costs no ammunition or energy and is best used as an aggro sponge, since creatures rush it. Emergency detonation is your get-out-of-jail card and doubles as bait — draw melee creatures in, then detonate. Radar pulse reveals a wide area briefly and is worth spamming while exploring.</p>
+
+  <p>Alien-tech additions are worth chasing. Cryo mines do little damage but chain a slow along an enemy's path, giving turrets free damage time. Gravity mines and grenades pull small creatures into a lingering damage sphere, and combining a gravity pull with a nuke is a compounding kill. Several of these schematics come only from crystal pillars rather than the research tree, and pillar-unlocked schematics carry across future campaign and survival runs — one of the few forms of permanent progress in the game.</p>
+
+  <h3>Movement skills</h3>
+
+  <p>Dash was the only movement skill for years and remains the reflexive pick, but the others have been reworked into genuine alternatives, and the choice now changes how you fight rather than just how you travel.</p>
+
+  <p><strong>Dash</strong> closes distance and disengages, and you can fire while dashing. Its real value late is the elemental trail: circle back so pursuers cross your own trail and it becomes a temporary wall that kills weak chasers outright. Cryo is the preferred element — very little resists it and the slow does the work — while fire is easiest to unlock but useless in volcanic regions. Trails are weak in the metallic biome, where most creatures fly over them.</p>
+
+  <p><strong>Dodge roll</strong> is no longer a worse dash. During the roll you are invulnerable <em>and</em> pass through units, so it escapes through a pack rather than around it, it can be cancelled at any point, and it ends in an explosion that clears your immediate surroundings.</p>
+
+  <p><strong>Power jump</strong> now marks its landing spot clearly, flies over obstacles below a certain height, destroys destructible ones on the way, stops short with a visible marker when something indestructible blocks it, and extends itself slightly when you are just barely short of clearing terrain. It is also the specific escape from being walled in.</p>
+
+  <p><strong>Teleport</strong> is the strongest strategic option once unlocked — point and click past terrain, with the shortest cooldown of the set. It now travels as a bolt of lightning with the camera following, lands with an energy burst that stuns nearby creatures, reaches slightly beyond your vision, and extends the jump when you target an invalid spot, so you can point past an obstacle without seeing where you will land.</p>
+
+  <p>Chain your movement skill constantly for map traversal rather than saving it for emergencies — it is the difference between crossing a map in twenty seconds and two minutes.</p>
+
+  <h3>Fighting habits</h3>
+
+  <p>Keep moving. Creatures fire at where you are standing, so strafing between shots dodges most incoming fire outright, and the herd that follows you is a herd your towers are not fighting. When you are hurt, warping to the headquarters heals you for free — repair charges are not your only option.</p>
+
+  <p>Read the battlefield. A creature's hit glow tells you its health, from white through yellow to red, and enemies that only aggro when provoked show an alert glow as you pass; both proper health bars and damage numbers can be enabled in the options if you prefer explicit information. Enable camera zoom through the console and long-range weapons become dramatically stronger, since the default view is too tight to use their range at all.</p>
+
+  <p>Use the environment. Meteor and eruption impact markers damage creatures too, so lure packs into them. The large rock creatures have a dead zone at roughly spear length where they cannot hit you — stand there to recover while other ranged creatures shoot into their backs. And be careful around neutral creatures: they blame you for any damage they take nearby, including from another creature's attack or a falling meteor.</p>
+
+  <h3>Recap</h3>
+
+  <p>Carry two damage types on two ammunition pools, one hand fast and one heavy, and let mods add the coverage your weapons lack. Prefer ammunition-sustainable weapons at high difficulty and be wary of melee once elite waves arrive. Build armour around cost reduction, movement speed and cooldown, ignore shield stats, and keep a separate building loadout. Spend quickbar items freely, chain your movement skill everywhere, and remember the mech is the mobile reserve the whole defensive plan is built around.</p>
+</section>
+
+<!-- ==================== ENEMIES ==================== -->
+<section class="panel" id="panel-enemies">
+  <h2>Enemies</h2>
+  <p class="lede">Damage type decides fights here more than damage number does. A weapon that is nullified against one species doubles against another, and the tower line that shredded last wave can be irrelevant to this one — which is why the answer to almost every defensive question is coverage.</p>
+
+  <h3>Reading resistances</h3>
+
+  <p>Six damage types are tracked — physical, area, energy, cryo, fire and acid — and every creature has a resistance profile and a vulnerability profile against them. Resistance reduces incoming damage of that type, with full resistance meaning immunity; vulnerability multiplies it, so a doubled vulnerability means twice damage.</p>
+
+  <p>Most species run a ladder of variants with rising health but the <em>same</em> resistances, which is convenient: a weapon that works on the base creature keeps working on its stronger versions. The exceptions are worth memorising because they invert your answer mid-fight — one common species changes which type it nullifies between its variants, and two creatures have boss forms with different profiles from their trash versions, one of which gains fire immunity and one of which loses most of its fire vulnerability.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Creature</th><th>Resists</th><th>Vulnerable to</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Canoptrix</td><td>—</td><td>Fire ×2</td><td>Tiny health, arrives in swarms. Flame answers it entirely</td></tr>
+        <tr><td>Arachnoid</td><td>Acid (immune)</td><td>Fire ×2</td><td>Boss form keeps acid immunity but is relatively tankier against fire</td></tr>
+        <tr><td>Granan</td><td>Acid (immune)</td><td>Fire ×2</td><td>Small, organic, burns</td></tr>
+        <tr><td>Baxmoth</td><td>Acid (immune)</td><td>Fire ×6, area ×1.5</td><td>Huge health pool that flamethrowers delete anyway</td></tr>
+        <tr><td>Nurglax</td><td>Acid (immune)</td><td>Fire ×6, area ×2</td><td>Long-range shelling. Fire towers and overhead fire are the counter</td></tr>
+        <tr><td>Bomogan</td><td>Acid, fire (heavy)</td><td>Area ×2</td><td>Resists both usual answers — explosives only. Needs artillery near the wall</td></tr>
+        <tr><td>Hammeroceros</td><td>Energy (half)</td><td>Acid ×2</td><td>The acid tower's headline target</td></tr>
+        <tr><td>Krocoon</td><td>Area (immune), energy (half)</td><td>Acid ×2</td><td>Splash does nothing at all. Miniguns and acid handle it</td></tr>
+        <tr><td>Stregaros</td><td>Physical (heavy)</td><td>Acid ×2</td><td>Bullets are a poor answer</td></tr>
+        <tr><td>Gnerot</td><td>Physical (immune)</td><td>Cryo ×2, area ×2</td><td>Boss form adds fire immunity and doubles cryo vulnerability again</td></tr>
+        <tr><td>Magmoth</td><td>Area, fire (immune)</td><td>Cryo ×3</td><td>Immune to explosives and fire together — cryo or nothing</td></tr>
+        <tr><td>Morirot</td><td>Fire (immune), physical (half)</td><td>Area ×1.5</td><td></td></tr>
+        <tr><td>Mushbit</td><td>Energy, physical (half)</td><td>Cryo ×2</td><td>Cryo mods on flame weapons exist for this</td></tr>
+        <tr><td>Nerilian</td><td>Fire (half)</td><td>Cryo ×2, area ×1.5</td><td></td></tr>
+        <tr><td>Kermon</td><td>Area, energy (heavy)</td><td>Cryo ×2</td><td>Stealthed — reaches gates before towers react, so layer walls</td></tr>
+        <tr><td>Hedroner</td><td>Physical (half), plus acid or fire depending on variant</td><td>Cryo ×2–3, energy ×2</td><td>The variant trap: acid works on two tiers, fire on two others, energy on all three</td></tr>
+        <tr><td>Lesigian</td><td>Energy (immune)</td><td>Physical ×1.5</td><td>Plain bullets are the counter</td></tr>
+        <tr><td>Necrodon</td><td>Energy, fire (heavy)</td><td>Physical ×1.5</td><td>Resurrects the dead — kill it first</td></tr>
+        <tr><td>Phirian</td><td>Cryo (partial)</td><td>Physical ×1.5</td><td>The only cryo resister in the base roster</td></tr>
+        <tr><td>Drexolian</td><td>—</td><td>—</td><td>Completely neutral: only raw damage matters</td></tr>
+        <tr><td>Shegret</td><td>—</td><td>—</td><td>Also fully neutral</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>What the table means for your build</h3>
+
+  <p>Several patterns fall out of it, and they explain most defensive advice you will read.</p>
+
+  <p><strong>Fire is the widest vulnerability and the most frequently nullified.</strong> It answers the entire small-organic bracket and two of the biggest health pools in the game at six times damage — but it is negated outright by the lava-blooded species and heavily resisted by several others. Fire is a specialist you should always have some of and never rely on alone.</p>
+
+  <p><strong>Acid answers the rocky, armoured bracket</strong> — precisely the heavies that tear walls apart — and is nullified by the organic bracket that fire handles. That complementarity is exactly why acid towers and flame towers appear together in every good wall.</p>
+
+  <p><strong>Cryo is the safest broad type.</strong> It answers a long list of creatures, only one species resists it at all, and it slows everything it touches, which is a defensive benefit no other type provides.</p>
+
+  <p><strong>Energy is the weakest general-purpose type by this data</strong> — one species is genuinely vulnerable to it while five resist it — which is worth remembering before committing an entire wall to lasers and railguns. Energy earns its place on penetration and on zero ammunition cost, not on damage type.</p>
+
+  <p>The practical shortcut: a complementary two-element mix covers the roster, but only if the two are chosen properly. Cryo and physical work together because nothing in the base roster resists both. Fire and acid do <em>not</em>, because one creature resists both and the rest split neatly into two camps that each nullify one of them.</p>
+
+  <p>One more habit worth building: acid-natured creatures take extra damage from fire and fire-natured creatures take extra from acid, so as a first guess in an unfamiliar biome, bring the opposite element to whatever the environment is made of.</p>
+
+  <h3>Omega creatures</h3>
+
+  <p>Omegas are stronger strains carrying extra abilities, shown as icons above the boss health bar. Every ability has four levels, and the level is tied directly to your chosen difficulty rather than to the boss or your progress — so a Brutal run faces top-level versions from the first Omega it meets.</p>
+
+  <p>The combination rules are strict and worth knowing, because they bound how bad any single Omega can be. No Omega carries two copies of the same ability, an Omega can carry at most one direct-attack ability, and at most one elemental damage aura. Wall-spawning is incompatible with every aura and with almost every direct attack. The two support auras — healing and resistance — cannot appear together. What is not bounded is the number of Omegas: two can show up.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Ability</th><th>Threat to you</th><th>Threat to your base</th><th>Counterplay</th></tr></thead>
+      <tbody>
+        <tr><td>Acid or lightning cascade</td><td>Moderate — dodgeable</td><td>Very high</td><td>The cascade penetrates walls and turret lines and destroys pipes and power connectors, depowering whole sections. Redundant cabling matters here</td></tr>
+        <tr><td>Cryo orbs</td><td>High — pure area denial</td><td>Extreme</td><td>Orbs spawn around the Omega's <em>target</em>, cannot be destroyed, and spin for several seconds. Only answer is to leave</td></tr>
+        <tr><td>Rock spawner</td><td>Medium-high</td><td>High</td><td>Rapid and hard-hitting enough to kill towers and drop shields, but less likely than cascades to reach deep infrastructure</td></tr>
+        <tr><td>Meteor spawner</td><td>Dodgeable but heavy</td><td>Medium</td><td>Largest area of the direct attacks; destroys connectors and pipes</td></tr>
+        <tr><td>Fireball wave</td><td>Near zero</td><td>Near zero</td><td>Defence drones intercept it outright and it has no penetration</td></tr>
+        <tr><td>Tornado wave</td><td>Dangerous</td><td>Low</td><td>Tornadoes wander rather than travel straight; running away is the worst play — walk into it or step sideways. They dissipate on rocks</td></tr>
+        <tr><td>Shockwave</td><td>High</td><td>None</td><td>Disables map view and map teleporting for several seconds — but not your teleport <em>skill</em></td></tr>
+        <tr><td>Wall spawner</td><td>High</td><td>Surprisingly high</td><td>Traps you in a U-shaped wall; dash and roll will not get you out, teleport, power jump or blasting through will. Against a base it walls your own defences and damages what the walls land on</td></tr>
+        <tr><td>Elemental aura</td><td>High for melee builds</td><td>Low unless melee</td><td>Constant damage in a wide radius, and it grants the Omega extra matching resistance. Fight it at range</td></tr>
+        <tr><td>Healing aura</td><td>A damage check</td><td>A damage check</td><td>Heals the Omega and everything fighting near it. Focus the carrier immediately</td></tr>
+        <tr><td>Resistance aura</td><td>Priority target</td><td>Priority target</td><td>Flat damage reduction applied <em>after</em> elemental resistance, to the Omega and everything near it. Scarier than healing — kill it before anything else</td></tr>
+        <tr><td>Swarm spawner</td><td>Annoying</td><td>Almost none</td><td>Cells shield the Omega and may cover its weaknesses. Splash on a piercing weapon turns the shield into a damage multiplier against the boss</td></tr>
+        <tr><td>Drone swarm</td><td>Dangerous</td><td>Low</td><td>Drones chase and grind you down. A gas grenade on the Omega kills them as they spawn</td></tr>
+        <tr><td>Egg spawner</td><td>Low</td><td>None</td><td>Spawns the local biome's trash tier. Only a problem if your loadout is all single-target — carry something anti-swarm</td></tr>
+        <tr><td>Resurrect aura</td><td>Moderate</td><td>Low</td><td>Revives corpses, or spawns ranged creatures if there are none. Omegas themselves cannot be resurrected</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Three of those abilities friendly-fire the Omega's own escort, which is occasionally worth waiting out. Note also that several abilities target whatever the Omega is attacking rather than the Omega's own position — which means that by kiting one away from your walls, you take its area denial with you.</p>
+
+  <p>Against Omegas generally, presence beats towers. Warping in personally and focusing the carrier of an aura resolves fights that a tower line would grind through slowly or lose. Where towers must do it, the long-range trio of heavy artillery, overhead fire and energy fencing gives you something for most resistance profiles — though which of them works depends entirely on what that particular Omega resists.</p>
+
+  <h3>Behaviour you can exploit</h3>
+
+  <ul>
+    <li><strong>Everything attacks the closest structure.</strong> This is the single most exploitable fact in the game and underpins bait clusters, decoy walls and outlying firebases.</li>
+    <li><strong>Creatures do not flank.</strong> The rear of a fortress needs a token defence, not a mirror of the front.</li>
+    <li><strong>Some creatures hit through walls, and spitters prioritise turrets.</strong> Depth of wall does not protect a turret from everything.</li>
+    <li><strong>Enemy artillery cannot hit roofed buildings from certain angles</strong>, which makes a packed building block a partial shield in itself.</li>
+    <li><strong>Power-leech creatures attach to cables and buildings</strong>, which is a good reason to run redundant lines to remote sites — and they make convenient stationary scan targets.</li>
+    <li><strong>Areas covered by radar or power lines suppress respawns.</strong> Clear an area first, then run coverage through it, and it stays clear.</li>
+    <li><strong>Most creatures cannot cross water or mud</strong>, so those areas are effectively walls; defend only their edges, and the few crossers die to a couple of basic turrets.</li>
+    <li><strong>Diggers path toward your base rather than toward you</strong>, so getting behind them and firing is safe where meeting them head-on is not.</li>
+    <li><strong>Nest eggs contain rare resources</strong> — destroy them before they hatch and the nest pays you.</li>
+  </ul>
+
+  <h3>Recap</h3>
+
+  <p>Learn resistance profiles rather than damage numbers: fire for the organic bracket, acid for the armoured one, cryo as the broad safe answer, physical for the energy-immune, and energy chosen for penetration rather than for its damage type. Pick complementary pairs — cryo with physical rather than fire with acid. Against Omegas, identify the ability first: kill resistance and healing auras immediately, kite area denial away from your walls, and remember that gas answers drones, splash answers swarms, and power jump answers being walled in.</p>
+</section>
+
+<!-- ==================== BIOMES ==================== -->
+<section class="panel" id="panel-biomes">
+  <h2>Biomes</h2>
+  <p class="lede">Each biome changes three things at once: which power source works, which damage types are worth carrying, and what the weather does to your base. Treating a new map like the last one is the fastest way to lose a well-built run.</p>
+
+  <h3>The biomes</h3>
+
+  <details>
+    <summary>Tropical &amp; Jungle <span class="sub">The default. Water, cobalt, easiest waves</span></summary>
+    <div class="det-body">
+      <p>The story campaign starts here deliberately — it is the most Earth-like environment and the safest place to learn. Expect frequent large carbonium and ironium deposits, a moderate number of geothermal vents, and relatively few sludge lakes but plenty of mud.</p>
+      <p>That mud-to-sludge ratio matters more than it sounds. Mud converts to water at twice the efficiency of sludge, so the correct division of labour is mud for water and sludge for gas. Geothermal is the standout power source where vents exist, since it produces both energy and mud.</p>
+      <p>Jungle also carries the cobalt crops and the most open space for farms, and it produces the mildest waves of any biome. If you are choosing a home for a large cultivator operation, this is the default answer. Trees can be cleared with nuclear weapons to free up building squares.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Desert &amp; Radioactive <span class="sub">Solar, storage, uranium — and quicksand</span></summary>
+    <div class="det-body">
+      <p>Solar output is doubled here, which is the biome's headline advantage, but vents and sludge are scarce and water is scarce enough that water-fed power belongs elsewhere. Nuclear works to bootstrap a radioactive map, after which imported gas is infinite and consumes nothing.</p>
+      <p>Quicksand damages buildings until stable floors are researched, which is the gate on using the biome at all. Once through it, the endless flat space becomes the game's best storage park — solid storage needs no power, so you can carpet floors and storage with zero supporting infrastructure and never visit again.</p>
+      <p>Energy weapons underperform here. The uranium cultivation crops are desert-locked, and cold damage is the recommended element for local fauna. Several desert maps carry very low threat, which is what makes them the standard recovery site for a broken economy: solar panels plus synthesizers, no defence required.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Acidic Plains <span class="sub">Infinite sludge, no raids, and acid that hits like a nuke</span></summary>
+    <div class="det-body">
+      <p>The most valuable biome in the campaign, for one reason: the sheer volume of sludge makes gas power effectively unlimited, which in turn makes synthesizers, laboratories and ammunition production affordable at any scale. Several acidic recon maps generate no attack waves at all, which turns them into free industrial estates — cover them in radar so creatures stop respawning, and build everything that travels between maps there.</p>
+      <p>Wind is poor here. A wind-heavy grid on an acid map is a common hidden cause of collapsing defences; solar plus cultivated biomass is the correction if you have not yet reached gas.</p>
+      <p>Acid damage from the environment is severe, and shields are useless against it because the damage-over-time strips them continuously — health regeneration and health boosts are the survivable answer, along with anti-corrosive armour. Acid rain is fully negated once the acid-shielding upgrade is researched. Bring movement speed: local mushrooms react badly to metal, and some maps hide mines that the geoscanner doubles as a detector for. Defusing one mine can set off another, so give minefields room and clear them at range.</p>
+      <p>The yeast root colony mission is the biome's hardest content and inverts normal play. Find the root immediately, because the growth spreads slowly then explodes, and every delay costs resources to clear. Burn everything around it, lay acid-resistant tiles wide enough to hold — a narrow strip regrows through — use sludge pools and rock as parts of your perimeter, and place the research building only once your defences satisfy you, because placing it starts the waves. Flamethrowers clear plant fields fastest; melee keeps the fast acid creatures off you; sniping weapons handle the smaller roots. Leaving a map freezes its state, so retreating to re-equip is entirely viable.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Volcanic <span class="sub">Doubled geothermal, magma power, no fire weapons</span></summary>
+    <div class="det-body">
+      <p>Fire is worse than useless here — the local fauna is highly fire-resistant, which is a cruel joke given that the region supplies fire-weapon materials. Bring cryo and acid instead; acid also dissolves the floating rock formations that clutter the terrain, and a nuclear launcher carrying acid damage is the fastest way to clear them.</p>
+      <p>Power is abundant in two forms. Magma plants run on an infinite local fuel with no processing, though each needs a cooling tower nearby to function and magma is far too consumption-heavy to export. Less obviously, geothermal output is <em>doubled</em> here, which makes vents a genuine powerhouse and provides the mud that cultivators need. A couple of vents will run a substantial farm.</p>
+      <p>The costs are space and hazards: magma pools make layouts cramped, eruptions demand repair coverage on top of the cooling infrastructure, and titanium crops are the biome's cultivation speciality. Volcanic maps produce the hardest waves of the common biomes.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Fungal Swamp <span class="sub">Everything burns — except your acid towers' targets</span></summary>
+    <div class="det-body">
+      <p>Nearly everything here is fire-weak, which makes overhead fire and flame towers exceptional and makes this the one biome where you genuinely want a lot of them. Acid towers are correspondingly poor, since the local fauna grew up in it.</p>
+      <p>The nest variant here spits acid from the structure itself, so approaching one is a real fight rather than a formality. Floating towers dropped into the biome's pools need no power connection at all, which removes the failure where one severed cable silences a line.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Metallic Valley <span class="sub">Morphium, fire immunity, and towers that need no power</span></summary>
+    <div class="det-body">
+      <p>Morphium is the draw: it powers plants at roughly gas output with no processing chain, and it runs morphium towers, which build on ground or liquid, carry built-in shield generators, and need neither power nor AI cores. Using either elsewhere requires liquid compression to ship the morphium home.</p>
+      <p>The local creatures are fire-resistant, which specifically blunts overhead fire towers — and once you finish this content those creatures join your headquarters raids, so a fire-heavy home defence quietly degrades. Most of them also fly over dash trails, removing that tool.</p>
+      <p>The nest here is a defended structure ringed with alien plasma and artillery towers. Dismantling those towers pays resources, which makes it one of the better fights in the game rather than a chore.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Caverns <span class="sub">Where most of the usual advice inverts</span></summary>
+    <div class="det-body">
+      <p>Do not come here until you have a full loadout and access to essentially every resource type — the creatures are substantially stronger than anything before them. Most resist cryo and many resist fire as well, so the spear and the flamethrower both go back in the locker; acid is the element that works, including on your dash.</p>
+      <p>Artillery is not available on these maps, so portal bomb towers take over the long-range role. Orbital abilities do not function underground either; the anti-swarm tool becomes the antimatter ball, and generator overcharge replaces the emergency detonation while also restoring shields.</p>
+      <p>Power is scarce and the answer is import: geothermal converting mud to water bootstraps you but cannot keep up, so a decompressor line from an acidic base is the real solution. Environmental hazards are frequent enough that repair towers are mandatory, falling ceiling crystals behave like meteor showers, and destructible terrain must never be treated as a wall because creatures simply dig through it. Clear the ground beyond your walls so towers get firing time, and never fight the large diggers head-on — they path toward your base, so get behind them.</p>
+      <p>Wind is of limited use here, and caves are dense with exploding plants, so free-swinging a melee weapon through vegetation is genuinely lethal.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Cryo <span class="sub">Coolant exports, and a sword that is not enough</span></summary>
+    <div class="det-body">
+      <p>The cold biome's fauna is dangerous in melee — a handful of ordinary creatures in contact is a death sentence, so kiting and ranged weapons carry you rather than a sword.</p>
+      <p>Its strategic value is supercooling liquid. A cryo base exporting coolant makes several late structures dramatically cheaper to run, including fusion reactors fed on coolant rather than water and the endgame structure whose refinery upkeep is otherwise punitive.</p>
+    </div>
+  </details>
+
+  <h3>Weather and events</h3>
+
+  <p>Some hazards can be baited and some cannot, and knowing which is which saves bases.</p>
+
+  <p>Telegraphed impact events — meteor falls, volcanic strikes — spawn centred on your mech and give around thirty seconds of warning. Walk out of your base before they begin and the entire event lands harmlessly in empty terrain; you can even leave once it has started and the impacts follow you rather than hitting your buildings. Earthquakes, gas-quakes and tornadoes are the opposite: fully random across the map, with no way to lure them away. Repair coverage designed into the base from the start handles almost all of it, with the notable exception that tornadoes still destroy power connectors and pipelines, which are too flimsy to survive.</p>
+
+  <p>Not all events are hostile. Strong winds boost turbine output, comets deliver valuable resources, and ion storms dump large amounts of energy and fully recharge storage — worth banking against if your map gets them often. Hail storms destroy buildings while leaving alien flora and fauna untouched, which is an argument for siting cultivators remotely with nothing beside them but harvesters and a repair tower.</p>
+
+  <p>If randomness of this kind is not what you want from a run, the custom settings let you disable negative events entirely while keeping the positive ones.</p>
+
+  <h3>Choosing where to settle</h3>
+
+  <p>Beyond resources, biome affects wave pressure directly. Every biome has its own guaranteed minimum gap between waves, so pacing genuinely differs between two runs on the same difficulty. On overall wave difficulty the common ordering runs jungle as the mildest, then desert, then plains, with volcanic the hardest — and acidic plains is the reference case difficulty is tuned against.</p>
+
+  <p>Remember also that settling a biome imports its creatures into your headquarters waves. A tour of every biome produces a home defence problem with no clean answer, while a focused set of outposts keeps your wall's damage-type requirements narrow. That is a real argument for taking fewer, better outposts than the eight you are allowed.</p>
+
+  <h3>Expansion content and how it arrives</h3>
+
+  <p>Expansion regions are not separate campaigns; they hook into the existing one through added maps and a mission chain, and they unlock as you progress rather than being available from the menu. The metallic content in particular begins with a meteor event: complete a scan mission or a mining outpost, return to your main base, and a marked impact fires the chain. On a save where the campaign is already finished, it arrives within minutes of loading.</p>
+
+  <p>Timing reports vary widely — some players trigger it a couple of minutes in, others after hours — and the new creature types can start appearing in your home waves before the mission chain itself begins. Do not walk past the fragment when it lands; picking it up and following through immediately is the difference between starting the chain and wondering for hours why nothing happened. Failures to trigger at all are reported often enough to be treated as bugs rather than unmet prerequisites, and neither reloading nor cycling maps reliably fixes a stuck spawn.</p>
+
+  <p>Leave expansion biomes until last in your outpost ordering. Their creatures are the strongest in the game, their resistances invalidate tools you have relied on all run, and their content assumes you arrive with a mature economy.</p>
+
+  <h3>Recap</h3>
+
+  <p>Match power to biome first — gas on acidic, magma and doubled geothermal on volcanic, solar in desert, imported liquids in caverns — because a mismatched grid starves everything downstream. Carry the element the local fauna does not share: fire on acid maps, acid on volcanic ones, cold in the desert, and acid again underground. Bait the telegraphed hazards by walking away and design repair coverage against the ones you cannot bait. Settle deliberately, because every biome you hold sends its creatures to your front door.</p>
 </section>
 
 <!-- ==================== MODES ==================== -->
