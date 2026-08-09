@@ -19,7 +19,7 @@ Per `guide-research-finder`/`guide-research-distiller`: transferable strategy in
 
 ## Loop
 
-List `{guide}/.research/*.md` excluding `_sources.md`. For each file, sequentially — one `general-purpose` agent per file, wait for it to finish before dispatching the next (same rationale as new-guide's sequential distill: avoid burning the session-message limit on a parallel fan-out).
+List `{guide}/.research/*.md` excluding `_sources.md`. One `general-purpose` agent per file, dispatched in parallel batches of 6 — 6 Agent calls in one message, wait for the batch, then send the next 6 (same rationale as new-guide step 3).
 
 Dispatch prompt gives the agent:
 - `{guide}/.research/{file}` path to read

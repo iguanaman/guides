@@ -20,9 +20,9 @@ For each `.md` file in `{guide}/.research/` (excluding `_sources.md`):
 
 Delete every `.research/*.md` file being rebuilt (not `_sources.md`) before dispatching any agent — the distiller checks whether its output file already exists and skips rewriting if so, so stale files must be gone first.
 
-## 3. Dispatch guide-research-distiller sequentially
+## 3. Dispatch guide-research-distiller in parallel batches
 
-One at a time, wait for each to finish before dispatching the next (avoids burning the session-message limit on a parallel fan-out that dies mid-batch — same rationale as `new-guide` step 3).
+Batches of 6 — 6 Agent calls in one message, wait for the batch, then send the next 6 (same rationale as `new-guide` step 3: a dead batch costs 6 re-runs, not the whole list).
 
 Each dispatch prompt passes: {topic} (guide's proper name, not slug), `{topic-slug}` = {guide}, the recorded `{source-slug}`, and the source URL. Instruct it to fetch and distill per its own instructions into `{guide}/.research/{source-slug}.md`.
 
