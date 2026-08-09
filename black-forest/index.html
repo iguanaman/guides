@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Forest — Solo Strategy Guide</title>
+<meta name="description" content="Black Forest solo strategy: rondel routing, building selection, resource-wheel management, glassworks and the Uwe Rosenberg solo puzzle.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+  }
+
+  /* ---------- globals ---------- */
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3,h4{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+  a{color:var(--fjord-bright)}
+  p{margin:0 0 .8rem}
+  ul,ol{margin:0 0 .8rem;padding-left:1.3rem}
+  li{margin-bottom:.28rem}
+  strong{color:var(--ink)}
+  code{font-family:"Consolas","Menlo",monospace;font-size:.86em;background:var(--panel-raised);padding:.05em .3em;border-radius:3px}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:relative;
+    padding:2.6rem 1.5rem 1.4rem;
+    text-align:center;
+    max-width:62rem;
+    margin:0 auto;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin-bottom:.5rem;
+  }
+  header.site h1{
+    margin:0 0 .4rem;
+    font-size:2.4rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+  }
+  header.site p{
+    margin:0 auto;
+    max-width:52ch;
+    color:var(--ink-dim);
+  }
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  /* ---------- tab nav ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:10;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);font-size:.84rem;font-weight:700;letter-spacing:.05em;
+    color:var(--ink-dim);background:none;border:none;
+    border-bottom:2px solid transparent;padding:.7rem 1rem;
+    cursor:pointer;transition:color .15s;flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{color:var(--bronze-bright);border-bottom-color:var(--bronze)}
+
+  /* ---------- layout ---------- */
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.5rem 5rem}
+  .panel{display:none}
+  .panel.active{display:block}
+  .panel > h2:first-child{margin-top:0}
+  h2{font-size:1.7rem;margin:2.6rem 0 .6rem}
+  h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+  h4{font-size:1rem;margin:1.2rem 0 .35rem;color:var(--fjord-bright);font-variant:normal;letter-spacing:.02em}
+  .lede{color:var(--ink-dim);font-size:1.05rem;max-width:62ch}
+
+  .block{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1.1rem 1.3rem;margin:0 0 1.1rem;box-shadow:0 2px 8px var(--shadow);
+  }
+  .block > :last-child{margin-bottom:0}
+  .block h3{margin-top:0}
+
+  .note,.warn,.tip{
+    border-left:3px solid var(--fjord);background:var(--panel-raised);
+    padding:.7rem 1rem;margin:0 0 1.1rem;border-radius:0 .35rem .35rem 0;
+  }
+  .warn{border-left-color:var(--oxide)}
+  .tip{border-left-color:var(--bronze)}
+  .note > :last-child,.warn > :last-child,.tip > :last-child{margin-bottom:0}
+  .note b,.warn b,.tip b{font-family:var(--f-label);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.15rem}
+  .note b{color:var(--fjord-bright)}
+  .warn b{color:var(--oxide-bright)}
+  .tip b{color:var(--bronze-bright)}
+
+  .tag{
+    display:inline-block;font-family:var(--f-label);font-size:.62rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;vertical-align:middle;
+    padding:.1rem .42rem;border-radius:.6rem;margin-left:.35rem;
+    border:1px solid var(--line-bright);color:var(--ink-dim);background:var(--panel-raised);
+  }
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 1.1rem;border:1px solid var(--line);border-radius:.5rem;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}
+  th,td{padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{
+    font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--fjord-bright);background:var(--panel-raised);position:sticky;top:0;
+  }
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* ---------- accordion ---------- */
+  details{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    margin:0 0 .6rem;overflow:hidden;
+  }
+  details[open]{box-shadow:0 2px 10px var(--shadow)}
+  summary{
+    cursor:pointer;padding:.7rem 1rem;list-style:none;
+    font-variant:small-caps;font-weight:700;letter-spacing:.03em;
+    color:var(--bronze-bright);font-size:1.06rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";color:var(--fjord);font-size:.8rem;transition:transform .15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  summary:hover{background:var(--panel-raised)}
+  summary .sub{font-variant:normal;font-weight:400;font-size:.8rem;color:var(--ink-dim);letter-spacing:0;margin-left:auto;text-align:right}
+  .det-body{padding:.2rem 1.1rem 1rem;border-top:1px solid var(--line)}
+  .det-body > :first-child{margin-top:.7rem}
+  .det-body > :last-child{margin-bottom:0}
+  .det-body .tw{border-radius:.35rem}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    h2{font-size:1.45rem}
+    summary .sub{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,nav.tabs button,summary::before{transition:none}
+    .theme-toggle:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="kicker">Uwe Rosenberg · Solo Strategy</div>
+  <h1>Black Forest</h1>
+  <p>Playing the Glass Road engine alone — routing the wheels, sequencing buildings, and squeezing every last point out of the solo puzzle.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-panel="read" class="active">Read the Board</button>
+  <button data-panel="points">Where Points Come From</button>
+  <button data-panel="wheels">The Wheels</button>
+  <button data-panel="map">Map &amp; Movement</button>
+  <button data-panel="chains">Chains That Work</button>
+  <button data-panel="expansion">Expansion Timing</button>
+  <button data-panel="script">Scripting the Game</button>
+  <button data-panel="format">Solo Format</button>
+</nav>
+
+<main id="main">
+
+<!-- ==================== READ THE BOARD ==================== -->
+<section class="panel active" id="panel-read">
+  <h2>Read the Board</h2>
+  <p class="lede">Black Forest is decided before your first worker goes down. Ten minutes of parsing the setup is worth more than any amount of clever in-round improvisation, and the players who consistently score 60+ are not playing faster or smarter turns — they are playing turns they already worked out.</p>
+
+  <h3>The setup is the puzzle</h3>
+  <p>Every game deals you a different problem. Ten of the small buildings are flipped to their B sides, the four large buildings are drawn from a pool of fourteen, the jobs come out in an unpredictable order, and the tradespeople are scattered across the five villages in a fresh arrangement. Nothing about that is decoration — those tiles <em>are</em> your strategy drivers.</p>
+  <p>Call it the postulate of components: what is physically on the table this game determines what is possible this game. A chain that carried a 65-point run last time can be dead on arrival now because one converter came out on its other side. Memorising lines does not survive contact with a new setup.</p>
+  <p>This is why the up-front parsing load is not a flaw you can optimise around — it is the design. The game hands you a combinatorial problem and expects you to solve it at the table, then execute the solution. Solo, the problem is purer still: nothing is taken off the board by anyone else, so a plan you validate before turn 1 is a plan you can actually run to completion.</p>
+
+  <h3>Parse from the scoring end backwards</h3>
+  <p>The instinct on a first play is to look at the seventeen action spaces and ask what you can produce. That is the wrong end of the telescope, and it is exactly why new players wander for four rounds and finish in the 30s. Start at the scoring outlets and work backwards into the economy that feeds them.</p>
+  <p><strong>Enumerate the large buildings first.</strong> They are the biggest single lumps of score on the board and, more importantly, each one dictates what the rest of your build has to produce. Read all four, decide which are realistically reachable given their glass cost and their tier, and note what currency each one wants — sand, animals, buildings, land, whatever it scores off.</p>
+  <p>There is essentially always at least one large building that simply pays flat points with no conversion demands attached. That building is your floor. It is worth roughly ten points for no engine commitment at all, which means you are never truly plan-less; it is the fallback you fall back <em>to</em>, not the plan you aim at.</p>
+  <p><strong>Then back-chain into the small buildings.</strong> With a target fixed, the question becomes narrow and answerable: how do I have as much of that currency as possible on the final turn? If the target scores sand, you go hunting for everything that turns something else into sand, then ask what feeds <em>that</em>. Each link raises a new supply question, and you keep asking until the chain terminates in something the board hands you for free.</p>
+  <p><strong>Repeat for every large building, then compare.</strong> Do not stop at the first workable chain. Running the exercise four times tells you which targets share links — and shared links are what make a plan robust. If two of your candidate chains both route through porridge, porridge production is worth over-investing in, because it serves whichever plan survives.</p>
+
+  <div class="tip">
+    <b>Mark the brittle links</b>
+    <p>For each chain, ask what dies if one piece goes missing or arrives too late. "Lose the sand sifter and that whole idea is toast — but most of that chain re-serves the smokehouse" is exactly the sentence you want to be able to say before you commit. Solo you are not being sniped, but you can still miss a link by mistiming a wheel, running dry on glass, or simply not having the actions left; knowing the pivot in advance turns a wrecked plan into a downgrade.</p>
+  </div>
+
+  <h3>Buy back your actions</h3>
+  <p>The last pass over the plan is about action economy rather than resources. Five rounds of five workers is twenty-five placements for the whole game, and every one you spend picking up raw materials is one you are not spending on conversion, building, or the glass-hut track.</p>
+  <p>So layer in the buildings whose whole function is to stop you making a trip. A converter that produces clay for you once you have a water source removes the clay trip permanently. That is not a flashy tile and it will not appear in your scoring, but across four rounds it can be worth more than a building that scores five.</p>
+  <p>The target shape is a chain you can crank while visiting as few spaces as possible — ideally staying in one village and letting the traveling merchant drag the tradespeople you want to you, rather than paying provisions and tolls to chase them. Every action you free up is another crank of the engine before the cooking wheel runs out.</p>
+
+  <h3>Then, and only then, take turn 1</h3>
+  <p>Groups who adopted this routine spend ten to fifteen minutes on it and it moves them from the low 40s to a 55–65 average. That is a bigger swing than any single tactical improvement in the game. Solo you have no clock pressure at all, so there is no excuse for skipping it.</p>
+  <p>The corollary is that a bad first turn is usually not a bad first turn. It is a plan that was never made, discovered four rounds later.</p>
+
+  <p><strong>In short:</strong> read the flipped tiles as your problem statement, start from the large buildings and back-chain into small ones, run the exercise for all four targets so you know your pivots, then add the buildings that stop you spending actions on raw materials. Plan the whole game before placing a worker.</p>
+</section>
+
+<!-- ==================== WHERE POINTS COME FROM ==================== -->
+<section class="panel" id="panel-points">
+  <h2>Where Points Come From</h2>
+  <p class="lede">Scores cluster hard around 60, and the distribution of where those points come from is far less varied than the building spread suggests. Knowing the shape of a good score tells you what to aim your chains at — and, just as importantly, what to stop wasting actions on.</p>
+
+  <h3>Two sources dominate</h3>
+  <p>The lion's share of a strong score comes from large buildings and livestock. Everything else — glass, cooking-wheel position, estates, small buildings — is real but comparatively thin, and treating those categories as your primary plan is the single most common reason a run stalls around 40.</p>
+  <p>That does not make small buildings unimportant; it makes them <em>infrastructure</em>. They exist to feed the large buildings and to fill your pastures, and you should evaluate every one of them by what it does for those two categories rather than by the points printed on it. A small building that scores three but enables nine animals is worth far more than one that scores five in isolation.</p>
+
+  <h3>Animals only count when housed</h3>
+  <p>Livestock scoring is capped by space, not by supply. Pigs need forests or pastures, cows need pastures or stables, and animals with nowhere to live simply do not exist for scoring purposes. That makes pasture construction a prerequisite for the entire livestock half of your score, not an optional flourish.</p>
+  <p>The practical consequence is that pasture-building has to be scheduled early enough to be filled. A pasture built in the last round is capacity you never used. Work out how many animals you can actually acquire and pen, and build to that number rather than building land speculatively.</p>
+  <p>This is also where domain expansion earns its keep: gaining an estate and two forests is directly two more pig homes plus room for more buildings, which is why the glass-hut track and your animal score are the same conversation.</p>
+
+  <h3>The anatomy of a 55–65 point game</h3>
+  <p>A representative strong run looks something like this: a livestock-scoring building filled out for eight to ten, one large building for around twelve, nine to fifteen animals penned in fenced areas, and roughly five small buildings on the table whose main job was to stop you spending actions on basic gathering. That adds to the mid-50s, and the same plan executed a little tighter lands in the low 60s.</p>
+  <p>Note what is <em>not</em> in that list: a broad spread of scoring buildings, a maxed glass track, or a huge estate sprawl. Those are all fine as by-products, but a plan that chases them directly tends to produce a diluted board that scores well nowhere.</p>
+
+  <h3>Reading your own score</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Score</th><th>What it means</th><th>What's usually missing</th></tr></thead>
+      <tbody>
+        <tr><td class="num">Under 45</td><td>Still exploring — you built reactively rather than to a target.</td><td>Pre-game planning. You picked buildings that looked good rather than buildings that fed a scoring outlet.</td></tr>
+        <tr><td class="num">45–55</td><td>A coherent plan, executed loosely.</td><td>Action economy and pasture capacity. Usually too many trips for raw materials, and animals you could have bought but couldn't house.</td></tr>
+        <tr><td class="num">56–62</td><td>Competitive. This is where a strong first play on an unfamiliar setup lands, and it wins most standardised-setup fields.</td><td>Endgame precision — a wheel that clogged, a large building you couldn't quite afford, a final turn that produced the wrong thing.</td></tr>
+        <tr><td class="num">63–70</td><td>Excellent. Chains overlap, nothing is wasted, the clock ran exactly as long as you needed.</td><td>Very little. Usually one overshoot: resources produced that scored nothing.</td></tr>
+        <tr><td class="num">70+</td><td>Exceptional and rare — a handful of results across dozens of recorded standardised games. Realistic ceiling sits somewhere in the mid-70s.</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Across the community's standardised monthly setups, winning scores have run from 52 to 71 with a median around 60. That twenty-point spread between months is mostly setup, not skill: a tight building mix or an awkward job order caps what is achievable regardless of how well you play. Judge a score against the setup that produced it, not against your personal best.</p>
+  <p>The same data cuts the other way too — a handful of players win repeatedly across wildly different setups, which says the skill ceiling here is stable and learnable rather than a matter of drawing the right tiles.</p>
+
+  <p><strong>In short:</strong> aim your plan at large buildings and penned livestock, treat small buildings as infrastructure that serves those two, build pasture capacity early enough to fill it, and read your score against the setup rather than in the abstract. Mid-50s is competent, low 60s is strong, 70 is a genuine achievement.</p>
+</section>
+
+<!-- ==================== THE WHEELS ==================== -->
+<section class="panel" id="panel-wheels">
+  <h2>The Wheels</h2>
+  <p class="lede">The two production wheels are storage and timer at once, and they turn whether or not you are ready. Almost every catastrophic solo run traces back to a wheel that rotated at the wrong moment — not to a bad building choice.</p>
+
+  <h3>Production is not a decision</h3>
+  <p>Your glassmaking and cooking wheels hold your raw goods and rotate automatically once the right spots come free, converting basics into glass and provisions as they go. You cannot hold the rotation back, and you cannot trigger it early to suit a plan. The only control you have is what is sitting on the wheel when it turns.</p>
+  <p>That inverts the usual engine-builder relationship. Elsewhere you decide when to cash in; here the cash-in is scheduled by the wheel's own geometry and your job is to arrive at that moment holding the right things. Planning matters <em>because</em> you do not choose the timing.</p>
+  <p>Two failure modes follow, and they are opposites. Produce too early and you convert goods you needed in their raw form, or you generate refined goods you have no immediate use for. Produce with the wheel too full and you hit storage caps and simply lose the overflow. Get it right and the whole economy flows without a wasted action.</p>
+
+  <div class="warn">
+    <b>Clogging is the real enemy</b>
+    <p>Resource caps mean a wheel that keeps producing while you cannot spend the output is actively destroying value every rotation. If your glass is piling up faster than you are buying buildings, you have already made the mistake — the fix is upstream, in what you loaded onto the wheel two actions ago.</p>
+  </div>
+
+  <h3>The cooking wheel is the game clock</h3>
+  <p>The cooking wheel does triple duty: it feeds you provisions for travel, it triggers job reveals, and its position ends the game. When it reaches the end symbol you get one final turn and that is the run.</p>
+  <p>Solo, this means the length of your game is entirely self-inflicted. There is no opponent racing you and no one dragging things out — every crank of the cooking wheel is a trade you made between eating now and having another round to build. That is a genuinely different mental model from multiplayer, where advancing the clock is a weapon used by whoever is behind.</p>
+  <p>So treat cooking-wheel advancement as a cost line in your plan. If a route requires heavy travel, you are paying for it twice: once in provisions and once in game length. A plan that never leaves its village can afford to run the cooking wheel much more slowly and squeeze extra placements out of the same five rounds.</p>
+  <p>Jobs are tied into the same loop: the second time your cooking wheel produces you take a free basic resource and a new job comes out, up to three in play. That is a real incentive to get the cooking wheel moving early, and a real reason not to let it sprint afterwards. The free resource is small; the job you unlock can be worth a chunk, and the rounds you burn getting there are not recoverable.</p>
+
+  <h3>Do not overshoot</h3>
+  <p>The last skill players acquire before they start scoring 70 is knowing exactly how much they need — and then stopping. Resources produced after the last building you can afford are worth nothing. Glass beyond your final purchase is nothing. Animals you cannot house are nothing.</p>
+  <p>This is a counting exercise, not an instinct. By the middle of round four you should be able to name the exact set of purchases you will still make and the exact resources those require, and every action after that either serves the list or is waste. Greedy over-production is what separates a 62 from a 70 far more often than a missed combo does.</p>
+  <p>The flip side is knowing when a large building is genuinely out of reach and cutting it early, redirecting those resources into livestock and land while there is still time to house and use them. An abandoned target that you abandon in round three costs you almost nothing; the same target abandoned in round five costs you the whole round.</p>
+
+  <p><strong>In short:</strong> you never choose when the wheels turn, so plan to be holding the right goods when they do; watch caps, because clogging quietly destroys value every rotation; treat cooking-wheel advancement as spending game length, which solo is entirely your own choice; and count out your remaining purchases early enough to stop producing what you cannot spend.</p>
+</section>
+
+<!-- ==================== MAP & MOVEMENT ==================== -->
+<section class="panel" id="panel-map">
+  <h2>Map &amp; Movement</h2>
+  <p class="lede">The map is what Black Forest adds to the Glass Road engine, and it is not a free layer. Every path costs food, every village visit is a commitment, and solo the cheapest route is very often no route at all.</p>
+
+  <h3>Provisions are mobility</h3>
+  <p>Moving along a path costs a provision, which means your cooking wheel is not just feeding a score track — it is funding your ability to reach the actions you planned. Run dry and you are stuck wherever you stand, executing whatever that village happens to offer.</p>
+  <p>This couples two systems that look separate. A plan that spreads its tradespeople across the map has a hidden provisions bill, and paying that bill means cranking the cooking wheel, which shortens the game. A compact plan pays neither cost. When you are comparing two chains of similar output, the one that lives in fewer villages is usually the stronger one even if its raw numbers look slightly worse.</p>
+  <p>Early on, a small dedicated provisions loop is worth building before it feels urgent. Being immobilised in round two is a far worse outcome than spending an action you would rather have used elsewhere.</p>
+
+  <h3>Occupancy tolls</h3>
+  <p>Entering a village that is occupied costs you a basic resource paid to each occupant, and the neutral pawn taxes you the same way — so even alone you cannot simply route around everybody. The tolls are individually small and collectively significant, especially in the rounds where you are resource-tight and every basic good is already spoken for.</p>
+  <p>The strategic reading is that position is a soft cost gradient rather than a hard restriction. You can always go where you want; you just may not want to pay for it three rounds running. Factor the toll into route planning the same way you factor the provision.</p>
+
+  <h3>Bring the actions to you</h3>
+  <p>The traveling merchant lets you spend a commodity to swap a tradesperson with any other on the map. Used casually that is a convenience; used deliberately it is the backbone of a low-movement strategy.</p>
+  <p>The strong pattern is to identify the two or three tradespeople your chain needs, pull them into a single village, and then simply stop moving. You stop paying provisions, you stop paying tolls, you stop advancing the cooking wheel to fund travel, and you revisit the same space repeatedly to crank your engine. Every one of those savings compounds across five rounds.</p>
+  <p>Setting this up costs commodities and it costs the merchant visits themselves, so it only pays if your chain is genuinely concentrated. A plan that needs six different tradespeople cannot be consolidated and should not try; it should instead be redesigned around fewer conversions before turn 1.</p>
+
+  <div class="note">
+    <b>Villages are not interchangeable</b>
+    <p>Five villages — two large, three small — with different tradesperson capacity. When you are choosing where to consolidate, the larger villages hold more of what you need and are correspondingly more likely to be worth parking in for multiple rounds.</p>
+  </div>
+
+  <h3>The round-four shuffle</h3>
+  <p>Under standard solo rules the tradespeople relocate at the start of round four, which is the one moment the map stops being knowable. That single rule is what forces mid-game re-planning: everything you set up in rounds one to three, including any consolidation you paid the merchant for, is subject to being scattered.</p>
+  <p>Plan for it rather than being surprised by it. Front-load the actions that depend on a specific tradesperson being in a specific place into rounds one to three, and design the back half of the game around things you control directly — your own buildings, your own wheels, your own land. If your rounds four and five depend on nothing moving, they are not a plan, they are a hope.</p>
+  <p>Many solo players house-rule the relocation away specifically to remove this, which turns the map into a fully deterministic puzzle solvable from turn 1 — see the Solo Format tab for how that variant is set up and what it changes.</p>
+
+  <p><strong>In short:</strong> provisions buy movement and movement shortens your game, so favour compact chains; tolls apply even alone, so route with the cost in mind; use the traveling merchant to consolidate the tradespeople you need and then stop moving entirely; and front-load location-dependent actions before the round-four shuffle scatters the map.</p>
+</section>
+
+<!-- ==================== CHAINS THAT WORK ==================== -->
+<section class="panel" id="panel-chains">
+  <h2>Chains That Work</h2>
+  <p class="lede">Specific chains cannot be memorised — the tiles that enable them come out differently every game. What transfers is the <em>shape</em>: which patterns are worth hunting for when you parse a new setup, and why they outperform an equivalent pile of unrelated good buildings.</p>
+
+  <h3>Double-dipping: score it, then spend it</h3>
+  <p>The strongest structural trick in the game is finding a scoring building that pays for a resource you were always going to consume anyway. A tannery that scores for pigs, sitting in a chain where those same pigs get converted into something else downstream, means the pigs are counted for points and then spent for value. You are paid twice for one acquisition.</p>
+  <p>Generalise the pattern rather than the tiles: whenever you identify the currency your large building wants, check whether any available building <em>scores</em> the input to that conversion rather than the output. Those are the tiles that quietly turn a 55 into a 62. They rarely look like the most exciting building on the board.</p>
+  <p>The reason this matters so much is timing: scoring buildings that count what you hold at the end fight your engine for resources, while scoring buildings that count what passes through it do not.</p>
+
+  <h3>Patterns worth hunting</h3>
+  <details>
+    <summary>Meat into sand<span class="sub">Feeding a sand-scoring target</span></summary>
+    <div class="det-body">
+      <p>If your large building scores sand, raw sand collection will not get you there — you need a converter that multiplies. A sand-sifting building that turns one meat into two sand doubles your throughput, but it also relocates your whole supply problem onto meat.</p>
+      <p>That is the key insight about conversion chains: each converter does not solve a problem, it <em>moves</em> the problem one step upstream, and you keep going until the problem lands somewhere the board supplies cheaply. Follow the chain all the way down before committing, because a two-step conversion that terminates in something scarce is worse than a one-step conversion that terminates in something free.</p>
+      <p>Meat, in turn, means pigs, and pigs are where the double-dip lives — the livestock-scoring building pays you for the animals you are about to feed into the sifter. Losing the sifter to a bad flip does not kill the whole structure either; the meat and pig infrastructure re-serves a smokehouse-style target instead, which is exactly the kind of overlap you should be checking for while parsing.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Porridge into livestock<span class="sub">Getting animals in bulk</span></summary>
+    <div class="det-body">
+      <p>Buying animals one at a time off the board action is one of the worst rates in the game. If livestock is a scoring pillar for you — and it usually is — you need a bulk source.</p>
+      <p>Mass porridge production, which depends on how many fields you can lay out, feeding a porridge-to-livestock building is the clean version. When that building is not in your setup, the same effect can be assembled from parts: a well converting porridge into water at one-to-one, then a watering-trough-style building turning water into animals.</p>
+      <p>The transferable lesson is that a missing tile usually has a two-tile equivalent, and finding it is part of the parsing job. The two-tile route costs an extra building slot and an extra action per cycle, so price it honestly — sometimes it is still clearly worth it, sometimes it is the signal to target a different large building entirely.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Flood a single resource<span class="sub">The pond and water pattern</span></summary>
+    <div class="det-body">
+      <p>Some plans work by making one action space absurdly productive rather than by chaining conversions. Building ponds aggressively early turns the water action from a trickle into six or seven water in a single visit, at which point one placement funds an entire round of conversions.</p>
+      <p>This is the purest expression of action economy in the game: you are not gaining a new capability, you are compressing many turns' worth of an old one into a single space you can revisit without moving. It pairs naturally with consolidating tradespeople and parking in one village, because the whole plan collapses into repeated visits to a small number of very fat spaces.</p>
+      <p>Land improvements generally deserve this reading. Fields, ponds, and pastures are not scoring in themselves so much as multipliers on the actions and buildings that reference them, and several buildings and tradespeople specifically reward having them.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Clear the charcoal<span class="sub">Unclogging the glass side</span></summary>
+    <div class="det-body">
+      <p>Small buildings that remove charcoal tokens outright are stronger than their point value suggests. Charcoal sitting where you do not want it constrains what your glassmaking wheel can do, and removing it lets you maximise glass and the resources around it.</p>
+      <p>Read these as anti-clog tools rather than as production. In a system where the wheels turn on their own schedule, anything that changes what is on the wheel when it rotates is a timing tool, and timing tools are worth more than their printed effect in a game where mistimed production is the primary failure mode.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Buy back the trips<span class="sub">Conversion buildings as action savers</span></summary>
+    <div class="det-body">
+      <p>The buildings that never appear in a scoring summary are often the ones that made the score possible. A clay-producing building that runs off a water source you already have removes an entire recurring trip from your schedule; a cooperage-style converter smooths the swings that would otherwise force emergency placements.</p>
+      <p>Taking one of these early is the standard strong opening shape, and the reasoning is worth internalising: in the first round or two you have the least engine and the most flexibility, so buying permanent efficiency then compounds across every remaining round. The same building bought in round four is nearly worthless.</p>
+      <p>Judge them by trips saved per round times rounds remaining. That number is large early and approaches zero late, which is why the correct time to buy infrastructure is almost always sooner than it feels.</p>
+    </div>
+  </details>
+
+  <h3>Jobs as chain targets</h3>
+  <p>The jobs that come out over the course of the game are one-time conversions with a strong payoff, and they are worth folding into your parsing rather than treating as bonuses that happen to you. Their costs are demanding and specific — the sort of thing you can only pay if you were already building toward that resource.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Job</th><th>Cost</th><th>What it implies for your plan</th></tr></thead>
+      <tbody>
+        <tr><td>Glass Miller</td><td class="num">7 charcoal</td><td>Only reachable on a heavy glassmaking route; conflicts with charcoal-clearing buildings, so pick one approach.</td></tr>
+        <tr><td>Brickmaker</td><td class="num">7 wood</td><td>Wants sustained forest clearing — which also feeds the glass-hut track, so the two goals overlap well.</td></tr>
+        <tr><td>Freiburg</td><td class="num">7 brick</td><td>Deep in a refined chain; effectively requires brick production to already be a pillar.</td></tr>
+        <tr><td>Hermit</td><td class="num">7 porridge</td><td>Natural fit for a field-heavy porridge engine, but competes directly with porridge-to-livestock conversion.</td></tr>
+        <tr><td>Count</td><td class="num">5 sand</td><td>Rewards the same stockpile a sand-scoring large building wants — check whether you can afford both.</td></tr>
+        <tr><td>Cook</td><td class="num">5 meat</td><td>Sits on the pig chain; another consumer of animals you are also scoring.</td></tr>
+        <tr><td>Captain</td><td class="num">5 water</td><td>Trivial on a pond-flood plan, near-impossible without one.</td></tr>
+        <tr><td>Market</td><td class="num">5 livestock</td><td>Directly competes with penning animals for score — take it only if you have surplus beyond your housing.</td></tr>
+        <tr><td>Landowner</td><td class="num">3 fields</td><td>Cheap if you were laying fields for porridge anyway; a strong incidental.</td></tr>
+        <tr><td>Lumberjack</td><td class="num">3 forests</td><td>Pairs with domain expansion, which hands you two forests at a stroke.</td></tr>
+        <tr><td>Feudal Lord</td><td class="num">2 provisions</td><td>The cheapest on the list, but provisions are mobility — paying it can strand you.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Read that table as a map of overlaps rather than a shopping list. Several jobs are nearly free to a plan already built a certain way and prohibitive to any other, so when a job comes out that your chain almost satisfies, that is a strong signal to take it; when it demands a resource you have no route to, ignoring it entirely is correct and costs you nothing.</p>
+  <p>Note the ones that compete with your own scoring. Spending livestock at a job is spending your animal score, and spending provisions is spending your mobility. A job is only a bargain if what it eats was surplus.</p>
+
+  <p><strong>In short:</strong> hunt for buildings that score the inputs you were going to spend anyway, follow each conversion upstream until it lands on something cheap, prefer bulk sources over per-unit actions, treat charcoal removal and action-saving converters as timing tools bought early, and take jobs only when your existing chain already nearly pays their cost.</p>
+</section>
+
+<!-- ==================== EXPANSION TIMING ==================== -->
+<section class="panel" id="panel-expansion">
+  <h2>Expansion Timing</h2>
+  <p class="lede">Reaching the top of the glass-hut track relocates your hut and hands you a new estate plus two forests. It is the only way to grow your domain, and mistiming it is one of the quieter ways a run dies — you notice in round five, when there is nowhere left to build.</p>
+
+  <h3>What expansion actually buys</h3>
+  <p>An estate and two forests is space: room for more buildings, and immediately two more homes for pigs. Given that livestock scoring is capped by housing rather than by supply, that second part is a direct score increase and not merely a convenience.</p>
+  <p>It also compounds with land improvement. More land is more room for the fields, ponds, and pastures that your engine multiplies off, so an early expansion is worth more than the same expansion late — not because the tiles differ, but because you get more rounds to exploit them.</p>
+
+  <h3>Time the first relocation early</h3>
+  <p>The failure mode is straightforward: relocate too late and you are trapped for space, sitting on resources with nowhere to put the buildings they were meant to buy. Because the track has to be advanced through actual placements, the decision to expand is made several rounds before the benefit arrives.</p>
+  <p>Treat the first relocation as a scheduled milestone in your plan rather than something you get around to. During parsing, work out roughly which round you need the extra estate to be usable by, then count backwards through the glass-hut progress you will need and place accordingly.</p>
+  <p>A second relocation is a different calculation. It costs the same kind of investment but arrives with fewer rounds left to use it, so it is only worth chasing when you have a concrete plan for the new space — usually more pigs you already know you can acquire.</p>
+
+  <div class="note">
+    <b>The track does not require forests</b>
+    <p>Despite the theme, glass-hut progress does not come exclusively from clearing woodland. Routes like supplying sand to a count advance it too, and technically the hut can move without a single forest being felled. When you are planning your expansion timing, look at every source of progress on your board, not just the wood-based ones.</p>
+  </div>
+
+  <h3>Ignore where the hut ends up</h3>
+  <p>Moving the hut itself is mandatory and purely thematic. The glass hut is not a building, so it does not feed any building's adjacency effect, and its position has no mechanical consequence you can plan around.</p>
+  <p>This is worth stating plainly because it is a common trap: players notice the relocation and reasonably assume the destination must matter, then spend planning effort on layouts designed around hut placement. It does not pay. Place your estate for the land and the building space, move the hut because the rules say to, and give its final position no further thought.</p>
+
+  <p><strong>In short:</strong> expansion is space, and space is livestock score plus building room, so schedule your first relocation early enough that you actually get rounds out of it; count backwards from when you need the estate rather than expanding opportunistically; remember progress can come from non-wood routes; and disregard the hut's destination entirely when planning your layout.</p>
+</section>
+
+<!-- ==================== SCRIPTING THE GAME ==================== -->
+<section class="panel" id="panel-script">
+  <h2>Scripting the Game</h2>
+  <p class="lede">Black Forest rewards a very particular kind of mastery: not tactical improvisation, but converting a solved plan into a repeatable script and then executing it without waste. Understanding the progression tells you which skill you are currently missing.</p>
+
+  <h3>The four stages to 70</h3>
+  <p><strong>Stage one — drowning in buildings.</strong> The first play is dominated by the sheer number of buildings on the table. You know you want the big point-scorers, you try to work backwards to an engine, and you go in circles because you do not yet know what any of the pieces do. Scores here are exploratory and mean very little.</p>
+  <p><strong>Stage two — knowing the pieces.</strong> After a handful of games you have a feel for which buildings are strong and which combine. This is where the back-chaining method in Read the Board starts paying, because you can now evaluate a chain without looking every tile up. Scores rise into the 40s and low 50s.</p>
+  <p><strong>Stage three — finding the cadence.</strong> Several games later you internalise the game's rhythm: how many placements a round of engine-cranking really takes, when the wheels want to turn, when the buildings need to land. At this point you stop planning move by move and start scripting whole rounds in advance. This is the jump into the high 50s and 60s.</p>
+  <p><strong>Stage four — not being greedy.</strong> The last skill is knowing precisely how many large buildings you can afford by the end and never producing beyond it. Overshooting is invisible while it happens — you feel productive — and it is the difference between a 62 and a 70. It is also the hardest to learn, because it requires you to stop doing the thing the game has trained you to do.</p>
+  <p>Expect roughly half a dozen games before 70 comes together, and expect the first one to feel hard-won. After that it tends to become repeatable: each new setup needs some adaptation of the script, not a new script. The practical ceiling sits in the mid-70s.</p>
+
+  <h3>Why scripts transfer between setups</h3>
+  <p>The reason a script survives a new setup is a design property worth understanding, because it shapes how you should practise. Black Forest forces you to invest in every resource each game — you cannot ignore glass, or animals, or food, and specialise hard the way you might elsewhere. Add that the buildings are thematically and mechanically similar to one another, and the result is that the good line through one setup looks a great deal like the good line through the next.</p>
+  <p>That is a mixed blessing. It means your practice compounds unusually well and improvement is fast and measurable. It also means the game becomes samey once solved, and the discovery phase — genuinely one of the most satisfying puzzles in the Rosenberg catalogue — is finite. Play it in bursts rather than grinding it, and it stays fresh much longer.</p>
+  <p>It also explains why the game is less variable solo than it looks on paper. Thirty-six double-sided small buildings and four large ones drawn from fourteen suggests enormous variety, but similar buildings plus forced breadth collapses much of that into the same handful of good lines.</p>
+
+  <div class="tip">
+    <b>Practise the parse, not the play</b>
+    <p>Since the execution is scriptable, the skill that actually differentiates scores is the pre-game read. If you want to improve deliberately, set up a board, spend the fifteen minutes planning, write down your projected score and where it comes from, then play and compare. The gap between projection and result tells you exactly which of the four stages you are stuck in.</p>
+  </div>
+
+  <h3>Adapting a script to a new board</h3>
+  <p>When you sit down to a fresh setup, do not start from scratch and do not assume last game's line. Run the parse, then check your usual line against it: which links exist, which are missing, and whether a two-tile substitute is available for anything absent.</p>
+  <p>The specific thing to watch is your action-saving infrastructure, since it is the least visible part of a script. A line that worked because a particular converter removed a recurring trip will silently run two placements short per round without it, and the shortfall shows up as an unfinished round five rather than an obvious early problem.</p>
+
+  <p><strong>In short:</strong> improvement runs learn the pieces, learn the cadence, then learn restraint — with restraint being the step that unlocks 70. Scripts transfer because the game forces breadth and its buildings resemble one another, so practise the pre-game parse rather than the execution, and when adapting a script check your action-savers first.</p>
+</section>
+
+<!-- ==================== SOLO FORMAT ==================== -->
+<section class="panel" id="panel-format">
+  <h2>Solo Format</h2>
+  <p class="lede">Solo Black Forest is beat-your-own-score with no bot, no automa deck, and no upkeep — you play the full multiplayer ruleset against a number. That makes it clean, and it also means the interesting design work is in how you frame the target.</p>
+
+  <h3>The standardised setup variant</h3>
+  <p>The community's monthly solo challenge format has become the de facto competitive standard, and it is worth adopting even outside the challenge because of what it does to the game. Two modifications carry all the weight.</p>
+  <p><strong>Constrain the small building rows.</strong> Rather than randomly flipping ten buildings to their B sides, remove one building from each row and set the two survivors so that one shows its A side and the other its B side. The result is a fixed, mixed-side pool: fewer options per row, more decisions that actually bind, and — crucially — a setup that can be written down and reproduced exactly.</p>
+  <p><strong>Cancel the round-four relocation.</strong> Standard solo rules shuffle the tradespeople between villages at the start of round four. Removing that shuffle makes the entire map known from turn 1, which converts the game from "plan three rounds, then re-plan" into a single closed puzzle you can solve completely before placing a worker.</p>
+  <p>That second change is the one that transforms the play experience. With the map fixed, travel routing, tradesperson consolidation, and your whole round-four and round-five script become solvable in advance, and the game becomes a pure test of how well you read the setup rather than how well you recover from it.</p>
+
+  <h3>Jobs: fixed order, revealed in sequence</h3>
+  <p>The challenge format publishes the job order up front but keeps each one hidden until it comes out, so you meet them one at a time exactly as normal. This removes draw randomness between players while preserving the reveal pacing that makes jobs feel like opportunities rather than a checklist.</p>
+  <p>If you are playing solo for a comparable score across attempts, this is the model to copy: fix the sequence, but do not read ahead. You get repeatability without turning the jobs into pre-solved arithmetic.</p>
+  <p>If instead you want the setup to stay fresh, the alternative is randomising which small buildings show their B side — there are tools that will roll the ten for you — at the cost of scores that are no longer comparable between plays.</p>
+
+  <div class="note">
+    <b>First play only</b>
+    <p>The challenge counts your first attempt at a setup and nothing after. It is a rule worth keeping privately, because the moment you replay a known board you are measuring memory rather than reading, and the score stops meaning anything relative to anyone else's.</p>
+  </div>
+
+  <h3>Making beat-your-own-score bite</h3>
+  <p>The standing complaint about this style of solo is that the ending is anticlimactic: five rounds of visible growth resolve into a number a few points above or below last time, with no moment that tells you whether you actually succeeded. The play is compelling; the resolution is flat.</p>
+  <p>The fix that works best is to define success as a board state rather than a total. "Can I fill every pasture I build", "can I complete two large buildings this game", "can I finish without a single clogged rotation" — these give you a binary answer at the end, and they are more diagnostic than the score because they point at the specific skill you were working on. The score then demotes to a comparison metric, which is what it is good at.</p>
+  <p>Fixed targets work the same way. Seventy is the standard ambition and a genuinely hard one; picking a target and playing to it produces a real win or loss where a raw score does not.</p>
+  <p>What this format buys in exchange for that flatness is honesty. There is no bot playing by different rules with resources it did not earn, no card draw deciding your outcome, and no upkeep between your turns — you are playing the same game your opponents would, so a strong score is unambiguously your own work. Against that, the missing win condition is a small price and one you can supply yourself.</p>
+
+  <h3>Adding difficulty without adding randomness</h3>
+  <p>If the standard setup stops challenging you, tighten constraints rather than injecting chance. Narrowing the building pool the way the challenge format does, banning a category you lean on, or committing to a target score before setup all raise difficulty while keeping the game a solvable puzzle rather than a dice roll.</p>
+  <p>The one thing worth avoiding is anything that decides your outcome by draw. A result you lost to a card has no skill content in it, which is precisely the criticism levelled at automa decks, and it undermines the comparability that makes tracking your scores worthwhile in the first place.</p>
+
+  <p><strong>In short:</strong> adopt the standardised setup — constrained building rows plus no round-four relocation — to turn the game into a fully solvable puzzle; fix your job order but reveal it in play; count only first attempts if scores are to mean anything; and supply the missing win condition yourself with board-state goals or a fixed target, tightening constraints rather than adding randomness when you want more difficulty.</p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const saved = localStorage.getItem('guides-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  function currentTheme(){
+    return root.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('guides-theme', next);
+  });
+
+  // tabs
+  const tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-panel]');
+    if(!btn) return;
+    tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'panel-' + btn.dataset.panel));
+    btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo({top:0});
+  });
+})();
+</script>
+</body>
+</html>
