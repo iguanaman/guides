@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Riftbreaker — Strategy Guide</title>
+<meta name="description" content="The Riftbreaker strategy: base layout, power and resource chains, defence design, research routing, mech loadouts and campaign pacing.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+  }
+
+  /* ---------- globals ---------- */
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3,h4{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+  a{color:var(--fjord-bright)}
+  p{margin:0 0 .8rem}
+  ul,ol{margin:0 0 .8rem;padding-left:1.3rem}
+  li{margin-bottom:.28rem}
+  strong{color:var(--ink)}
+  code{font-family:"Consolas","Menlo",monospace;font-size:.86em;background:var(--panel-raised);padding:.05em .3em;border-radius:3px}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:relative;
+    padding:2.6rem 1.5rem 1.4rem;
+    text-align:center;
+    max-width:62rem;
+    margin:0 auto;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin-bottom:.5rem;
+  }
+  header.site h1{
+    margin:0 0 .4rem;
+    font-size:2.4rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+  }
+  header.site p{
+    margin:0 auto;
+    max-width:52ch;
+    color:var(--ink-dim);
+  }
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  /* ---------- tab nav ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:10;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);font-size:.84rem;font-weight:700;letter-spacing:.05em;
+    color:var(--ink-dim);background:none;border:none;
+    border-bottom:2px solid transparent;padding:.7rem 1rem;
+    cursor:pointer;transition:color .15s;flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{color:var(--bronze-bright);border-bottom-color:var(--bronze)}
+
+  /* ---------- layout ---------- */
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.5rem 5rem}
+  .panel{display:none}
+  .panel.active{display:block}
+  .panel > h2:first-child{margin-top:0}
+  h2{font-size:1.7rem;margin:2.6rem 0 .6rem}
+  h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+  h4{font-size:1rem;margin:1.2rem 0 .35rem;color:var(--fjord-bright);font-variant:normal;letter-spacing:.02em}
+  .lede{color:var(--ink-dim);font-size:1.05rem;max-width:62ch}
+
+  .block{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1.1rem 1.3rem;margin:0 0 1.1rem;box-shadow:0 2px 8px var(--shadow);
+  }
+  .block > :last-child{margin-bottom:0}
+  .block h3{margin-top:0}
+
+  .note,.warn,.tip{
+    border-left:3px solid var(--fjord);background:var(--panel-raised);
+    padding:.7rem 1rem;margin:0 0 1.1rem;border-radius:0 .35rem .35rem 0;
+  }
+  .warn{border-left-color:var(--oxide)}
+  .tip{border-left-color:var(--bronze)}
+  .note > :last-child,.warn > :last-child,.tip > :last-child{margin-bottom:0}
+  .note b,.warn b,.tip b{font-family:var(--f-label);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.15rem}
+  .note b{color:var(--fjord-bright)}
+  .warn b{color:var(--oxide-bright)}
+  .tip b{color:var(--bronze-bright)}
+
+  .tag{
+    display:inline-block;font-family:var(--f-label);font-size:.62rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;vertical-align:middle;
+    padding:.1rem .42rem;border-radius:.6rem;margin-left:.35rem;
+    border:1px solid var(--line-bright);color:var(--ink-dim);background:var(--panel-raised);
+  }
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 1.1rem;border:1px solid var(--line);border-radius:.5rem;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}
+  th,td{padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{
+    font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--fjord-bright);background:var(--panel-raised);position:sticky;top:0;
+  }
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* ---------- accordion ---------- */
+  details{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    margin:0 0 .6rem;overflow:hidden;
+  }
+  details[open]{box-shadow:0 2px 10px var(--shadow)}
+  summary{
+    cursor:pointer;padding:.7rem 1rem;list-style:none;
+    font-variant:small-caps;font-weight:700;letter-spacing:.03em;
+    color:var(--bronze-bright);font-size:1.06rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";color:var(--fjord);font-size:.8rem;transition:transform .15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  summary:hover{background:var(--panel-raised)}
+  summary .sub{font-variant:normal;font-weight:400;font-size:.8rem;color:var(--ink-dim);letter-spacing:0;margin-left:auto;text-align:right}
+  .det-body{padding:.2rem 1.1rem 1rem;border-top:1px solid var(--line)}
+  .det-body > :first-child{margin-top:.7rem}
+  .det-body > :last-child{margin-bottom:0}
+  .det-body .tw{border-radius:.35rem}
+
+  /* ---------- card grid ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin:0 0 1.2rem}
+  .pick-card{
+    appearance:none;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:.85rem 1rem;box-shadow:0 2px 8px var(--shadow);
+    transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+  }
+  .pick-card:hover{transform:translateY(-3px);border-color:var(--bronze);box-shadow:0 8px 22px var(--shadow)}
+  .pick-card .pc-name{font-variant:small-caps;font-weight:700;font-size:1.1rem;color:var(--bronze-bright);letter-spacing:.02em;line-height:1.25}
+  .pick-card .pc-hook{font-size:.83rem;color:var(--ink-dim);line-height:1.45;margin-top:.15rem}
+  .pick-detail{display:none}
+
+  .keyval{display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;font-size:.9rem;margin:0 0 .9rem}
+  .keyval dt{font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--fjord-bright);padding-top:.28rem}
+  .keyval dd{margin:0}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:var(--overlay);
+    z-index:100;align-items:center;justify-content:center;padding:2rem;
+  }
+  .modal-overlay.active{display:flex}
+  .modal{
+    background:var(--panel-raised);border:1px solid var(--line-bright);border-radius:.6rem;
+    max-width:720px;width:100%;height:92vh;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 20px 60px var(--shadow);position:relative;
+  }
+  #modal-body{flex:1;overflow-y:auto;padding:0 2.75rem 2.5rem}
+  #modal-body > :first-child:not(h3){margin-top:2rem}
+  #modal-body .tw,#modal-body .block{background:var(--panel)}
+  .modal h3{
+    position:sticky;top:0;z-index:1;margin:0 0 .6rem;
+    padding:2rem 3rem .8rem 0;font-size:1.6rem;
+    background:var(--panel-raised);border-bottom:1px solid var(--line);
+  }
+  .modal-close{
+    position:absolute;top:1.25rem;right:1.5rem;z-index:2;
+    background:none;border:none;color:var(--ink-dim);
+    font-size:1.4rem;cursor:pointer;line-height:1;
+  }
+  .modal-close:hover{color:var(--ink)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    h2{font-size:1.45rem}
+    summary .sub{display:none}
+    .modal-overlay{padding:0}
+    .modal{max-width:none;height:100vh;height:100dvh;border:none;border-radius:0}
+    #modal-body{padding:0 1.1rem 1.6rem}
+    .modal h3{padding:1.4rem 2.6rem .7rem 0;font-size:1.35rem}
+    .modal-close{top:.9rem;right:.8rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,.pick-card,nav.tabs button,summary::before{transition:none}
+    .theme-toggle:hover,.pick-card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="kicker">EXOR Studios · Strategy Guide</div>
+  <h1>The Riftbreaker</h1>
+  <p>Base layout, power chains, defence design and mech loadouts — building a colony on Galatea 37 that survives what the planet sends at it.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-panel="clock" class="active">The Clock</button>
+  <button data-panel="siting">Siting &amp; Layout</button>
+  <button data-panel="power">Power</button>
+  <button data-panel="economy">Economy</button>
+  <button data-panel="outposts">Outposts</button>
+  <button data-panel="defence">Defence</button>
+  <button data-panel="research">Research</button>
+  <button data-panel="mech">Mr. Riggs</button>
+  <button data-panel="enemies">Enemies</button>
+  <button data-panel="biomes">Biomes</button>
+  <button data-panel="modes">Modes</button>
+  <button data-panel="brutal">Brutal &amp; Custom</button>
+</nav>
+
+<main id="main">
+
+<!-- ==================== THE CLOCK ==================== -->
+<section class="panel active" id="panel-clock">
+  <h2>The Clock</h2>
+  <p class="lede">The waves that kill you are not random and they are not purely a function of time. Most of what makes them stronger is something you did — an HQ upgrade, a finished mission, a map you chose to settle. Once you know which of your own actions feed the difficulty, you stop being a passenger on the escalation curve and start setting its pace.</p>
+
+  <h3>Three separate dials, three separate causes</h3>
+
+  <p>Wave pressure is not one number. It is at least three, and they respond to different inputs — which is why players comparing notes so often talk past each other.</p>
+
+  <p><strong>Enemy level</strong> — how tough each individual creature is — tracks mostly the in-game day count, modified by your difficulty setting and slightly by map threat. It ticks whether or not you are doing anything useful. Notoriously, it keeps ticking during the story segment where attacks are switched off and you can roam freely: that "safe" stretch is still advancing your scaling clock, so parking there to farm research means the next hostile map greets you with creatures several tiers above what your defences were built for.</p>
+
+  <p><strong>Wave size</strong> — how many creatures show up — tracks the threat rating of the map you are standing on, visible on the orbital panel. Threat is fixed when the map is generated and does not drift during play. This is the dial you control by choosing where to build.</p>
+
+  <p><strong>Wave frequency</strong> — how often they arrive — tracks your difficulty setting, the biome, and enemy strength. Every biome has its own guaranteed minimum gap between waves, so two runs on the same difficulty in different biomes genuinely do feel differently paced.</p>
+
+  <div class="note">
+    <b>Scaling has a ceiling</b>
+    <p>Enemy scaling caps out; it does not climb forever. Brutal simply sprints toward that cap instead of walking. Practically, this means a run that survives its own mid-game crisis tends to get easier, not harder — the economy keeps compounding after the threat stops.</p>
+  </div>
+
+  <h3>The HQ upgrade is a deliberate aggro button</h3>
+
+  <p>Upgrading the headquarters fires an extra, stronger wave roughly two minutes later, on top of the normal cadence. It is the single most controllable escalation event in the game, and treating it as a free "power up" is how early runs die.</p>
+
+  <p>The corollary is a tempo strategy that trivialises even extreme custom multipliers: waves scale hard when you advance, so bank everything you can while your HQ level stays low. Mines on every deposit, storage, power, research — all of it grows your side of the curve without touching the enemy's. Players running Brutal at 500&nbsp;% wave multipliers describe the game as almost trivial once they internalise this, because the enemy is fighting the base you had two days ago while you are fighting with the base you have now.</p>
+
+  <p>When you do upgrade, stack the cost. Wait for a wave warning, then start the HQ upgrade just before that countdown expires so the upgrade wave merges into the wave you were already going to fight, rather than paying for two separate fights. Have the follow-up building queued before the upgrade lands — the research or communications hub that the new tier unlocks should go down the instant it is available, because the wave that arrives is the price you have already paid.</p>
+
+  <div class="warn">
+    <b>Custom survival: warmup dies with your first upgrade</b>
+    <p>A long warmup timer only holds while HQ stays at level zero. Upgrade during warmup and waves immediately begin arriving at your configured interval, with the remaining warmup discarded — set a two-hour warmup and a ten-minute interval, upgrade at minute fifteen, and you get attacked every ten minutes from then on. Reported as biome-dependent and acknowledged by the developers as probably a bug, but plan around it: if you bought warmup time to build a fortress, spend it all before you touch the HQ.</p>
+  </div>
+
+  <h3>Progress checkpoints, not just clocks</h3>
+
+  <p>In campaign, completing resource missions raises wave difficulty as surely as the calendar does, because each completed mission unlocks new materials, which unlock better towers, weapons and armoury tiers. The game scales to your unlocked capability. That is why rushing objectives on a first playthrough produces the classic death spiral — thousands of enemies arriving while you are still rebuilding from the last wave — and why the fix is counter-intuitive: slow down, bank resources, and get genuinely comfortable with your current defensive tech before you unlock the next tier.</p>
+
+  <p>The same logic explains the notorious mission-completion spike. On a mining outpost, finishing the objective (raising the rare-ore factory, the uranium centrifuges) summons a wave with tanky units mixed in, far nastier than that map's routine attacks. Build the objective when you are ready to fight, not when it becomes affordable. The cobalt outpost mission is the one commonly cited exception with no completion wave.</p>
+
+  <h3>Attacks only happen where you are</h3>
+
+  <p>Maps you are not standing on are never attacked, but they keep mining, keep producing and keep researching. This one rule reshapes the whole campaign.</p>
+
+  <p>It means an overwhelmed main base can be saved by leaving it. Rift out to another map, build there, let the waves follow you, and your HQ rebuilds and refills unmolested. It also removes the rebuild-under-fire treadmill: hop away while materials accumulate, hop back, and place everything in one uninterrupted building session instead of racing a countdown.</p>
+
+  <p>Taken to its logical end this becomes an exploit — park your economy on maps you rarely visit and they are simply never raided. Some resource-concentration maps go further: on several of them attacks do not spawn at all until you build the mission structure, so the entire map can be stripped wave-free if you never trigger it. Whether you use that is a taste question, but knowing it exists tells you why "just build more turrets everywhere" is the wrong instinct — your exposure is a function of where you stand, not what you own.</p>
+
+  <p>Two hard limits shape the plan. You may hold a maximum of eight remote outposts, and once you leave a mission map you cannot return unless you left an outpost there. So pick your permanent farm maps deliberately while you are still on them.</p>
+
+  <h3>Everything targets the closest thing</h3>
+
+  <p>Creatures path to the nearest structure or to your mech, and waves pick their entry point relative to what is closest to the map border. That is a targeting rule you can build around, and most good defensive layouts are really just applications of it: outlying bait clusters placed nearer the map edge than your real base will take the wave instead; scattered small outposts split a single big wave into several small ones; a lone wall segment far from anything peels off a slice of the swarm to chew on it.</p>
+
+  <p>Your mech is subject to the same rule in reverse — while you are out in the open a large part of the herd will follow you, which is exactly what you want when your towers need a clean line on the rest.</p>
+
+  <h3>Nests are a second, separate spawn source</h3>
+
+  <p>Creature nests generate their own attacks on their own timer, independent of the perimeter waves. Those attacks are noticeably weaker than a real wave, which is why clearing nests feels like it accomplishes nothing — it removes a minor local nuisance, not the main pressure.</p>
+
+  <p>Nests also respawn. Sweeping the map clean is wasted effort because it re-seeds, so the better play is to control where the pressure originates: leave one nest standing inside an existing kill zone and its recurring spawns become free kills and free drops instead of unpredictable trouble on an unwatched flank.</p>
+
+  <p>Nests are no longer passive targets, either. They now carry a health boost and one randomly rolled ability from the Omega set — direct-damage and buff abilities only, since walling you in would be self-defeating for something that wants its spawns to reach you. A nest can rain fireballs, throw lightning bursts, spawn drones, or heal neighbouring nests, and a careless approach genuinely kills mechs. The compensation is loot: cleared Omega nests can drop a fountain of resources, mods and unique items. Biome variants raise the stakes further — the metallic valley nest is a defended structure ringed with alien plasma and artillery towers, each of which pays resources when destroyed, and the fungal swamp nest spits acid on its own.</p>
+
+  <div class="tip">
+    <b>Read the announcement</b>
+    <p>In campaign, attacks are telegraphed with a direction marker before they land, and every defensive structure — including high-tier turrets — builds in under twenty seconds. That is enough time to raise a wall and a turret line into the announced lane, then sell it afterwards so it is not drawing power and AI cores between fights. Survival does not give you this: you learn the direction when the timer hits zero and get roughly a minute of small spawns before the real wave, which is enough to reinforce or to sell something exposed, not to build a fresh fort. Pre-built defence matters far more in survival for exactly this reason.</p>
+  </div>
+
+  <h3>Recap</h3>
+
+  <p>Enemy strength follows the calendar, wave size follows the map's threat rating, and wave frequency follows difficulty and biome. Your HQ level and your completed missions are the levers you actually control, so bank hard between advances and time each upgrade to collide with a wave you already expected. Maps you are away from are never raided, everything targets whatever is closest, and nests are a separate, respawning, now genuinely dangerous spawn source best left standing inside a kill zone.</p>
+</section>
+
+<!-- ==================== SITING & LAYOUT ==================== -->
+<section class="panel" id="panel-siting">
+  <h2>Siting &amp; Layout</h2>
+  <p class="lede">Where you put things decides how much defending you have to do. Terrain that funnels attackers, a perimeter drawn before you need it, and buildings arranged so one splash hit does not take out four structures at once are all worth more than another row of turrets — and they are free.</p>
+
+  <h3>Choosing the headquarters site</h3>
+
+  <p>Early on, siting barely matters. The only thing driving the decision at that stage is proximity to carbonium and ironium, and that dependency ends the moment mining moves out to remote outposts. This is why relocating the HQ after a long scouting trip is usually a mistake: the starting location typically sits on carbonium nodes worth roughly fifty thousand each, where deposits elsewhere on the map commonly hold half that. You trade a large, guaranteed economy for a marginally prettier wall line.</p>
+
+  <p>The criteria that actually matter arrive in the mid game, and they are worth thinking about on day one even though you cannot exploit them yet. In rough order: access to mud and sludge, a roughly central position, and natural barriers that form chokepoints. Water is the resource that matters most over a full run — it feeds the largest energy and plasma production — so a site chosen for long-term liquid access beats one chosen for starting ore.</p>
+
+  <p>Centrality is not aesthetic. Long-range towers are paid for in engagement time, and every extra metre a wave has to cross from the map edge is another volley landed before contact. A base in the corner gives half its artillery nothing to shoot at.</p>
+
+  <div class="tip">
+    <b>When to reroll the map</b>
+    <p>Power is the stat everything else is downstream of: more power means more AI cores, which means more towers. Research labs in particular are voracious, with each tier roughly doubling the draw of the one before. A map with no mud or sludge within reach, or too few carbonium and ironium nodes, is a map that will strangle you in the mid game — restarting costs minutes, while playing it out costs hours. A commonly used floor is five carbonium and three ironium deposits inside the area you intend to hold. On Brutal specifically, rerolling until you find a cliff face or a big crevice near the start is worth the time: impassable terrain forces enemies spawning from several directions onto a handful of paths.</p>
+  </div>
+
+  <h3>Draw the perimeter before you build inside it</h3>
+
+  <p>At high wave multipliers the usual approach — expand outward to each new node, ring the production sprawl, then collapse the line back into something compact late — falls apart. Spawns arrive along an entire map edge, so a wave entering from the left hits your left defences and simultaneously wraps around to the top and bottom. There is no "the attack side" any more.</p>
+
+  <p>The answer is to decide the final defensive perimeter from scouting, before the HQ goes down, and to build inward from that decision. Aim to enclose at least three of each basic resource, with the remaining deposits close enough outside that you can sell those factories off before a wave reaches them and rebuild afterwards. Pause, look at what you have explored, and draw the border in your head — it is the single highest-leverage minute in the run.</p>
+
+  <p>The perimeter has to enclose more than you expect: a block of wind and solar with energy storage, a bank of AI hubs, sixteen to twenty solid material storages, tower ammo factories and ammo storage, communications hubs, and space near mud, sludge or geothermal for research labs. A perimeter that fits your day-two base will strangle your day-six one.</p>
+
+  <div class="warn">
+    <b>Use chokepoints against the monsters, not against yourself</b>
+    <p>The intuitive move — a short wall section plugging a narrow gap — often backfires, because that short section faces a wide open area on your side and everything that breaks through fans out into your base. Pull the wall back from the chokepoint instead, so attackers funnel down a narrow path and emerge into a long wall packed with turrets. The choke should shape their approach, not shorten your firing line.</p>
+  </div>
+
+  <h3>Stop building one giant perimeter</h3>
+
+  <p>The instinct carried over from other base-builders — one enormous wall with a safe interior — is the wrong shape for this game, and it fails for a specific reason. As the base grows, the wall grows with it, and the pathing will find one weak tile in an enormous run of it. You then either garrison turrets every few tiles at ruinous AI core cost, or spend every wave kiting to thin it out while stragglers chew on your storage.</p>
+
+  <p>Several smaller bases work better. Each is small enough to be covered entirely by repair towers, each carries a radar for early warning and to suppress nearby respawns, and each has a perimeter short enough to actually finish. Because attacks path to whatever is closest, the bases sitting nearer the map edge absorb the waves, and interior bases need little more than a simple wall that buys the seconds it takes you to teleport in.</p>
+
+  <p>The same logic applies to remote extractors. Do not run walls out to them; give each its own small walled pocket with a couple of turret types so it defends itself.</p>
+
+  <h3>Firebases — bait as a design principle</h3>
+
+  <p>The most efficient version of this is deliberate. Build defence clusters flung out well beyond the territory you are protecting, positioned so anything entering from the map edge is closer to the firebase than to your production. The wave flocks to the bait, and your economy is never touched. Placement toward the map edge does the defending — not wall count around the base.</p>
+
+  <p>A firebase is built tight, with no open interior and nothing power-generating inside it, so every tower's firing arc covers the whole approach. A workable build order runs: a power cable out from your production, terminating in a cluster of power storages so the towers keep firing if the line is ever cut; radar and a repair tower beside them; then a layer of artillery; then a layer of sentinels; then wall, gap, wall, gap, wall. In practice the cable is rarely cut because it runs toward the map interior, away from where enemies come from — the storage is insurance, not routine.</p>
+
+  <p>Those wall gaps matter more than they look. Many large enemies attack with area damage and would destroy several adjacent wall layers with a single hit; spacing the layers means one hit takes one layer.</p>
+
+  <p>Scale it as tech arrives: sentinels give way to railguns, artillery upgrades once uranium is available, and once titanium is online the innermost wall layer is replaced with minigun towers while a fresh outer wall layer is added to make up the loss. Four to eight such positions — the cardinal directions, or the corners and edge midpoints of the map — is a common shape. A dozen defence points, each occupying a three-by-three block of floor tiles, is what an extreme-multiplier campaign ends up with.</p>
+
+  <h3>Concentric rings for the main base</h3>
+
+  <p>Where you do want a single fortified core, build it as rings rather than a box: HQ and critical buildings in the centre, then successive wall rings with towers, with power generation and resource gathering built in the space between rings. When you expand outward, strip the turrets off the inner walls — they are no longer the contact line and their AI cores are needed further out.</p>
+
+  <p>Late in a run the move is often to shrink rather than grow. Downsize the main base, double the wall thickness, and line it one space back with repeating laser, railgun, missile and plasma towers plus repair and artillery, and the base holds on Brutal without your attention.</p>
+
+  <h3>Repair coverage geometry</h3>
+
+  <p>Repair towers are what let a small box survive at all, and their coverage is geometric rather than approximate — worth laying out properly rather than sprinkling.</p>
+
+  <p>In a line, a repair tower covers three tiles to either side of itself, so towers placed with a six-tile gap between them leave no holes and a line of them covers a twelve-tile-wide strip. Two such lines running parallel cover twenty-four tiles between them, which turns repair into a set of rails you build the base around.</p>
+
+  <p>For area coverage, an eleven-by-eleven grid with a tower at each cell centre gives complete overlap; a nine-by-nine grid is often preferred because it fits a five-by-five arrangement of two-tile buildings around each tower with a gap for readability, and each repair tower just reaches its neighbours so they repair each other. Placing them at the very edge of each other's range is arguably overkill against normal waves, but it is what carries a base through simultaneous raids, earthquakes and meteor strikes.</p>
+
+  <p>Keep at least one repair station inside the wall but within range of your forward bunker and minelayer positions, so front-line structures repair themselves between waves. And remember what repair towers do not do: they repair, they never rebuild. A flattened bunker still needs manual reconstruction, and repair drones are not a substitute for shields or walls.</p>
+
+  <h3>Small placement habits that compound</h3>
+
+  <ul>
+    <li><strong>Leave air gaps between buildings.</strong> Many creatures deal area damage, so packed structures take multiplied damage while spaced ones stay within what repair towers can keep up with.</li>
+    <li><strong>Cluster only what is easy to protect.</strong> Wind and solar drag-build into neat blocks — put those blocks around a repair tower in hazard-prone areas.</li>
+    <li><strong>Make power cables redundant or shield them.</strong> In high-risk areas a single severed connector takes the whole tower network offline; run a second path or tuck cables behind walls and other structures.</li>
+    <li><strong>Floor in front of your walls</strong> speeds your own movement during an attack, which matters a lot when you are the mobile reserve — but flooring and minelaying conflict, so pick one per stretch.</li>
+    <li><strong>Nestle against terrain.</strong> Rock cliffs and mud pools act as free wall segments, shorten the perimeter, and make attack paths predictable enough to concentrate defence on.</li>
+    <li><strong>Reserve slack.</strong> Keeping spare power and around twenty free building slots, with AI control centres already standing, lets you drop a fresh turret line instantly on a direction you were not ready for.</li>
+    <li><strong>Build outward in chunks.</strong> Taking one new area at a time and defending from there beats extending one enormous perimeter — and pairs naturally with using rock formations as kill corridors or as permanent blocks on a flank.</li>
+  </ul>
+
+  <p>On pipeline missions the same principle applies in miniature: pick the route first, reinforce the flooring, extend walls along it, then lay pipe once the corridor is covered — rather than laying pipe and defending whatever line it happened to take.</p>
+
+  <h3>Recap</h3>
+
+  <p>Site the HQ for water and centrality rather than starting ore, and do not relocate off a rich starting node. Draw your final perimeter from scouting before you build, enclose enough space for the base you will have rather than the one you have, and pull walls back from chokepoints so attackers funnel into a long firing line. Prefer several small, repair-covered bases and outlying firebases over one enormous wall, since everything targets what is closest. Lay repair coverage on a deliberate grid, space buildings against area damage, and protect your cabling.</p>
+</section>
+
+<!-- ==================== POWER ==================== -->
+<section class="panel" id="panel-power">
+  <h2>Power</h2>
+  <p class="lede">Power is the stat every other system is downstream of. AI cores, and therefore towers, are bought with it; research labs escalate their draw with every tier; shields, heavy artillery and the rift charge all run on what your generators produce. A run that stalls is almost always a run that ran out of grid.</p>
+
+  <h3>Power is local — resources are not</h3>
+
+  <p>Ordinary resources pool globally: mine ironium anywhere and you can spend it anywhere. Power and liquids do not work that way. They exist only on the network they are physically connected to, and there is no teleporting them. Wireless transmission pylons help within a map and do nothing between maps.</p>
+
+  <p>The user interface tells you when you have made a mistake here: any network not joined to your main grid is labelled <em>Local</em>. Seeing that label in your main base means there is a break somewhere in the line — usually a connector an enemy chewed through.</p>
+
+  <p>Three exceptions are worth committing to memory, because they define what can be centralised and what cannot. Ammunition teleports, so factories can live anywhere. Animal biomass is global but must be picked up by hand, with no automated collection. And liquids can be moved between maps through compressors and decompressors, which is the loophole that makes the whole cross-map economy work — ship acid-biome gas out to run upgraded gas plants elsewhere, or ship water to a desert or cavern map so fusion becomes possible there.</p>
+
+  <div class="tip">
+    <b>Self-powered outposts beat long cables</b>
+    <p>Powerlines are fragile and a long run across contested ground is a liability you have to defend forever. Give each outpost its own small generation instead — wind, solar and storage at minimum — plus a portal so you can arrive instantly. The goal is a network of places that repair themselves and that you teleport between, not a web of infrastructure that needs walking maintenance. Where power genuinely cannot be generated locally, put cultivators there instead and export the plant biomass, which does travel.</p>
+  </div>
+
+  <h3>Density, not output</h3>
+
+  <p>The most common mid-game mistake is scaling wind and solar. They work, they cost nothing to run, and they are the correct opening — but scaling them to a real base means hundreds of buildings. The space consumed by enough wind and solar to make a thousand power is about the same as a single upgraded gas plant with a much smaller footprint, and the building count itself is a problem: mass structure spam strains the simulation and pushes the game into slow motion. If your late-game run is stuttering, the hundreds of turbines are a likely culprit.</p>
+
+  <p>They are also the only sources subject to the day-night cycle and weather. Solar operates for roughly thirteen hours of the day — around fifty-four percent uptime — and its advertised cost efficiency ignores the energy storage you must build to carry the night. Counting that storage, solar's real cost per delivered energy is roughly triple its headline figure, which drops it below wind for most purposes. Wind runs around the clock and suffers far fewer weather penalties; prefer it unless you are in a biome with a solar bonus or a wind malus.</p>
+
+  <p>Upgrading generators trades resource efficiency for space efficiency. Every source gets <em>worse</em> per resource spent as you upgrade it while getting better per tile occupied. That is the correct trade once your perimeter is fixed and your economy is running, and the wrong one while you are still cash-poor — which is why the answer to "should I upgrade my power" is nearly always "not yet, build another one" early and "yes, immediately" late.</p>
+
+  <h3>The sources</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Source</th><th>Footprint</th><th>Output L1 → L3</th><th>Upkeep</th><th>Where it earns its place</th></tr></thead>
+      <tbody>
+        <tr><td>Wind turbine</td><td class="num">2×2</td><td class="num">12 → 48</td><td>None</td><td>Opening power and outposts. Works day and night, no logistics, no resource drain</td></tr>
+        <tr><td>Solar panel</td><td class="num">2×2</td><td class="num">20 → 80 (≈54&nbsp;% uptime)</td><td>None</td><td>Only where boosted, or where wind is penalised. Budget storage as part of its cost</td></tr>
+        <tr><td>Carbonium</td><td class="num">3×3</td><td class="num">50 → 150</td><td>1/s carbonium</td><td>Instant power on a remote deposit, or a way to burn off a deposit blocking your layout while storage is full. Not worth upgrading</td></tr>
+        <tr><td>Plant biomass</td><td class="num">3×3</td><td class="num">100 → 200</td><td>1/s plant biomass</td><td>Cheap, and free once cultivators run — they produce biomass alongside whatever you planted. Ideal for small defensive installations</td></tr>
+        <tr><td>Animal biomass</td><td class="num">3×3</td><td class="num">200 → 400</td><td>1/s animal biomass</td><td>Scales with how much is dying near you, so it is surprisingly efficient at high difficulty and useless at low</td></tr>
+        <tr><td>Geothermal</td><td class="num">5×5</td><td class="num">200 → 800</td><td>1/s vent</td><td>Effectively free, infinite and easy to repair, but capped by vent count. Also yields mud, which feeds cultivators. Doubles its output in the volcanic biome</td></tr>
+        <tr><td>Gas</td><td class="num">4×4</td><td class="num">500 → 1000</td><td>50/s gas</td><td>The workhorse. Best overall source and the one most worth upgrading; needs palladium for the higher tiers</td></tr>
+        <tr><td>Magma</td><td class="num">5×5</td><td class="num">500 → 1000</td><td>300/s magma</td><td>Comparable to gas, but only in the volcanic biome — magma is too consumption-heavy to export</td></tr>
+        <tr><td>Nuclear</td><td class="num">6×6</td><td class="num">1500 → 3000</td><td>Water or supercoolant</td><td>Viable now that uranium upkeep is gone; strong on tile efficiency, slow to build. A good space-constrained mid-game answer</td></tr>
+        <tr><td>Fusion</td><td class="num">5×5</td><td class="num">3500 → 7000</td><td>100/s water <em>or</em> 50/s supercoolant</td><td>The ceiling, and the only route to plasma. Most expensive and most tile-efficient by a wide margin</td></tr>
+        <tr><td>Morphium</td><td class="num">—</td><td class="num">≈ gas</td><td>Morphium</td><td>Metallic valley only. Pumps straight from the pool with no filtering step — gas output without the intermediate chain</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Read those numbers as a progression rather than a ranking. Wind and solar open the run; geothermal is the first real step up but can never power a whole base because vents are finite; gas fills that gap and carries you all the way to fusion. With gas upgrades available, nuclear is skippable — though since its uranium consumption was removed it is now a perfectly good option, especially where footprint is tight.</p>
+
+  <h3>Gas is the mid-game answer</h3>
+
+  <p>Sludge into a filtering plant into a gas powerplant is the chain that carries most runs. Its virtue is that it scales cleanly: the whole system, support buildings included, roughly triples in space efficiency as you upgrade it, and each pumped sludge source goes vastly further — a level-one pump underwrites a few hundred energy, a level-three pump underwrites nearly three thousand.</p>
+
+  <p>Ratios matter more than raw counts here. At level one, two pumps feeding two filters feeding a single powerplant nets around five hundred energy for a modest resource outlay. At level two the same two pumps support three filters and three plants. At level three the ratio settles at roughly one pump to two filters to three plants — two pumps, four filters, six powerplants — for something close to six thousand net energy in a hundred and sixty-eight tiles. Pump capacity, not plant count, is the thing to design around.</p>
+
+  <p>Because of that, a sludge pool large enough for four pumps — or two pools close enough to share infrastructure — is a legitimate reason to move or expand your main base. Early on, treat sludge as power generation rather than as a water source: two pumps, two filters and a gas plant is around five hundred energy at a stage where that is transformative. The second tier of liquid handling improves it further, and notably pumps need no rare resources to reach level two, so more sludge converts directly into more power without gating.</p>
+
+  <p>Where a map has mud rather than sludge, the water filter into biocomposter route produces gas from plant matter instead. Composters need very little water each, so one filter can serve both a composter pair and a research lab. Two composters feed one gas plant for roughly five hundred energy, at the cost of a steady leaf supply — which is a good reason to swing your melee weapon at every plant you pass while exploring.</p>
+
+  <h3>Fusion and what plasma is really for</h3>
+
+  <p>Fusion is gated behind all three major rare metals and is the most expensive thing you will build, but you need it regardless of whether its energy alone justifies the cost, because plasma is a fusion by-product and plasma runs shield generators, feeds heavy artillery when supercharged, and is consumed by the rift charge at the end of the campaign. A run that never builds fusion is a run that discovers this at the worst possible moment.</p>
+
+  <p>It runs on water or on supercooling liquid, and the choice is an economic one: if your titanium income supports it — roughly four or more per second from a cultivator — supercoolant is the better feed, otherwise use water. One geothermal plant is enough to sustain a pair of fusion reactors, at which point energy stops being a constraint at all; an upgraded reactor produces enough to run an entire map.</p>
+
+  <p>Build cost is the barrier, and it is a soft one. Mech modules that reduce building cost stack multiplicatively enough that a full set takes construction down to around a third of list price, which makes a fusion buildout dramatically cheaper if you swap loadout before a building session. On a map with no water at all, an ionizer is the alternative route to shields.</p>
+
+  <div class="note">
+    <b>Storage is a defensive building</b>
+    <p>Energy storage holds a large buffer, especially at the top tier, and one or two are enough to let a turret line run purely off stored charge and recharge slowly between waves. That decouples your peak defensive draw from your generation capacity, which is exactly the failure mode where towers fall silent halfway through a wave. Build storage before you build the next generator.</p>
+  </div>
+
+  <h3>Matching power to the biome</h3>
+
+  <p>Biome is the first input to the power decision, not an afterthought — a mismatched grid starves the defences no matter how good the towers are. Players who lose acid-biome runs to a specific wave often find the actual cause was a wind-heavy grid in a low-wind biome, and fix it by switching to solar and cultivated biomass.</p>
+
+  <ul>
+    <li><strong>Tropical and jungle</strong> — the generic case. Take geothermal where vents exist, sludge where it exists, and treat those as the only space-efficient consistent sources available.</li>
+    <li><strong>Acidic</strong> — gas, unambiguously. The volume of sludge supports gas plants indefinitely, which is why keeping an acid map as a permanent power and production site is a standard campaign move.</li>
+    <li><strong>Desert</strong> — solar is doubled here, but vents and sludge are scarce and water is scarce enough that nuclear and fusion belong elsewhere. Supplement with plant biomass, or import gas.</li>
+    <li><strong>Volcanic</strong> — magma generators, with the fuel on site. Geothermal is the overlooked pick: doubled output here makes it a genuine powerhouse and it produces mud as a by-product.</li>
+    <li><strong>Radioactive</strong> — nuclear to get running, then gas via decompressor, which is infinite and consumes nothing.</li>
+    <li><strong>Metallic valley</strong> — morphium, which behaves like gas without the processing chain.</li>
+    <li><strong>Caverns</strong> — wind is of limited use; plan on imported liquids.</li>
+  </ul>
+
+  <h3>Where the power actually goes</h3>
+
+  <p>Two consumers deserve explicit budgeting. Alien research laboratories are enormous draws that escalate steeply with each tier, so reserve capacity for them deliberately — earmarking an entire gas plant for the lab rather than dumping new generation into AI hubs and towers is a sound habit. And rare-element miners draw far more than basic ones, which is why a remote rare-ore outpost usually wants a biomass generator rather than a couple of turbines.</p>
+
+  <p>The mirror-image mistake is cultivating a power-hungry resource too early. A cultivator's own draw can exceed what the operation returns if you start uranium farming before the economy supports it — though at the upgraded tiers the drain is modest enough that a uranium farm is comfortably net positive, and because cultivators produce plant biomass alongside their target resource, a farm burning its own biomass locally usually generates more power than it consumes.</p>
+
+  <h3>Recap</h3>
+
+  <p>Power and liquids are local; ammunition and resources are global; liquids alone cross maps, through compressors. Open with wind and storage, step up through geothermal to gas, and treat fusion as mandatory for plasma rather than optional for energy. Design gas around pump capacity, budget storage as part of solar's cost, and pick generation to match the biome rather than habit. Build energy storage as a defensive structure, keep cables redundant, and reserve headroom for research labs before they arrive.</p>
+</section>
+
+<!-- ==================== DEFENCE ==================== -->
+<section class="panel" id="panel-defence">
+  <h2>Defence</h2>
+  <p class="lede">There is no best tower, and looking for one is the mistake. Resistances vary by biome and by species, ammunition is a harder limit than damage, and the difference between a line that holds and one that collapses is usually damage-type coverage and supply — not tier.</p>
+
+  <h3>How to choose towers at all</h3>
+
+  <p>Every tower is described by three things: its damage type, its range, and whether it concentrates damage on one target or spreads it. Its tooltip states the damage type and whether it burns ammunition or energy, and researching a species fills in that creature's vulnerabilities in the database. Match the two and you have your answer for that map's threat mix.</p>
+
+  <p>The shortcut, when you cannot be bothered, is simply to keep a varied spread of damage types on every line. That is enough to be covered against almost anything, and it is why a mixed wall consistently outperforms a wall of whatever the current best tower is. Between a long-ranged fire option, a long-ranged energy option and massed artillery you will always have something that works, or at minimum immediate feedback about what not to use here.</p>
+
+  <div class="warn">
+    <b>Ammunition is the real ceiling</b>
+    <p>A tower ammo factory produces two and a half tower ammunition per second. A minigun tower consumes twenty per second while firing. That is eight factories to sustain one minigun at full rate — which is why you cannot line a wall with them, and why over-placing any ammunition-based tower converts it into expensive scenery. Energy towers sidestep the problem entirely, which is most of their appeal. Tower ammo factories serve only towers; armouries serve only your mech; nothing else produces ammunition at all, and there is no prioritisation between the two pools.</p>
+  </div>
+
+  <p>Ammunition factories stop consuming resources once every magazine is full, so the long drain you see after building lots of ammo storage is the storage filling, not a permanent tax. Off-map factories still display a negative rate on the overview, but actual income matches the undrained figure — treat that readout as a display artefact. The one genuine sink to watch for is production of ammunition types you have not yet researched: those magazines never fill, so the drain never stops. Synthesizers or cultivators feeding the same resources make the whole question moot.</p>
+
+  <h3>The towers</h3>
+
+  <p>Tap any tower for its role, what it counters, and the conditions under which it is worth the slot. Stats referenced are at building level three.</p>
+
+  <div class="cards">
+    <button class="pick-card" data-pick="sentinel"><div class="pc-name">Sentinel</div><div class="pc-hook">Cheap physical filler that never runs dry. Unimpressive, always firing.</div></button>
+    <button class="pick-card" data-pick="minigun"><div class="pc-name">Minigun</div><div class="pc-hook">Huge sustained DPS against swarms — and an eight-factory ammunition habit.</div></button>
+    <button class="pick-card" data-pick="shotgun"><div class="pc-name">Shotgun</div><div class="pc-hook">Cheap melee-fodder clearer, the only ground user of high-calibre ammo.</div></button>
+    <button class="pick-card" data-pick="laser"><div class="pc-name">Laser</div><div class="pc-hook">Penetrating energy damage. Cuts down a whole line, costs no ammunition.</div></button>
+    <button class="pick-card" data-pick="gatling"><div class="pc-name">Gatling Laser</div><div class="pc-hook">Rate of fire plus damage in one expensive, power-hungry box.</div></button>
+    <button class="pick-card" data-pick="railgun"><div class="pc-name">Railgun</div><div class="pc-hook">Pierces the front rank to hit what is behind it. Mid-game backbone.</div></button>
+    <button class="pick-card" data-pick="flamer"><div class="pc-name">Flamer</div><div class="pc-hook">Answer to physical- and energy-resistant swarms. Worst range in the game.</div></button>
+    <button class="pick-card" data-pick="acid"><div class="pc-name">Acid Spitter</div><div class="pc-hook">Area denial that melts the big melee units — outside acidic biomes.</div></button>
+    <button class="pick-card" data-pick="rocket"><div class="pc-name">Rocket</div><div class="pc-hook">Cheap to run, punches deeper into a blob with extra projectiles.</div></button>
+    <button class="pick-card" data-pick="artillery"><div class="pc-name">Artillery</div><div class="pc-hook">The core of every layered defence. Best against stalled clumps.</div></button>
+    <button class="pick-card" data-pick="heavyart"><div class="pc-name">Heavy Artillery</div><div class="pc-hook">Enormous range and damage, fed by supercharged plasma. Blocked by terrain.</div></button>
+    <button class="pick-card" data-pick="hcm"><div class="pc-name">HCM</div><div class="pc-hook">Fire from directly overhead — terrain never blocks it, gas keeps it cheap.</div></button>
+    <button class="pick-card" data-pick="powerrod"><div class="pc-name">Power Rod</div><div class="pc-hook">Burst plus a lingering damage fence. No pipes, no logistics, no excuses.</div></button>
+    <button class="pick-card" data-pick="portalbomb"><div class="pc-name">Portal Bomb</div><div class="pc-hook">Close-range hammer for the fast leakers artillery cannot catch.</div></button>
+    <button class="pick-card" data-pick="lightning"><div class="pc-name">Lightning &amp; Plasma</div><div class="pc-hook">Endgame mid-layer additions, best seasoned through a solid row.</div></button>
+    <button class="pick-card" data-pick="nukes"><div class="pc-name">Nukes</div><div class="pc-hook">Endgame superstructures. Spread them out or they waste their own shots.</div></button>
+    <button class="pick-card" data-pick="minelayer"><div class="pc-name">Mine Layer</div><div class="pc-hook">Divisive. Consumed instantly at high difficulty unless paired with stuns.</div></button>
+    <button class="pick-card" data-pick="drone"><div class="pc-name">Attack Drone</div><div class="pc-hook">Slow, bulky, low damage. Defensible only in bulk behind repair towers.</div></button>
+    <button class="pick-card" data-pick="repair"><div class="pc-name">Repair Tower</div><div class="pc-hook">Not a tower. The reason small boxes survive at all.</div></button>
+    <button class="pick-card" data-pick="radar"><div class="pc-name">Radar</div><div class="pc-hook">Warning, respawn suppression, and the reach your artillery paid for.</div></button>
+    <button class="pick-card" data-pick="shield"><div class="pc-name">Shield Generator</div><div class="pc-hook">Stacks. Turns a turret row into something that ignores chip damage.</div></button>
+    <button class="pick-card" data-pick="dlctowers"><div class="pc-name">Floating &amp; Morphium</div><div class="pc-hook">Expansion towers that need no power connector — or no power at all.</div></button>
+  </div>
+
+  <div class="pick-detail" id="pick-sentinel" data-title="Sentinel">
+    <p>Sixty damage at three shots per second — roughly a hundred and eighty damage per second of plain physical output, which is genuinely unimpressive by mid game. Its virtue is that it costs energy rather than ammunition, so it never goes dry and never competes with your minigun line for factory throughput.</p>
+    <p>That makes it the correct thing to line an entire wall with early, and a defensible filler even late: mediocre damage that always fires beats excellent damage that stops. Opinion splits on when to replace it — one school swaps sentinels out for miniguns the moment they are available, another keeps them on the outermost layer permanently as cheap balanced physical damage and spends the ammunition budget elsewhere. Both work; the deciding factor is whether your energy or your ammunition production is further ahead.</p>
+    <p>Sentinels alone lose badly to ranged attackers, who out-range them and shell them at leisure. If sentinels are your whole line, you need to be personally present drawing that fire away.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-minigun" data-title="Minigun Tower">
+    <p>Sixty damage at twenty shots per second is around twelve hundred damage per second — nearly seven times a sentinel — and it comes with good range and a lower energy cost than the laser family. Against quantity, against swarms, and specifically against the fast armoured rushers that overrun other towers, it is the best answer in the game and becomes the backbone of most walls once unlocked.</p>
+    <p>The catch is arithmetic: twenty ammunition per second against a factory's two and a half means eight factories to keep one firing continuously. You cannot line a wall with them. Use them as the solid row that does the work while cheaper towers fill the length, and build the ammunition industry to match before you build the fifth one.</p>
+    <p>Unlocking miniguns is a common reason to rush titanium, and on layouts that upgrade over time the innermost wall layer is often the one converted into a minigun row, with a fresh outer wall added to replace it.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-shotgun" data-title="Shotgun Tower">
+    <p>Cheap to build and cheap to run, and the only ground tower that uses high-calibre ammunition — which means it draws on a supply nothing else is competing for. Its job is clearing melee fodder hordes, which the game throws at you constantly, and it does that well enough that a few in every line is a standing recommendation.</p>
+    <p>It is also the tower where ammunition-saving mods pay for themselves. Combined with rate-of-fire mods, a shotgun tower will sustain an enormous volume of fire indefinitely, which is a much better use of mod inventory than trying to buff something already near its ammunition ceiling.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-laser" data-title="Laser Tower">
+    <p>A hundred damage per shot with five points of penetration, energy type, thirty-four metre range. Penetration is the whole point: the beam cuts through the enemy in front to hit whatever is queued behind, which turns a corridor of advancing creatures into a single target. A handful of lasers will cut through almost anything, and one is roughly equivalent to a much larger gatling laser.</p>
+    <p>Because it uses no ammunition it scales with your grid rather than your factories. The usual progression is to add level-one lasers to every cluster as soon as they are available, then use level-two lasers as the replacement for sentinels. Lasers are the specific answer to large single targets that shrug off swarm-clearing fire.</p>
+    <p>Their weakness is range. Like every non-artillery tower they can be out-ranged and shelled to death by enemy artillery, which is why a laser line always wants real artillery behind it.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-gatling" data-title="Gatling Laser">
+    <p>Two hundred and forty damage at twenty shots per second — a minigun's rate of fire delivered as plasma bolts rather than bullets, in a two-by-two footprint. It is the close-range half of a good two-tower endgame loadout, paired with something long-ranged behind it.</p>
+    <p>It is also stupidly expensive in power, on the order of six hundred energy per second, which is why it is a late addition rather than a wall staple: one per bunker, once fusion has made energy a non-issue. Whether you prefer it over the plain laser comes down to which you value more, its raw output or the laser's penetration — both arguments are sound and many bunkers run both.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-railgun" data-title="Railgun Tower">
+    <p>The shot pierces the target in front to hit those behind, which makes it excellent against mid and large ranged enemies formed up in depth. Player experience splits on whether it shines against swarms or against tanky single targets, and the honest answer is that piercing serves both — either way it is a core mid-to-late pick and the standard upgrade path out of sentinels.</p>
+    <p>Enough artillery and railguns together will handle any of the bigger creatures, which is the pairing most walls settle into before energy weapons come online. Railguns need palladium; on a map without it, plasma towers fill the same slot.</p>
+    <p>One dissenting view worth knowing: at extreme wave multipliers some players drop railguns and lasers entirely on the grounds that they consume too much energy to field in the numbers those waves demand. That is a judgement about scale, not about the tower — at ordinary multipliers the energy cost is affordable well before fusion.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-flamer" data-title="Flame Tower">
+    <p>Fire is the answer to a large class of enemies that resist both physical and energy damage, so you want some almost everywhere — with the fungal swamp wanting a lot of them and the desert wanting none. It is also one of the cheap one-energy-per-second towers that make a quick firebase possible.</p>
+    <p>Its problem is the worst range in the game, which dictates everything about how it is used. It belongs on the outer wall, never behind other towers, and it stops earning its slot once swarm creatures reach elite tiers — it simply does not do enough damage to the things that survive long enough to enter its range, and it is useless against anything that shoots back from a distance.</p>
+    <p>The clever use is bait: an isolated flame tower cell attached to the outside of the wall attracts creatures to surround and cluster on it, and that cluster is exactly the target your splash and explosive towers want. At extreme multipliers, though, be aware that enemies may never close to flamer range at all, which is why some high-multiplier players skip short-range towers entirely.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-acid" data-title="Acid Spitter">
+    <p>Very strong area denial, and specifically the counter to the big beefy melee creatures that otherwise tear walls apart — acid is a common weakness among exactly the units that are hardest to stop with kinetic fire. In the desert, metallic valley and crystal caverns it melts almost everything.</p>
+    <p>The exception is biome-native resistance: acid towers are poor in acidic and fungal swamp biomes, where the local fauna have grown up in it. This is the clearest single illustration of why damage-type coverage beats picking a favourite.</p>
+    <p>It runs at one energy per second, making it another member of the cheap quick-line set, and it is a standard early unlock alongside artillery for exactly that reason.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-rocket" data-title="Rocket Tower">
+    <p>One of the cheap one-energy-per-second towers that form a quick defensive line, and solidly effective without being anyone's favourite. It appears in most tower rotations as a seasoning rather than a backbone — one or two per section of a minigun or plasma row.</p>
+    <p>Rockets are the tower where projectiles-per-burst mods do something interesting: an extra burst projectile fires a second rocket immediately after the first, driving damage deeper into a blob of creatures rather than wasting overkill on the front rank. Piercing achieves a similar effect elsewhere but works better on bullet towers than on rockets.</p>
+    <p>Some players skip rockets and flamers entirely as a resource waste. That is a defensible call when your ammunition economy is tight, and a bad one when you have breadth problems.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-artillery" data-title="Artillery Tower">
+    <p>The tower to build everywhere, at every stage, in every layout. Range and splash together mean it starts working on a wave long before contact, and massed artillery still packs a real punch late — some enemies get through on resistance or speed, but nothing else thins a wave the way artillery does.</p>
+    <p>It is the specific counter to enemy artillery, to the four-legged shellers that lob explosives over your wall, and to the heavy ranged units your short-range towers cannot reach. At minimum, every base wants a radar and an artillery tower; a serious wall wants a full rear rank of them.</p>
+    <p>Two placement facts shape its use. It is at its most effective against stalled clumps, which is why decoy walls and bait clusters multiply its value. And it is poor at natural chokepoints, where shells clip surrounding rocks and trees — chokes favour direct-fire towers, and artillery wants an open approach.</p>
+    <p>Level two and three artillery are the answer to rock creatures, but need a substantial rare-ore bank to field in numbers; five to seven backed by lasers and railguns is enough to stop their advance. Uranium unlocks the higher tiers, which is a common reason to prioritise the radioactive zone.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-heavyart" data-title="Heavy Artillery">
+    <p>Four thousand damage, ten metres of splash, twenty-five to two hundred metres of range with a trigger radius beyond that. It softens everything it does not outright kill and is close to essential at the headquarters late in a run, particularly against Omega-class heavy ranged units.</p>
+    <p>The cost is logistical. It consumes supercharged plasma at twenty-five per second, which works out to about six per fusion powerplant, and ten explosive ammunition per shot. Feeding it is a plumbing exercise: the neat solution is to run one large plasma loop around the whole base to power shields, then drop a level-three supercharged plasma factory wherever heavy artillery sits — a level-three factory produces seventy-five, so one factory feeds three heavy artillery anywhere on that loop. Local liquid tank storage at each battery keeps it firing if the delivery line is cut.</p>
+    <p>Dispersed in pairs — two per corner — is already enough on many layouts, because creatures never reach the walls. Larger bases split them into batteries covering separate arcs rather than massing them in one place, each battery paired with radar so it can use its full range. Rate-of-fire mods multiply the output of something this large more than they do on small towers.</p>
+    <p>Its one structural weakness is terrain: shells are blocked by obstacles in the way. And late in a run there is a real argument that the plasma is better spent on shield generators than on more heavy artillery.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-hcm" data-title="HCM Tower">
+    <p>Four hundred damage per projectile with five metres of splash <em>each</em> — the actual covered area is far larger — fire damage type, out to a hundred and forty metres. It drops fire from directly overhead, so terrain never blocks it, which is the decisive advantage over heavy artillery on broken maps. It also costs only two explosive ammunition per shot against heavy artillery's ten.</p>
+    <p>Opinion divides on where it ranks among the big long-range options. Judged on raw numbers it is the weakest of them and it needs gas delivered to it. The counter-argument is that nearly everything you need to kill at long range is either fire-weak or low health, while heavy artillery gets terrain-blocked and power rods deal exactly the energy damage that tough long-range units tend to resist.</p>
+    <p>Gas is not a real constraint once you build a liquid decompressor — even a level-one supplies four HCM towers at a hundred energy per second. A level-three feeds eight, but the minimum spacing between towers forces a pipe run around the base; keeping to level-one decompressors and compact firebases that cover each other avoids that and spreads your fire across arcs rather than dumping it all at once.</p>
+    <p>Biome matters more here than for most towers: superb in the fungal swamp where almost everything is fire-weak, and near-useless against fire-resistant metal creatures — which start joining headquarters raids once you finish that expansion's content.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-powerrod" data-title="Power Rod Tower">
+    <p>Twelve hundred damage of energy type with a damage-over-time component and ten metres of splash, reaching a hundred and forty metres. It delivers a burst and then leaves a rod standing on the map doing area damage until it expires, which functions as a damage fence — most things die before they ever reach the wall.</p>
+    <p>Its real advantage is friction. At a hundred energy per second you can run around seventy per fusion powerplant, and it needs no gas, no plasma and no pipes, so it goes anywhere without logistics. For players who dislike plumbing, it is the single best long-range pick.</p>
+    <p>The caveat is damage type: energy is resisted by a good share of exactly the tough long-range units your mid-range towers cannot already handle. Like the HCM it has a minimum spacing restriction. Treat it as one leg of a long-range tripod rather than a universal answer.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-portalbomb" data-title="Portal Bomb Tower">
+    <p>Two thousand physical damage with eight metres of splash, but only eight to sixty metres of range. It exists to fill the gap artillery leaves — the fast or resistant leakers that get past the long-range layer — and at twenty-five energy per second it is an excellent close-range dealer.</p>
+    <p>It is also a way to kill heavy ranged units at standoff distance before they close, which on some maps is the difference between a defended wall and a dismantled one. Its limit is straightforwardly its range, and it eats explosive ammunition fast if you over-place it.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-lightning" data-title="Lightning &amp; Plasma Towers">
+    <p>Both are endgame additions to the middle layer of a wall rather than things you build a line out of. The pattern that works is a solid uniform row of a workhorse tower — miniguns in the kinetic row, plasma or laser in the energy row — with a few of these substituted in at intervals for damage-type coverage.</p>
+    <p>Those substitutions double as visual section markers, which is more useful than it sounds when you are placing a third tower type along a long wall: replace one or two towers in each marked section and the whole line stays evenly mixed without counting tiles.</p>
+    <p>One practical note on plasma: piercing mods are close to useless on the tall halting plasma turret, because the bolt hits the ground just behind its target and never reaches a second one.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-nukes" data-title="Nukes">
+    <p>Endgame superstructures whose main constraint is power, which stops mattering once fusion plants are online — at that point you can feed a ridiculous number of them.</p>
+    <p>The one rule is not to cluster them. Nukes placed together coordinate their fire on the same enemies and waste shots on things already dying. Sprinkle them across the whole defensive footprint instead, so each is engaging a different part of the wave.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-minelayer" data-title="Mine Layer Tower">
+    <p>The most divided opinion in the game. The case against: at high difficulty raid creatures arrive as a continuous mass, mines are consumed almost immediately, and the tower cannot replace them fast enough during the wave — so its usefulness ends in the first few seconds. The case for: players who commit to them report they work very well, and the mech replenishes hand-placed mines for free, which makes mine consumption a non-cost.</p>
+    <p>Both are true under different conditions, and the reconciliation is a combination. Put a shockwave tower just in front of the minelayer so the arriving pack is stunned en masse, let turrets behind bombard the stalled clump, and use the mines only to stop stragglers reaching the wall. Two heavy artillery a short distance behind the artillery line completes it. The setup needs adjusting so repair coverage reaches the forward pieces, and it leaves room for you to add minigun damage personally.</p>
+    <p>An alternative arrangement puts artillery up front alongside the minelayer rather than behind the wall, extending its effective reach — anything that survives to the minelayer wall then dies to the defences behind the main wall.</p>
+    <p>Note also that a mine layer can be built purely to seed a minefield and then sold once the mines are down, though bound-skill multi-mine drops from the mech do the same job faster and cheaper. Mines and flooring conflict, so a stretch of wall gets one or the other.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-drone" data-title="Attack Drone Tower">
+    <p>The majority verdict at higher difficulties is blunt: near-zero damage, slow to react, and bulky enough that the footprint would be better spent on almost anything else.</p>
+    <p>The minority case is that they are cheap and can grind down large forces in bulk if you spam repair towers behind them to keep the drones alive. That is a real strategy, but it is a strategy about repair coverage rather than about the drones, and it competes badly for space with towers that simply kill things.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-repair" data-title="Repair Tower">
+    <p>Not a weapon, and the most under-built structure in most players' bases. Repair coverage is what allows a small walled box to survive waves that would flatten it, and once energy is abundant there is no reason not to have them everywhere.</p>
+    <p>Rush the second tier early — a repair-tower and artillery rush is a viable Brutal opening on its own, and with two thick walls behind them you can expect to replace only a wall segment or two per wave rather than rebuilding a bunker.</p>
+    <p>Place them to cover as much as possible with minimal overlap, since overlap is wasted coverage; in a line, one every six tiles leaves no gaps. Keep one inside the wall but in range of forward positions so front structures heal between waves. Interleaving them into an existing row — replacing every fourth structure in a shield row, for example — buys continuous repair without adding depth.</p>
+    <p>The critical limitation: repair towers repair, they never rebuild. A destroyed structure stays destroyed until you place it again, so a wiped bunker still needs manual reconstruction. Nor should repair drones be treated as a damage sponge; they are maintenance, not tanking.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-radar" data-title="Radar">
+    <p>Three jobs, all of them cheap. It gives advance warning of an incoming attack, it suppresses creature respawns within its coverage, and it extends the effective firing range of artillery — a long-range battery without radar is not using the range you paid for.</p>
+    <p>The respawn suppression is a strategic tool in its own right: blanketing a cleared map in radar coverage stops it re-seeding, which is how players turn a farm map into permanently quiet territory. Pair radar with every heavy artillery group, and put at least one in every base however small.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-shield" data-title="Shield Generator">
+    <p>Shield generators stack. One provides a given shield pool to the walls and turrets in its radius; two provide double. That fact alone reshapes late defensive layouts, because it means depth of shielding is a real axis rather than a binary.</p>
+    <p>Their radius is large enough that three rows of generators all still project forward over the front turret line, so a three-deep shield block means your leading turrets sit inside overlapping coverage rather than being the sacrificial row. Let the generator's range set the layer count rather than picking a number.</p>
+    <p>They are not free: each one draws standing energy and supercharged plasma every second, so a deep shield line demands a live surplus rather than a stockpile — roughly double your consumption in production is a comfortable margin. On maps without water, and therefore without fusion, an ionizer is the route to shields instead. One orientation gotcha: a shield tower's plasma intake side must not face a morphium pipeline.</p>
+  </div>
+
+  <div class="pick-detail" id="pick-dlctowers" data-title="Floating &amp; Morphium Towers">
+    <p>Floating towers drop into any pool of liquid and need no power run at all, which makes them immune to the classic failure where one zerged power connector silences an entire line. The incinerator variant behaves like a flamer and gives fire coverage in places you could not otherwise build; the piercer does solid work on heavy ranged units.</p>
+    <p>Morphium towers deal good line damage, build on both ground and liquid, and carry built-in shield generators — which saves your plasma for heavy artillery instead. They need neither power nor AI cores, only a morphium pipeline, and morphium comes from the metallic valley, so using them at the headquarters requires liquid compression technology to ship it home.</p>
+    <p>The combined-arms argument is straightforward: keep converting plasma for heavy artillery and shields while warping in morphium to run morphium towers for their own shielding and piercing, paying only a modest power draw for the decompressors.</p>
+  </div>
+
+  <h3>Building a wall that holds</h3>
+
+  <p>The consistent finding across layouts is that depth beats thickness. Several thin rows with space between them outperform one dense slab, because area attacks that would destroy four adjacent wall pieces only destroy one, and because spaced rows let more towers engage.</p>
+
+  <p>A standard depth ordering runs short-range and cheap filler at the front, medium range behind, and artillery with radar at the back. In practice that becomes a three-row wall: the outer row your highest-grade cheap sentries, the middle row acid, flame, rocket and minigun with plasma and shock added late, and the inner row artillery and railgun. Turrets shoot over and past each other, so stacking depth costs you nothing in firing arcs.</p>
+
+  <p>An endgame version of the same idea builds each row as a solid uniform backbone with a second type sprinkled through it. The outer row is a solid line of miniguns with a few lightning towers spread through it and one or two rockets per section between them — that row alone handles the overwhelming majority of what arrives. The second row is a solid line of plasma or laser with morphium towers spaced through it. The third holds shield generators with a repair tower beside each, and artillery filling the gaps between them. Four rows of wall in front, with energy walls as the outermost layer.</p>
+
+  <p>Alternatively, stagger rather than align. Three diagonal, offset rows of railguns fire slightly out of sync with each other, which spreads damage over time instead of volleying it all at once — fewer wasted overkill shots on an already-dying target, and more continuous output. Put the anti-ranged element at the very back where enemy fire cannot reach it.</p>
+
+  <p>Wall progression itself is unglamorous: one layer, then two, then three, then upgrade the tier. Scatter isolated wall pieces outside the real line for creatures to stop and chew on, and keep the sections irregular so waves stall in front of your guns rather than arriving as a clean front.</p>
+
+  <div class="tip">
+    <b>The 40×15 doctrine</b>
+    <p>Even on Brutal, do not ring the entire main base. Build rectangular defence outposts roughly forty by fifteen on each of the four approaches, fill them completely with towers, and wrap each in the best wall you have. You get the concentrated firepower of a fortress on every lane an attack can actually use, without paying for perimeter that will never be tested. Radial wall spokes running outward from the base achieve something similar: the leading edge of a horde attacks the spoke's outer face and clogs the approach while everything behind queues up, at which point artillery does the heavy lifting and direct-fire towers mop up.</p>
+  </div>
+
+  <h3>Logistics that decide whether the wall fires</h3>
+
+  <p>Ammunition — for both your mech and your towers — is transported across maps automatically, so you can tear down the armoury on the headquarters map and rebuild it somewhere quieter without losing supply. Only power and AI cores must be native to the map a tower stands on. That single asymmetry justifies the whole outpost economy: put ammunition factories and storage on a safe map fed by synthesizers, and keep the headquarters map — which eats the nastiest waves — free of sitting-duck structures so more defensive depth fits around it.</p>
+
+  <p>Liquid teleporters remove the need to weave pipe across an entire base, which is what makes scattered artillery batteries and gas-fed towers practical at all. Gas is teleportable; plan around that rather than around pipe routes.</p>
+
+  <p>For a fast, disposable line — a mission outpost, or a lane you suddenly need covered — remember that flamer, minigun, rocket, artillery and acid spitter all run at one energy per second. A single biomass power plant will run a radar, an AI hub and a mix of those, which is about thirty seconds of building for a functional defence.</p>
+
+  <p>Finally, keep rift portals at every defence point. You are the strongest weapon on the map, and an outpost only has to survive long enough for you to arrive.</p>
+
+  <h3>Are tower mods worth it?</h3>
+
+  <p>Mostly no, with specific exceptions. The structural argument against is hard to beat: buffing a tower's fire rate is worse than building another tower, and by the time you have accumulated enough high-quality mods to matter, energy, ammunition and AI cores have stopped being limiting factors, so you can simply place more towers. Mods are also lost when you replace a tower unless you remember to unequip them first, and range mods cannot go in artillery at all.</p>
+
+  <p>The exceptions are where a mod changes what a tower can do rather than how fast it does it. Damage-type mods matter when you know which creatures dominate an area — an acid mod on a sentinel meaningfully improves it against acid-vulnerable heavies. Ammunition-saving mods pay off when you are leaning hard on one ammunition type, and combined with rate of fire they make shotgun towers self-sustaining. Big towers gain more from the same mod than small ones, because mod value scales with base output, so heavy artillery and gatling plasma are where your best mods belong. Cryo mods make flamers useful against a few specific creatures. And piercing mods want bullet towers, not rockets or tall plasma turrets.</p>
+
+  <h3>Recap</h3>
+
+  <p>Mix damage types rather than hunting for a best tower, and size your ammunition industry before you place ammunition-hungry towers. Build depth — several spaced rows, each a solid backbone with a second type seasoned through it — rather than one thick wall, and put long-range and anti-ranged elements at the back. Cover everything with repair towers and radar, use shields as a stackable depth layer once plasma allows, and keep firebases small, tight and closer to the map edge than anything you care about. Solve logistics first: ammunition travels between maps, power and AI cores do not.</p>
+</section>
+
+<!-- ==================== MODES ==================== -->
+<section class="panel" id="panel-modes">
+  <h2>Modes</h2>
+  <p class="lede">Campaign and survival are not the same game at two difficulties. They reward opposite skills, punish opposite mistakes, and the strategies that carry one will get you killed in the other. Knowing which game you are playing is the first strategic decision.</p>
+
+  <h3>Story campaign — an untimed tempo puzzle</h3>
+
+  <p>Campaign is open-ended. With no clock you can build several complete bases, finish most of both tech trees, and choose your own rate of advance — and because difficulty scales off your progress rather than the wall clock, that choice is the core of the mode. Campaign is the strategic game: the wave curve is something you author.</p>
+
+  <p>The flip side is that campaign at default settings is genuinely gentle. Many players find the attacking creatures close to meaningless, which makes combat and defence decisions feel weightless. If that is your experience, the fix is not to grind harder but to raise the wave multiplier or start a custom run — the mode has all the levers.</p>
+
+  <p>Campaign's real appeal is the world: hopping between biomes, standing up outposts across them, and running a logistics network no other mode offers. Play it first, ideally more than once, and treat survival as the endgame challenge.</p>
+
+  <h3>Survival — a timed sprint you cannot out-plan</h3>
+
+  <p>Survival compresses everything. Attacks arrive quickly and often, wave tiers ramp roughly an order of magnitude faster than the story mode, and the goal is to hold ninety minutes until the portal. You can continue past that point, but only to see how far the curve goes.</p>
+
+  <p>Everything else follows from the clock. You are on one map, in one biome chosen at the start, with every resource you will ever get inside it — no expedition layer, no biome-hopping, no outpost network to absorb waves. You will not finish the tech tree; realistically you end the run on tier two or three weapons and towers, so research choices are about which two or three things you actually need, not about eventual completeness. The loop is defend and rebuild rather than build and expand, and the mech's respawn works as normal provided the HQ is standing.</p>
+
+  <p>The mode's pacing lever is the timer setting: extending the run is the only way to reach higher-tier tech. Survival is also framed in the fiction as a training simulation, which is the in-world reason the bioscanner does not function there — with knock-on consequences for the whole rare-resource economy covered under <strong>Economy</strong>.</p>
+
+  <div class="note">
+    <b>Economy first, fortress second</b>
+    <p>The survival opening is a scaling race, not a defensive one. The timer punishes a slow ramp far harder than thin walls punish you, so mine greedily, spread wide, accept exposure, and let the mech cover the gaps. Selling refunds full value, so anything about to be overrun is refundable rather than defensible — sell it and rebuild after. The crunch is entirely in the pre-economy window; once income is flowing the difficulty drops a full tier.</p>
+  </div>
+
+  <h3>Open campaign — campaign without the rails</h3>
+
+  <p>Open campaign keeps campaign's structure and removes its guidance. You choose any biome to start in, including hostile ones, and each start is a genuinely different opening because you begin with only basic technology and must research everything else in whatever order that biome's problems demand. A radioactive desert start, for example, hands you effectively unlimited power from boosted solar performance but makes early construction miserable thanks to omnipresent quicksand and radiation.</p>
+
+  <p>Research is unlocked by species familiarity rather than by story missions, and every requirement is stated on the research screen, so the whole route is plannable in advance instead of gated behind objectives you have not seen. There is exactly one objective — build the prime rift station — and mission generation opens up for all biomes as soon as the orbital scanner is up. Both extremes are supported: colonise the entire planet, or beeline the portal and go home.</p>
+
+  <p>It is not an easier mode. Wildlife is exactly as hostile, difficulty selection works as normal, and the portal-opening event still buries you in enemies from every direction, so the endgame still has to be prepared for. All biomes are accessible without owning any DLC, which for base-game players is the first time metallic valley, crystal caverns and fungal swamp resources are usable in a campaign at all.</p>
+
+  <h3>The endgame fight</h3>
+
+  <p>The final portal defence is a different problem from routine wave defence, and it fails in ways that have nothing to do with your tower count.</p>
+
+  <p>The first is a supply failure. The rift charge consumes plasma and supercharged plasma, and if the supply dries up the charge simply reports that it was interrupted, with no explanation, even with your base intact and no enemy near it. Secure plasma throughput before you start the charge — a stalled charge at sixty percent with a healthy base is the classic version of this loss.</p>
+
+  <p>The second is concentration. Because waves target whatever sits closest to the map border, several small heavily defended outposts scattered around the map divide the final wave between them instead of letting the whole thing land on your HQ. Each only needs a small walled footprint, enough repair towers to cover it entirely, and a tower mix built around plasma and artillery. Layer the walls in separate lines with gaps between them rather than one thick slab.</p>
+
+  <p>The third is your own role. Movement speed is the most valuable stat in that fight. Keep a teleporter at every outpost, hop to whichever is under pressure, and use the mech on the enemy's back line — ranged and artillery units — while towers handle everything in melee. Keep moving: a large slice of the herd will chase you, which frees your turrets, and you naturally outrun the heavy melee units that would otherwise be the ones killing you. Drop gravity mines and nukes along your retreat path so the pursuers eat them, and bind grenades to spare mouse buttons; multiple skills can share a button, so one press can throw two grenades or drop several mines. Small two-or-three-layer boxes with a couple of turrets, built purely to be chewed on, buy the seconds you need to work the herd over at range.</p>
+
+  <div class="warn">
+    <b>Anticlimax warning</b>
+    <p>The final rift-opening wave has been reported not to scale with difficulty or wave multiplier, so a 500&nbsp;% run can end on a wave that feels smaller than the routine attacks that preceded it. Do not read a comfortable final fight as proof your defences were adequate. Note too that after the gate sequence there are no further waves at all — if you want to keep fighting on that save, stop before triggering it.</p>
+  </div>
+
+  <h3>Recap</h3>
+
+  <p>Campaign is untimed and scales off your progress, so it rewards deliberate pacing and a wide outpost network. Survival is timed and scales off the clock, so it rewards a fast economy, a thin defence and a mech that carries fights personally. Open campaign trades story gating for familiarity gating and free biome choice without lowering the threat. The final portal defence is won by securing plasma supply, splitting the wave across scattered outposts, and playing the mech as a mobile response element rather than a turret.</p>
+</section>
+
+<!-- ==================== BRUTAL & CUSTOM ==================== -->
+<section class="panel" id="panel-brutal">
+  <h2>Brutal &amp; Custom</h2>
+  <p class="lede">Brutal is a knowledge check before it is a build check, and the custom sliders are the most under-used feature in the game. Between them they let you dial in a run that is hard in the way you want it to be hard — and avoid one that is merely tedious.</p>
+
+  <h3>What Brutal actually changes</h3>
+
+  <p>The headline change is unit quality rather than unit count. The ordinary trash creature you shrug off on lower difficulties is replaced by an elite variant with more than twenty times the health. Almost everything else is comparable, but that one substitution means roughly five times the tower count to hold the same wave — a multiple to plan your defence budget around, not something you patch with incremental additions.</p>
+
+  <p>Because tower count rises that steeply, ammunition throughput becomes the real ceiling. Ten or more ammo factories is not excessive on Brutal; towers that cannot fire are decorations, and starving a newly unlocked artillery line is the most common way to waste a tech investment.</p>
+
+  <p>Note also that the difficulty tiers were raised across the board in a later patch: current Hard sits roughly where Brutal used to, so older video guides show weaker waves than you will face — tier two spawns where you now get tier three. The principles in them still hold; the numbers do not. The Hard-to-Brutal jump specifically is very steep, and there is no shame in using custom settings to land between them.</p>
+
+  <div class="tip">
+    <b>The knowledge checklist</b>
+    <p>Experienced Brutal players reduce the mode to five habits: know each enemy's weaknesses and abilities and exploit them; site the base to use terrain rather than open ground; kite competently so monsters chase you past your towers without landing hits on them; handle several fronts at once; and never let research idle, with a priority order decided in advance. None of those is a building.</p>
+  </div>
+
+  <h3>Brutal-specific tactics</h3>
+
+  <p>Walls everywhere, not just at the base. Isolated wall segments scattered across attack paths and at map edges split waves — part of the swarm peels off to attack a lone wall far from anything, breaking a single overwhelming push into manageable pieces. This is at its strongest in the early game, when you have the least real defence.</p>
+
+  <p>Throwaway wall mazes in front of the real line do the same job at close range: enemies stop to chew, and artillery does its best work against a stalled clump. Depth beats thickness — walls in separate lines with gaps, not one enormous slab.</p>
+
+  <p>The mech's death explosion is a legitimate early weapon. Diving into a pack and letting the machine blow has decent radius and force, and it kills stone monsters before you have any tower or ammo economy capable of the job.</p>
+
+  <p>Omega creatures are the defining Brutal problem, and the answer is presence: be personally on whichever side one is attacking. Late waves will still damage defence points depending on where the heavy ranged units spawn, and the response is to teleport between points, soften the ranged units with grenades, and repair.</p>
+
+  <p>Melee weapons become a liability as the run advances. Players who drop them for ranged loadouts consistently report surviving fights they previously lost, because standing still in contact with an elite wave is not survivable at Brutal enemy damage.</p>
+
+  <h3>The tempo exploit and its limits</h3>
+
+  <p>Campaign at extreme multipliers is beatable primarily because you control wave scaling through your HQ level. The playbook is uncomfortable but effective: scout widely before building anything, site the HQ centrally near several carbonium and ironium deposits, then spend days building nothing but economy — mines on every nearby node, batteries, then solar, then wind as you expand, then storage — while holding the HQ at level one because a level-one attack wave is trivially defended.</p>
+
+  <p>From there you farm every available research before each HQ upgrade, build a ring of a dozen defence points around the map at the corners and edge midpoints, and only advance when the next tier is fully paid for. It is slow and it feels like grinding, and that is the point: the difficulty is a tempo problem rather than a skill problem, and grinding is the solution to a tempo problem.</p>
+
+  <p>Two caveats keep this honest. It does not transfer to survival, where there is no scaling lever at all — Brutal survival at even doubled multipliers is far harder than Brutal campaign at quintupled ones. And the wave multiplier is the forgiving knob; the enemy <em>damage</em> multiplier is the genuinely dangerous one, since even a mature endgame defence sits close to its limit at normal damage.</p>
+
+  <h3>Reading the custom sliders</h3>
+
+  <p>The custom panel is not a difficulty slider with extra steps. It exposes combat pressure, economy generosity and wave pacing as separate axes, which is what makes it useful: you can run lethal combat with a generous economy, or a stingy economy with mild combat, and get two completely different games out of the same map.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Setting</th><th>What it really controls</th><th>Judgement</th></tr></thead>
+      <tbody>
+        <tr><td>Enemy damage</td><td>Damage to Mr. Riggs only — not to buildings, and not environmental damage from magma or exploding mushrooms</td><td class="num">The hard knob. Raise last and in small steps</td></tr>
+        <tr><td>Enemy wave strength</td><td>Which authored bucket of attacker groups the game draws from</td><td class="num">The baseline difficulty choice</td></tr>
+        <tr><td>Attacks per wave</td><td>Number of attacker groups per wave, up to 5×. Does not touch ambient spawns</td><td class="num">Forgiving. The multiplier extreme runs use</td></tr>
+        <tr><td>Wave interval</td><td>Gap between waves, in 15-second steps up to 30 min; defaults sit around 4–8 min</td><td class="num">Buys thinking time without lowering lethality</td></tr>
+        <tr><td>Warmup (survival)</td><td>Pre-wave build window, up to 3.5 hours</td><td class="num">Enables strategies survival otherwise forbids</td></tr>
+        <tr><td>Resource volume</td><td>Ore per deposit, 1–1000&nbsp;% or infinite. Does not affect underground treasures or biocaches</td><td class="num">Set too low and objectives become uncompletable</td></tr>
+        <tr><td>Research time</td><td>How much download/analysis a tech requires — research is gated by a resource, not a clock</td><td class="num">Raising it pushes you toward more hubs and labs</td></tr>
+        <tr><td>Research resource cost</td><td>The per-item resource price campaign research now carries</td><td class="num">The economy-focus knob; endgame values get very high</td></tr>
+        <tr><td>Building cost / time</td><td>All structures except HQ level 1 and basic storage, which stay fixed</td><td class="num">Lower for combat focus, raise for logistics focus</td></tr>
+        <tr><td>Items dropped on death</td><td>How many equipped weapons the mech drops when downed, 0–6</td><td class="num">Solo, this fires every time you die</td></tr>
+        <tr><td>Death skull system</td><td>Cap, timeout, resource penalty and revive delay per accumulated death marker</td><td class="num">Penalty caps at 100&nbsp;%; set to zero to disable</td></tr>
+        <tr><td>Map size (survival)</td><td>3×3 to 12×12 stitched tiles</td><td class="num">Bigger maps absorb rushes — and load the CPU</td></tr>
+        <tr><td>Negative events</td><td>Acid rain, tornadoes, firestorms, nest spawns. Positive events stay on either way</td><td class="num">The cleanest way to remove weather randomness</td></tr>
+        <tr><td>Sandbox panel</td><td>In-run experimentation, event triggers, cheats</td><td class="num">Leave it on — it rescues runs blocked by bad settings</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Two structural facts about the panel matter more than any individual slider. Difficulty cannot be changed once a run has started, so a custom campaign that turns out wrong means restarting; and the enemy damage slider does not protect you as much as its low end suggests, because a protective bubble triggers at fifty health regardless, while Omega and ultra variants will still end you at one percent damage.</p>
+
+  <p>The performance ceiling is real, too. High attack multipliers put large numbers of units on screen, and older hardware will stall or crash long before the defence does. If a run is stuttering at maximum zoom during a big wave, that is a hardware limit, not a skill problem.</p>
+
+  <h3>Presets worth stealing</h3>
+
+  <p>Three developer configurations are instructive because each isolates a different skill. An <strong>iron man</strong> setup tests mech combat by keeping you under-powered — doubled research time, doubled building cost and build duration, brutal waves at triple multiplier — while a long warmup and a comfortable eight-minute interval keep it beatable. A <strong>no mercy</strong> setup inverts that: technology and buildings almost free, infinite deposits, but enemy damage at five hundred percent, waves at five times multiplier on a four-minute interval, and six items dropped per death — you cannot take a hit, so base defence has to do everything. A <strong>co-op intensity</strong> setup uses constant overlapping waves with cheap everything and reduced enemy damage, so nobody is ever idle.</p>
+
+  <p>For campaign specifically, the two useful directions are opposites. Raising research cost and research time steers a run toward economy, megabase and outpost play. Lowering building costs while raising attacks per wave steers it toward action. Both are more interesting than simply raising the difficulty label.</p>
+
+  <p>The community favourites are worth knowing too: maxing wave count while minimising research time, build time and build cost with resources at extreme density produces a run where thousands of enemies arrive frequently and genuinely enormous defences are both necessary and affordable. At the other end, unlimited deposits plus a long headstart removes scarcity management entirely and turns the game into a base-design and research exercise — a legitimate choice, not a lesser one.</p>
+
+  <h3>Emulating the mode you actually want</h3>
+
+  <p>The most common complaint is structural: campaign has the world and survival has the tension. Survival's custom panel gets you partway to a hybrid — an infinite time limit turns it into a long-term build rather than a sprint, the largest map size restores some sense of expansion, spacing the waves out preserves lethality while giving breathing room, and pairing increased resource yield with reduced deposit frequency forces you to spread across the map instead of turtling on a dense start. What it cannot give you is the multi-biome outpost network, which remains campaign's alone.</p>
+
+  <p>Balance mods fill some of the remaining gaps. Multiplier-based tweak suites let you retune resource yields, power output, research speed and mech performance independently, along with shared build cost, build time, building health and unit caps — with sensible exceptions kept out of scope, such as the headquarters, rift station and elevator caps, and buildings that would open duplication loops. Note that changing deposit sizes interacts oddly with survival's automatic replenishment. Elsewhere, a destructible-rock mod is popular for clean base layouts, at the cost of losing the free chokepoints rocks provide, and range-extended power connectors reduce the busywork of cabling remote sites. Quality-of-life picks around scan speed and build convenience change the tedium level without touching the challenge.</p>
+
+  <h3>Recap</h3>
+
+  <p>Brutal replaces trash units with elites, which multiplies your required tower count roughly fivefold and makes ammunition throughput the true bottleneck. Win it with knowledge — enemy weaknesses, terrain siting, kiting, multi-front management and uninterrupted research — plus scattered walls to split waves and personal presence against Omegas. In campaign, control the tempo by holding your HQ level down while your economy compounds, and remember that the trick does not exist in survival. When you tune a custom run, treat combat, economy and pacing as three independent axes, raise enemy damage last, and leave the sandbox panel enabled.</p>
+</section>
+
+</main>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const saved = localStorage.getItem('guides-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  function currentTheme(){
+    return root.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('guides-theme', next);
+  });
+
+  // tabs
+  const tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-panel]');
+    if(!btn) return;
+    tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'panel-' + btn.dataset.panel));
+    btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo({top:0});
+  });
+
+  // detail modal
+  const overlay = document.getElementById('modal-overlay');
+  const body = document.getElementById('modal-body');
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.pick-card');
+    if(!card) return;
+    const src = document.getElementById('pick-' + card.dataset.pick);
+    if(!src) return;
+    body.innerHTML = '<h3>' + src.dataset.title + '</h3>' + src.innerHTML;
+    body.scrollTop = 0;
+    overlay.classList.add('active');
+  });
+  function close(){ overlay.classList.remove('active'); }
+  document.getElementById('modal-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>

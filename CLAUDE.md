@@ -25,8 +25,10 @@ Every guide shares one visual design — the Lantern theme, see `.claude/lantern
 - `gaia-project/` — Gaia Project strategy guide (faction strategy, terraforming efficiency, tech track routes, scoring optimization)
 - `agricola/` — Agricola (Revised Edition) solo strategy guide (occupation/minor engine building, action efficiency, family growth planning)
 - `red-dead-redemption-2/` — Red Dead Redemption 2 Story Mode strategy guide (honor & camp systems, mission gold-medal play, combat/Dead Eye, economy, hunting & crafting, 100% completion)
+- `revenge-of-the-savage-planet/` — Revenge of the Savage Planet strategy guide (upgrade order, planet routing, combat & boss tactics, creature capture, resource farming, 100% completion)
 - `risk-of-rain-2/` — Risk of Rain 2 strategy guide (item scaling & proc chains, survivor builds, pickup priority, loop economy, difficulty-clock pacing)
 - `black-forest/` — Black Forest solo strategy guide (rondel/production-wheel routing, building selection & sequencing, map expansion, solo score benchmarks)
+- `riftbreaker/` — The Riftbreaker strategy guide (base layout, power/resource chains, defence design, research routing, mech loadouts, campaign & survival pacing)
 - `walk-of-life/` — Walk of Life (Steam app `1910150`) mechanics reference (stats, careers, education, events, turn structure) — how-it-works focus, not strategy
 
 ## Git

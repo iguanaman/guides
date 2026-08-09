@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revenge of the Savage Planet — Strategy Guide</title>
+<meta name="description" content="Revenge of the Savage Planet strategy: traversal upgrades, planet routing, creature capture and resource farming, boss fights and 100% completion.">
+<style>
+  /* Lantern palette — light (celadon) is home; dark = abyss teal & brass */
+  :root{
+    color-scheme:light;
+    --void:#eceadf;
+    --panel:#f6f4ea;
+    --panel-raised:#dfdecb;
+    --ink:#2b2a20;
+    --ink-dim:#65644f;
+    --oxide:#9c4326;
+    --oxide-bright:#b0522f;
+    --bronze:#8f6212;
+    --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58;
+    --fjord-bright:#356e66;
+    --line:#d2ceb8;
+    --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+    --f-label:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+      --ink:#ecdfc5; --ink-dim:#b4ac92;
+      --oxide:#b35538; --oxide-bright:#d4714b;
+      --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+      --fjord:#5a8f86; --fjord-bright:#82b8af;
+      --line:#1f3d44; --line-bright:#2e5860;
+      --shadow:rgba(0,0,0,.5);
+      --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+      --nav-bg:rgba(12,24,29,.92);
+      --overlay:rgba(4,10,12,.8);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --void:#eceadf; --panel:#f6f4ea; --panel-raised:#dfdecb;
+    --ink:#2b2a20; --ink-dim:#65644f;
+    --oxide:#9c4326; --oxide-bright:#b0522f;
+    --bronze:#8f6212; --bronze-bright:#6f4c0e;
+    --fjord:#2e5f58; --fjord-bright:#356e66;
+    --line:#d2ceb8; --line-bright:#a9a488;
+    --shadow:rgba(60,60,30,.14);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(255,253,240,.85), transparent 62%);
+    --nav-bg:rgba(236,234,223,.92);
+    --overlay:rgba(50,48,30,.5);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --void:#0c181d; --panel:#12262f; --panel-raised:#17313c;
+    --ink:#ecdfc5; --ink-dim:#b4ac92;
+    --oxide:#b35538; --oxide-bright:#d4714b;
+    --bronze:#d99b3c; --bronze-bright:#f0bf6b;
+    --fjord:#5a8f86; --fjord-bright:#82b8af;
+    --line:#1f3d44; --line-bright:#2e5860;
+    --shadow:rgba(0,0,0,.5);
+    --glow:radial-gradient(100% 55% at 50% -8%, rgba(30,80,95,.5), transparent 62%);
+    --nav-bg:rgba(12,24,29,.92);
+    --overlay:rgba(4,10,12,.8);
+  }
+
+  /* ---------- globals ---------- */
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{
+    margin:0;min-height:100vh;
+    background-color:var(--void);
+    background-image:var(--glow);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--bronze);color:var(--void)}
+  :focus-visible{outline:2px solid var(--fjord-bright);outline-offset:2px}
+  h1,h2,h3,h4{
+    font-family:inherit;
+    font-variant:small-caps;
+    font-weight:700;
+    color:var(--bronze-bright);
+    letter-spacing:.03em;
+  }
+  a{color:var(--fjord-bright)}
+  p{margin:0 0 .8rem}
+  ul,ol{margin:0 0 .8rem;padding-left:1.3rem}
+  li{margin-bottom:.28rem}
+  strong{color:var(--ink)}
+  code{font-family:"Consolas","Menlo",monospace;font-size:.86em;background:var(--panel-raised);padding:.05em .3em;border-radius:3px}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:relative;
+    padding:2.6rem 1.5rem 1.4rem;
+    text-align:center;
+    max-width:62rem;
+    margin:0 auto;
+  }
+  header.site .kicker{
+    font-family:var(--f-label);
+    font-size:.7rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--fjord-bright);
+    margin-bottom:.5rem;
+  }
+  header.site h1{
+    margin:0 0 .4rem;
+    font-size:2.4rem;
+    line-height:1.1;
+    text-shadow:0 2px 0 var(--shadow);
+  }
+  header.site p{
+    margin:0 auto;
+    max-width:52ch;
+    color:var(--ink-dim);
+  }
+  .theme-toggle{
+    position:absolute;top:1.4rem;right:1.2rem;
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line-bright);background:var(--panel);color:var(--bronze);
+    cursor:pointer;font-size:1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover{transform:rotate(15deg);border-color:var(--bronze)}
+  .theme-toggle::before{content:"☾"}
+  @media (prefers-color-scheme: dark){ .theme-toggle::before{content:"☀︎"} }
+  :root[data-theme="dark"] .theme-toggle::before{content:"☀︎"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+
+  /* ---------- tab nav ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:10;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:0;
+    padding:0 1rem;
+    background:var(--nav-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-bright);
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    scrollbar-color:var(--line-bright) transparent;
+  }
+  @media(min-width:900px){nav.tabs{justify-content:center}}
+  nav.tabs::-webkit-scrollbar{height:4px}
+  nav.tabs::-webkit-scrollbar-track{background:transparent}
+  nav.tabs::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:2px}
+  nav.tabs::-webkit-scrollbar-thumb:hover{background:var(--fjord)}
+  nav.tabs button{
+    font-family:var(--f-label);font-size:.84rem;font-weight:700;letter-spacing:.05em;
+    color:var(--ink-dim);background:none;border:none;
+    border-bottom:2px solid transparent;padding:.7rem 1rem;
+    cursor:pointer;transition:color .15s;flex:0 0 auto;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button:focus-visible{outline-offset:-2px}
+  nav.tabs button.active{color:var(--bronze-bright);border-bottom-color:var(--bronze)}
+
+  /* ---------- layout ---------- */
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.5rem 5rem}
+  .panel{display:none}
+  .panel.active{display:block}
+  .panel > h2:first-child{margin-top:0}
+  h2{font-size:1.7rem;margin:2.6rem 0 .6rem}
+  h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+  h4{font-size:1rem;margin:1.2rem 0 .35rem;color:var(--fjord-bright);font-variant:normal;letter-spacing:.02em}
+  .lede{color:var(--ink-dim);font-size:1.05rem;max-width:62ch}
+
+  .block{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:1.1rem 1.3rem;margin:0 0 1.1rem;box-shadow:0 2px 8px var(--shadow);
+  }
+  .block > :last-child{margin-bottom:0}
+  .block h3{margin-top:0}
+
+  .note,.warn,.tip{
+    border-left:3px solid var(--fjord);background:var(--panel-raised);
+    padding:.7rem 1rem;margin:0 0 1.1rem;border-radius:0 .35rem .35rem 0;
+  }
+  .warn{border-left-color:var(--oxide)}
+  .tip{border-left-color:var(--bronze)}
+  .note > :last-child,.warn > :last-child,.tip > :last-child{margin-bottom:0}
+  .note b,.warn b,.tip b{font-family:var(--f-label);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.15rem}
+  .note b{color:var(--fjord-bright)}
+  .warn b{color:var(--oxide-bright)}
+  .tip b{color:var(--bronze-bright)}
+
+  .tag{
+    display:inline-block;font-family:var(--f-label);font-size:.62rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;vertical-align:middle;
+    padding:.1rem .42rem;border-radius:.6rem;margin-left:.35rem;
+    border:1px solid var(--line-bright);color:var(--ink-dim);background:var(--panel-raised);
+  }
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 1.1rem;border:1px solid var(--line);border-radius:.5rem;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}
+  th,td{padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{
+    font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--fjord-bright);background:var(--panel-raised);position:sticky;top:0;
+  }
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* ---------- accordion ---------- */
+  details{
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    margin:0 0 .6rem;overflow:hidden;
+  }
+  details[open]{box-shadow:0 2px 10px var(--shadow)}
+  summary{
+    cursor:pointer;padding:.7rem 1rem;list-style:none;
+    font-variant:small-caps;font-weight:700;letter-spacing:.03em;
+    color:var(--bronze-bright);font-size:1.06rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";color:var(--fjord);font-size:.8rem;transition:transform .15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  summary:hover{background:var(--panel-raised)}
+  summary .sub{font-variant:normal;font-weight:400;font-size:.8rem;color:var(--ink-dim);letter-spacing:0;margin-left:auto;text-align:right}
+  .det-body{padding:.2rem 1.1rem 1rem;border-top:1px solid var(--line)}
+  .det-body > :first-child{margin-top:.7rem}
+  .det-body > :last-child{margin-bottom:0}
+  .det-body .tw{border-radius:.35rem}
+
+  /* ---------- card grid ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin:0 0 1.2rem}
+  .pick-card{
+    appearance:none;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+    padding:.85rem 1rem;box-shadow:0 2px 8px var(--shadow);
+    transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+  }
+  .pick-card:hover{transform:translateY(-3px);border-color:var(--bronze);box-shadow:0 8px 22px var(--shadow)}
+  .pick-card .pc-name{font-variant:small-caps;font-weight:700;font-size:1.1rem;color:var(--bronze-bright);letter-spacing:.02em;line-height:1.25}
+  .pick-card .pc-hook{font-size:.83rem;color:var(--ink-dim);line-height:1.45;margin-top:.15rem}
+  .pick-detail{display:none}
+
+  .keyval{display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;font-size:.9rem;margin:0 0 .9rem}
+  .keyval dt{font-family:var(--f-label);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--fjord-bright);padding-top:.28rem}
+  .keyval dd{margin:0}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:var(--overlay);
+    z-index:100;align-items:center;justify-content:center;padding:2rem;
+  }
+  .modal-overlay.active{display:flex}
+  .modal{
+    background:var(--panel-raised);border:1px solid var(--line-bright);border-radius:.6rem;
+    max-width:720px;width:100%;height:92vh;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 20px 60px var(--shadow);position:relative;
+  }
+  #modal-body{flex:1;overflow-y:auto;padding:0 2.75rem 2.5rem}
+  #modal-body > :first-child:not(h3){margin-top:2rem}
+  #modal-body .tw,#modal-body .block{background:var(--panel)}
+  .modal h3{
+    position:sticky;top:0;z-index:1;margin:0 0 .6rem;
+    padding:2rem 3rem .8rem 0;font-size:1.6rem;
+    background:var(--panel-raised);border-bottom:1px solid var(--line);
+  }
+  .modal-close{
+    position:absolute;top:1.25rem;right:1.5rem;z-index:2;
+    background:none;border:none;color:var(--ink-dim);
+    font-size:1.4rem;cursor:pointer;line-height:1;
+  }
+  .modal-close:hover{color:var(--ink)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    html{font-size:17px}
+    header.site{padding:1.7rem 3.2rem 1rem 1rem;text-align:left}
+    header.site h1{font-size:1.7rem}
+    header.site .kicker{font-size:.64rem;letter-spacing:.24em;margin-bottom:.4rem}
+    header.site p{margin:0;max-width:none}
+    .theme-toggle{top:1.1rem;right:.9rem;width:34px;height:34px}
+    nav.tabs{padding:0 .5rem}
+    nav.tabs button{padding:.65rem .7rem;font-size:.8rem}
+    main{padding:1.5rem 1rem 4rem}
+    h2{font-size:1.45rem}
+    summary .sub{display:none}
+    .modal-overlay{padding:0}
+    .modal{max-width:none;height:100vh;height:100dvh;border:none;border-radius:0}
+    #modal-body{padding:0 1.1rem 1.6rem}
+    .modal h3{padding:1.4rem 2.6rem .7rem 0;font-size:1.35rem}
+    .modal-close{top:.9rem;right:.8rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .theme-toggle,.pick-card,nav.tabs button,summary::before{transition:none}
+    .theme-toggle:hover,.pick-card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="kicker">Raccoon Logic · Strategy Guide</div>
+  <h1>Revenge of the Savage Planet</h1>
+  <p>Traversal upgrades, planet routing, creature capture and resource farming — clearing four worlds and every collectible without backtracking twice.</p>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-panel="start" class="active">Start Here</button>
+  <button data-panel="route">The Route</button>
+  <button data-panel="upgrades">Upgrades</button>
+  <button data-panel="combat">Combat</button>
+  <button data-panel="creatures">Creatures</button>
+  <button data-panel="bosses">Bosses</button>
+  <button data-panel="completion">Completion</button>
+  <button data-panel="coop">Co-op &amp; Remix</button>
+</nav>
+
+<main id="main">
+
+<!-- ============ START HERE ============ -->
+<section class="panel active" id="panel-start">
+  <h2>Start Here</h2>
+  <p class="lede">Revenge of the Savage Planet is a 3D Metroidvania wearing a survival-crafting costume. Almost nothing in it is a test of reflexes — it is a test of whether you built the right tool before you walked into the room that needed it.</p>
+
+  <div class="block">
+    <h3>The loop that actually pays</h3>
+    <p>Scan → survey → harvest → print → unlock → go back. Every one of those steps feeds the next, and skipping any of them stalls the run rather than saving time.</p>
+    <p><strong>Scanning is a currency, not flavour.</strong> Filling the Kindex is what makes new options appear on the 3D printer at all — resources are the price, but scan data is the permission. A blue outline means you already logged it; orange means it is new. If you are logging everything, scan roughly every 50 metres as you walk. Region boundaries count too: stepping into a new area logs its own Kindex entry.</p>
+    <p><strong>Survey is your eyes.</strong> The ping marks the three core ores, Orange Goo, Printer Slurry, supply crates, mission objectives and — mid-fight — enemy weak spots. Its base radius is only 100m, so keep moving while you sweep rather than standing and re-pinging the same bubble. The Survey Range Booster doubles that to 200m and is worth taking early purely because a surprising amount of loot sits just outside the base ring.</p>
+    <p>Kindex entries are also a combat manual. Plenty of creatures have no straightforward counter and simply ignore your gun — the slimes you meet on leaving Nu Florida shrug off bullets and melee entirely, and their entry is what tells you water dissolves them. Reading entries mid-fight is impractical; read them back at the Habitat during downtime.</p>
+  </div>
+
+  <div class="block">
+    <h3>Teleporters are infrastructure, not convenience</h3>
+    <p>Every death and every reload returns you to your Habitat on Stellaris Prime, no matter which planet you were on. Death also drops your carried resources where you fell and marks the spot on the map (the "I Take That Back" quest exists to walk you through reclaiming them). That makes the teleporter network your recovery system, not a luxury.</p>
+    <p>Teleporters advertise themselves — a red beam streaking into the sky, visible from a long way off. When you spot a beam, detour and activate it even if it is nowhere near your current objective; the ones guarded by a small fight or a puzzle are still worth the stop. They also double as the game's respawn button for wildlife and surface resources, which is the backbone of resource farming later.</p>
+  </div>
+
+  <div class="block">
+    <h3>The gate pattern — expect it, don't fight it</h3>
+    <p>The game has one structural rhythm it repeats relentlessly: you are sent to fetch a story item, told on arrival that you cannot reach it without an upgrade, sent somewhere else for the upgrade's materials, sent home to print it, and then sent back to the original spot. Expect twenty to thirty minutes of round trip per gate.</p>
+    <p>Once you recognise the pattern you can blunt it. Treat any "go get resource X" objective as an announcement that X is currently unreachable, and bank ore, Slurry and scans continuously so the middle step is already done when the wall appears. Never grind at a barrier — if something is genuinely impassable, the tool for it does not exist yet.</p>
+    <div class="warn"><b>Anti-patterns</b>
+      <ul>
+        <li>Trying to clear a region 100% on first entry. Most collectibles are behind gear you do not have.</li>
+        <li>Killing creatures you could have captured — research is a whole upgrade track and some of it is mandatory.</li>
+        <li>Shooting a creature that is already stunned. It pulls them out of the stun and you start over.</li>
+        <li>Ignoring the scanner because it feels like filler. It is the unlock condition for half the printer.</li>
+        <li>Detouring for Alta Bucks. They buy furniture and nothing else.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Settings and quality-of-life to set on day one</h3>
+    <p>Turn on <strong>Snap Targeting</strong> in the options. Small critters are genuinely easy to miss, and since farming is volume work, anything that reduces whiffed shots compounds over the run.</p>
+    <p>The Habitat computer's Parameters menu lets you change your avatar, your voice, and Eko's voice and chattiness. If the quippy-sidekick routine wears thin, dial Eko down or off — you will still follow the story fine.</p>
+    <p>Accessibility support is thin: a couple of aim-assist options, vibration and motion-blur toggles, and subtitles for voiced dialogue. There was no difficulty slider at launch; the Remix update later added one in all but name (see Co-op &amp; Remix).</p>
+  </div>
+
+  <div class="block">
+    <h3>Habitat rhythm</h3>
+    <p>Nu Florida is where progress is actually banked. The control room holds the 3D printer, the research terminal, the wardrobe, the video screen and your K-MAIL inbox — and the inbox is where the game explains what it wants next, so read it every trip. Research runs on real-time timers, so the correct habit is to queue a creature before you leave rather than after you get back.</p>
+    <p>The living quarters are pure decoration, funded by Alta Bucks. The store restocks regularly, so glance at the Home DKO menu each visit if you care about the habitat achievements. New habitat modules literally drop from orbit as you progress and physically expand the base.</p>
+  </div>
+
+  <div class="block">
+    <h3>Health and stamina come from one place</h3>
+    <p>Orange Goo is the game's only levelling system. You start with a small pool of both stats, and stamina is what lets you cross planets that take minutes to walk end to end while health is what survives the late bosses. Eat every blob you pass; area scans highlight nearby ones.</p>
+    <p>Vitality Plants are the smaller sibling — an instant heal on interact, dropping Health Essence beans. They are not placed randomly: they cluster near heavy monster populations and near drops long enough to hurt you. Knowing where the nearest one is beats carrying a stock of anything.</p>
+  </div>
+
+  <p><strong>In short:</strong> scan constantly because scan data gates the printer, survey while moving because the base radius is small, light up every teleporter beam you see because death always sends you home, and read every wall as "not yet" rather than "not possible". Bank ore and scans in the background so the game's fetch-quest rhythm costs you one trip instead of three.</p>
+</section>
+
+<!-- ============ THE ROUTE ============ -->
+<section class="panel" id="panel-route">
+  <h2>The Route</h2>
+  <p class="lede">Planet unlocks are not exploration rewards — each one is welded to a boss or a collection quest, and the gadget that fight hands you is exactly the gadget the next world's terrain demands. There is no sequence break available, so the only routing decisions you actually own are <em>when to sweep</em> and <em>what to bank</em>.</p>
+
+  <div class="block">
+    <h3>The gating chain</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>World</th><th>Opened by</th><th>What it hands you</th></tr></thead>
+        <tbody>
+          <tr><td>Stellaris Prime</td><td>Crash site — start of the game</td><td>Whip, Power Hose, jump pack, the Habitat</td></tr>
+          <tr><td>Xephyr</td><td>Finish "That Has My Name On It", then call down the Planetary Cannon</td><td>Goo Ingestor, Magnetic Fork</td></tr>
+          <tr><td>Zenithian Rift</td><td>Beat Wormzilla in the <strong>second</strong> encounter → Magnetic Fork</td><td>Stomp Booster, Air Filter, Toxic Deshocker</td></tr>
+          <tr><td>Quasadron IX</td><td>Beat Clawbarella in the depths → Franx Underwater Scooter</td><td>Remote Drone Controller, endgame tools</td></tr>
+          <tr><td>Slappi's Den of Fun</td><td>All five shrines + research the Pentaforce</td><td>Lore only — no gear, no upgrades</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Because gadget and unlock arrive as the same event, "am I under-geared for this planet" is never a real question. What <em>is</em> a real question is how much of the previous planet you left behind, since every new tool retroactively opens pickups on every world you have already visited.</p>
+  </div>
+
+  <div class="block">
+    <h3>The Planetary Cannon, and why it stops mattering</h3>
+    <p>The cannon is gated behind one specific mission — "That Has My Name On It" — and the game buries that thread under a pile of simultaneous side objectives. If interplanetary travel is what you want, filter your log to that quest and ignore the noise.</p>
+    <p>It ends at a purple container that Eko has to hack while you defend a circle. <strong>Do not kill anything during the hack.</strong> Kills during the timer spawn additional reinforcement waves; if you simply evade inside the circle until the counter finishes, you fight a much smaller pile afterwards on your own terms. This "outlast the timer, then clean up" reading applies to every timed-defence beat in the game.</p>
+    <p>With the software in hand, the console outside the base calls the cannon down from orbit — no crafting, no materials. It lands in the middle of the Habitat and simultaneously unlocks Xephyr.</p>
+    <p>The cannon is <strong>one use per planet</strong>. Landing on a new world hands you a teleporter immediately, and from then on the network handles all travel to and from that world. Once every planet is discovered the cannon is functionally dead weight, with one exception: it is what fires you to Slappi's Den of Fun after the Pentaforce research completes.</p>
+  </div>
+
+  <div class="block">
+    <h3>Hazard gates are two-part, and the first half is a decoy</h3>
+    <p>Toxic fumes are the first thing that will stop you cold, at Chuggler's Swamp on Stellaris Prime, long before you have any answer for them. The suit upgrade you eventually chase is the Default Air Filter — and on its own it does nothing useful. It filters minor toxins only; the actual toxic zones stay closed until you also have the <strong>Toxic Deshocker</strong>.</p>
+    <p>Both live on Zenithian Rift. The Air Filter arrives via "Breathe In, Don't Choke", a chain that runs frozen grotto → stomp through cracked ground into the Depths of Trrn → burn spider webs with lava-loaded Power Hose → grind rails up Plyxor's Shaft → a cable-tracing button puzzle on Bilodeau's Floating Isle. Top up on lava <em>before</em> descending; running dry mid-route means backtracking for a refill.</p>
+    <p>The Deshocker is not printed from a blueprint you find — it comes from <strong>research</strong>. Grind up to the Summit of Ruin, scan the large creature in the cave, capture the Alpha Toxwin (three or four shots to the middle eye, then whip), teleport home and research it. Only then can you print it, at 400 Aluminium / 525 Carbon / 325 Silicon. Bank ore before starting the chain so the research finishing isn't followed by a farming trip.</p>
+    <div class="tip"><b>Principle</b><p>Any suit upgrade with a vague description is probably half of a pair. Check whether the zone actually opens before assuming the gate is cleared.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Ferro Goo: the one puzzle language you must learn</h3>
+    <p>The Goo Ingestor is the single most transformative unlock in the first half, and the game never really explains what it does. It is acquired on Xephyr from two parts in purple containers — and the trigger is <strong>scanning the Ferro Goo plant</strong>, which auto-populates both locations in your journal. Scanning, not exploring, is the gate.</p>
+    <p>The first container at Pillars of Turpitude wears its solution on the outside: black-and-pink cables run out of it to shootable targets. Follow each cable, shoot what it points at, and the lid opens. The second at Deadwood Gulch is another Eko hack with a wave attached — keep moving and prioritise Vaperons, which are the only real threat during the timer. Printing it costs 300 Aluminium / 500 Carbon / 310 Silicon, trivial if you have been mining en route.</p>
+    <p>The mechanic it teaches is electrical circuits painted by hand. Large electrified mushrooms are <em>generators</em>; the smaller mushrooms sitting at the end of brown roots are <em>receptors</em>. Spraying Ferro Goo in an unbroken line from a generator to a receptor completes the circuit and the receptor lights up. Two consequences matter more than any specific puzzle:</p>
+    <ul>
+      <li><strong>Goo sticks to walls.</strong> When the floor between two points is broken, route the line up and over the vertical surface instead — the root itself is usually the shape you should be tracing.</li>
+      <li><strong>Your tank is small.</strong> Refill at the Ferro Dispenser between receptors rather than running out halfway through a long line.</li>
+    </ul>
+    <p>That same conductivity logic reappears constantly — as a stun trap in the Wormzilla fight, as door power in the Quasadron IX terminal quests, as the access puzzle for the Shrine of Combat, and as barrier removal for goo tucked behind ferro fields.</p>
+  </div>
+
+  <div class="block">
+    <h3>Sweeping: when to come back, and for what</h3>
+    <p>Most collectibles are gear-locked, so a completionist first pass is wasted effort. The efficient pattern is a light pass on arrival, then targeted re-sweeps triggered by each new tool. The list of triggers is short and worth memorising:</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Unlock</th><th>What it opens</th></tr></thead>
+        <tbody>
+          <tr><td>Blight Bomb Stabilizer</td><td>Amber blocks and amber walls</td></tr>
+          <tr><td>Bombegranate Stabilizer</td><td>Cracked walls and breakable floors</td></tr>
+          <tr><td>Magnetic Fork</td><td>Metallic Mega Chunks, magnet walls, crystal barriers</td></tr>
+          <tr><td>Goo Ingestor (lava)</td><td>Spider webs</td></tr>
+          <tr><td>Goo Ingestor (ferro)</td><td>Electric fields and ferro barriers</td></tr>
+          <tr><td>Power Hose (water)</td><td>Dehydrated fungal polyps and mushroom spores that grow into platforms</td></tr>
+          <tr><td>Proton Tether / Tether Launcher</td><td>High pillars, ledges, everything vertical</td></tr>
+          <tr><td>Hawx Rail Grinder</td><td>Grind-rail routes and the ledges hanging off them</td></tr>
+          <tr><td>Franx Underwater Scooter</td><td>Every submerged pickup and several aquatic scans</td></tr>
+          <tr><td>Stomp Booster</td><td>Cracked ground, hidden caverns, shrine entrances</td></tr>
+          <tr><td>Triple / Quadruple Thrusters</td><td>Anything the map flagged as unreachable</td></tr>
+          <tr><td>Kiwi Slugs (as feed)</td><td>Maws blocking passages — feed them to retract the vines</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The in-game map flags unreachable pickups as "unavailable", which is a useful signal but a <em>conservative</em> one — a decent jump sequence beats several of those flags long before you have the intended tool, and the game will congratulate you for it. A padlock on an icon is the stronger signal: that one really does need gear you do not own, so walk away.</p>
+  </div>
+
+  <div class="block">
+    <h3>The fifth planet is optional and you should know that going in</h3>
+    <p>Slappi's Den of Fun is not open world, it is not on the story path, and reaching it grants no gear, no upgrade and no stat. It costs you all five shrines plus a research cycle, and it pays in lore and a boss fight. That is a fine trade if you want the full story, and a poor one if you are optimising a run — but because the shrines are also where the best clearance-gated upgrades and three achievements live, most players end up doing the work anyway.</p>
+  </div>
+
+  <p><strong>In short:</strong> the campaign's order is fixed, so route around the backtracking instead of the sequence. Chase the Planetary Cannon thread deliberately, treat Air Filter and Toxic Deshocker as one purchase, learn the generator-to-receptor goo grammar early because half the game's puzzles speak it, and let each new tool — not each new region — decide where you sweep next.</p>
+</section>
+
+<!-- ============ UPGRADES ============ -->
+<section class="panel" id="panel-upgrades">
+  <h2>Upgrades</h2>
+  <p class="lede">Nothing on the 3D printer is a five-percent increase. Every upgrade is a capability — full fall immunity, an extra jump, the ability to grapple to thin air — which means you should rank purchases by <em>what they let you do</em> rather than by numbers, and buy the ones that unlock more collecting first.</p>
+
+  <div class="block">
+    <h3>The three currencies</h3>
+    <p><strong>Ore.</strong> Carbon, Aluminium and Silicon are in almost every recipe, and a full upgrade set consumes on the order of 66,000 of them combined. Carbon comes from Brainards, blue rocks and carbon veins; Aluminium from green rocks and mountain-attached veins, and it must be physically grabbed rather than only shot; Silicon from yellow sparkling veins and rocks, plus Raccoccos.</p>
+    <p><strong>Printer Slurry.</strong> Forty-two exist in the entire game — nine on Stellaris Prime, twelve on Xephyr, nine on Zenithian Rift, thirteen on Quasadron IX — and there is no surplus. Your first one opens the "Raw Potential" mission that tracks the rest. Slurry crates are usually parked next to their own unlock puzzle, so the puzzle and the reward are the same detour.</p>
+    <p><strong>Scan data and clearance.</strong> Ore and Slurry are the price; scans and clearance level are the permission. Recipes unlock automatically the first time you interact with a resource, which is the real reason to touch and scan everything on sight.</p>
+    <div class="warn"><b>Veins never respawn</b><p>Teleporting between two points resets wildlife and surface pickups, but ore veins are permanently consumed. Mine every vein the moment you see one, and treat fauna — not veins — as your repeatable income for the rest of the run.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Buy order, and the reasoning behind it</h3>
+    <p>Mobility before survivability. It is counterintuitive in a game where things bite you, but movement upgrades are what let you reach the Orange Goo and Slurry that pay for everything else — including the survivability upgrades. A player who buys jumps first ends up with more health sooner than a player who buys health first.</p>
+    <h4>Earliest picks</h4>
+    <ul>
+      <li><strong>Landing Impact Nullifier</strong> — removes fall damage from any height, and is available the moment you can use the printer. You jump constantly and respawns are free but wasteful. The only argument for delaying it is if you enjoy planning descents.</li>
+      <li><strong>Power Dodge</strong> — an instant horizontal dash in whatever direction you are holding, usable mid-air, with a cooldown short enough to chain. It beats jumping as an evasion because jumping straight up loses your centring on the target; the dodge keeps you facing what you are shooting.</li>
+      <li><strong>Survey Range Booster</strong> — 100m to 200m in every direction. Unimpressive on paper, but you use Survey every few seconds and a lot of loot sits just past the default ring.</li>
+      <li><strong>Zoot Jump Thrusters</strong> — the double jump, and the first step of a line that eventually reaches quadruple. You choose when to buy the last two, which is one of the few genuinely self-paced decisions in the game.</li>
+    </ul>
+    <h4>Mid-run force multipliers</h4>
+    <ul>
+      <li><strong>Goo Ingestor</strong> — turns the water-only Power Hose into a four-fluid tool. See The Route; this is the single biggest capability jump in the first half.</li>
+      <li><strong>Heat Dumper</strong> — an active reload. Hit the button while the cooldown meter is in the white band and the weapon instantly cools instead of running the full cycle. Its real job is making charge shots affordable.</li>
+      <li><strong>Supernova Charge Shot / Bounce Shot</strong> — hold until the reticle turns blue for a heavy shot, hold longer for the bounce version that chains between enemies, and later Bounce Bomb makes the final bounce explode. Both fully overheat the gun, which is why they pair with the Heat Dumper rather than standing alone. Bounce Shot in particular trivialises fights with scattered weak points you cannot line up directly.</li>
+      <li><strong>Throwable Stabilizers</strong> — the default throwable is bait, which only makes creatures fight each other. Bombs picked from world plants are held for about five seconds, so without stabilizers you can only use a bomb while standing next to the plant that grew it. Stabilizers put each type permanently in inventory and unlock buying them from the Habitat vending machine. This is the upgrade that turns the colour-coded boss shields from a scavenger hunt into a loadout choice.</li>
+      <li><strong>Planet Scanner</strong> — permanently marks every supply crate and every Orange Goo on every planet, with no surveying required. It supersedes the tagging upgrades entirely; land on a new world and the map is already filled in. It unlocks once you have scanned enough, which is another reason to scan compulsively early.</li>
+    </ul>
+    <h4>The endgame movement stack</h4>
+    <ul>
+      <li><strong>Extra Thrusters</strong> — triple and quadruple jump stack into something the level design openly cannot account for. Vertical gating stops existing.</li>
+      <li><strong>Proton Tether X11 Launcher</strong> — the best upgrade in the game. The base tether only works on placed grapple points; the launcher fires Eko out as the anchor, so you grapple anywhere, at any angle your reticle is pointing. Twice before landing, plus boost jumps on top, chains into absurd height from flat ground.</li>
+    </ul>
+    <div class="note"><b>Late arrivals</b><p>Increased bomb-carry capacity and the self-refilling lava/acid/ferro tanks unlock near the very end, after the content that would have used them. Do not plan a campaign around them — treat them as cleanup tools for the 100% pass.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Tools, judged by what they do beyond opening their lock</h3>
+    <p>This is a Metroidvania, so some abilities are just keys wearing a costume. The useful ranking question is whether a tool changes how you play once its door is behind you.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Tool</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Proton Whip Tether</td><td>Best in the game. Rail grinding and the anywhere-grapple branch make it the fastest, most versatile movement you have, and it chains with everything else.</td></tr>
+          <tr><td>Goo Ingestor &amp; Power Hose</td><td>Four fluids, each with its own puzzle and combat behaviour. The experimentation surface is the widest in the game.</td></tr>
+          <tr><td>Drone Glider</td><td>The only purely optional tool upgrade — buy it the moment it is available. No area requires it, which is exactly why it stays fun; it also recolours to match your outfit.</td></tr>
+          <tr><td>Zoot Jump Thrusters</td><td>Double jump expands the horizon, triple gets you above enemies, quadruple makes you a titan by the endgame.</td></tr>
+          <tr><td>Franx Underwater Scooter</td><td>Rare, but pleasant: there is no underwater combat, so dives are quiet harvesting and scanning time. Its problem is scarcity of use, not quality.</td></tr>
+          <tr><td>Stomp Booster</td><td>Nominally a key for cracked floors, but it one-shots weak enemies even unupgraded and cracks Armored Crusher shells. Opening a fight with it from height is a real tactic, and Advanced Stomp Boosters widen the radius enough to make it crowd control.</td></tr>
+          <tr><td>Gritworks Magnetic Fork</td><td>Mostly a key — magnet walls before, magnet walls after. Partially redeemed by throwing metallic chunks as projectiles, which several bosses require.</td></tr>
+          <tr><td>Proton Whip (melee)</td><td>Weak as a weapon; only a couple of enemies are vulnerable to it and its range forces you into danger. Its value is the lasso. Kill everything else with the pistol first, then whip out the one creature you actually want.</td></tr>
+          <tr><td>Remote Drone Controller</td><td>Arrives last and does almost nothing outside its scripted uses. Drone recon would have mattered enormously in the opening hours; by the time you own it you can already reach everywhere.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Reading the rest of the printer</h3>
+    <p>Most of the tree is legible once you know the two patterns it repeats. <strong>Fluids:</strong> a base tank grants capacity for that goo type, and the matching "Homebrew" version makes it auto-refill — until you own the Homebrew tank, non-water goos have to be re-sourced from a dispenser every time. <strong>Throwables:</strong> the base upgrade lets you pick one up, the Stabilizer lets you carry it, and the optional Booster widens the blast.</p>
+    <p>Elsewhere: Snork Heat Sinks (four tiers) extend how long you can fire before cooling, Grunk Power Boosters (four tiers) raise damage, and Faster Dumper widens the active-reload window. Utility belts go 3 → 5 → 10 consumables of each type. Reflect-O-Matic Hand Gel is the parry, and it is a hard requirement for the first Wormzilla encounter and for the deflection challenges. On the suit: Intelli-Visor extends scan range, Survey Resource Finder labels specific resources during a ping, Pyrex Loot Magnet widens pickup range, and the 'Fancy Nancy' Equipment Tagger marks collectibles you have seen — all of which the Planet Scanner eventually eclipses.</p>
+  </div>
+
+  <div class="block">
+    <h3>Upgrade-O-Rama: the clearance gate</h3>
+    <p>Eighteen small challenges, grouped into four sets of four or five — one set per planet. Completing a set promotes your Alta employee clearance level, and clearance is what unlocks entire shelves of the printer, including the best survivability upgrades. Do these as soon as each set appears rather than saving them; they gate mobility, combat efficiency and puzzle options for everything downstream. The first set opens after you build the Creature Pen and analyse a creature; the rest arrive as you reach each new world.</p>
+    <p>Individually they are trivial once you understand the three habits they are really testing:</p>
+    <ul>
+      <li><strong>Load the right fluid before you go looking.</strong> Several objectives — covering Babutts in Green Goo, capturing ferro-coated Tatushkeys — fail purely because you found the creatures with the wrong goo in the tank. Fill first, then travel.</li>
+      <li><strong>Bait is a positioning tool.</strong> Almost every "do X to N creatures at once" objective is solved by dropping bait to cluster them, then applying the effect to the cluster. Note that for the bait challenge specifically the target must actually take damage from the others, so pick something that will defend itself.</li>
+      <li><strong>Kill-by-method objectives want fragile targets.</strong> Stomps, kicks and slides have to land the killing blow, so pick Puffers and Raccoccos rather than something durable.</li>
+    </ul>
+    <p>A handful reward a specific trick rather than a habit. Chain lightning: bait Puffer Foxes around a Scorpio Puffer standing in spread Ferro Goo, then shoot the Scorpio — its discharge conducts through the goo and takes the whole cluster. Reflection: Slitherflies, Boneflies and the Icicon/Lavacon pair all die readily to their own returned projectiles, and the ice/fire pair covers the elemental-reversal objective if you deflect each one's shot into the other. Freezing: an Ice Detonator or a flash-freeze flower plus bait lets a single Bounce Shot clear three frozen enemies. Rapid-fire kills: throw the Bombegranate first because of its three-second fuse, then the acid bomb, then charge a shot for the third — and take care the Bombegranate does not kill everything itself. Mito Slimes are split deliberately with gunfire until you have a large enough cluster, then burst simultaneously with water.</p>
+  </div>
+
+  <p><strong>In short:</strong> ore is easy and Slurry is finite, so let Slurry decide your order and never walk past a vein. Buy movement before defence because movement is what reaches the pickups that fund defence, treat Stabilizers as the upgrade that makes bomb-gated bosses tractable, and clear each Upgrade-O-Rama set on arrival because clearance level silently gates half the printer.</p>
+</section>
+
+<!-- ============ COMBAT ============ -->
+<section class="panel" id="panel-combat">
+  <h2>Combat</h2>
+  <p class="lede">Individually, almost nothing on these planets is dangerous. Groups are, and so is the moment you commit to a capture with three other creatures still alive. Combat here is about exposure windows and crowd management, not damage output.</p>
+
+  <div class="block">
+    <h3>The weak-point loop</h3>
+    <p>Almost every meaningful enemy has a weak spot, and the spot is invisible until you scan the creature or Survey mid-fight. Both work; Survey is faster once a fight has started, scanning is better before one.</p>
+    <p>Two rules govern everything downstream. First, <strong>general damage does nothing toward staggering</strong> — only weak-point hits count, so spraying the body is wasted heat. Second, <strong>most enemies only expose the weak spot during a specific attack animation</strong>. That inverts the usual instinct: you do not open the fight, you wait for the creature to open it for you. Hognorks expose their palate only mid-roar; Vaperons show a leg only in the instant after they reappear; Alpha Vaperons are vulnerable coming out of their spin.</p>
+    <p>Two or more clean hits on the exposed spot produce a stagger — the creature stumbles and stops moving. Tougher creatures need more. The window is short and there are few chances per attack cycle, so patience and accuracy beat volume.</p>
+    <div class="warn"><b>The stun-cancel trap</b><p>Shooting a creature that is <em>already</em> stunned appears to pull it back out of the stun. Once the stagger lands, stop firing and switch to the whip. This is the single most common reason captures fail, and it is worst on "capture a rare animal" objectives where an accidental kill costs you several minutes of respawn waiting.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Movement is your defence</h3>
+    <p>There is no block. Power Dodge is the answer to charges because sprinting is not fast enough to outrun them and a vertical jump costs you your aim. Jumping is the answer to sweeping ground attacks — Clawbarella's entire moveset, swipes and smash and flame breath alike, is defeated by being in the air at the right moment.</p>
+    <p>The genuine difficulty spike in this game is not enemy statistics, it is the camera. Flying creatures dive-bomb from off-screen, so damage arrives with no visual warning. Counter it structurally: keep known aerials in frame rather than turning your back on them, fight in open ground so nothing can spawn behind you, and scan an arena before committing to it.</p>
+    <p>Once you own it, Stomp is an opener rather than a finisher. Bait a group into a cluster, get height, and stomp into the middle — weak enemies die outright and stronger ones are left vulnerable.</p>
+  </div>
+
+  <div class="block">
+    <h3>Fluids are weapons</h3>
+    <p>The Power Hose starts as a water gun and becomes the most flexible thing you own. Each fluid has a distinct combat identity, and a large number of creatures have no answer to the correct one:</p>
+    <ul>
+      <li><strong>Water</strong> — swells and pops some creatures outright (Mito Slimes, Stinging Bloatus), stuns others (Slitherflies, Boneflies, Curadors, Bumblars, Icicons, Lavacons), and extinguishes fires including burning boss armour.</li>
+      <li><strong>Ferro Goo</strong> — conducts. Painted from an electrified mushroom it becomes a live trap, and it is the answer to anything that needs stunning at range or in bulk.</li>
+      <li><strong>Lava</strong> — burns webs and sets things alight. Also the counter to the Icicon side of the ice/fire pairing.</li>
+      <li><strong>Green Goo</strong> — slips, burns and traps, and covers creatures for several challenge objectives.</li>
+    </ul>
+    <p>Beyond the hose, the environment is stocked with disposable weapons: Bombegranate plants, Blight Bomb plants, Gelatinous Blobs, Ferro Bushes, Volcano Plants, Goo Plants, Ice Detonators, metallic chunks for the Magnetic Fork, and Grob bait that turns wildlife on each other. Using them is not a gimmick — it conserves the resources you would otherwise spend on ammo and consumables, which matters more than it sounds during long sweeps.</p>
+  </div>
+
+  <div class="block">
+    <h3>Deflection</h3>
+    <p>Reflect-O-Matic Hand Gel lets you slap projectiles back. Two mechanical details decide whether it works: the <strong>later</strong> you deflect — the closer the projectile is to hitting you — the more accurate the return, and the projectile flies toward <strong>wherever you are looking</strong>, not toward whoever fired it. So the correct execution is to face the target and deflect late, which feels wrong the first several times.</p>
+    <p>Deflection is not optional. It is the whole of the first Wormzilla encounter, it feeds an Alta parry puzzle or two, and it is the cheapest counter to any projectile-throwing species.</p>
+  </div>
+
+  <div class="block">
+    <h3>Colour is the game's boss grammar</h3>
+    <p>From the shrines onward, shields are colour-coded and each colour has exactly one counter. Green wants a Blight Bomb, red or orange wants a Bombegranate, blue wants a metallic chunk thrown with the Magnetic Fork. Shooting a shielded target with the pistol accomplishes nothing at all, which is why players stall on these fights — they are not damage checks, they are inventory checks.</p>
+    <p>The design is honest about it: the first room of the Shrine of Challenge makes you strip a green coating off a switch with a Blight Bomb before you can shoot it, teaching the rule in a room with no pressure before the boss tests it under fire. Take the lesson literally and arrive at every late fight with all three throwable types stocked.</p>
+  </div>
+
+  <div class="block">
+    <h3>Heat management</h3>
+    <p>The Pacifier pistol has effectively unlimited ammo and cools itself, but it overheats quickly under sustained fire and leaves you holding a dead lump at the worst moment. That forces deliberate shot spacing early. The Heat Dumper's active reload removes the penalty, and the Snork Heat Sink tiers extend the runway — which together are what make charge and bounce shots practical, since both fully overheat the weapon on their own.</p>
+  </div>
+
+  <p><strong>In short:</strong> scan or survey for the weak spot, wait for the attack animation that exposes it, land two clean hits and then stop shooting. Dodge charges and jump sweeps, keep fliers on screen, carry all three throwable types so colour-coded shields are a menu choice rather than a scavenger hunt, and remember the hose is a weapon with four different answers in it.</p>
+</section>
+
+<!-- ============ CREATURES ============ -->
+<section class="panel" id="panel-creatures">
+  <h2>Creatures</h2>
+  <p class="lede">Thirty-six species can be captured; seventy-three fauna entries exist in the Kindex. Capturing is optional and lucrative — scanning is neither optional nor skippable, and several scans are far easier to lose than to find.</p>
+
+  <div class="block">
+    <h3>The capture pipeline</h3>
+    <p>The whip is a hard prerequisite; nothing is capturable before you have it. After that the sequence is always the same, and the failure modes are always the same too.</p>
+    <ol>
+      <li><strong>Clear the area first.</strong> Any interruption restarts the entire process, and you are not invulnerable while reeling. This is why crowd control matters more than damage — kill everything else with the pistol, then rope the one you want.</li>
+      <li><strong>Scan the target even if you have scanned the species before.</strong> The info box that pops beside the creature restates that specific animal's quirks and requirements. It is the in-game lookup table, which is why you do not need to memorise per-species rules.</li>
+      <li><strong>Soften, if the creature needs it.</strong> Larger creatures with weak points must be staggered; small ones can be roped immediately with no preamble at all.</li>
+      <li><strong>Hold the whip button until it spins overhead</strong>, and watch for the lock-on circle appearing on the creature. That circle is doing double duty: it confirms the target is capturable <em>and</em> that it is currently in a capturable state. No circle means keep softening, or that this thing was never a capture target.</li>
+      <li><strong>Release and keep holding</strong> through the short tug-of-war until it is pulled close enough to vanish.</li>
+    </ol>
+    <p>Two useful details: the in-game tutorial claims you must aim before spinning up the lasso, which is simply not true; and pull speed scales with distance, so closing the gap before you throw shortens the vulnerable window considerably. A small number of species run a fishing-style tug instead — most notably the Grab Grub, which burrows when roped and requires you to <em>stop</em> pulling until it resurfaces.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why capture at all</h3>
+    <p>Captured creatures go into the void until a pen exists to hold them. On Stellaris Prime you have to call the pen down from orbit yourself; every other planet gets one automatically before you are allowed to arrive, and the first visit dumps everything you were holding.</p>
+    <p>The pen itself is a viewing gallery — the actual payoff is at the Habitat research terminal. Research runs on real-time timers from about a minute to six depending on size, and every species researched unlocks a new colour scheme that applies across all four freely swappable outfit pieces. More importantly, some research unlocks capability outright: the Hognork grants a Proton Whip upgrade and is story-mandatory for that reason, and the Alpha Toxwin is the only source of the Toxic Deshocker. Capture early and queue research before you head out, so the timers run while you are away.</p>
+    <p>Species shared between worlds count once — a Curador caught on Xephyr is the same entry on Zenithian Rift and Quasadron IX, so there is nothing to redo.</p>
+  </div>
+
+  <h3>Rosters and tactics by world</h3>
+  <p>Every entry below assumes you have already isolated the target and scanned it. Pick a card for that world's species.</p>
+  <div class="cards">
+    <button class="pick-card" data-pick="stellaris">
+      <div class="pc-name">Stellaris Prime</div>
+      <div class="pc-hook">Nine species, the whip tutorial, and the Hognork that gates your whip upgrade.</div>
+    </button>
+    <button class="pick-card" data-pick="xephyr">
+      <div class="pc-name">Xephyr</div>
+      <div class="pc-hook">Desert. Teleporters, burrowers and the first species that punish you for killing them.</div>
+    </button>
+    <button class="pick-card" data-pick="zenithian">
+      <div class="pc-name">Zenithian Rift</div>
+      <div class="pc-hook">Ice and lava paired deliberately. Armoured targets and the only genuinely dangerous species.</div>
+    </button>
+    <button class="pick-card" data-pick="quasadron">
+      <div class="pc-name">Quasadron IX</div>
+      <div class="pc-hook">Open plains, the most aggressive creature in the game, and several joke interactions.</div>
+    </button>
+  </div>
+
+  <div class="pick-detail" id="pick-stellaris" data-title="Stellaris Prime">
+    <ul>
+      <li><strong>Brainard</strong> — the first alien you meet, which is exactly why people forget it is a capture target. Non-hostile, so no stun; just rope it. Surprisingly rare, with only a couple of spots on the planet. Scan before killing — they are also your best early Carbon source, and it is easy to farm them all before logging one.</li>
+      <li><strong>Slitherfly</strong> — fast, numerous, and prone to joining fights you were already losing. Stun with a sustained water jet, then rope.</li>
+      <li><strong>Raccocco</strong> — docile balloon-raccoon that moves in groups. Trivially easy to capture and trivially easy to fail, because the group defends its own. Separate one first.</li>
+      <li><strong>Beetle</strong> — aggressive charger that flips itself over to crush you. Weak spot on top of its back; shoot, stun, reel.</li>
+      <li><strong>Fecal Beetle</strong> — a Beetle with a shell of dung, usually mixed in with normal Beetles. Break the shell off with the whip first; the weak spot is then in the same place as a standard Beetle.</li>
+      <li><strong>Trickle</strong> — small furious furballs disgorged from pulsating nests. They deal surprising damage and knock you around, but capture easily once isolated. Never rope one with siblings nearby.</li>
+      <li><strong>Mito Slime</strong> — very aggressive, hard to kill, and shooting them <em>splits</em> them into more slimes. They burn easily and pop when watered. To capture, deliberately break one into small pieces and rope one of the fragments.</li>
+      <li><strong>Alpha Raccocco</strong> — crested, angrier, and explodes on death. No harder to rope than a normal one, but it will come for you the moment you touch any Raccocco near it.</li>
+      <li><strong>Hognork</strong> — the planet's hardest capture and a story requirement, since researching it unlocks a Proton Whip upgrade. Its hide is bulletproof; the only opening is the glowing area between its tusks while its mouth is open to roar. Land two precise shots in that window to stagger, then rope. Slitherflies join in as the fight starts, so clear them or accept the harassment. Expect a couple of attempts — the roar is the entire fight.</li>
+    </ul>
+  </div>
+
+  <div class="pick-detail" id="pick-xephyr" data-title="Xephyr">
+    <ul>
+      <li><strong>Beetle &amp; Fecal Beetle</strong> — identical to Stellaris Prime. Nothing new to learn.</li>
+      <li><strong>Puffer Fox</strong> — Xephyr's Raccocco. Isolate, rope, done.</li>
+      <li><strong>Scorpio Puffer</strong> (listed in-game as Electro Scorpion) — small and genuinely nasty. It shocks on contact, and when agitated <em>or killed</em> it emits an electric dome that damages you and locks out your tools for several seconds. No stun needed to capture, but they defend each other, so separate one first. Their discharge is also a weapon: bait a crowd around one, stand back, shoot it.</li>
+      <li><strong>Vaperon</strong> — teleporting mantis that attacks on sight from range, blinking in and out while throwing projectiles. Weak spot is the left knee; two shots there while it is materialised, then rope. Spawns randomly across the desert rather than sitting in a fixed spot.</li>
+      <li><strong>Bonefly</strong> — a harder Slitherfly: more damage, larger flocks. Same water-jet stun. Isolate before stunning.</li>
+      <li><strong>Alpha Vaperon</strong> — larger and bright pink, with a spinning tornado charge that hurts badly. It is dizzy coming out of the spin — that recovery is your window for the leg shot. It also does not appear until waves of smaller enemies have worn you down, so you meet it near death. The healing plants around the arena replenish, so treat them as part of the fight rather than an emergency.</li>
+      <li><strong>Curador</strong> — a small butterfly that heals and shields everything around it. Kill its escorts first — or you will never out-damage it — then stun with a water jet.</li>
+      <li><strong>Grab Grub</strong> — a huge blue slug whose tongue drags you into its mouth. Shoot into the open jaws to stun. It is the only species with an extra capture mechanic: it burrows when lassoed, and you must stop pulling until it resurfaces or lose it. It also spawns randomly and submerges, so watch for moving sand and scan while it is surfaced.</li>
+      <li><strong>Desert Eraffe</strong> — must be shot in the back of the head, which is both small and high up, and it bolts after the first hit. Two shots total. Scan it before attempting the capture.</li>
+    </ul>
+  </div>
+
+  <div class="pick-detail" id="pick-zenithian" data-title="Zenithian Rift">
+    <ul>
+      <li><strong>Curadora</strong> — same species you met on Xephyr; already captured means nothing to redo.</li>
+      <li><strong>Icicon</strong> — tiny hyper-aggressive ice dragons that almost always spawn alongside Lavacons and attack in tandem. Two stun routes: a water blast, or deflect one of its own projectiles back to freeze it. Clear the pair's allies first or you get swarmed mid-capture.</li>
+      <li><strong>Lavacon</strong> — the Icicon's opposite number; sets you on fire instead of freezing you. Water-blast stun, then whip. Deflecting a Lavacon's fire into an Icicon and vice versa is also the cleanest solution to the elemental-reversal challenge.</li>
+      <li><strong>Detonaton</strong> — looks like a koala, charges screaming, explodes. Do not rope one with others nearby; the blast launches you, and they perch on floating glaciers where a launch means a long fall. Isolated, it needs no stun at all.</li>
+      <li><strong>Rolly Polly</strong> — an angrier Trickle. Immune to uncharged shots, so charge first. Whip them away to open distance, isolate, then rope normally.</li>
+      <li><strong>Simian Puffer</strong> — balloon monkey in the Raccocco tier. Barely resists, not dangerous, just rope it.</li>
+      <li><strong>Toxwin</strong> — three-eyed flightless penguin that emits acid clouds. Shoot the weak spot to stun and dodge the clouds; otherwise simple.</li>
+      <li><strong>Alpha Toxwin</strong> — larger and bulbous, and the most important capture in the game: researching it is the only source of the Toxic Deshocker. Three or four shots to the middle eye — the hitmarker sound confirms — then whip. Toxwin and Alpha Toxwin exist in exactly one location, at the Summit of Ruin, but a story mission routes you there so they are unmissable. Do not kill it by accident; the mission needs it alive.</li>
+      <li><strong>Crusher</strong> — one of the few genuinely dangerous species. Raging lobster-beasts that attack on sight, usually in groups. Isolate, tank or ignore the leaping pincer, and shoot the rear weak spot to stagger.</li>
+      <li><strong>Armored Crusher</strong> — a Crusher with a chitinous shell that blocks weak-spot shots entirely. Gain height and ground-stomp to shatter the shell first, then stagger normally.</li>
+    </ul>
+  </div>
+
+  <div class="pick-detail" id="pick-quasadron" data-title="Quasadron IX">
+    <ul>
+      <li><strong>Curador, Rolly Polly, Mito Slime, Trickle</strong> — repeats from earlier worlds; same methods, no new entries.</li>
+      <li><strong>Common Striped Puffer</strong> — zebra-like grazer roaming the plains. No stun, no trouble.</li>
+      <li><strong>Lurid Striped Puffer</strong> — the psychedelic variant. Equally easy, but it explodes on death <em>or contact</em> and launches you skyward in a shower of sparkles.</li>
+      <li><strong>Wardrill</strong> — the most aggressive creature in the game. Baboon-like, charges in groups, deals serious damage, common everywhere and attacks on sight. Scan and stagger before roping; there is no shortcut.</li>
+      <li><strong>Arffalo</strong> — a huge beetle that only attacks if you crowd it. Scan, stagger with a weak-spot shot, rope.</li>
+      <li><strong>Sluggator</strong> — slug-alligator with a fast tongue that drags you in like the Grab Grub. Shoot it in the mouth to stun, then rope.</li>
+      <li><strong>Alpha Sluggator</strong> — large and pale, identical method. Sluggators work in groups and the grab attack is punishing when you are surrounded, so clear every other Sluggator nearby before engaging. Hit its weak point before it notices you and it stays passive.</li>
+      <li><strong>Savannah Eraffe</strong> — as the Desert Eraffe: two shots to the back of the head, then a normal capture.</li>
+      <li><strong>Tatushkey</strong> — a big green turkey that flees screaming and is very fast. Approach slowly; get close enough and no stun is needed at all, just rope and reel before it bolts.</li>
+      <li><strong>Bumblar</strong> — teleporting bees that appear from thin air in groups and strike with their tongues. Stun with the water hose in the moment they are visible, or they simply vanish again.</li>
+      <li><strong>Babutt</strong> — aggressive simians that spit burning lava goo. Scan and stun to capture. Coating them in green goo produces a joke reaction and also satisfies a clearance challenge, so bring green goo if you are hunting both.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Scanning: the part you cannot redo</h3>
+    <p>Kindex Fauna covers everything alive, not just the capturable thirty-six — ambient critters, aquatic species the whip cannot reach, aerial giants that were never capturable, and the bosses themselves. A handful of rules cover almost every missed entry:</p>
+    <ul>
+      <li><strong>Scan before you kill or capture.</strong> This is the general rule for anything mission-relevant, and it is mandatory for creatures that die on contact — Mantises and Kiwi Slugs both function as traps and die when triggered.</li>
+      <li><strong>Alphas are separate entries.</strong> Seven of them, and scanning the base species does not cover its Alpha.</li>
+      <li><strong>Bosses must be scanned mid-fight.</strong> This doubles as a utility — scanning a boss reveals its weak points. Wormzilla is fought twice so you get two chances, and boss corpses stay scannable in the arena afterwards.</li>
+      <li><strong>The Hanging Uvula is the notorious loss.</strong> The Wormzilla fight moves <em>inside</em> the worm, and there is a scannable in there. Nothing about a boss's throat signals "stop and scan", and once the phase ends there is no way back in — there is no boss rematch. The safe play is to open the scanner the instant you are swallowed, before anything else.</li>
+      <li><strong>Greyed-out objects still scan.</strong> Some scannables show with no orange highlight and no prompt, yet holding the scan button for roughly two seconds registers them anyway. It looks like nothing is happening right up until it completes. Use this whenever an entry refuses to appear despite standing in the right place.</li>
+      <li><strong>Aquatic fauna is gated on the Franx Underwater Scooter.</strong> Do not hunt them before the unlock.</li>
+      <li><strong>Flying fauna needs distance or elevation.</strong> Scan Curadoras from afar, Sky Whales from high ground, Moommooth Whales after ascending, and the Two Headed Glupper by tracking its flight path with the zoom — that last one is the hardest scan in the game.</li>
+      <li><strong>Random spawners need patrolling, not pins.</strong> Grab Grubs and Vaperons appear on a timer in the desert rather than at fixed spots.</li>
+      <li><strong>Duplicates across worlds are a safety net.</strong> Several species appear on multiple planets, so a missed entry can often be collected later somewhere else.</li>
+    </ul>
+  </div>
+
+  <p><strong>In short:</strong> isolate before you rope, scan every individual because the pop-up is the rulebook, and stop shooting the moment the stagger lands. Capture and queue research early so the timers run while you explore, and treat the Alpha Toxwin and the Hognork as mandatory rather than optional. Everything alive has a Kindex entry — scan first, kill second, and open your scanner the instant a boss swallows you.</p>
+</section>
+
+<!-- ============ BOSSES ============ -->
+<section class="panel" id="panel-bosses">
+  <h2>Bosses</h2>
+  <p class="lede">There are two kinds of boss here. Alpha variants of ordinary creatures are capture targets that happen to hit hard, and the giants are tool tutorials with a health bar. The difficulty of any of them is dominated by <em>when</em> you meet it relative to your own power curve — late Alphas fall over, early giants punch far above their weight.</p>
+
+  <details>
+    <summary>Alpha Toxwin <span class="sub">Zenithian Rift · easiest</span></summary>
+    <div class="det-body">
+      <p>By the time you summit Zenithian Rift your power level has outrun what Alphas were designed to threaten, and this one is close to a formality. The real risk is the opposite of the usual one: the story mission needs it <strong>captured, not killed</strong>, and the weak point does extra damage.</p>
+      <p>Catch it off guard with no other Toxwins nearby and you can take it without it attacking once. Three or four shots to the middle eye, listen for the hitmarker, then whip. Its research is the only source of the Toxic Deshocker, so this is the most consequential easy fight in the game.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Alpha Sluggator <span class="sub">Quasadron IX</span></summary>
+    <div class="det-body">
+      <p>Same shape of problem as the Alpha Toxwin, one notch harder because Sluggators are a nastier baseline species — they work in groups and the tongue-grab is punishing when you are surrounded.</p>
+      <p>Clear every other Sluggator in the area before engaging. If you land a weak-point hit before it notices you, it stays passive and the capture is uneventful. Shoot it in the mouth to stun, then rope.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Hognork <span class="sub">Stellaris Prime · Cliffs of Abaddoon</span></summary>
+    <div class="det-body">
+      <p>The first fight that teaches you the game's core verb, and unusual among the mini-bosses in that it is not an Alpha of anything you have met — you learn it from scratch with no prior knowledge to lean on.</p>
+      <p>It is relentlessly aggressive and tackles constantly, and its hide is bulletproof. The only opening is the glowing area between its tusks, exposed <strong>only while it roars</strong>. Two precise shots in that window stagger it; then lasso. Expect several attempts while you learn the roar timing, and note that Slitherflies join the fight at the start.</p>
+      <p>Capture, don't kill — the research unlocks a Proton Whip upgrade the story needs. It requires the Lasso Whip, which arrives from the Museum of Life mission.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Cyber Wardrill <span class="sub">Shrine of Challenge, Quasadron IX Summit</span></summary>
+    <div class="det-body">
+      <p>Structurally a surprise: you expect Quasadron IX's finale in-area, as the previous two planets delivered, and instead get pulled into a shrine. The fight is aggressive and the arena is cramped, but by this point your health pool absorbs a lot, and once you understand the shields it stops being frightening.</p>
+      <h4>Getting in</h4>
+      <p>Fully gated. You need every EKO drone upgrade, and you need the "Fine, I'll Do It" quest finished — three marked points on the Quasadron IX map where you guide Eko through cramped spaces past rotating lasers to plug into a terminal. Completing all three drops the red forcefield on the last Scrappi teleporter, which is the shrine entrance.</p>
+      <h4>The loop</h4>
+      <p>Two shield layers, in a fixed order. A <strong>Blight Bomb</strong> strips the green outer shield, revealing a red one; <strong>Bombegranates</strong> break the red. Then it is damageable — but only by Bombegranates. Plain gunfire is not the damage source here at all, and players who keep shooting simply never make progress. The shields regenerate, so you run the green→red cycle several times over the fight.</p>
+      <h4>The pressure</h4>
+      <p>Its laser fires continuously, it charges straight at you on a short cycle, and a drone tails you chipping damage until you destroy it. Each time both shields break, a swarm of Cyber Tatushkeys rushes in to explode on proximity — clear them with Bombegranates and keep moving.</p>
+      <p>Mobility is the whole defence: hook-shot and jump around the room rather than standing to aim, and watch the boss while you are mid-throw, because committing to a throw without tracking the charge is how you get run down. The Drone Tether upgrade — grappling off EKO — makes staying airborne dramatically easier, which is exactly why the all-upgrades gate exists.</p>
+      <p>Dying restarts you from the shrine's first room, so arrive with a full stock rather than expecting to top up.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Alpha Vaperon <span class="sub">Xephyr · Pillars of Turpitude</span></summary>
+    <div class="det-body">
+      <p>Punches well above its early-game slot for one structural reason: you cannot isolate it. It does not spawn until waves of smaller enemies have already worn you down, so the fight starts with you near death.</p>
+      <p>It is a stronger Vaperon — more relentless projectiles, constant teleporting — plus a spinning tornado charge that does heavy damage. The counter is its own recovery: it is dizzy coming out of the spin, and that is your window for the leg shot.</p>
+      <p>The decisive detail is the arena, not the creature. Healing plants around the edge replenish, so treat them as a rotation rather than an emergency, and death becomes very easy to avoid. Scanning it also starts the Return to Sender mission.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wormzilla <span class="sub">Xephyr · first true boss</span></summary>
+    <div class="det-body">
+      <p>The game's first real boss and the only one split into three distinct sections, each forcing you to learn a different ability mid-fight. It is effectively three tutorials stitched together under pressure, which is what makes it feel harder than it is.</p>
+      <p>You meet it on landing: as you approach the container holding the Magnetic Fork, Wormzilla drags it beneath the sand. It is fought <strong>twice</strong> — the first encounter at Sandspine Ridge is a single phase, the second in the depths runs the rest.</p>
+      <h4>First encounter — deflection only</h4>
+      <p>Requires the projectile-deflect ability. Summon it by deflecting projectiles from the eggs scattered around the area, then return its own shots. Its moveset here is small: a fire-beam breath, a single projectile, and a burrow-and-chase. Three or four successful deflections end the phase — and remember that deflecting <em>late</em> is more accurate and that the return flies where you are looking, so face it as you parry. Shoot some eggs first and scan one containing a worm while you are there.</p>
+      <h4>Second encounter, phase one — the electric trail</h4>
+      <p>You cannot even reach this section without the <strong>Goo Ingestor</strong>, so build it first. The fire breath now sweeps horizontally <em>and</em> vertically, so move the moment you enter — standing still is a hit. It also burrows and surfaces directly underneath you for heavy damage.</p>
+      <p>The arena contains electric mushrooms, Ferro Goo plants and refill dispensers. Paint a Ferro Goo path <strong>starting at an electric mushroom</strong> and running toward or around the worm — the current travels along the goo from the mushroom, so a line that does not originate at the power source does nothing. When Wormzilla enters the trail it is instantly electrified, which strips the entire first section of its health bar and looks like a kill. It is not. Healing flowers around the arena let you recover in place instead of retreating.</p>
+      <h4>Phase two — inside the stomach</h4>
+      <p>Grab the Magnetic Fork it drops, and it immediately swallows you — the game's tutorial moment for the new tool. <strong>Open your scanner right now</strong>: the Hanging Uvula in here is the single most-missed Kindex entry in the game and there is no way back in.</p>
+      <p>Then use the Fork to grab the metallic crystal spikes inside and hurl them at the weak points around the interior. Three solid hits and it spits you out.</p>
+      <h4>Phase three — pillars into the mouth</h4>
+      <p>The most aggressive phase, and your old answers stop working: it no longer fires deflectable projectiles, and Ferro Goo no longer damages it. The fight is entirely Magnetic Fork now — grab the crystalline pillars around the arena and throw them at the fleshy mouth, which is only open while it roars, so time your throws to the roar animation. Three or four hits kill it.</p>
+      <p>One exception is worth keeping: luring it into an electrified Ferro trail still <em>stuns</em> it even though it no longer damages it. Use that whenever you need more time to line up a throw.</p>
+      <p>Victory hands you the Magnetic Fork properly and opens Zenithian Rift.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Clawbarella <span class="sub">Zenithian Rift · the Depths of Trrn</span></summary>
+    <div class="det-body">
+      <p>A giant crab-turtle in a tiny arena ringed by lava, so there is nowhere to disengage to and the danger is constant. Mechanically it is simple — the difficulty is timing, not complexity — and it plays more like an old isometric battle than a third-person shooter.</p>
+      <h4>Getting there</h4>
+      <p>The route is the hard part. You need <strong>Stomp</strong> to reach the lower section at all, which drops you into a room of toxic plumes; stomping them floods the room with gas, and you must retreat until you have the <strong>toxic filter</strong> — which lives at the peaks, so the depths route forces a mid-run detour upward. With the filter, stomp the remaining plumes, drop through the shattered floor, and you arrive at both the missing container and the arena.</p>
+      <h4>Prep</h4>
+      <p>Stomp is the only mandatory ability. <strong>Bounce Shot</strong> is not required but shortens the fight dramatically, because it can clear multiple weak spots in one or two shots including the ones you cannot line up directly. Water in the hose is worth carrying for phase three. There are two health flowers on the platform — ration them.</p>
+      <h4>Phase one</h4>
+      <p>Four large glowing weak points on its chest, and a small moveset: a fire breath and a sweeping claw attack that runs a fixed left-right-left pattern. Because the pattern is fixed you can learn it rather than react to it, and every attack in the fight is answered by the same thing — <strong>jump</strong>. Shoot the chest buttons between jumps. Destroying all four triggers a scripted ground smash; dodge it.</p>
+      <h4>Phase two</h4>
+      <p>No new weak points are visible, because they are underneath the claws. Stomping the claw shells is what exposes them. You <em>can</em> stomp a claw mid-swing, but the timing is brutal; the reliable window is the new heavy slam attack, which plants one claw for a few seconds. Stomp the planted claw, shoot the revealed spots, repeat for the other claw.</p>
+      <h4>Phase three</h4>
+      <p>The same loop, escalated. It reveals another set of claws hidden beneath the lava, swipes multiple times in a row, adds fire to every attack, and slams with both claws at once. The trap here is that <strong>the slam now strikes twice</strong> — rushing in after the first impact is the most common death. Water extinguishes burning claw armour before it ground-pounds. Destroy the final claw set and it is out of tricks.</p>
+      <p>The reward is the Franx Underwater Scooter, which opens Quasadron IX and, incidentally, the Shrine of Combat.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Mecha SLAPPI <span class="sub">Slappi's Den of Fun · hardest</span></summary>
+    <div class="det-body">
+      <p>Optional and off the main path — the campaign can be finished without ever meeting him — and comfortably the hardest fight in the game. He is the most aggressive enemy by a wide margin; shots rain continuously and standing still is death.</p>
+      <h4>Getting in</h4>
+      <p>All five shrines cleared plus the Pentaforce researched, which unlocks Slappi's Den of Fun as a Planet Cannon destination. Inside is a rail-cart ride past display scenes while the robot monologues; shoot the purple terminals to open each door.</p>
+      <h4>Prep</h4>
+      <p>This fight is built around throwables, so buy the inventory upgrades that let you <em>carry</em> Bombegranates and Blight Bombs beforehand rather than depending on arena pickups. The <strong>Magnetic Fork is mandatory</strong> — one shield colour has no other counter and the fight is unfinishable without it. The arena stocks bombs and healing stations, but they recharge slowly, so do not burn them casually. Healing spots are also a risk: the interaction animation leaves you standing still while he keeps firing.</p>
+      <h4>Phase one — ranged only</h4>
+      <p>He fights from a stage you cannot reach, so this is charged shots and throwables at range. His lasers are easy to dodge by simply keeping moving, and a red laser telegraphs the machine gun. This is the cheap phase — don't overspend consumables here.</p>
+      <h4>Phase two — the colour shield</h4>
+      <p>He wraps himself in an energy shield that rotates colour, and only the matching tool breaks each layer: <strong>green</strong> takes a Blight Bomb, <strong>red or orange</strong> takes a Bombegranate, <strong>blue</strong> takes a metallic projectile thrown with the Magnetic Fork. Nothing else does anything. Once all layers are down he is damageable exactly as in phase one, but the shield persists for the rest of the fight and cycles again.</p>
+      <p>Meanwhile the arena degrades — sections of floor fall away exposing lava, so positioning now matters as much as aim — and weaker enemies spawn to split your attention. His new rocket barrage is clearly telegraphed with ground markers and easy to dodge; the actual danger is dodging into the lava. A pulse rocket can also electrocute you and lock out your abilities.</p>
+      <h4>Phase three — kill the guns</h4>
+      <p>He announces it himself, and his firepower jumps: arm guns, a new pair on the legs, and shoulder cannons firing tracking lasers. With the shields gone <strong>his body is impervious</strong> — the only damage source is destroying each gun individually.</p>
+      <p>Each gun has its own health bar, and destroying one both removes a chunk of total health <em>and</em> disables that weapon. That makes target priority obvious: shoot the guns making the fight worst, first. Passive survival is the wrong instinct here; every gun you delete makes the rest of the phase calmer. Flying minions with pink weak points join in as his health drops.</p>
+      <p>Before you leave, <strong>scan both the mech and Slappi's body</strong>. Interacting with him triggers the cutscene and credits; afterwards a message from Slappi appears at Nu Florida and the Slappi Doll becomes purchasable for the habitat, which is its own achievement.</p>
+    </div>
+  </details>
+
+  <p><strong>In short:</strong> Alphas are captures wearing boss clothing — clear their friends and take care not to overkill them. The giants are tool exams: Wormzilla tests deflection then ferro circuits then the Fork, Clawbarella tests stomp timing and vertical spacing, and Mecha SLAPPI tests whether you stocked all three throwables before walking in. Arrive with the right inventory and none of them are damage races.</p>
+</section>
+
+<!-- ============ COMPLETION ============ -->
+<section class="panel" id="panel-completion">
+  <h2>Completion</h2>
+  <p class="lede">Forty-seven achievements, none of them missable and none of them co-op-exclusive, in roughly fifteen to twenty hours. The hard part is not difficulty — it is that almost everything gates on a <em>tool</em> rather than a story flag, so achievement order is really upgrade order.</p>
+
+  <div class="block">
+    <h3>Orange Goo is not a collectible, it is your stat line</h3>
+    <p>There are 103 blobs across the four worlds — 31 on Stellaris Prime, 24 each on Xephyr, Zenithian Rift and Quasadron IX, and none at all in Nu Florida. Slarragon Forest alone holds 14, and G'Nortt's High Rise holds 10, roughly half of Xephyr's total.</p>
+    <p>Two mechanics make this the most important collection in the game. Stats rise on <strong>thresholds</strong>, not per blob: the first upgrade costs one goo, the next two, then three, climbing past six per level late. And there is <strong>no surplus</strong> — maxing health and stamina requires all 103. Every skipped blob is a permanent stat loss, which makes this the de facto levelling track rather than an optional side hunt. Progress is tracked by the Alien Ultrafood mission.</p>
+    <p>Most of them sit behind gear: amber needs Blight Bombs, metallic chunks need the Fork, high pillars need the Tether Launcher, submerged ones need the Scooter, webs need lava, and several are hidden under Blobulous mushrooms or fragile crystals. Do not force them on a first pass. Goo icons only appear on the map once you own the Planet Scanner, and a padlock on an icon means you are missing the required gear — walk away rather than hunting for a trick.</p>
+  </div>
+
+  <div class="block">
+    <h3>The Kindex, and the counter that lies to you</h3>
+    <p>The most common completion panic is a Kindex reading 100% while region maps still list scannables outstanding. That is usually correct behaviour, not a bug: <strong>not every map scannable has a Kindex entry</strong>, so the two counters legitimately diverge and the extras never count against completion.</p>
+    <p>Before you spend two hours re-sweeping a region, check which of three cases you are in:</p>
+    <ul>
+      <li><strong>A genuine missable.</strong> The Hanging Uvula inside Wormzilla is the canonical one — scannable only mid-fight, with no rematch. Kindex still shows 100% without it.</li>
+      <li><strong>A known bug.</strong> The Bingo Brawl update introduced a Kindex entry issue on Stellaris Prime, confirmed by the developers. If your discrepancy is on Stellaris Prime on a post-Bingo-Brawl build, do not re-sweep the planet.</li>
+      <li><strong>An incomplete community map.</strong> Player-made maps for the Quasadron IX Crash Site and Alta's Trash Mountain can be cleared entirely and still leave one outstanding, so an exhaustive sweep guided by them fails by construction.</li>
+    </ul>
+    <p>The genuinely elusive Den of Fun scannable that stumps most players is not on Den of Fun at all — it sits in Stellaris Prime's Out of Bounds region, west of the landmass near the fast-travel icon.</p>
+    <p>Practical rule: treat Kindex 100% as completion satisfied and ignore leftover map counts unless an achievement or quest is actually stuck. The "Fill the Kindex" quest and the selfie achievements have both been reported as jamming in the same period, which is a patch problem rather than a search problem.</p>
+  </div>
+
+  <div class="block">
+    <h3>The five shrines</h3>
+    <p>The Interstellar Enigma is the longest and most convoluted questline in the game, and it is the gate on the fifth planet, the final boss and three achievements. It arrives a few hours in when a mysterious contact reports strange frequencies — but it is not trackable and the shrines are not marked, so you stumble on the first one while exploring. The tell is a <strong>question mark</strong> appearing when you scan the environment, and the icons only surface when you are already near. Researching the first artifact at the hub marks the rest on your map, so the blind search only ever applies to shrine number one.</p>
+    <p>All five are three-room challenges, each gated on a different tool, which is why they are spread across the whole campaign rather than clustered. Each yields one Pentaforce fragment; all five plus the "All Pentaforce Pieces" research reassembles it.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Shrine</th><th>Where &amp; gate</th><th>The idea being tested</th></tr></thead>
+        <tbody>
+          <tr><td>Timing — "Time's Up"</td><td>Stellaris Prime, Nu Florida. Needs Stomp Booster (from Zenithian Rift), so it's a return trip. West of the Habitat, up the rock formation, stomp the cracked ground.</td><td>Shoot targets so all of them are dark <em>simultaneously</em>. Each darkened target regains its glow at a different rate, so read recharge speeds and shoot the slowest first rather than memorising positions.</td></tr>
+          <tr><td>Grind — "Balancing Act"</td><td>Xephyr, Cactus Valley. Break the magnetic rock with the Fork to enter. Usually the first one found.</td><td>Shoot purple targets while riding proton rails. There is no timer at all — the entire difficulty is <em>locating</em> the targets first, then aiming while moving instead of stopping.</td></tr>
+          <tr><td>Pressure — "Under Pressure"</td><td>Stellaris Prime, Cliffs of Abaddoon, by the Hognork clearing. Behind a forcefield until the Remote Drone Controller lets EKO pass through and hit the switch.</td><td>An overt Portal homage — weighted cubes on pressure plates. Each cube is walled behind a <em>different</em> tool: whip through poop walls, Bombegranate a floor, lava-burn webs, Fork a ceiling. It is a tool inventory check disguised as a puzzle.</td></tr>
+          <tr><td>Combat — "Battle Royale"</td><td>Zenithian Rift, Bilodeau's Floating Isles. Hard-gated on the Franx Underwater Scooter — electrify bulbous plants with Ferro Goo, then dive and follow the neon signs to the teleporter.</td><td>Three waves of cybernetic hybrids in one chamber. Structurally the simplest and mechanically the toughest, and <strong>dying restarts from room one</strong> — arrive fully stocked with health and combat upgrades rather than planning to grind it down.</td></tr>
+          <tr><td>Challenge — "Unnatural Selection"</td><td>Quasadron IX, Summit. Needs every EKO upgrade plus the "Fine, I'll Do It" quest to drop the last teleporter's forcefield.</td><td>Colour tells you which bomb to throw. Room one strips a green coating off a switch with a Blight Bomb, teaching the rule; room two applies it to shielded enemies; room three is the Cyber Wardrill testing it under fire.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three endings, all available in one save</h3>
+    <p>The endings are the conclusions of three separate mission arcs rather than a choice at a fork, so nothing locks anything else out.</p>
+    <ul>
+      <li><strong>The Fall of Slappi</strong> — the main-story ending. All five shrines, the Pentaforce research, then the Planet Cannon to Slappi's Den of Fun and the Mecha SLAPPI fight.</li>
+      <li><strong>Roundtrip 2.0</strong> — the joke ending. Raise the Javelin from the swamp south of the Habitat, clean off the slime, webs and amber, find and scan the other crashed Javelins, then craft and install five upgrades — air freshener, hi-fi, radiator, thrusters, antenna — and launch. You get home to Earth and are offered a janitorial position.</li>
+      <li><strong>Tweed's Revenge</strong> — the true ending. Gather all of Alta's dirty laundry for Martin Tweed, then launch the Javelin. Afterwards a newscast reports Alta's executives imprisoned.</li>
+    </ul>
+    <p>You can reload after credits to mop up whatever is left.</p>
+  </div>
+
+  <div class="block">
+    <h3>Tweed's Revenge — the biggest missable-adjacent hunt</h3>
+    <p>Thirteen objects to scan across three planets: five cryopods on Xephyr, five data terminals on Zenithian Rift, three compacted Alta-logo trash blocks on Quasadron IX. They are <strong>not auto-marked</strong> — Tweed contacts you when you happen to wander near one, so proximity is your only pointer and sweeping zones beats waiting for waypoints. Keeping the quest actively tracked eventually marks remaining targets on your compass, which is the practical fix.</p>
+    <p>Several are gated: Xephyr's pods need lava in the hose to burn cobwebs, the Goo Ingestor to break an electrified goo wall, and a parry puzzle where you deflect Stinging Bloatus projectiles into Arid Maws to clear the path. Zenithian's last two are underwater and therefore post-Clawbarella. One specific trap is worth naming — at the Depths of Trrn terminal, <strong>do not break the floor on the way in</strong>: doing so floods the chamber with toxic goo and locks the pod behind the Toxic Deshocker you may not have yet. Whip the blue goop instead and scan.</p>
+    <p>Running alongside it, "A Nastygram from Alta" has you shooting Gunther standees and then destroying 54 clones around Nu Florida — some clustered near the base, others far out in the swamp.</p>
+  </div>
+
+  <div class="block">
+    <h3>Printer completion</h3>
+    <p>"Power Tool" — every 3D printer upgrade except the Javelin projects — is the heaviest single requirement in the game. It needs all 42 Printer Slurries, on the order of 66,000 combined ore, and the late-game tools (the Remote Drone Controller especially) to physically reach the last few Slurry sites. Most Slurry puzzles sit immediately beside their container; the awkward ones tend to be inside terrain you have to open first — a cracked ground section under an amber formation at Savannah Lake, or a hole at a high point on Quasadron IX where you shoot targets during the slide down.</p>
+  </div>
+
+  <div class="block">
+    <h3>The seven you will otherwise walk past</h3>
+    <p>Nothing is missable, but a handful of achievements are easy to simply never think about. Do them opportunistically when the situation presents itself rather than making trips:</p>
+    <ul>
+      <li><strong>Feature Wall</strong> — melee-kick a Brainard into a wall hard enough to kill it. Available during the melee tutorial.</li>
+      <li><strong>Kick Its Face Off</strong> — jump and melee a flier mid-air; Slitherflies near Slarragon Forest are the obvious target.</li>
+      <li><strong>Gooooal</strong> — a continuous 40m knee slide. Kill Mantises to burst them into slippery puddles and build your own slip-n-slide, or use the naturally slick trail in upper Slarragon Forest from the topmost puddle down.</li>
+      <li><strong>Slide of Death</strong> — kill three creatures in one slide. Drop bait in the middle of a Raccocco patrol to cluster them, then sprint and slide through.</li>
+      <li><strong>Cannonball</strong> — dive bomb into water from over 50m. The ledge over the deep pool on the climb from Cactus Valley toward G'nortt's High Rise is the reliable spot.</li>
+      <li><strong>Character, Camera, Control</strong> — one unbroken sprint → knee slide → boost jump → grapple → jump at the peak of the grapple. Needs both Boosted Slide Jump and Boosted Tether Jump, so it is a late one; flat open terrain makes the momentum easier.</li>
+      <li><strong>Launch It</strong> — bounce an Arffalo with a bounce seed. Throw the seed on the ground between you and it, shoot it to provoke the charge, and lure it over the seed.</li>
+    </ul>
+    <p>Habitat achievements are cheap and easy to forget entirely: delete all nine cardboard boxes of starting trash, buy and place one item, place twenty <em>unique</em> pieces (duplicates do not count, so buy cheap and varied), and interact with three <em>interactive</em> objects — only some furniture actually has an interaction, so test each piece after placing it. The undamaged Alta Bucks crate on the Habitat roof is worth grabbing on your first visit.</p>
+    <p>Alta Bucks themselves need 25 crates opened, which happens naturally by Xephyr. When you are near a cache you will hear robotic toy-voice lines — home in on the sound.</p>
+  </div>
+
+  <div class="block">
+    <h3>Cosmic Hoarder / D.I.A.P.E.R. challenges</h3>
+    <p>The deluxe edition adds Shama Lama's influencer programme — four chains plus an umbrella achievement for finishing all four.</p>
+    <ul>
+      <li><strong>Crash Test Dummy</strong> — the Prototype Suit deliberately removes your fall immunity and drops you to minimum health, so trivial hazards kill you. You need four specific deaths, and conveniently all four sit within Zenithian Rift: a high fall to solid ground with no stomp or boosters, a dive into lava, standing in an electrified mushroom's field, and freezing yourself with an Ice Detonator then letting a Simian Puffer shatter you.</li>
+      <li><strong>Rad Crash Pad</strong> — a RAD ranking for the habitat. Variety and price both raise the score, so avoid duplicates, favour expensive pieces, and lay out themed rooms. Place the STV Judgement Button and press it; it is retryable without limit.</li>
+      <li><strong>Poison or Soda</strong> — one Grob canister per planet, fed to the target species that lives near it: Raccocco on Stellaris Prime, Desert Eraffe on Xephyr, Toxwin on Zenithian Rift, Arffalo on Quasadron IX. Each reacts differently.</li>
+      <li><strong>It's All About Me</strong> — sixteen selfie spots, four per planet. Each announces itself with a subtle sad-doorbell chime when you are close; use Survey to pinpoint it, then stand in place and the pose fires automatically.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Ordering the run</h3>
+    <p>Because most achievements gate on tools rather than plot, the efficient route simply follows natural story progression and picks things up as the enabling upgrade arrives — the backtracking is unavoidable, so the goal is to do each region's return trip <em>once</em>. Group your re-sweeps by unlock rather than by planet.</p>
+    <p>One reassurance: "Side Notes" does not appear to require literally every side quest. Players have earned it without completing the fill-the-Kindex quest or collecting every suit piece, so do not treat a stubborn side mission as a blocker for it.</p>
+  </div>
+
+  <p><strong>In short:</strong> collect all 103 goo because there is no spare, let the Planet Scanner and its padlock icons decide what is reachable, and trust Kindex 100% over the map's scannable counter. Do the shrines as their gating tools arrive, keep Tweed's quest tracked so the compass eventually helps you, and pick up the seven easy-to-miss stunts whenever the moment happens to present itself.</p>
+</section>
+
+<!-- ============ CO-OP & REMIX ============ -->
+<section class="panel" id="panel-coop">
+  <h2>Co-op &amp; Remix</h2>
+  <p class="lede">Two players, one save, and no difficulty scaling — co-op is straightforwardly easier than solo. Remix, added in the first free DLC, is the difficulty slider the base game never had, plus a permadeath mode and a UI-free mode for replays.</p>
+
+  <div class="block">
+    <h3>How co-op is wired</h3>
+    <p>Two players maximum. Player two is a clone of player one with all the same upgrades, so there is no progression gap and nothing for the guest to grind. Co-op is not tied to a special save — you can start it on a brand-new file or drop into a run you have been playing solo for hours, and play the same save solo again afterwards.</p>
+    <p>From the main menu, Play offers Solo, Splitscreen Co-Op and Online Co-Op, with an optional Crossplay toggle on the online path that must be switched on deliberately.</p>
+    <p><strong>The host is decided before you load in, not after.</strong> In splitscreen the host is whichever save file you load; online, choosing Online Co-Op makes you host and your invitee plays inside your progress, with your upgrades and your outfits. All session progress banks to the host's save — and discoveries register for that save regardless of which player physically picked them up, so you do not need to funnel collectibles to one person.</p>
+  </div>
+
+  <div class="block">
+    <h3>What co-op changes mechanically</h3>
+    <p>Death stops mattering nearly as much. Solo, dying sends you back to the Habitat and leaves your resources on the ground where you fell. In co-op the downed player has a thirty-second window for a revive, and because resources are shared you keep them even if the revive fails. The only case where you lose anything is a simultaneous double death.</p>
+    <p>The one real constraint is that <strong>both players must be on the same planet</strong>. Within that planet you can go anywhere independently — which roughly halves discovery time and is the main reason to play this way — and a lost partner is marked on the map. The Habitat is a special case: it is technically on Stellaris Prime but loads as part of whatever planet you are currently on, so one player can be crafting while the other is out in the field. Watch the exit though — leaving the Habitat by the <strong>front door</strong> drags both players to Stellaris Prime.</p>
+    <p>Difficulty does not scale for a second player, so the whole game gets easier. Nothing locks the partner out of any segment; the only exclusion is that they do not appear in cutscenes.</p>
+  </div>
+
+  <div class="block">
+    <h3>Splitscreen and online specifics</h3>
+    <p>In splitscreen you choose which <em>side</em> of the screen you take independently of the P1/P2 assignment, and you can mix input devices — keyboard and mouse alongside a controller, which matters on PC. Both choices lock once the session starts, so confirm them during setup. Graphics settings can be configured separately per player if performance is uneven. Pausing covers the whole screen and affects both players, with one useful exception: the radial equipment menu stays confined to the opener's half and does not pause the game.</p>
+    <p>Online gives each player a full screen and a smaller performance cost, but it is <strong>friends only</strong> — there is no matchmaking or player search. Crossplay lets PC, PS5 and Xbox mix, though there is no cross-platform party chat, so plan on Discord or similar for voice.</p>
+    <div class="warn"><b>No drop-in, no drop-out</b><p>If either player leaves, the entire session ends — splitscreen and online alike. Autosaves are frequent, but reloading always drops you back at the Habitat, so plan exits at natural breakpoints rather than mid-activity.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Co-op completion caveats</h3>
+    <p>A full 100% co-op run lands around twenty hours including exploration at a relaxed pace, and unlike the first game there are no solo-only achievements — everything is obtainable with a partner.</p>
+    <p>There are, however, some known credit problems worth planning around. A number of achievements historically only fired for the host, with Hamster Wheel, Cannonball, Alta Cares, Alta Bucks for Alta People and Entertained to Death among the confirmed cases; the simplest workaround is to take turns being the one who performs a given action. A June 2025 patch fixed the host-only behaviour, and a guest who rejoins a session should see previously host-locked achievements auto-pop without redoing the content.</p>
+    <p>Underwater fish scanning is the stubborn one: it has intermittently failed to register even for the host, and has been reported as never crediting player two. <strong>Do aquatic scans on the host's game.</strong> If any achievement fails to fire for the guest, assume it needs re-triggering rather than assuming it was earned.</p>
+  </div>
+
+  <div class="block">
+    <h3>Remix Mode</h3>
+    <p>The first free DLC added a mode picker at Play, and each new game files its save under the mode it was started in.</p>
+    <ul>
+      <li><strong>Sandbox</strong> — every rule is tunable with no restrictions: enemy health, enemy damage, gravity and much more, across roughly thirty modifiers. This is the escape valve the base game lacked, and it is the right answer to a fight that has become a wall rather than a challenge.</li>
+      <li><strong>Old Game Minus</strong> — the mastery preset: limited lives, increased incoming damage, and a countdown timer forcing a speed clear. Built for legend runs rather than first playthroughs.</li>
+      <li><strong>Immersive</strong> — strips the UI and guidance, leaving you to navigate by Journal and Map and to rely on observation. Aimed squarely at replayers who already know the world and want the exploration tension back.</li>
+    </ul>
+    <p>Two rules matter for planning. From Classic, Old Game Minus or Immersive you can hit "Start Remixing" at any point, which <strong>forks a new Sandbox save from your current progress and leaves the original untouched</strong> — but Sandbox is one-way, so you cannot switch that fork back to another mode later. You can, however, hand-set Sandbox options to replicate any other mode's rules.</p>
+    <p>Crucially, <strong>achievements unlock in every mode, including Sandbox with modified settings</strong>. There is no penalty for making the game easier or harder, which means a stuck completion run can simply dial down whatever is blocking it.</p>
+    <p>The same DLC added a Kaiju-inspired suit and seven colour schemes unlocked by researching creatures — retroactively granted for anything you already researched — nine community-made habitat posters, and the soundtrack.</p>
+  </div>
+
+  <div class="block">
+    <h3>Patch behaviour worth knowing</h3>
+    <p>Several long-standing traps have been fixed, and knowing which ones saves you worrying about them: Clawbarella's difficulty was tuned down, Slappi's second phase no longer soft-locks if you overdamage him, the co-op client is no longer launched away after Wormzilla's first defeat, skipping the Alien Ultrafood tutorial step no longer breaks mission flow, and a co-op bug where the client interacting first with an acid bomb or Bombegranate dispenser blocked that upgrade from being printed is resolved. Two shortcuts were also closed — the drone-skip hole in the Quasadron IX magnetic cave puzzle and an out-of-bounds exploit in Slappi's world.</p>
+    <p>On PC, mouse input was being double-corrected for frame time and is now fixed, with a wider sensitivity range. Save handling improved too: most recent save first, Continue auto-selects it, and the delete prompt now defaults to cancel.</p>
+  </div>
+
+  <div class="block">
+    <h3>Steam Deck</h3>
+    <p>Graphics settings are <strong>locked by default</strong> on Deck, and the locked preset is effectively unplayable — it is not a tuned Deck profile. Add <code>SteamDeck=0 %command%</code> as a launch option to unlock the menu.</p>
+    <p>From there, the only configuration with acceptable image quality is every setting on Low with Intel XeSS at Ultra Performance, frame-limited to 30 FPS. FSR is available but XeSS looks noticeably better at the same tier. Expect a mostly stable 30 with occasional stutters and dips into the mid-20s, drawing 15–20W at 60–70 °C, for roughly 2.5–3 hours on an OLED Deck or 1.5–2 on an LCD. It runs — but this is an Unreal Engine 5 game and it is happier elsewhere.</p>
+  </div>
+
+  <p><strong>In short:</strong> pick your host before loading because everything banks to that save, stay on the same planet, and take turns performing achievement actions until you are confident credit is landing for both of you. Use Sandbox freely when a fight stops being fun — achievements do not care — and on Deck, unlock the settings menu first or you will conclude the game is broken when it is only mis-configured.</p>
+</section>
+
+</main>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const saved = localStorage.getItem('guides-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  function currentTheme(){
+    return root.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('guides-theme', next);
+  });
+
+  // tabs
+  const tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-panel]');
+    if(!btn) return;
+    tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'panel-' + btn.dataset.panel));
+    btn.scrollIntoView({block:'nearest', inline:'center'});
+    window.scrollTo({top:0});
+  });
+
+  // detail modal
+  const overlay = document.getElementById('modal-overlay');
+  const body = document.getElementById('modal-body');
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.pick-card');
+    if(!card) return;
+    const src = document.getElementById('pick-' + card.dataset.pick);
+    if(!src) return;
+    body.innerHTML = '<h3>' + src.dataset.title + '</h3>' + src.innerHTML;
+    body.scrollTop = 0;
+    overlay.classList.add('active');
+  });
+  function close(){ overlay.classList.remove('active'); }
+  document.getElementById('modal-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>
